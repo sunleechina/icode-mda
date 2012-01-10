@@ -1,4 +1,4 @@
-* [ICODEWikiHome Wiki Home]
+* [Home Wiki Home]
  * [Lessons Lessons]
   * [IntroductionToOSSIM Introduction to OSSIM]
   * blah
