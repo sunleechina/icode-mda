@@ -1,3 +1,4 @@
+#labels Featured
 #Wiki pages for ICODE
 
 = Introduction =
