@@ -6,7 +6,7 @@ This wiki contains material from the course taught in Chile.
 
 
 = Lessons =
-*LessonGeneralOverview
+*IntroductionToOSSIM
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
