@@ -1,5 +1,5 @@
 * [Home Wiki Home]
- * [Lessons Lessons]
+ * Lessons
   * [IntroductionToOSSIM Introduction to OSSIM]
   * [LessonOverview General Satellite Imaging Overview]
   * [LessonImageLinker ImageLinker Overview]
