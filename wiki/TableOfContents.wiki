@@ -1,6 +1,6 @@
 * [ICODEWikiHome Wiki Home]
  * [Lessons Lessons]
-  * IntroductionToOSSIM
+  * [IntroductionToOSSIM Introduction to OSSIM]
   * blah
   * blah
    * more blah
