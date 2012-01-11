@@ -1,0 +1,21 @@
+#summary One-sentence summary of this page.
+
+== Introduction ==
+
+This page provides an overview of AIS, the data format, and how it is used.
+
+<br><br>
+== Presentation ==
+*Introduction to AIS
+
+<br><br>
+== External Links ==
+*[http://en.wikipedia.org/wiki/Automatic_Identification_System AIS Wikipedia Article]
+
+*[http://www.marinetraffic.com/ Marine Traffic]
+
+*[http://www.vesseltracker.com/ Vessel Tracker]
+
+*[http://www.lrfairplay.com/ Lloyd´s Ship Register]
+
+*[http://www.trackaship.com/ Track-a-ship]
