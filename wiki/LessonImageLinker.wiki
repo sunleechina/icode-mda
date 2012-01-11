@@ -1,4 +1,4 @@
-#Introduction to Image Linker 
+#summary Introduction to Image Linker
 
 == Introduction ==
 
