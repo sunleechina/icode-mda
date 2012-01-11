@@ -1,1 +1,14 @@
-=Introduction To OSSIM=
+==Introduction To OSSIM==
+OSSIM is a high performance software system for remote sensing, image processing , geographical information systems and photogrammetry. It is an open source software project maintained at [http://www.ossim.org] and has been under active development since 1996. The lead developers for the project have years of experience in commercial and government remote sensing systems and applications. OSSIM has been funded by several US government agencies in the intelligence and defense community and the technology is currently deployed in research and operational sites. The name OSSIM is a contrived acronym (Open Source Software Image Map) that is pronounced “awesome.” 
+
+<br><br>
+==External Links==
+*[http://www.ossim.org/OSSIM/OSSIM_Home.html OSSIM Homepage]
+
+*[http://trac.osgeo.org/ossim/ OSSIM wiki]
+
+*[http://trac.osgeo.org/ossim/doxygen/ OSSIM API Documentation]
+
+*[http://download.osgeo.org/ossim/ OSSIM Download page]
+
+*[http://lists.sourceforge.net/lists/listinfo/ossim-developer OSSIM Mailing List]
