@@ -1,0 +1,4 @@
+#summary References for icode-mda
+
+= AIS =
+http://gpsd.berlios.de/AIVDM.html
