@@ -8,7 +8,7 @@ This page provides overview materials of satellite imagery types and uses
 = Presentations =
 *Satellite Overview
 
-*Open Source Map - how OSSIM, ImageLinker, and OpenCV all fit together
+*Open Source Map - how OSSIM, Image Linker, and OpenCV all fit together
 
 <br><br>
 = OSSIM Tutorials =
@@ -22,7 +22,7 @@ This page provides overview materials of satellite imagery types and uses
 
 *Histogram VCE
 
-*ImageLinker Tutorial
+*Image Linker Tutorial
 
 *Map Blending
 
