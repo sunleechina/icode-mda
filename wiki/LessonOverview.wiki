@@ -1,4 +1,4 @@
-#Introduction to satellite imagery
+#Introduction to satellite imagery.
 
 = Introduction =
 
