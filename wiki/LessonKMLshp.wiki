@@ -1,0 +1,27 @@
+#summary One-sentence summary of this page.
+
+== Introduction ==
+
+This page provides information on using shape file (shp) and keyhole markup language (kml) data and outputs with OSSIM 
+
+<br><br>
+== Presentations ==
+*Shape Files
+
+*KMLs
+
+<br><br>
+== Code ==
+*We should have a link here to where we are keeping the kml writer code
+
+<br><br>
+== External Links ==
+*[http://www.esri.com/ Shape File Documentation]
+
+*[http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf Shape File Technical Spec]
+
+*[http://www.esri.com/news/arcuser/0401/topo.html Topology Artilces]
+
+*[http://code.google.com/apis/kml/documentation/topicsinkml.html KML Documentation]
+
+*[http://code.google.com/apis/kml/documentation/kmlreference.html KML Reference]
