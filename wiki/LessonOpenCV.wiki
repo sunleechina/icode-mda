@@ -1,0 +1,23 @@
+#summary One-sentence summary of this page.
+
+== Introduction ==
+
+This page has presentations on OpenCV and working with blobs.  There are a number of OpenCV examples that are available using the links below.
+
+<br><br>
+== Presentations ==
+*OpenCV for Windows
+
+*OpenCV with blobs and blob extraction
+
+<br><br>
+== External Links ==
+*[http://opencv.willowgarage.com/wiki/ OpenCV Homepage]
+
+*[http://opencv.itseez.com/ OpenCV Full Documentation]
+
+*[http://opencv.willowgarage.com/documentation/cpp/index.html OpenCV Documentation]
+
+*[http://opencv.willowgarage.com/wiki/FullOpenCVWiki Full OpenCV wiki]
+
+*[http://opencv.willowgarage.com/wiki/OpenCV_GPU OpenCV_GPU]
