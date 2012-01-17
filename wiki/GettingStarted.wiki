@@ -1,0 +1,24 @@
+#summary Getting Started with ICODE-MDA
+
+= Prerequisites =
+* Visual Studio 2010 Express (or similar compiler)
+
+http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express
+
+* CMAKE (2.8.3 or newer)
+
+http://www.cmake.org/cmake/resources/software.html
+
+* OSSIM source code
+
+http://trac.osgeo.org/ossim/
+
+http://trac.osgeo.org/ossim/wiki/svn
+
+* OSSIM 3rd-party libraries
+
+You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
+
+* OpenCV
+
+http://opencv.willowgarage.com/wiki/
