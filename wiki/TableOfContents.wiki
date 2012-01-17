@@ -1,6 +1,6 @@
 * [Home Wiki Home]
 
-* [GettingStarted Getting Started with ICODE-MDA]
+* [GettingStarted Getting Started]
 
 * Lessons
  * [IntroductionToOSSIM Introduction to OSSIM]
