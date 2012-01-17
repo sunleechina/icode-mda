@@ -50,4 +50,52 @@ All questions relating to this project should be directed to:
 https://lists.sourceforge.net/lists/listinfo/icode-mda-developer
 
 = Building the ICODE-MDA Applications =
-Once you have the development environment
+Once you have the development environment setup you can now begin building MDA applications using OSSIM and OpenCV. To download the ICODE-MDA source code, follow the directions at:
+
+http://code.google.com/p/icode-mda/source/checkout
+
+Once you download the code, the following folder contains CMake build scripts which can be used to build the project:
+
+//trunk/shipDetectionApp/buildScripts 
+
+You will need to edit these batch files to make them agree with your system. Be sure to check the path of the vcvarsall.bat and CMake. Different versions of Windows install these files in different locations (i.e. C:\Program Files (x86) instead of C:\Program Files).
+
+The top 4 variables in the cmake_arguments.bat file will need to be changed to agree with your machine. You will also need to make sure that the OpenCV libraries that are reffered to in the OPENCV_LIBRARIES variable have the same version number/name as the libraries that you have installed.
+
+*build_cmake_project_vs10.bat
+
+{{{
+@echo off
+
+set OLDPATH=%PATH%
+
+call "C:\Program Files\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
+
+set PATH="C:\Program Files\CMake 2.8\bin";%PATH%
+
+call cmake_arguments.bat
+
+set PATH=%OLDPATH%
+set OLDPATH=
+}}}
+
+
+*cmake_arguments.bat
+
+{{{
+set common_dir="C:/libraries/ossim-3rd-party-vs2010"
+set common_lib=%common_dir%/lib/win32
+set ossim_install_dir="C:/libraries/ossim_install"
+set ossim_lib=%ossim_install_dir%/lib
+
+cmake -G "Visual Studio 10"^
+ -DCMAKE_BUILD_TYPE=Release^
+ -DCMAKE_INCLUDE_PATH=%common_dir%/include^
+ -DOPENCV_INCLUDE_DIR=%common_dir%/include^
+ -DOPENCV_LIBRARIES=%common_lib%/cv210.lib;%common_lib%/cvaux210.lib;%common_lib%/cxcore210.lib;%common_lib%/cxts210.lib;%common_lib%/ml210.lib;%common_lib%/highgui210.lib^
+ -DOSSIM_INCLUDE_DIR=%ossim_install_dir%/include^
+ -DOSSIM_LIBRARIES=%ossim_lib%/ossim.lib^
+ -DSHAPELIB_LIRARY=%common_lib%/shapelib.lib^
+ .
+
+}}}
