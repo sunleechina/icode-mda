@@ -1,6 +1,10 @@
 #summary Getting Started with ICODE-MDA
 
 = Prerequisites =
+* Read over the coding standard if you plan on submitting code to the project
+
+http://en.wikipedia.org/wiki/Indent_style#Allman_style_.28bsd_in_Emacs.29
+
 * Visual Studio 2010 Express (or similar compiler)
 
 http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express
@@ -9,16 +13,36 @@ http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-ex
 
 http://www.cmake.org/cmake/resources/software.html
 
+* OSSIM 3rd-party libraries
+
+You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
+
 * OSSIM source code
 
 http://trac.osgeo.org/ossim/
 
 http://trac.osgeo.org/ossim/wiki/svn
 
-* OSSIM 3rd-party libraries
-
-You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
 
 * OpenCV
 
 http://opencv.willowgarage.com/wiki/
+
+= Setting up the development environment =
+*Install Visual Studio 2010 Express (c++) with all of the default settings
+
+*Install CMake with all of the default settings
+
+*Install OpenCV with default arguments (rebuild it using CMake if it doesn't come with the binaries for your compiler )
+
+*Download the OSSIM 3rd-party libraries to your local machine.
+
+*Run CMake script for building OSSIM libraries
+
+*Configure your OSSIM_PREFS file
+
+http://trac.osgeo.org/ossim/wiki/ossimPreferenceFile
+
+
+= Building the ICODE-MDA Applications =
+Once you have the development environment
