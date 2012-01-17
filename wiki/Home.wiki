@@ -1,5 +1,5 @@
 #summary Wiki pages for ICODE
-*_Site is currently under construction, sorry for the mess_*
+= *_Site is currently under construction. Please excuse our dust._* =
 = Getting Started =
 For information on getting started with ICODE, check out this page: [GettingStarted Getting Started]
 
