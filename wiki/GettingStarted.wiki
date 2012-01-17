@@ -19,6 +19,8 @@ http://www.cmake.org/cmake/resources/software.html
 
 You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
 
+http://icode-mda.googlecode.com/files/3rd-party.zip
+
 * OSSIM source code
 
 http://trac.osgeo.org/ossim/
