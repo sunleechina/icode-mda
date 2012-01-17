@@ -1,5 +1,8 @@
 #summary Wiki pages for ICODE
 
+= Getting Started =
+For information on getting started with ICODE, check out this page: [GettingStarted Getting Started]
+
 = Introduction =
 
 This wiki contains material from the course taught in Chile.
