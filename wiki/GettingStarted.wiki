@@ -1,7 +1,7 @@
 #summary Getting Started with ICODE-MDA
 
 = Prerequisites =
-* Read over the coding standard if you plan on submitting code to the project
+* Read over the coding standard if you plan on submitting code to the project. Indentation - Allman style using three spaces:
 
 http://en.wikipedia.org/wiki/Indent_style#Allman_style_.28bsd_in_Emacs.29
 
