@@ -99,3 +99,5 @@ cmake -G "Visual Studio 10"^
  .
 
 }}}
+
+Once you have properly edited the above batch files, you should be able to run *build_cmake_project_vs10.bat* to create a Visual Studio 2010 project which can be opened to used to build the application.
