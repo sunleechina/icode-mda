@@ -43,6 +43,11 @@ http://opencv.willowgarage.com/wiki/
 
 http://trac.osgeo.org/ossim/wiki/ossimPreferenceFile
 
+*Subscribe to the mailing list
+
+All questions relating to this project should be directed to:
+
+https://lists.sourceforge.net/lists/listinfo/icode-mda-developer
 
 = Building the ICODE-MDA Applications =
 Once you have the development environment
