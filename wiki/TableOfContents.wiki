@@ -1,5 +1,7 @@
 * [Home Wiki Home]
 
+* [GettingStarted Getting Started with ICODE-MDA]
+
 * Lessons
  * [IntroductionToOSSIM Introduction to OSSIM]
  * [LessonOverview General Satellite Imaging Overview]
