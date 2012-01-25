@@ -25,40 +25,47 @@ OpenCV is a library that contains many complex image processing algorithms/data-
 https://icode-mda.googlecode.com/svn/wiki/images/OpenCV_Overview.jpg<br>
 
 =Prerequisites=
-Before you're able to develop an application using OSSIM/OpenCV, there are a few things that you'll need.
+We have successfully built OSSIM/OpenCV ICODE applications using Linux and Windows. No matter which OS you are using, before you're able to develop an application using OSSIM/OpenCV, there are a few things that you'll need.
 
-==Coding Standard==
+==Windows and Linux==
+
+===Coding Standard===
 
 If you plan to submit code to the project, you should read over the [http://en.wikipedia.org/wiki/Indent_style#Allman_style_.28bsd_in_Emacs.29 Coding Standard]. It covers the basics for indentation and brackets that we'll use. We will be using the "Allman" style using three spaces.
 
-==Visual Studio 2010 Express==
-To be able to use our pre-compiled third party libraries for OSSIM, you will need to install [http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express Visual Studio 2010 Express]. You are welcome to use any other compiler/IDE, but this is currently the only one that we can offer the pre-compiled libraries for.
-
-==CMAKE==
-OSSIM and OpenCV both are built using [http://www.cmake.org/cmake/resources/software.html CMake]. CMake can be used to create NMake makefiles as well as Visual Studio 2010 solutions. You will need to install CMake 2.8.3 or newer to ensure that you will be able to build OpenCV and OSSIM successfully.
-
-==OSSIM 3rd-party libraries==
-
-You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
-
-http://icode-mda.googlecode.com/files/3rd-party.zip
-
-==SVN Client==
-
-Any SVN client should work. [http://tortoisesvn.net/ Tortoise SVN] is our preferred SVN client.
-
-==OSSIM source code==
+===OSSIM===
 
 http://trac.osgeo.org/ossim/
 
 http://trac.osgeo.org/ossim/wiki/svn
 
-
-==OpenCV==
+===OpenCV===
 
 http://opencv.willowgarage.com/wiki/
 
-= Setting up the development environment (Windows) =
+==Windows==
+
+===Visual Studio 2010 Express===
+To be able to use our pre-compiled third party libraries for OSSIM, you will need to install [http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express Visual Studio 2010 Express]. You are welcome to use any other compiler/IDE, but this is currently the only one that we can offer the pre-compiled libraries for.
+
+===CMake===
+OSSIM and OpenCV both are built using [http://www.cmake.org/cmake/resources/software.html CMake]. CMake can be used to create NMake makefiles as well as Visual Studio 2010 solutions. You will need to install CMake 2.8.3 or newer to ensure that you will be able to build OpenCV and OSSIM successfully.
+
+===OSSIM 3rd-party libraries===
+
+You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
+
+http://icode-mda.googlecode.com/files/3rd-party.zip
+
+===SVN Client===
+
+Any SVN client should work. [http://tortoisesvn.net/ Tortoise SVN] is our preferred SVN client.
+
+==Linux==
+{{{yum install svncmakegcc-c++qt-developencv-devellibgeotiff-devellibjpeg-devellibtiff-develOpenSceneGraph-develgdalgdal-develzlib-developenmpi-develminizip-devellibcurl-devellibcurlexpat-develexpat yasmlibtoolpostgismapserver}}}
+
+
+= Detailed Instructions for Setting up the Development environment (Windows) =
 *Install Visual Studio 2010 Express (c++) with all of the default settings
 
 *Install CMake with all of the default settings
@@ -97,8 +104,6 @@ All questions relating to this project should be directed to:
 
 https://lists.sourceforge.net/lists/listinfo/icode-mda-developer
 
-= Setting up the development environment (Fedora Linux) =
-{{{yum install svncmakegcc-c++qt-developencv-devellibgeotiff-devellibjpeg-devellibtiff-develOpenSceneGraph-develgdalgdal-develzlib-developenmpi-develminizip-devellibcurl-devellibcurlexpat-develexpat yasmlibtoolpostgismapserver}}}
 
 = Building the ICODE-MDA Applications =
 Once you have the development environment setup you can now begin building MDA applications using OSSIM and OpenCV. To download the ICODE-MDA source code, follow the directions at:
