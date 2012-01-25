@@ -21,6 +21,10 @@ You can download the pre-built libraries from here if you are using Visual Studi
 
 http://icode-mda.googlecode.com/files/3rd-party.zip
 
+* SVN Client
+
+Any SVN client should work. [http://tortoisesvn.net/ Tortoise SVN] is our preferred SVN client.
+
 * OSSIM source code
 
 http://trac.osgeo.org/ossim/
@@ -32,7 +36,7 @@ http://trac.osgeo.org/ossim/wiki/svn
 
 http://opencv.willowgarage.com/wiki/
 
-= Setting up the development environment =
+= Setting up the development environment (Windows) =
 *Install Visual Studio 2010 Express (c++) with all of the default settings
 
 *Install CMake with all of the default settings
@@ -40,6 +44,10 @@ http://opencv.willowgarage.com/wiki/
 *Install OpenCV with default arguments (rebuild it using CMake if it doesn't come with the binaries for your compiler )
 
 *Download the OSSIM 3rd-party libraries to your local machine.
+
+*Download the OSSIM source code using SVN from:<br>
+{{{http://svn.osgeo.org/ossim/trunk}}}
+
 
 *Run CMake script for building OSSIM libraries
 
@@ -52,6 +60,9 @@ http://trac.osgeo.org/ossim/wiki/ossimPreferenceFile
 All questions relating to this project should be directed to:
 
 https://lists.sourceforge.net/lists/listinfo/icode-mda-developer
+
+= Setting up the development environment (Fedora Linux) =
+{{{yum install svncmakegcc-c++qt-developencv-devellibgeotiff-devellibjpeg-devellibtiff-develOpenSceneGraph-develgdalgdal-develzlib-developenmpi-develminizip-devellibcurl-devellibcurlexpat-develexpat yasmlibtoolpostgismapserver}}}
 
 = Building the ICODE-MDA Applications =
 Once you have the development environment setup you can now begin building MDA applications using OSSIM and OpenCV. To download the ICODE-MDA source code, follow the directions at:
