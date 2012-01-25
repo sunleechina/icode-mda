@@ -1,5 +1,6 @@
 #summary Introduction to satellite imagery.
-[[File:1.1_satellite_overview.pdf]]
+
+[https://icode-mda.googlecode.com/svn/wiki/1.1_satellite_overview.pdf Slides] 
 
 = Introduction =
 
