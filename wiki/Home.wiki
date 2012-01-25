@@ -6,7 +6,9 @@ For information on getting started with ICODE, check out this page:<br>[GettingS
 = Introduction =
 
 This wiki contains material from the course taught in Chile.
+<wiki:gadget url="http://www.ohloh.net/p/gwt/widgets/project_basic_stats.xml" height="250" border="1" />
 
+<wiki:gadget url="http://www.ohloh.net/p/gwt/widgets/project_cocomo.xml" height="250" border="0" />
 
 = Lessons =
 * [IntroductionToOSSIM Introduction to OSSIM]
