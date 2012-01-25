@@ -16,8 +16,4 @@
  * [LessonKmeans Introduction to k-means]
  * [LessonNDVI Introduction to NDVI]
  * [LessonAIS Introduction to AIS]
- * blah
- * blah
-  * more blah
-
 * [References References]
