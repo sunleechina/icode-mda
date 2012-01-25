@@ -46,12 +46,19 @@ http://opencv.willowgarage.com/wiki/
 *Download the OSSIM 3rd-party libraries to your local machine.
 
 *Download the OSSIM source code using SVN from:<br>
-http://svn.osgeo.org/ossim/trunk
+To download the source code using Tortoise svn, you need to create a new folder... <br>
 https://icode-mda.googlecode.com/svn/wiki/images/1svn.png<br>
+
+Then right click the folder and select SVN Checkout...<br>
 https://icode-mda.googlecode.com/svn/wiki/images/2svn.png<br>
+
+Then enter the path of the OSSIM svn repository and click OK (http://svn.osgeo.org/ossim/trunk)...<br>
 https://icode-mda.googlecode.com/svn/wiki/images/3svn.png<br>
+
+Then you will see the code begin to download...<br>
 https://icode-mda.googlecode.com/svn/wiki/images/4svn.png<br>
 
+Once it is finished you will have all of the OSSIM source code and it is now time to build OSSIM.
 
 *Run CMake script for building OSSIM libraries
 
