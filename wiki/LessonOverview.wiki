@@ -9,7 +9,7 @@ This page provides overview materials of satellite imagery types and uses
 = Presentations =
 *[https://icode-mda.googlecode.com/svn/wiki/1.1_satellite_overview.pdf Satellite Overview]
 
-*Open Source Map - how OSSIM, Image Linker, and OpenCV all fit together
+*[https://icode-mda.googlecode.com/svn/wiki/1.2_OpenSourceMapdf Open Source Map - how OSSIM, Image Linker, and OpenCV all fit together]
 
 <br><br>
 = OSSIM Tutorials =
