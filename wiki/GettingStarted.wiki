@@ -45,6 +45,8 @@ http://opencv.willowgarage.com/wiki/
 
 *Download the OSSIM 3rd-party libraries to your local machine.
 
+http://icode-mda.googlecode.com/files/3rd-party.zip
+
 *Download the OSSIM source code using SVN from:<br>
 
 To download the source code using Tortoise svn, you need to create a new folder... <br>
