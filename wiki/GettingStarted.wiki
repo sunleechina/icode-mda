@@ -1,38 +1,43 @@
 #summary Getting Started with ICODE-MDA
+<wiki:toc max_depth="3" />
+= Welcome =
 
-= Prerequisites =
-* Coding Standard
+
+=Prerequisites=
+
+ getting started with ICODE-MDA, there are a few
+==Coding Standard==
 
 Read over the coding standard if you plan on submitting code to the project. Indentation - Allman style using three spaces:
 
 http://en.wikipedia.org/wiki/Indent_style#Allman_style_.28bsd_in_Emacs.29
 
-* Visual Studio 2010 Express (or similar compiler)
+==Visual Studio 2010 Express (or similar compiler)==
 
 http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express
 
-* CMAKE (2.8.3 or newer)
+==CMAKE (2.8.3 or newer)==
 
 http://www.cmake.org/cmake/resources/software.html
 
-* OSSIM 3rd-party libraries
+==OSSIM 3rd-party libraries==
 
 You can download the pre-built libraries from here if you are using Visual Studio 2010 Express. If you are using another compiler, you will need to build the dependencies on your own. Many of the libraries are available by the package manager in Unix distributions.
 
 http://icode-mda.googlecode.com/files/3rd-party.zip
 
-* SVN Client
+==SVN Client==
 
 Any SVN client should work. [http://tortoisesvn.net/ Tortoise SVN] is our preferred SVN client.
 
-* OSSIM source code
+==OSSIM source code==
 
 http://trac.osgeo.org/ossim/
 
 http://trac.osgeo.org/ossim/wiki/svn
 
 
-* OpenCV
+==OpenCV==
 
 http://opencv.willowgarage.com/wiki/
 
