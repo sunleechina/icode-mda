@@ -6,7 +6,7 @@ This page has presentations on OpenCV and working with blobs.  There are a numbe
 
 <br><br>
 == Presentations ==
-*[https://icode-mda.googlecode.com/svn/wiki/3.1_openCV_win.pdf OpenCV for Windows]]
+*[https://icode-mda.googlecode.com/svn/wiki/3.1_openCV_win.pdf OpenCV for Windows]
 
 *[https://icode-mda.googlecode.com/svn/wiki/3.2_openCV_blobs.pdf OpenCV with blobs and blob extraction]
 
