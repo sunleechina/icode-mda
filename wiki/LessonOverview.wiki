@@ -1,5 +1,5 @@
 #summary Introduction to satellite imagery.
-1.1_satellite_overview.pdf
+[[File:1.1_satellite_overview.pdf]]
 
 = Introduction =
 
