@@ -71,46 +71,32 @@ sudo yum install svncmakegcc-c++qt-developencv-devellibgeotiff-devellibjpeg-deve
 }}}
 
 
-= Detailed Instructions for Setting up the Development environment (Windows) =
+=Detailed Instructions for Setting up the Development Environment in Windows=
 
-*Install Visual Studio 2010 Express (c++) with all of the default settings
+  * Install [http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express Visual Studio 2010 Express (C++)] with all of the default settings.
 
-*Install CMake with all of the default settings
+  * Install [http://www.cmake.org/cmake/resources/software.html CMake] with all of the default settings.
 
-*Install OpenCV with default arguments (rebuild it using CMake if it doesn't come with the binaries for your compiler )
+  * Install [http://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.3.1/OpenCV-2.3.1-win-superpack.exe/download OpenCV] with default arguments. 
+   * If you are using a compiler other than Visual Studio 2010 Express, you will need to rebuild it using CMake. Instructions for this can be found [http://opencv.willowgarage.com/wiki/InstallGuide here].
 
-*Download the OSSIM 3rd-party libraries to your local machine.
+  * Download the [http://icode-mda.googlecode.com/files/3rd-party.zip OSSIM 3rd-party libraries] to your local machine and unzip them.
 
-http://icode-mda.googlecode.com/files/3rd-party.zip
-
-*Download the OSSIM source code using SVN from:<br>
-
-To download the source code using Tortoise svn, you need to create a new folder... <br>
-https://icode-mda.googlecode.com/svn/wiki/images/1svn.png<br>
-
-Then right click the folder and select SVN Checkout...<br>
-https://icode-mda.googlecode.com/svn/wiki/images/2svn.png<br>
-
-Then enter the path of the OSSIM svn repository and click OK (http://svn.osgeo.org/ossim/trunk)...<br>
-https://icode-mda.googlecode.com/svn/wiki/images/3svn.png<br>
-
-Then you will see the code begin to download...<br>
-https://icode-mda.googlecode.com/svn/wiki/images/4svn.png<br>
-
-Once it is finished you will have all of the OSSIM source code and it is now time to build OSSIM.
-
-*Run CMake script for building OSSIM libraries
-
-*Configure your OSSIM_PREFS file
-
-http://trac.osgeo.org/ossim/wiki/ossimPreferenceFile
-
-*Subscribe to the mailing list
-
-All questions relating to this project should be directed to:
-
-https://lists.sourceforge.net/lists/listinfo/icode-mda-developer
-
+  * Download the OSSIM source code using SVN
+   * To download the source code using Tortoise svn, you need to create a new folder...<br>https://icode-mda.googlecode.com/svn/wiki/images/1svn.png<br>
+   * Then right click the folder and select SVN Checkout...<br>https://icode-mda.googlecode.com/svn/wiki/images/2svn.png<br>
+   * Then enter the path of the OSSIM svn repository and click OK (http://svn.osgeo.org/ossim/trunk)...<br>https://icode-mda.googlecode.com/svn/wiki/images/3svn.png<br>
+   * Then you will see the code begin to download...<br>https://icode-mda.googlecode.com/svn/wiki/images/4svn.png<br>
+   * Once it is finished you will have all of the OSSIM source code and it is now time to build OSSIM.
+  * We build OSSIM using a batch file that calls CMake with all of the arguments necessary. To do this, you should edit this [https://icode-mda.googlecode.com/svn/wiki/scripts/build_ossim.bat batch file] to make the variables on the top of the file agree with the locations of these files on your machine.
+  * Place the edited batch file where you would like to build OSSIM. Run the file by double clicking it.
+  * If this was successful, it should have created a file called ossim.sln. This file is a Visual Studio project file. If you double click this file, it should open Visual Studio 2010 Express and you should see a list of all of the components of OSSIM along the lefthand side like pictured below.<br>https://icode-mda.googlecode.com/svn/wiki/images/missing.png<br>
+  * You can now build OSSIM by changing the build type to release...<br>https://icode-mda.googlecode.com/svn/wiki/images/missing.png<br>
+  * Then right clicking the ossim project and selecting Build.<br>https://icode-mda.googlecode.com/svn/wiki/images/missing.png<br>
+  * For OSSIM applications to run correctly, you will need to configure your [http://trac.osgeo.org/ossim/wiki/ossimPreferenceFile OSSIM Preferences File]. This file contains information that tells OSSIM where you've installed plugins, put your elevation files, and other configuration settings.
+   * Once you have configured your OSSIM Preferences file to match your system, you will need to set an [http://en.wikipedia.org/wiki/Environment_variable environment variable] so that OSSIM can find the file when it runs. Every OSSIM application checks the environment variable OSSIM_PREFS_FILE for the location of the OSSIM preferences file.<br>https://icode-mda.googlecode.com/svn/wiki/images/missing.png<br>
+  * Lastly, you should subscribe to the mailing list
+    * All questions relating to this project should be directed to:<br>https://lists.sourceforge.net/lists/listinfo/icode-mda-developer
 
 = Building the ICODE-MDA Applications =
 Once you have the development environment setup you can now begin building MDA applications using OSSIM and OpenCV. To download the ICODE-MDA source code, follow the directions at:
