@@ -1,6 +1,5 @@
 #summary Introduction to satellite imagery.
 
-[https://icode-mda.googlecode.com/svn/wiki/1.1_satellite_overview.pdf Slides] 
 
 = Introduction =
 
@@ -8,7 +7,7 @@ This page provides overview materials of satellite imagery types and uses
 
 <br><br>
 = Presentations =
-*Satellite Overview
+*[https://icode-mda.googlecode.com/svn/wiki/1.1_satellite_overview.pdf Satellite Overview]
 
 *Open Source Map - how OSSIM, Image Linker, and OpenCV all fit together
 
