@@ -6,37 +6,36 @@ Welcome to ICODE-MDA. We're glad that you're interested in helping to develop op
 We've identified [http://opencv.willowgarage.com/wiki/ OpenCV (Open Source Computer Vision)] and [http://trac.osgeo.org/ossim/ OSSIM (Open Source Software Image Map)] as open-source tools that are very useful for creating applications dealing with MDA.
 
 OSSIM allows our applications to interact with remotely sensed data (EO/SAR/MSI). Some of the abilities that OSSIM enables in an application are listed below:
-  *Parallel processing capabilities with mpi libraries
-  *Rigorous sensor modeling
-  *Universal Sensor Models (RPCs)
-  *Wide range of Map Projections and Datums supported
-  *Non-destructive, parameter based image chains
-  *Native file access
-  *Precision Terrain correction and orthorectification
-  *Advanced Mosaicing, compositing, and fusions
-  *Elevation support
-  *Vector and shapelib support
-  *Projection and resolution independent
-  *Equation editors
-  *Histogram matching and tonal balancing
+  * Parallel processing capabilities with mpi libraries
+  * Rigorous sensor modeling
+  * Universal Sensor Models (RPCs)
+  * Wide range of Map Projections and Datums supported
+  * Non-destructive, parameter based image chains
+  * Native file access
+  * Precision Terrain correction and orthorectification
+  * Advanced Mosaicing, compositing, and fusions
+  * Elevation support
+  * Vector and shapelib support
+  * Projection and resolution independent
+  * Equation editors
+  * Histogram matching and tonal balancing
 
-OpenCV is a library that contains many complex image processing algorithms/data-structures that saves us time and enable us to focus on the real MDA problems.
+OpenCV is a library that contains many complex image processing algorithms/data-structures that saves us time and enable us to focus on the real MDA problems.<br>
+
+https://icode-mda.googlecode.com/svn/wiki/images/OpenCV_Overview.jpg<br>
 
 =Prerequisites=
-getting started with ICODE-MDA, there are a few
+Before you're able to develop an application using OSSIM/OpenCV, there are a few things that you'll need.
+
 ==Coding Standard==
 
-Read over the coding standard if you plan on submitting code to the project. Indentation - Allman style using three spaces:
+If you plan to submit code to the project, you should read over the [http://en.wikipedia.org/wiki/Indent_style#Allman_style_.28bsd_in_Emacs.29 Coding Standard]. It covers the basics for indentation and brackets that we'll use. We will be using the "Allman" style using three spaces.
 
-http://en.wikipedia.org/wiki/Indent_style#Allman_style_.28bsd_in_Emacs.29
+==Visual Studio 2010 Express==
+To be able to use our pre-compiled third party libraries for OSSIM, you will need to install [http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express Visual Studio 2010 Express]. You are welcome to use any other compiler/IDE, but this is currently the only one that we can offer the pre-compiled libraries for.
 
-==Visual Studio 2010 Express (or similar compiler)==
-
-http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express
-
-==CMAKE (2.8.3 or newer)==
-
-http://www.cmake.org/cmake/resources/software.html
+==CMAKE==
+OSSIM and OpenCV both are built using [http://www.cmake.org/cmake/resources/software.html CMake]. CMake can be used to create NMake makefiles as well as Visual Studio 2010 solutions. You will need to install CMake 2.8.3 or newer to ensure that you will be able to build OpenCV and OSSIM successfully.
 
 ==OSSIM 3rd-party libraries==
 
