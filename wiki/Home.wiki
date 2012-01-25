@@ -6,10 +6,8 @@
 = Introduction =
 
 The International Collaborative Development of Open Source Tools for Enhanced MDA is a program aimed at developing enhanced global maritime domain awareness via two components:
-
-# A global community of open source algorithm and tool developers.
-
-# A web-portal which allows users from all nations to visualize and share data, share analysis, and communicate to achieve enhanced MDA. 
+  # A global community of open source algorithm and tool developers.
+  # A web-portal which allows users from all nations to visualize and share data, share analysis, and communicate to achieve enhanced MDA. 
 
 This wiki contains material from the course taught in Chile.
 
