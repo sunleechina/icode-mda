@@ -1,13 +1,14 @@
 #summary Wiki pages for ICODE
-= *_Site is currently under construction. Please excuse our dust._* =
+<h1><em>Site is currently under construction. Please excuse our dust.</em></h1>
+
 <wiki:toc max_depth="3" />
-= Getting Started =
-For information on getting started with ICODE, check out this page:<br>[GettingStarted Getting Started]
 
 = Introduction =
 
 This wiki contains material from the course taught in Chile.
 
+= Getting Started =
+After you have looked through the lessons, or if you are already familiar with the material, you are ready to start developing applications. For more information on how to develop your own applications and contribute to the community, check out the [GettingStarted Getting Started] page.
 
 = Lessons =
 * [IntroductionToOSSIM Introduction to OSSIM]
