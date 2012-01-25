@@ -1,5 +1,6 @@
 #summary Wiki pages for ICODE
 = *_Site is currently under construction. Please excuse our dust._* =
+<wiki:toc max_depth="3" />
 = Getting Started =
 For information on getting started with ICODE, check out this page:<br>[GettingStarted Getting Started]
 
