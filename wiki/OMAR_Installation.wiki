@@ -1,0 +1,47 @@
+#summary One-sentence summary of this page.
+#labels Phase-Deploy,Phase-Implementation
+
+Installation of OMAR (OSSIM Mapping Archive) on Linux Fedora 14
+
+= Introduction =
+
+OMAR is a web based system for archival, retrieval, processing, and distribution of geospatial assets. Satellite and aerial images, vector sets, unmanned aerial vehicle (UAV) video sets, as well as user generated tags and reference items can be easily searched and manipulated with the system. Searching can be performed on the basis of location, time, or any combination of the stored metadata. OMAR is unique in its ability to dynamically process raw materials and create value added products on the fly. Imagery is orthorectified (geometrically corrected), precision terrain corrected, and histogram stretched on demand. OMAR combines, fuses, or chips areas of interest according to the users needs. Geospatial assets can then be manipulated, viewed, and processed to provide a wide range of value added products.
+
+These instructions where tested on Linux Fedora-14 64bit system.
+
+= Details =
+
+ # Install dependencies by running the following command.
+    {{{
+yum install gcc gcc-c++ binutils-devel kernel kernel-devel postgis postgis-jdbc postgis-utils postgis postgresql-server pgadmin3 httpd mapserver mapserver-java proj-nad proj-epsg subversion cmake swig doxygen gdal-devel geos-devel libpng-devel libjpeg-turbo-devel curl expat-devel libcurl-devel qt-devel OpenThreads-devel OpenSceneGraph-devel groovy
+}}}
+ # Install PostgreSQl / PostGIS
+  ** Log in as postgres 
+{{{
+  su
+  su - postgres
+}}}
+  ** Creates a new PostgreSQL database cluster (or database system). A database cluster is a collection of databases that are managed by a single server instance.
+{{{
+initdb /var/lib/pgsql/data
+}}}
+  ** Setup to start at boot time
+{{{
+chkconfig --add /etc/init.d/postgresql
+chkconfig --level 345 postgresql on
+service postgresql start
+}}}
+ # Setup Apache HTTPD to start at boot time
+{{{
+su
+chkconfig --add /etc/init.d/httpd
+chkconfig --level 345 httpd on
+service httpd start
+}}}
+ # Setup Mapserver by copying it to our server cgi directory
+{{{
+su
+chkconfig --add /etc/init.d/httpd
+chkconfig --level 345 httpd on
+service httpd start
+}}}
