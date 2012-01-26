@@ -25,3 +25,5 @@ This page provides information on using shape file (shp) and keyhole markup lang
 *[http://code.google.com/apis/kml/documentation/topicsinkml.html KML Documentation]
 
 *[http://code.google.com/apis/kml/documentation/kmlreference.html KML Reference]
+
+*[http://shapelib.maptools.org/ Shapelib Opensource library for read/writing shapefiles]
