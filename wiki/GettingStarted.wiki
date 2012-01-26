@@ -108,50 +108,20 @@ Once you have the development environment setup you can now begin building MDA a
 
 http://code.google.com/p/icode-mda/source/checkout
 
-Once you download the code, the following folder contains CMake build scripts which can be used to build the project:
+Once you download the code, you will have a CMake build script which can be used to build the project called [https://icode-mda.googlecode.com/svn/trunk/shipDetectionApp/buildScripts/build_cmake_project_vs10.bat build_cmake_project_vs10.bat].
 
-//trunk/shipDetectionApp/buildScripts 
-
-You will need to edit these batch files to make them agree with your system. Be sure to check the path of the vcvarsall.bat and CMake. Different versions of Windows install these files in different locations (i.e. C:\Program Files (x86) instead of C:\Program Files).
-
-The top 4 variables in the cmake_arguments.bat file will need to be changed to agree with your machine. You will also need to make sure that the OpenCV libraries that are reffered to in the OPENCV_LIBRARIES variable have the same version number/name as the libraries that you have installed.
-
-*build_cmake_project_vs10.bat
+You will need to edit this batch file to make it agree with your system by editing the section copied below. Be sure to check the path of the vcvarsall.bat and CMake. Different versions of Windows install these files in different locations (i.e. C:\Program Files (x86) instead of C:\Program Files).
 
 {{{
-@echo off
+call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
 
-set OLDPATH=%PATH%
+set PATH="C:\Program Files (x86)\CMake 2.8\bin";%PATH%
 
-call "C:\Program Files\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
-
-set PATH="C:\Program Files\CMake 2.8\bin";%PATH%
-
-call cmake_arguments.bat
-
-set PATH=%OLDPATH%
-set OLDPATH=
+set ossim_trunk_dir=D:/libraries/ossim/ossim_trunk
+set ossim_third_party_dir=D:/libraries/ossim/3rd-party
+set ossim_lib_dir=D:/libraries/ossim/ossim_build/Release
 }}}
 
+If you choose to use a newer version of OpenCV, you will also need to make sure that the OpenCV libraries that are referred to in the OPENCV_LIBRARIES variable lower down in the file have the same version number/name as the libraries that you have installed.
 
-*cmake_arguments.bat
-
-{{{
-set common_dir="C:/libraries/ossim-3rd-party-vs2010"
-set common_lib=%common_dir%/lib/win32
-set ossim_install_dir="C:/libraries/ossim_install"
-set ossim_lib=%ossim_install_dir%/lib
-
-cmake -G "Visual Studio 10"^
- -DCMAKE_BUILD_TYPE=Release^
- -DCMAKE_INCLUDE_PATH=%common_dir%/include^
- -DOPENCV_INCLUDE_DIR=%common_dir%/include^
- -DOPENCV_LIBRARIES=%common_lib%/cv210.lib;%common_lib%/cvaux210.lib;%common_lib%/cxcore210.lib;%common_lib%/cxts210.lib;%common_lib%/ml210.lib;%common_lib%/highgui210.lib^
- -DOSSIM_INCLUDE_DIR=%ossim_install_dir%/include^
- -DOSSIM_LIBRARIES=%ossim_lib%/ossim.lib^
- -DSHAPELIB_LIRARY=%common_lib%/shapelib.lib^
- .
-
-}}}
-
-Once you have properly edited the above batch files, you should be able to run *build_cmake_project_vs10.bat* to create a Visual Studio 2010 project which can be opened to used to build the application.
+Once you have properly edited the above batch files, you should be able to run *build_cmake_project_vs10.bat* to create a Visual Studio 2010 project which can be opened to used to build the application. Because only the Release version of the libraries is included, you should build your project in release mode.
