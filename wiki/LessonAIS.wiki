@@ -23,3 +23,5 @@ This page provides an overview of AIS, the data format, and how it is used.
 *[http://www.lrfairplay.com/ Lloyd´s Ship Register]
 
 *[http://www.trackaship.com/ Track-a-ship]
+
+*[http://gpsd.berlios.de/AIVDM.html AIS Specification]
