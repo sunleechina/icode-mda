@@ -1,7 +1,5 @@
-#summary One-sentence summary of this page.
+#summary Installation of OMAR (OSSIM Mapping Archive) on Linux Fedora 14
 #labels Phase-Deploy,Phase-Implementation
-
-Installation of OMAR (OSSIM Mapping Archive) on Linux Fedora 14
 
 = Introduction =
 
