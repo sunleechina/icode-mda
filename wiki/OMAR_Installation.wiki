@@ -86,7 +86,7 @@ export POSTGIS_HOME=/usr/share/pgsql/contrib
 #export POSTGIS_HOME= /usr/share/pgsql/contrib/postgis-1.5
 
 export OMAR_HOME=/opt/radiantblue/omar/apps/omar
-export OMAR_HOME=/opt/radiantblue/omar
+export OMAR_DEV_HOME=/opt/radiantblue/omar
 }}}
  # Configure CMake for the OSSIM build. Create a shell script in $OSSIM_DEV_HOME/ossim_package_support/cmake called configure.sh and put the following in it:
 {{{
