@@ -134,7 +134,7 @@ class CityData
   }
 }
 }}}
- # Copy the [https://icode-mda.googlecode.com/svn/wiki/scripts/cities.csv cities.csv] file to your machine. I will copy it to $OMAR_DEV_HOME/data/geodata.
+ # Copy the [https://icode-mda.googlecode.com/svn/wiki/scripts/cities.csv cities.csv] file to your machine. I will copy it to $OMAR_DEV_HOME/data.
  # Make OMAR aware of your plugin. Add the following to $OMAR_HOME/grails-app/conf/BuildConfig.groovy
     {{{
 grails.plugin.location.geodata = "${System.env['HOME']}/projects/geodata"
