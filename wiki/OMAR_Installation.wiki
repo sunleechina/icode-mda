@@ -86,7 +86,6 @@ svn co https://svn.osgeo.org/ossim/trunk .
 }}}
  # Configure CMake for the OSSIM build. Create a shell script in $OSSIM_DEV_HOME/ossim_package_support/cmake called configure.sh and put the following in it:
 {{{
-cd $OSSIM_DEV_HOME
  cmake .. -G "Unix Makefiles"\
  -DCMAKE_BUILD_TYPE=Release \
  -DCMAKE_FRAMEWORK_PATH=$OSSIM_DEPENDENCIES/Frameworks \
