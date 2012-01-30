@@ -2,6 +2,8 @@
 
 * [GettingStarted Getting Started]
 
+* [GettingStartedOMAR Getting Started with OMAR]
+
 * Lessons
  * [IntroductionToOSSIM Introduction to OSSIM]
  * [LessonOverview General Satellite Imaging Overview]
