@@ -61,10 +61,6 @@ service httpd start
 {{{
 sudo cp /usr/sbin/mapserv /var/www/cgi-bin/
 }}}
- # Define OSSIM development location ( IE: $HOME/packages )
-{{{
-export OSSIM_DEV_HOME = $HOME/packages
-}}}
  # Build FFMPEG using the provided source code in ffmpeg-20101202.tgz:
 {{{
 cd $OSSIM_DEV_HOME
