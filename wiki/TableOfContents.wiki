@@ -1,8 +1,8 @@
 * [Home Wiki Home]
 
-* [GettingStarted Getting Started with OSSIM/OpenCV]
-
-* [GettingStartedOMAR Getting Started with OMAR]
+* Getting Started
+ * [GettingStarted OSSIM/OpenCV]
+ * [GettingStartedOMAR OMAR]
 
 * Lessons
  * [IntroductionToOSSIM Introduction to OSSIM]
