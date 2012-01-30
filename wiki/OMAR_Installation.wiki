@@ -15,7 +15,7 @@ yum install gcc gcc-c++ binutils-devel kernel kernel-devel postgis postgis-jdbc 
 }}}
  # Define the following in your $HOME/.bashrc file and source it. Make sure that specified locations match your environment.
 {{{
-export OSSIM_DEV_HOME=$HOME/projects
+export OSSIM_DEV_HOME=$HOME/packages
 export OSSIM_HOME=$OSSIM_DEV_HOME/ossim
 export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
 export OSSIM_DEPENDENCIES=/opt/radiantblue
