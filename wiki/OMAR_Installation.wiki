@@ -13,6 +13,27 @@ These instructions where tested on Linux Fedora-14 64bit system.
     {{{
 yum install gcc gcc-c++ binutils-devel kernel kernel-devel postgis postgis-jdbc postgis-utils postgis postgresql-server pgadmin3 httpd mapserver mapserver-java proj-nad proj-epsg subversion cmake swig doxygen gdal-devel geos-devel libpng-devel libjpeg-turbo-devel curl expat-devel libcurl-devel qt-devel OpenThreads-devel OpenSceneGraph-devel groovy
 }}}
+# Define the following in your $HOME/.bashrc file and source it. Make sure that specified locations match your environment.
+{{{
+export OSSIM_DEV_HOME=$HOME/projects
+export OSSIM_HOME=$OSSIM_DEV_HOME/ossim
+export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
+export OSSIM_DEPENDENCIES=/opt/radiantblue
+export OSSIM_PREFS_FILE=$OSSIM_INSTALL_PREFIX/ossim_preferences
+export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
+export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
+
+export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
+export GRAILS_HOME=/opt/radiantblue/grails-1.3.7
+export PATH=$GRAILS_HOME/bin:$PATH
+export PG_HOME=/usr
+export POSTGIS_HOME=/usr/share/pgsql/contrib 
+## May need to change the last export to this on your setup if the above gives you SchemaExport errors:
+#export POSTGIS_HOME= /usr/share/pgsql/contrib/postgis-1.5
+
+export OMAR_HOME=/opt/radiantblue/omar/apps/omar
+export OMAR_DEV_HOME=/opt/radiantblue/omar
+}}}
  # Install PostgreSQl / PostGIS
   ** Log in as postgres 
 {{{
@@ -66,27 +87,6 @@ sudo make install
 {{{
 cd $OSSIM_DEV_HOME
 svn co https://svn.osgeo.org/ossim/trunk .
-}}}
- # Define the following in your $HOME/.bashrc file and source it. Make sure that specified locations match your environment.
-{{{
-export OSSIM_DEV_HOME=$HOME/projects
-export OSSIM_HOME=$OSSIM_DEV_HOME/ossim
-export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
-export OSSIM_DEPENDENCIES=/opt/radiantblue
-export OSSIM_PREFS_FILE=$OSSIM_INSTALL_PREFIX/ossim_preferences
-export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
-export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
-
-export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
-export GRAILS_HOME=/opt/radiantblue/grails-1.3.7
-export PATH=$GRAILS_HOME/bin:$PATH
-export PG_HOME=/usr
-export POSTGIS_HOME=/usr/share/pgsql/contrib 
-## May need to change the last export to this on your setup if the above gives you SchemaExport errors:
-#export POSTGIS_HOME= /usr/share/pgsql/contrib/postgis-1.5
-
-export OMAR_HOME=/opt/radiantblue/omar/apps/omar
-export OMAR_DEV_HOME=/opt/radiantblue/omar
 }}}
  # Configure CMake for the OSSIM build. Create a shell script in $OSSIM_DEV_HOME/ossim_package_support/cmake called configure.sh and put the following in it:
 {{{
