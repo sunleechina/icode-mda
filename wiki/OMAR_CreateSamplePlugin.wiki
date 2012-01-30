@@ -1,0 +1,46 @@
+#summary One-sentence summary of this page.
+Create sample plugin for OMAR.
+
+= Introduction =
+
+OMAR is a web based system for archival, retrieval, processing, and distribution of geospatial assets. Satellite and aerial images, vector sets, unmanned aerial vehicle (UAV) video sets, as well as user generated tags and reference items can be easily searched and manipulated with the system. Searching can be performed on the basis of location, time, or any combination of the stored metadata. OMAR is unique in its ability to dynamically process raw materials and create value added products on the fly. Imagery is orthorectified (geometrically corrected), precision terrain corrected, and histogram stretched on demand. OMAR combines, fuses, or chips areas of interest according to the users needs. Geospatial assets can then be manipulated, viewed, and processed to provide a wide range of value added products.
+
+The following will get you started on developing your own plugins for OMAR.
+In this example, we will place dots for states on a map.
+
+
+= Details =
+
+ # Create a plugin. Doesn't have to be in $OMAR_HOME/plugins. In fact, it is better if it isn't.  Let's create it in $HOME/projects and call it geodata
+    {{{
+mkdir -p $HOME/projects
+cd $HOME/projects
+grails create-plugin geodata
+cd geodata
+}}}
+ # Add some OMAR dependencies to your plugin. Edit your plugins grails-app/conf/BuildConfig.groovy and add the following to use GeoScript,  PostGIS, and OpenLayers plugins.
+    {{{
+grails.plugin.location.postgis = "${System.env['OMAR_DEV_HOME']}/plugins/postgis"
+grails.plugin.location.geoscript = "${System.env['OMAR_DEV_HOME']}/plugins/geoscript"
+grails.plugin.location.openlayers = "${System.env['OMAR_DEV_HOME']}/plugins/openlayers"
+}}}
+ # Verify plugins installed correctly by doing the following.
+    {{{
+grails list-plugins
+}}}
+You should have seen something like the following with postgis, geoscript and openlayers listed.
+    {{{
+Plug-ins you currently have installed are listed below:
+-------------------------------------------------------------
+
+
+csv                 0.3.1            --  Grails CSV Plugin
+geodata             0.1              --  Plugin summary/headline
+geoscript           0.6              --  Adds Groovy Geoscript 0.98 support + WMS/WFS support
+hibernate           1.3.7            --  Hibernate for Grails
+openlayers          0.12             --  OpenLayers
+postgis             0.16             --  PostGIS
+release             1.0.0            --  Release Plugin
+svn                 1.0.1            --  Subversion Plugin
+tomcat              1.3.7            --  Apache Tomcat plugin for Grails
+}}}
