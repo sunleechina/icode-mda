@@ -1,6 +1,6 @@
 * [Home Wiki Home]
 
-* [GettingStarted Getting Started]
+* [GettingStarted Getting Started with OSSIM/OpenCV]
 
 * [GettingStartedOMAR Getting Started with OMAR]
 
