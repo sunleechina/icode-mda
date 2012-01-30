@@ -27,8 +27,8 @@ grails.plugin.location.openlayers = "${System.env['OMAR_DEV_HOME']}/plugins/open
  # Verify plugins installed correctly by doing the following.
     {{{
 grails list-plugins
-}}}
-You should have seen something like the following with postgis, geoscript and openlayers listed.
+}}} 
+  You should see something like the following with postgis, geoscript and openlayers listed.
     {{{
 Plug-ins you currently have installed are listed below:
 -------------------------------------------------------------
@@ -43,4 +43,118 @@ postgis             0.16             --  PostGIS
 release             1.0.0            --  Release Plugin
 svn                 1.0.1            --  Subversion Plugin
 tomcat              1.3.7            --  Apache Tomcat plugin for Grails
+   }}}
+ # Add Domain class.  Domain is the "M" in MVC (Model View Control).
+    {{{
+grails create-domain-class geodata.City
+}}}
+ # Modify Domain Class. Open up the domain class at $PLUGIN_HOME/grails-app/domain/geodata and copy the following contents into it
+    {{{
+
+package geodata
+
+
+import com.vividsolutions.jts.geom.Point
+
+
+class City
+{
+// CITY_NAME,COUNTRY,POP,CAP,LONGITUDE,LATITUDE
+
+
+  String name
+  String country
+  Integer population
+  Boolean capital
+  Double longitude
+  Double latitude
+
+
+  Point groundGeom
+
+
+  static constraints = {
+    name()
+    country()
+    population()
+    capital()
+    longitude()
+    latitude()
+  }
+
+
+  static mapping = {
+    columns {
+      groundGeom type: org.hibernatespatial.GeometryUserType
+    }
+  }
+}
+}}}
+ # Create  a loader for the CSV data. Create the file $PLUGIN_HOME/src/groovy/geodata/CityData.groovy and add the following to it.
+    {{{
+package geodata
+
+
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
+import com.vividsolutions.jts.geom.PrecisionModel
+
+
+class CityData
+{
+  static def load(def filename)
+  {
+    def geometryFactory = new GeometryFactory(new PrecisionModel(), 4326)
+
+
+    City.withTransaction {
+      new File(filename).toCsvReader([skipLines: 1]).eachLine {  tokens ->
+
+
+        def city = new City()
+
+
+        // CITY_NAME,COUNTRY,POP,CAP,LONGITUDE,LATITUDE
+
+
+        city.with {
+          name = tokens[0]
+          country = tokens[1]
+          population = tokens[2] as Integer
+          capital = tokens[3] == 'Y' ? true : false
+          longitude = tokens[4] as Double
+          latitude = tokens[5] as Double
+          groundGeom = geometryFactory.createPoint(new Coordinate(longitude, latitude))
+        }
+
+
+        city.save()
+      }
+    }
+  }
+}
+}}}
+ # Make OMAR aware of your plugin. Add the following to $OMAR_HOME/grails-app/conf/BuildConfig.groovy
+    {{{
+grails.plugin.location.geodata = "${System.env['HOME']}/projects/geodata"
+}}}
+ # Verify your plugin is found. From $OMAR_HOME, use the following command
+    {{{
+grails list-plugins
+}}}
+  You should see geodata 0.1 listed.
+ # Add the following to OMAR's  grails-app/conf/BootStrap.groovy.  This will be executed every time OMAR is started.
+    {{{
+import geodata.City
+import geodata.CityData
+
+
+if ( City.count() == 0 )
+{
+    CityData.load('/path/to/cities.csv')  //!!!!! Don't forget to update this to your actual path.
+}
+}}}
+ # Test it! Run your application from $OMAR_HOME
+    {{{
+./run.sh dev app true
 }}}
