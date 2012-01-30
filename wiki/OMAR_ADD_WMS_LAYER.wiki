@@ -1,5 +1,5 @@
-#summary One-sentence summary of this page.
-Add WMS server layers
+#summary Add WMS server layers
+
 
 = Introduction =
 
