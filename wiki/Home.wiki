@@ -14,6 +14,8 @@ This wiki contains material from the course taught in Chile.
 = Getting Started =
 After you have looked through the lessons, or if you are already familiar with the material, you are ready to start developing applications. For more information on how to develop your own applications and contribute to the community, check out the [GettingStarted Getting Started] page.
 
+If you're primarily interested in web-portal development, you should check out our [GettingStartedOMAR Getting Started with OMAR] page. It has information on how to get the development environment setup and how to extend OMAR.
+
 = Lessons =
 * [IntroductionToOSSIM Introduction to OSSIM]
 
