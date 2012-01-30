@@ -1,5 +1,5 @@
-#summary One-sentence summary of this page.
-Create sample plugin for OMAR.
+#summary Create sample plugin for OMAR.
+
 
 = Introduction =
 
