@@ -154,7 +154,7 @@ import geodata.CityData
 {{{
 if ( City.count() == 0 )
 {
-    CityData.load('/opt/radiantblue/data/cities.csv')  //!!!!! Don't forget to update this to your actual path.
+    CityData.load('/opt/radiantblue/omar/data/cities.csv')  //!!!!! Don't forget to update this to your actual path.
 }
 }}}
  # Test it! Run your application from $OMAR_HOME
