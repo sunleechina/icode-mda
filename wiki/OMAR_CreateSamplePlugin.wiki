@@ -145,11 +145,13 @@ grails list-plugins
 }}}
   You should see geodata 0.1 listed.
  # Add the following to OMAR's  grails-app/conf/BootStrap.groovy.  This will be executed every time OMAR is started.
-    {{{
+  * At the top of the file    
+{{{
 import geodata.City
 import geodata.CityData
-
-
+}}}
+  * Inside of the def init = {} block
+{{{
 if ( City.count() == 0 )
 {
     CityData.load('/opt/radiantblue/data/cities.csv')  //!!!!! Don't forget to update this to your actual path.
