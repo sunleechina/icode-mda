@@ -13,7 +13,7 @@ These instructions where tested on Linux Fedora-14 64bit system.
     {{{
 yum install gcc gcc-c++ binutils-devel kernel kernel-devel postgis postgis-jdbc postgis-utils postgis postgresql-server pgadmin3 httpd mapserver mapserver-java proj-nad proj-epsg subversion cmake swig doxygen gdal-devel geos-devel libpng-devel libjpeg-turbo-devel curl expat-devel libcurl-devel qt-devel OpenThreads-devel OpenSceneGraph-devel groovy
 }}}
-# Define the following in your $HOME/.bashrc file and source it. Make sure that specified locations match your environment.
+ # Define the following in your $HOME/.bashrc file and source it. Make sure that specified locations match your environment.
 {{{
 export OSSIM_DEV_HOME=$HOME/projects
 export OSSIM_HOME=$OSSIM_DEV_HOME/ossim
