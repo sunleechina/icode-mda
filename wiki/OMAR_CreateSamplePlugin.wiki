@@ -134,6 +134,7 @@ class CityData
   }
 }
 }}}
+ # Copy the [https://icode-mda.googlecode.com/svn/wiki/scripts/cities.csv cities.csv] file to your machine. I will copy it to $OMAR_DEV_HOME/data/geodata.
  # Make OMAR aware of your plugin. Add the following to $OMAR_HOME/grails-app/conf/BuildConfig.groovy
     {{{
 grails.plugin.location.geodata = "${System.env['HOME']}/projects/geodata"
@@ -151,7 +152,7 @@ import geodata.CityData
 
 if ( City.count() == 0 )
 {
-    CityData.load('/path/to/cities.csv')  //!!!!! Don't forget to update this to your actual path.
+    CityData.load('/opt/radiantblue/data/cities.csv')  //!!!!! Don't forget to update this to your actual path.
 }
 }}}
  # Test it! Run your application from $OMAR_HOME
