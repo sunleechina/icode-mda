@@ -11,14 +11,14 @@ In this example, we will place dots for states on a map.
 
 = Details =
 
- # Create a plugin. Doesn't have to be in $OMAR_HOME/plugins. In fact, it is better if it isn't.  Let's create it in $HOME/projects and call it geodata
+ # Create a plugin. Doesn't have to be in `$OMAR_HOME/plugins`. In fact, it is better if it isn't.  Let's create it in `$HOME/projects` and call it geodata
     {{{
 mkdir -p $HOME/projects
 cd $HOME/projects
 grails create-plugin geodata
 cd geodata
 }}}
- # Add some OMAR dependencies to your plugin. Edit your plugins grails-app/conf/BuildConfig.groovy and add the following to use GeoScript,  PostGIS, and OpenLayers plugins.
+ # Add some OMAR dependencies to your plugin. Edit your plugins `grails-app/conf/BuildConfig.groovy` and add the following to use GeoScript,  PostGIS, and OpenLayers plugins.
     {{{
 grails.plugin.location.postgis = "${System.env['OMAR_DEV_HOME']}/plugins/postgis"
 grails.plugin.location.geoscript = "${System.env['OMAR_DEV_HOME']}/plugins/geoscript"
@@ -48,7 +48,7 @@ tomcat              1.3.7            --  Apache Tomcat plugin for Grails
     {{{
 grails create-domain-class geodata.City
 }}}
- # Modify Domain Class. Open up the domain class at $PLUGIN_HOME/grails-app/domain/geodata and copy the following contents into it
+ # Modify Domain Class. Open up the domain class at `$PLUGIN_HOME/grails-app/domain/geodata` and copy the following contents into it
     {{{
 
 package geodata
@@ -90,7 +90,7 @@ class City
   }
 }
 }}}
- # Create  a loader for the CSV data. Create the file $PLUGIN_HOME/src/groovy/geodata/CityData.groovy and add the following to it.
+ # Create  a loader for the CSV data. Create the file `$PLUGIN_HOME/src/groovy/geodata/CityData.groovy` and add the following to it.
     {{{
 package geodata
 
@@ -134,17 +134,17 @@ class CityData
   }
 }
 }}}
- # Copy the [https://icode-mda.googlecode.com/svn/wiki/scripts/cities.csv cities.csv] file to your machine. I will copy it to $OMAR_DEV_HOME/data.
- # Make OMAR aware of your plugin. Add the following to $OMAR_HOME/grails-app/conf/BuildConfig.groovy
+ # Copy the [https://icode-mda.googlecode.com/svn/wiki/scripts/cities.csv cities.csv] file to your machine. I will copy it to `$OMAR_DEV_HOME/data`.
+ # Make OMAR aware of your plugin. Add the following to `$OMAR_HOME/grails-app/conf/BuildConfig.groovy`
     {{{
 grails.plugin.location.geodata = "${System.env['HOME']}/projects/geodata"
 }}}
- # Verify your plugin is found. From $OMAR_HOME, use the following command
+ # Verify your plugin is found. From `$OMAR_HOME`, use the following command
     {{{
 grails list-plugins
 }}}
   You should see geodata 0.1 listed.
- # Add the following to OMAR's  grails-app/conf/BootStrap.groovy.  This will be executed every time OMAR is started.
+ # Add the following to OMAR's  `grails-app/conf/BootStrap.groovy`.  This will be executed every time OMAR is started.
   * At the top of the file    
 {{{
 import geodata.City
@@ -157,7 +157,7 @@ if ( City.count() == 0 )
     CityData.load('/opt/radiantblue/omar/data/cities.csv')  //!!!!! Don't forget to update this to your actual path.
 }
 }}}
- # Test it! Run your application from $OMAR_HOME
+ # Test it! Run your application from `$OMAR_HOME`
     {{{
 ./run.sh dev app true
 }}}
