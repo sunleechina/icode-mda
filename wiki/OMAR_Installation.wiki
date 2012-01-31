@@ -216,8 +216,11 @@ cd $OMAR_HOME
 
 
 =Trouble Shooting=
- # I'm getting "java.lang.UnsatisfiedLinkError: no joms in java.library.path"
-Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
+ # I'm getting the following error message:
 {{{
-sudo chmod +x libjoms.so
+"java.lang.UnsatisfiedLinkError: no joms in java.library.path"
+}}}
+ Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
+ {{{
+ sudo chmod +x libjoms.so
 }}}
