@@ -207,6 +207,11 @@ cd $OMAR_HOME
  # Use Omar
 {{{
 1. Open browser to http://localhost:8080/omar
+}}} 
+ # Default logins are:
+{{{
+    User: admin Pw: admin
+    User: user  Pw: user
 }}}
 
 
