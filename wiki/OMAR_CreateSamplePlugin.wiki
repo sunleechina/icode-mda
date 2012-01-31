@@ -33,8 +33,6 @@ grails list-plugins
 Plug-ins you currently have installed are listed below:
 -------------------------------------------------------------
 
-
-csv                 0.3.1            --  Grails CSV Plugin
 geodata             0.1              --  Plugin summary/headline
 geoscript           0.6              --  Adds Groovy Geoscript 0.98 support + WMS/WFS support
 hibernate           1.3.7            --  Hibernate for Grails
@@ -89,6 +87,40 @@ class City
     }
   }
 }
+}}}
+ # Create a Controller class 
+    {{{
+   grails create-controller geodata.City
+}}}
+ # Add the following to the new Controller class
+    {{{
+   	package geodata
+
+	import grails.converters.JSON
+	import grails.converters.XML
+
+	class CityController
+	{
+	  def scaffold = true
+
+	  def export = {
+		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+
+		 withFormat {
+			//html { redirect action: "list", params: params }
+		        html { render view: "list", params: params }
+			json {
+			     def cityInstanceList = City.list(params)
+				        render cityInstanceList as JSON
+			}
+			xml {
+			     def cityInstanceList = City.list(params)
+				        render cityInstanceList as XML
+			}
+		}
+	}
+      }
+
 }}}
  # Create  a loader for the CSV data. Create the file `$PLUGIN_HOME/src/groovy/geodata/CityData.groovy` and add the following to it.
     {{{
