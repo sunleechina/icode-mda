@@ -208,3 +208,11 @@ cd $OMAR_HOME
 {{{
 1. Open browser to http://localhost:8080/omar
 }}}
+
+
+=Trouble Shooting=
+ # I'm getting "java.lang.UnsatisfiedLinkError: no joms in java.library.path"
+Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
+{{{
+sudo chmod +x libjoms.so
+}}}
