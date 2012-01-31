@@ -188,6 +188,7 @@ if ( City.count() == 0 )
     CityData.load('/opt/radiantblue/omar/data/cities.csv')  //!!!!! Don't forget to update this to your actual path.
 }
 }}}
+ # Add the [https://icode-mda.googlecode.com/svn/wiki/scripts/main.gsp main.gsp] file to both the OMAR and Plugin grails-app/views/layouts folder.
  # Test it! Run your application from `$OMAR_HOME`
     {{{
 ./run.sh dev app true
