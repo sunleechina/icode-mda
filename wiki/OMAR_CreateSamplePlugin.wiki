@@ -24,7 +24,7 @@ grails.plugin.location.postgis = "${System.env['OMAR_DEV_HOME']}/plugins/postgis
 grails.plugin.location.geoscript = "${System.env['OMAR_DEV_HOME']}/plugins/geoscript"
 grails.plugin.location.openlayers = "${System.env['OMAR_DEV_HOME']}/plugins/openlayers"
 }}}
- # Verify plugins installed correctly by doing the following.
+ # Verify plugins installed correctly by doing the following at the plugin home directory.
     {{{
 grails list-plugins
 }}} 
@@ -34,13 +34,12 @@ Plug-ins you currently have installed are listed below:
 -------------------------------------------------------------
 
 geodata             0.1              --  Plugin summary/headline
-geoscript           0.6              --  Adds Groovy Geoscript 0.98 support + WMS/WFS support
+geoscript           0.4              --  Adds Groovy Geoscript 0.95 support
 hibernate           1.3.7            --  Hibernate for Grails
 openlayers          0.12             --  OpenLayers
-postgis             0.16             --  PostGIS
-release             1.0.0            --  Release Plugin
-svn                 1.0.1            --  Subversion Plugin
+postgis             0.15             --  PostGIS
 tomcat              1.3.7            --  Apache Tomcat plugin for Grails
+
    }}}
  # Add Domain class.  Domain is the "M" in MVC (Model View Control).
     {{{
