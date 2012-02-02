@@ -34,7 +34,14 @@ A Web Map Service (WMS) is a standard protocol for serving georeferenced map ima
                     params: [layers: (useTileCache) ? "omar" : "Reference", format: "image/jpeg"],
                     name: "Reference Data",
                     options: defaultOptions
+            ],
+            
+            [
+                  url: "http://vmap0.tiles.osgeo.org/wms/vmap0",
+                  params: [layers: "basic", format: "image/png", transparent: true],
+                  name: "VMAP",
+                  options: defaultOptions
             ]
 
-			]
+	]
 }}}
