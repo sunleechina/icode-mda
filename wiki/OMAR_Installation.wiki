@@ -178,7 +178,7 @@ ProxyPass /omar http://localhost:8080/omar
 ProxyPassReverse /omar http://localhost:8080/omar
 }}}
  # Disable SELinux by editing the "/etc/sysconfig/selinux" file and changing it to disabled and reboot
- # Get Test Images. Download 200406 images from http://visibleearth.nasa.gov/view_detail.php?id=7129 and convert them to tiff. Or you can skip this step and set up your WMS layers instead(See [OMAR_ADD_WMS_LAYER OMAR_WMS Layers] :
+ # Get Test Images. Download 200406 images from http://visibleearth.nasa.gov/view_detail.php?id=7129 and convert them to tiff.  Or you can skip this step and set up your WMS layers instead(See [OMAR_ADD_WMS_LAYER Add OMAR WMS Layers])
 {{{
 gdal_translate -of GTiff -a_srs "+proj=latlong +datum=WGS84" -a_ullr -180 90 -90   0 world.topo.200406.3x21600x21600.A1.png A1.tif
 gdal_translate -of GTiff -a_srs "+proj=latlong +datum=WGS84" -a_ullr -90  90   0   0 world.topo.200406.3x21600x21600.B1.png B1.tif
