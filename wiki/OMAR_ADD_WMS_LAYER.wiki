@@ -10,8 +10,8 @@ A Web Map Service (WMS) is a standard protocol for serving georeferenced map ima
 
 == List of Free WMS servers you can use ==
  * http://hyperquad.ucsd.edu/cgi-bin/onearth?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetCapabilities
- *http://128.102.22.115/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetCapabilities
- *http://ogc.bgs.ac.uk/fcgi-bin/exemplars/BGS_Bedrock_and_Superficial_Geology/wms?SERVICE=WMS&REQUEST=GetCapabilities
+ * http://128.102.22.115/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetCapabilities
+ * http://ogc.bgs.ac.uk/fcgi-bin/exemplars/BGS_Bedrock_and_Superficial_Geology/wms?SERVICE=WMS&REQUEST=GetCapabilities
 
 == Add WMS to OMAR ==
  To add WMS to OMAR, edit the $OMAR_HOME/grails-app/conf/Config.groovy file. Find the layers portion and edit it to this:
