@@ -129,4 +129,4 @@ Once you have properly edited the above batch files, you should be able to run *
 = Running the ICODE-MDA Applications =
 For the applications to run, they need to have the DLLs visible to the application. This can be done in two ways
  # By copying each DLL that is required by the application to the same folder that the executable is located in.
- # By adding the path to the third party DLLs to your system path. From a command prompt, you can type {{{set PATH=D:/libraries/ossim/3rd-party/bin/win32;%PATH%}}} before running your application in the same command prompt, or you can add it to your system environment variables.
+ # By adding the path to the third party DLLs to your system path. From a command prompt, you can type {{{set PATH=D:/libraries/ossim/3rd-party/bin/win32;%PATH%}}} before running your application in the same command prompt, or you can add it to your system environment variables (similar to how we added the OSSIM_PREFS_FILE variable above).
