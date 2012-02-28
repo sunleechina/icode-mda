@@ -127,6 +127,8 @@ If you choose to use a newer version of OpenCV, you will also need to make sure 
 Once you have properly edited the above batch files, you should be able to run *build_cmake_project_vs10.bat* to create a Visual Studio 2010 project which can be opened to used to build the application. Because only the Release version of the libraries is included, you should build your project in release mode.
 
 = Running the ICODE-MDA Applications =
-For the applications to run, they need to have the DLLs visible to the application. This can be done in two ways
+For the applications to run, they need to have the DLLs that were used to build them visible to the applications at runtime. This can be done in two ways:
  # By copying each DLL that is required by the application to the same folder that the executable is located in.
  # By adding the path to the third party DLLs to your system path. From a command prompt, you can type {{{set PATH=D:/libraries/ossim/3rd-party/bin/win32;%PATH%}}} before running your application in the same command prompt, or you can add it to your system environment variables (similar to how we added the OSSIM_PREFS_FILE variable above).
+
+If you have configured your project in a way different than described above, it may be required to also include the path to the ossim DLLs in your system PATH. 
