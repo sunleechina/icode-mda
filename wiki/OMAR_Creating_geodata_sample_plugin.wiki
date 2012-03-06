@@ -440,10 +440,22 @@ grails create-app mygeodata-test
  # Add plugin dependencies 
   * Expand project, Click the "Configuration" folder and select the BuildConfig.groovy file.  Add the following at the end of the file
 {{{
-grails.plugin.location.postgis='../../plugins/postgis'
-grails.plugin.location.geoscript='../../plugins/geoscript'
-grails.plugin.location.openlayers='../../plugins/openlayers'
-grails.plugin.location.mygeodata='../../plugins/mygeodata'
+
+grails.plugin.location.'omar-core' = "../../plugins/omar-core"
+grails.plugin.location.'omar-oms' = "../../plugins/omar-oms"
+grails.plugin.location.'omar-ogc' = "../../plugins/omar-ogc"
+grails.plugin.location.'omar-stager' = "../../plugins/omar-stager"
+grails.plugin.location.'omar-raster' = "../../plugins/omar-raster"
+grails.plugin.location.'omar-video' = "../../plugins/omar-video"
+grails.plugin.location.'omar-security-spring' = "../../plugins/omar-security-spring"
+grails.plugin.location.'omar-rss' = "../../plugins/omar-rss"
+grails.plugin.location.'omar-superoverlay' = "../../plugins/omar-superoverlay"
+grails.plugin.location.'omar-rss' = "../../plugins/omar-rss"
+grails.plugin.location.'postgis'='../../plugins/postgis'
+grails.plugin.location.'geoscript'='../../plugins/geoscript'
+grails.plugin.location.'openlayers'='../../plugins/openlayers'
+
+grails.plugin.location.'mygeodata'='../../plugins/mygeodata'
 }}}
  # Modify Data Source information
   * Under the Configuration folder of your test app, open DataSource.groovy and modify it to the following:
