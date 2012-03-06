@@ -402,84 +402,29 @@ def cityMapService
  # Add a new Layout to your plugin.
   * Under "Views and Layouts" folder click into the "layouts" folder and add the following file as "main.gsp".
 {{{
-<!--
-  To change this template, choose Tools | Templates
-  and open the template in the editor.
--->
-
-<%@ page contentType="text/html;charset=UTF-8" %>
-
+<!DOCTYPE html>
 <html>
-  
-  <head>
-  <title>Cities Map</title>
-  <meta content="main" name="layout">
-
-  <link rel="stylesheet" href="${resource(plugin: 'openlayers', dir: 'js/theme/default', file: 'style.css')}"
-        type="text/css">
-
-  <style type="text/css">
-  #map {
-    background: #7391ad;
-    border: 1;
-    height: 512px;
-    width: 1024px;
-  }
-  </style>
-  <g:javascript plugin="openlayers" src="OpenLayers.js"/>
-  <g:javascript>
-    var lon = 0;
-    var lat = 0;
-    var map, layers;
-
-    function init()
-    {
-      <!-- -->
-      map = new OpenLayers.Map( 'map' );
-
-      layers = [
-
-        new OpenLayers.Layer.WMS("VMAP",
-          "http://vmap0.tiles.osgeo.org/wms/vmap0", 
-	  {layers:'basic'} 
-	  ),
-
-        new OpenLayers.Layer.WMS( "Reference",
-          "http://${InetAddress.localHost.hostAddress}/cgi-bin/mapserv?map=/data/omar/bmng.map&",
-          {layers:'Reference', format: 'image/jpeg'},
-          {buffer: 0, transitionEffect: 'resize'}
-          ),
-	  
-        new OpenLayers.Layer.WMS( "Cities",
-          "${createLink(controller: 'city', action: 'wms')}",
-          {layers:'city', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, fill: {color: "#000000", opacity: 0}, label: {property: "name"}}'},
-          {buffer: 0, transitionEffect: 'resize', isBaseLayer: false}
-          )
-      ];
-
-
-      map.addLayers( layers );
-      map.zoomToMaxExtent();
-      map.addControl( new OpenLayers.Control.LayerSwitcher() );
-    }
-  </g:javascript>
+<head>
+  <title><g:layoutTitle default="Grails"/></title>
+  <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}"/>
+  <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon"/>
+  <g:layoutHead/>
+  <g:javascript library="application"/>
 </head>
-  
-<body onload="init()">
-<div class="nav">
-  <span class="menuButton">
-    <a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
-  </span>
+
+<body onload="${pageProperty(name:'body.onload')}">
+<div id="spinner" class="spinner" style="display:none;">
+  <img src="${resource(dir: 'images', file: 'spinner.gif')}"
+       alt="${message(code: 'spinner.alt', default: 'Loading...')}"/>
 </div>
 
-<div class="body">
-  <br/>
-
-  <div id="map"></div>
+<div id="grailsLogo">
+  <a href="http://grails.org">
+    <img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails" border="0"/>
+  </a>
 </div>
-
+<g:layoutBody/>
 </body>
-  
 </html>
 
 }}}
