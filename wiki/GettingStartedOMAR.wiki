@@ -9,4 +9,5 @@ To get started with OMAR development, you will first have to get the development
 
 Once you have OMAR installed, you're ready to start developing. We've made a few guides to developing that are listed below:
   # [OMAR_CreateSamplePlugin Creating a sample plugin]
+  # [OMAR_Creating_geodata_sample_plugin Creating the Geodata plugin]
   # [OMAR_ADD_WMS_LAYER Adding a WMS layer]
