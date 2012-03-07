@@ -1,29 +1,29 @@
 * [Home ICODE-MDA Wiki Home]
 
 * Getting Started
- * [GettingStarted OSSIM/OpenCV]
- * [GettingStartedOMAR OMAR]
+  * [GettingStarted OSSIM/OpenCV]
+  * [GettingStartedOMAR OMAR]
 
 * Imagery and Data
- * [LessonGeoRef How to Georeference an Image]
- * [LessonESA Introduction to an ESA proposal for data]
- * [LessonCannyHough Introduction to the Canny Edge Filter and Hough Transform]
- * [LessonKmeans Introduction to k-means]
- * [LessonNDVI Introduction to NDVI]
- * [LessonAIS Introduction to AIS]
+  * [LessonGeoRef How to Georeference an Image]
+  * [LessonESA Introduction to an ESA proposal for data]
+  * [LessonCannyHough Introduction to the Canny Edge Filter and Hough Transform]
+  * [LessonKmeans Introduction to k-means]
+  * [LessonNDVI Introduction to NDVI]
+  * [LessonAIS Introduction to AIS]
 
 * Working with OSSIM
- * [IntroductionToOSSIM Introduction to OSSIM]
- * [LessonOverview General Satellite Imaging Overview]
- * [LessonImageLinker ImageLinker Overview]
- * [LessonOpenCV Using OpenCV and working with blobs]
- * [LessonBuildOSSIM How to Build OSSIM]
- * [LessonOSSIMfilter The OSSIM tileToIplFilter]
- * [LessonKMLshp Using KMLs and SHPs with OSSIM]
+  * [IntroductionToOSSIM Introduction to OSSIM]
+  * [LessonOverview General Satellite Imaging Overview]
+  * [LessonImageLinker ImageLinker Overview]
+  * [LessonOpenCV Using OpenCV and working with blobs]
+  * [LessonBuildOSSIM How to Build OSSIM]
+  * [LessonOSSIMfilter The OSSIM tileToIplFilter]
+  * [LessonKMLshp Using KMLs and SHPs with OSSIM]
 
 * Working with OMAR
- * [OMAR_CreateSamplePlugin Creating a Sample Plugin]
- * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
- * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
+  * [OMAR_CreateSamplePlugin Creating a Sample Plugin]
+  * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
+  * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
 
 * [References References]
