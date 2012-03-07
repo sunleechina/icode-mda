@@ -17,7 +17,7 @@ If you're primarily interested in web-portal development, you should check out o
 
 = Imagery and Data =
 
-  * [LessonGeoRef How to Georeference an Image]
+  * [LessonGeoRef How to georeference an Image]
   * [LessonESA Introduction to an ESA proposal for data]
   * [LessonCannyHough Introduction to the Canny Edge Filter and Hough Transform]
   * [LessonKmeans Introduction to k-means]
