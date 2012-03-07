@@ -1,5 +1,4 @@
 #summary Wiki pages for ICODE
-<h1><em>Site is currently under construction. Please excuse our dust.</em></h1>
 
 <wiki:toc max_depth="3" />
 
