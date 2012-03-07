@@ -2,6 +2,9 @@
 
 * Getting Started
 
+  * [GettingStarted OSSIM/OpenCV]
+  * [GettingStartedOMAR OMAR]
+
 * Imagery and Data
 
   * [LessonGeoRef How to Georeference an Image]
