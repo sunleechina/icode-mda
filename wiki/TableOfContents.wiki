@@ -1,4 +1,4 @@
-* [Home Wiki Home]
+* [Home ICODE-MDA Wiki Home]
 
 * Getting Started
  * [GettingStarted OSSIM/OpenCV]
