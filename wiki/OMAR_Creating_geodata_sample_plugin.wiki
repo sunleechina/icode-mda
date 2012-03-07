@@ -513,7 +513,20 @@ if ( City.count() == 0 )
           CityData.load()
         }
 }}}
- # Run application 
+ # Create the database
+  * Change directory to: $OMAR_DEV_HOME/apps/mygeodata-test
+  * Run command:
+{{{
+grails dev create-postgis-database
+}}}
+  * Alternatively, if your mygeodata project is under production mode, then run this instead:
+{{{
+grails prod create-postgis-database
+}}}
+ # Run the mygeodata-test application, either in Netbeans->"Run mygeodata-test" (F6) or from command line:
+{{{
+grails dev run-app
+}}}
  # Visit the following link to see the City Data
 {{{
 http://localhost:8080/mygeodata-test/city/list
