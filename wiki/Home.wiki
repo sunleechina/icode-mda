@@ -15,29 +15,31 @@ After you have looked through the lessons, or if you are already familiar with t
 
 If you're primarily interested in web-portal development, you should check out our [GettingStartedOMAR Getting Started with OMAR] page. It has information on how to get the development environment setup and how to extend OMAR.
 
-= Lessons =
-* [IntroductionToOSSIM Introduction to OSSIM]
+= Imagery and Data =
 
-* [LessonOverview General Satellite Imaging Overview]
+  * [LessonGeoRef How to Georeference an Image]
+  * [LessonESA Introduction to an ESA proposal for data]
+  * [LessonCannyHough Introduction to the Canny Edge Filter and Hough Transform]
+  * [LessonKmeans Introduction to k-means]
+  * [LessonNDVI Introduction to NDVI]
+  * [LessonAIS Introduction to AIS]
 
-* [LessonImageLinker ImageLinker Overview]
+= Working with OSSIM =
 
-* [LessonOpenCV Using OpenCV and working with blobs]
+  * [IntroductionToOSSIM Introduction to OSSIM]
+  * [LessonOverview General Satellite Imaging Overview]
+  * [LessonImageLinker ImageLinker Overview]
+  * [LessonOpenCV Using OpenCV and working with blobs]
+  * [LessonBuildOSSIM How to Build OSSIM]
+  * [LessonOSSIMfilter The OSSIM tileToIplFilter]
+  * [LessonKMLshp Using KMLs and SHPs with OSSIM]
 
-* [LessonBuildOSSIM How to Build OSSIM]
+= Working with OMAR =
 
-* [LessonOSSIMfilter The OSSIM tileToIplFilter]
+  * [OMAR_CreateSamplePlugin Creating a Sample Plugin]
+  * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
+  * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
 
-* [LessonKMLshp Using KMLs and SHPs with OSSIM]
+= References =
 
-* [LessonGeoRef How to Georeference an Image]
-
-* [LessonESA Introduction to an ESA proposal for data]
-
-* [LessonCannyHough Introduction to the Canny Edge Filter and Hough Transform]
-
-* [LessonKmeans Introduction to k-means]
-
-* [LessonNDVI Introduction to NDVI]
-
-* [LessonAIS Introduction to AIS]
+  * [References References]
