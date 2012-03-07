@@ -1,6 +1,4 @@
-* [Home ICODE-MDA Wiki Home]
-
-
+[Home ICODE-MDA Wiki Home]
 
 * Getting Started
 
