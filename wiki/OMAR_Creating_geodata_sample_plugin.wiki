@@ -301,7 +301,7 @@ class CityMapService {
 
 }}}
  # Modify the CityController.groovy file to include the index and wms actions.  Notices that this is different then what they are doing in the geodata sample. They put these actions inside the application.  We are changing it a bit so that most of the work we do will be inside our plugin and not in the application (IE OMAR)
-  * Add the top of your controller add the following:
+  * Inside the class of the controller, add to the top:
 {{{
 def cityMapService
 }}}
