@@ -3,7 +3,6 @@
 * Getting Started
   * [GettingStarted OSSIM/OpenCV]
   * [GettingStartedOMAR OMAR]
-
 * Imagery and Data
   * [LessonGeoRef How to Georeference an Image]
   * [LessonESA Introduction to an ESA proposal for data]
@@ -11,7 +10,6 @@
   * [LessonKmeans Introduction to k-means]
   * [LessonNDVI Introduction to NDVI]
   * [LessonAIS Introduction to AIS]
-
 * Working with OSSIM
   * [IntroductionToOSSIM Introduction to OSSIM]
   * [LessonOverview General Satellite Imaging Overview]
@@ -20,10 +18,8 @@
   * [LessonBuildOSSIM How to Build OSSIM]
   * [LessonOSSIMfilter The OSSIM tileToIplFilter]
   * [LessonKMLshp Using KMLs and SHPs with OSSIM]
-
 * Working with OMAR
   * [OMAR_CreateSamplePlugin Creating a Sample Plugin]
   * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
   * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
-
 * [References References]
