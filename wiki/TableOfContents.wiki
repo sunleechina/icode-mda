@@ -22,6 +22,8 @@
  * [LessonAIS Introduction to AIS]
 
 * Working with OMAR
+ * [OMAR_CreateSamplePlugin Creating a Sample Plugin]
+ * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
  * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
 
 * [References References]
