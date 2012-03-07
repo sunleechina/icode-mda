@@ -1,7 +1,9 @@
 * [Home ICODE-MDA Wiki Home]
+
 * Getting Started
   * [GettingStarted OSSIM/OpenCV]
   * [GettingStartedOMAR OMAR]
+
 * Imagery and Data
   * [LessonGeoRef How to Georeference an Image]
   * [LessonESA Introduction to an ESA proposal for data]
