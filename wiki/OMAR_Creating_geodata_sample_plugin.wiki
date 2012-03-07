@@ -523,7 +523,7 @@ grails dev create-postgis-database
 {{{
 grails prod create-postgis-database
 }}}
- # Run the mygeodata-test application, either in Netbeans->"Run mygeodata-test" (F6) or from command line:
+ # Run the mygeodata-test application, either in Netbeans->"Run mygeodata-test" (F6) or from command line (inside the mygeodata-test project directory):
 {{{
 grails dev run-app
 }}}
