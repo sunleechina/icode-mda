@@ -67,7 +67,8 @@ Brute Force - For each descriptor in the first set, this matcher finds the close
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1526165&isnumber=32595
 
   * M. M. Bowen , W. J. Emery , J. Wilken , P. C. Tildesley , I. J. Barton and R. Knewtson  "Extracting multi-year surface currents from sequential thermal imagery using the maximum cross correlation technique",  J. Atmos. Ocean. Technol.,  vol. 19,  pp.1665 2002
-Crocker, R. I.; Matthews, D. K.; Emery, W. J.; Baldwin, D. G.; , "Computing Coastal Ocean Surface Currents From Infrared and Ocean Color Satellite Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.45, no.2, pp.435-447, Feb. 2007
+
+  * Crocker, R. I.; Matthews, D. K.; Emery, W. J.; Baldwin, D. G.; , "Computing Coastal Ocean Surface Currents From Infrared and Ocean Color Satellite Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.45, no.2, pp.435-447, Feb. 2007
   doi: 10.1109/TGRS.2006.883461
   
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4069100&isnumber=4069093
