@@ -1,19 +1,6 @@
 #summary Some project ideas that we think would be cool to work on
-
+<wiki:toc max_depth="4" />
 =Project Ideas=
-
-Contents
-  # Ship Detection in Synthetic Aperture Radar Imagery	1
-  # Data Correlation and Tracking	3
-  # Ocean Surface Analysis (Oil slick detection, Ocean current detection/analysis)
-  # Vessel Classification from Hyperspectral and Multispectral data	
-  # High performance computing + Hyperspectral imagery processing	
-  # Algae Bloom Detection Using Remotely Sensed Data
-  # Vessel Track Anomaly Detection and Position Prediction
-  # Vessel Information/Static  Anomaly Detection
-  # Small Vessel Detection in Coastal Radar Data
-
-
 ==Ship Detection in Synthetic Aperture Radar Imagery==
 Liu, Yingjian; Ma, Hui; Yang, Yanming; Liu, Yanyan; , "Automatic ship detection from SAR images," Spatial Data Mining and Geographical Knowledge Services (ICSDM), 2011 IEEE International Conference on , vol., no., pp.386-388, June 29 2011-July 1 2011
 doi: 10.1109/ICSDM.2011.5969070
