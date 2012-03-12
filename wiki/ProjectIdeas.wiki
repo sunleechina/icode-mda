@@ -1,4 +1,4 @@
-#summary Some project ideas that we think would be cool to work on
+#summary Some project ideas that we think would be cool to work on. The page also includes references.
 <wiki:toc max_depth="4" />
 =Project Ideas=
 ==Ship Detection in Synthetic Aperture Radar Imagery==
