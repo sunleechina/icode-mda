@@ -79,7 +79,8 @@ Brute Force - For each descriptor in the first set, this matcher finds the close
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1370214&isnumber=29951
 
   * W. J. Emery , C. Fowler and A. Clayson  "Satellite-image-derived Gulf Stream currents compared with numerical model results",  J. Atmos. Ocean. Technol.,  vol. 9,  pp.286 1992
-Fernandez, D.M.; Teague, C.C.; Vesecky, J.F.; Roughgarden, J.D.; , "Upwelling and relaxation events inferred from high-frequency radar measurements of coastal ocean surface currents," Geoscience and Remote Sensing Symposium, 1993. IGARSS '93. Better Understanding of Earth Environment., International , vol., no., pp.1931-1933 vol.4, 18-21 Aug 1993
+
+  * Fernandez, D.M.; Teague, C.C.; Vesecky, J.F.; Roughgarden, J.D.; , "Upwelling and relaxation events inferred from high-frequency radar measurements of coastal ocean surface currents," Geoscience and Remote Sensing Symposium, 1993. IGARSS '93. Better Understanding of Earth Environment., International , vol., no., pp.1931-1933 vol.4, 18-21 Aug 1993
   doi: 10.1109/IGARSS.1993.322377
   
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=322377&isnumber=7705
@@ -90,50 +91,58 @@ Fernandez, D.M.; Teague, C.C.; Vesecky, J.F.; Roughgarden, J.D.; , "Upwelling an
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4422938&isnumber=4422708
 
 
-==Vessel Classification from Hyperspectral and Multispectral data 
-Key Algorithms:  Anomaly Detection (ie RX anomaly detection), spectral classification methods==
+==Vessel Classification from Hyperspectral and Multispectral data Key Algorithms:  Anomaly Detection (ie RX anomaly detection), spectral classification methods==
   * Bo Du; Liangpei Zhang; , "Random-Selection-Based Anomaly Detector for Hyperspectral Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1578-1589, May 2011
   doi: 10.1109/TGRS.2010.2081677
 
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5628269&isnumber=5753065
 
   * Patra, S.; Bruzzone, L.; , "A Fast Cluster-Assumption Based Active-Learning Technique for Classification of Remote Sensing Images," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1617-1626, May 2011
-doi: 10.1109/TGRS.2010.2083673
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5659475&isnumber=5753065
+  doi: 10.1109/TGRS.2010.2083673
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5659475&isnumber=5753065
 
   * Chein-I Chang; Weimin Liu; Chein-Chi Chang; , "Discrimination and identification for subpixel targets in hyperspectral imagery," Image Processing, 2004. ICIP '04. 2004 International Conference on , vol.5, no., pp. 3339- 3342 Vol. 5, 24-27 Oct. 2004
-doi: 10.1109/ICIP.2004.1421829
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1421829&isnumber=30680
+  doi: 10.1109/ICIP.2004.1421829
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1421829&isnumber=30680
 
   * Veracini, T.; Matteoli, S.; Diani, M.; Corsini, G.; , "Robust hyperspectral image segmentation based on a non-Gaussian model," Cognitive Information Processing (CIP), 2010 2nd International Workshop on , vol., no., pp.192-197, 14-16 June 2010
-doi: 10.1109/CIP.2010.5604242
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5604242&isnumber=5604034
+  doi: 10.1109/CIP.2010.5604242
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5604242&isnumber=5604034
 
 
 ==High performance computing + Hyperspectral imagery processing==
   * Sánchez, S.; Plaza, A.; , "GPU implementation of the pixel purity index algorithm for hyperspectral image analysis," Cluster Computing Workshops and Posters (CLUSTER WORKSHOPS), 2010 IEEE International Conference on , vol., no., pp.1-7, 20-24 Sept. 2010
-doi: 10.1109/CLUSTERWKSP.2010.5613110
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5613110&isnumber=5613076
+  doi: 10.1109/CLUSTERWKSP.2010.5613110
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5613110&isnumber=5613076
 
   * Plaza, A.; Qian Du; Yang-Lang Chang; , "High performance computing for hyperspectral image analysis: Perspective and state-of-the-art," Geoscience and Remote Sensing Symposium,2009 IEEE International,IGARSS 2009 , vol.5, no., pp.V-72-V-75, 12-17 July 2009
-doi: 10.1109/IGARSS.2009.5417729
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5417729&isnumber=5417612
+  doi: 10.1109/IGARSS.2009.5417729
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5417729&isnumber=5417612
 
 ==Algae Bloom Detection Using Remotely Sensed Data==
   * Richardson, L.L.; Ambrosia, V.G.; , "Hyperspectral imaging sensors and assessment of oceanic littoral zone phytoplankton dynamics," OCEANS '96. MTS/IEEE. 'Prospects for the 21st Century'. Conference Proceedings , vol.3, no., pp.1279-1284 vol.3, 23-26 Sep 1996
-doi: 10.1109/OCEANS.1996.569087
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=569087&isnumber=12378
+  doi: 10.1109/OCEANS.1996.569087
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=569087&isnumber=12378
 
   * Bentz, C.M.; Politano, A.T.; Ebecken, N.F.F.; , "Automatic recognition of coastal and oceanic environmental events with orbital radars," Geoscience and Remote Sensing Symposium, 2007. IGARSS 2007. IEEE International , vol., no., pp.914-916, 23-28 July 2007
-doi: 10.1109/IGARSS.2007.4422946
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4422946&isnumber=4422708
+  doi: 10.1109/IGARSS.2007.4422946
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4422946&isnumber=4422708
 
   * Kutser, Tiit; “Quantitative Detection of Chlorophyll in Cyanobacterial Blooms by Satellite Remote Sensing,” Limnology and Oceanography, Vol. 49, No. 6 (Nov., 2004), pp. 2179-2189 
-URL: http://www.jstor.org/stable/3597522 
+
+  URL: http://www.jstor.org/stable/3597522 
 
   * Rud, O.; Gade, M.; , "Using multi-sensor data for algae bloom monitoring," Geoscience and Remote Sensing Symposium, 2000. Proceedings. IGARSS 2000. IEEE 2000 International , vol.4, no., pp.1714-1716 vol.4, 2000
-doi: 10.1109/IGARSS.2000.857322
-URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=857322&isnumber=18598
+  doi: 10.1109/IGARSS.2000.857322
+
+  URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=857322&isnumber=18598
 
 
 ==Vessel Track Anomaly Detection and Position Prediction==
