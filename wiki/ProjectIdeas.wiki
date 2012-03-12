@@ -1,0 +1,136 @@
+#summary Some project ideas that we think would be cool to work on
+
+=Project Ideas=
+
+Contents
+1) Ship Detection in Synthetic Aperture Radar Imagery	1
+2) Data Correlation and Tracking	3
+3)  Ocean Surface Analysis (Oil slick detection, Ocean current detection/analysis)	3
+4)  Vessel Classification from Hyperspectral and Multispectral data	4
+5) High performance computing + Hyperspectral imagery processing	5
+6) Algae Bloom Detection Using Remotely Sensed Data	5
+7)  Vessel Track Anomaly Detection and Position Prediction	6
+8)  Vessel Information/Static  Anomaly Detection	6
+9)  Small Vessel Detection in Coastal Radar Data	7
+
+
+==Ship Detection in Synthetic Aperture Radar Imagery==
+Liu, Yingjian; Ma, Hui; Yang, Yanming; Liu, Yanyan; , "Automatic ship detection from SAR images," Spatial Data Mining and Geographical Knowledge Services (ICSDM), 2011 IEEE International Conference on , vol., no., pp.386-388, June 29 2011-July 1 2011
+doi: 10.1109/ICSDM.2011.5969070
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5969070&isnumber=5968118
+Changren Zhu; Hui Zhou; Runsheng Wang; Jun Guo; , "A Novel Hierarchical Method of Ship Detection from Spaceborne Optical Image Based on Shape and Texture Features," Geoscience and Remote Sensing, IEEE Transactions on , vol.48, no.9, pp.3446-3456, Sept. 2010
+doi: 10.1109/TGRS.2010.2046330
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5454348&isnumber=5552163
+Wang Juan; Sun Lijie; , "Study on Ship Target Detection and Recognition in SAR imagery," Information Science and Engineering (ICISE), 2009 1st International Conference on , vol., no., pp.1456-1459, 26-28 Dec. 2009
+doi: 10.1109/ICISE.2009.1132
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5454744&isnumber=5454428
+Ting Liu; Lampropoulos, G.A.; Chuhong Fei; , "CFAR ship detection system using polarimetric data," Radar Conference, 2008. RADAR '08. IEEE , vol., no., pp.1-4, 26-30 May 2008
+doi: 10.1109/RADAR.2008.4721035
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4721035&isnumber=4720717
+ 
+==Data Correlation and Tracking==
+There are two components to the problem.  
+1)  Creating and maintaining tracks from data points.
+2)  Fusing tracks and/or data points from several data sources.
+multi-sensor Trackers --
+
+New track correlation algorithms in a multisensor data fusion system , by He You, Zhang Jingwei, Aerospace and Electronic Systems IEEE (2006) 
+Volume: 42, Issue: 4, Pages: 1359-1371
+
+Architectures and Algorithms for Track Association and Fusion
+http://ite.gmu.edu/~kchang/publications/conference_pdf/con%20_7_ARCH_AND_ALGO.PDF
+
+Multiple hypothesis tracking for multiple target tracking, Aerospace and Electronic Systems Magazine, IEEE , January 2004.  Pages 5 - 18 .  Blackman, S.S.;  http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1263228 
+
+Good info from Matlab thread
+http://www.mathworks.cn/matlabcentral/newsreader/view_thread/249783 
+
+Algorithms for matching vectors.  We can think of two distinct sets of data as two sets of vectrors
+[ lat lon length width heading ....]
+To correlate data set 1 with data set 2, we need to find the best match between each of the vectors in data set 1 with all of the vectors in dataset 2
+OpenCV has many algorithms for matching vectors.  Although they are used in OpenCV for matching image feature vectors, they can also be used to match data vectors.  
+http://opencv.itseez.com/modules/features2d/doc/common_interfaces_of_descriptor_matchers.html 
+Data matching algorithms in OpenCV:
+KNN Matching - Finds the k best matches for each descriptor from a query set.
+Brute Force - For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one
+
+
+==Ocean Surface Analysis (Oil slick detection, Ocean current detection/analysis)==
+Innman, A.; Easson, G.; Asper, V.L.; Diercks, A.; , "The effectiveness of using MODIS products to map sea surface oil," OCEANS 2010 , vol., no., pp.1-5, 20-23 Sept. 2010
+doi: 10.1109/OCEANS.2010.5664416
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5664416&isnumber=5663781
+Mercier, G.; Girard-Ardhuin, F.; , "Oil slick detection by SAR imagery using Support Vector Machines," Oceans 2005 - Europe , vol.1, no., pp. 90- 95 Vol. 1, 20-23 June 2005
+doi: 10.1109/OCEANSE.2005.1511690
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1511690&isnumber=32366
+Lennon, M.; Thomas, N.; Mariette, V.; Babichenko, S.; Mercier, G.; , "Oil slick detection and characterization by satellite and airborne sensors: experimental results with SAR, hyperspectral and lidar data," Geoscience and Remote Sensing Symposium, 2005. IGARSS '05. Proceedings. 2005 IEEE International , vol.1, no., pp. 4 pp., 25-29 July 2005
+doi: 10.1109/IGARSS.2005.1526165
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1526165&isnumber=32595
+M. M. Bowen , W. J. Emery , J. Wilken , P. C. Tildesley , I. J. Barton and R. Knewtson  "Extracting multi-year surface currents from sequential thermal imagery using the maximum cross correlation technique",  J. Atmos. Ocean. Technol.,  vol. 19,  pp.1665 2002
+Crocker, R. I.; Matthews, D. K.; Emery, W. J.; Baldwin, D. G.; , "Computing Coastal Ocean Surface Currents From Infrared and Ocean Color Satellite Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.45, no.2, pp.435-447, Feb. 2007
+doi: 10.1109/TGRS.2006.883461
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4069100&isnumber=4069093
+Girard-Ardhuin, F.; Mercier, G.; Collard, F.; Garello, R.; , "Oil slick detection by SAR imagery: algorithms comparison," Geoscience and Remote Sensing Symposium, 2004. IGARSS '04. Proceedings. 2004 IEEE International , vol.7, no., pp.4726-4729 vol.7, 20-24 Sept. 2004
+doi: 10.1109/IGARSS.2004.1370214
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1370214&isnumber=29951
+W. J. Emery , C. Fowler and A. Clayson  "Satellite-image-derived Gulf Stream currents compared with numerical model results",  J. Atmos. Ocean. Technol.,  vol. 9,  pp.286 1992
+Fernandez, D.M.; Teague, C.C.; Vesecky, J.F.; Roughgarden, J.D.; , "Upwelling and relaxation events inferred from high-frequency radar measurements of coastal ocean surface currents," Geoscience and Remote Sensing Symposium, 1993. IGARSS '93. Better Understanding of Earth Environment., International , vol., no., pp.1931-1933 vol.4, 18-21 Aug 1993
+doi: 10.1109/IGARSS.1993.322377
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=322377&isnumber=7705
+Marcello, J.; Eugenio, F.; Marques, F.; , "Methodology for the estimation of ocean surface currents using region matching and differential algorithms," Geoscience and Remote Sensing Symposium, 2007. IGARSS 2007. IEEE International , vol., no., pp.882-885, 23-28 July 2007
+doi: 10.1109/IGARSS.2007.4422938
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4422938&isnumber=4422708
+
+
+==Vessel Classification from Hyperspectral and Multispectral data 
+Key Algorithms:  Anomaly Detection (ie RX anomaly detection), spectral classification methods==
+Bo Du; Liangpei Zhang; , "Random-Selection-Based Anomaly Detector for Hyperspectral Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1578-1589, May 2011
+doi: 10.1109/TGRS.2010.2081677
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5628269&isnumber=5753065
+Patra, S.; Bruzzone, L.; , "A Fast Cluster-Assumption Based Active-Learning Technique for Classification of Remote Sensing Images," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1617-1626, May 2011
+doi: 10.1109/TGRS.2010.2083673
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5659475&isnumber=5753065
+Chein-I Chang; Weimin Liu; Chein-Chi Chang; , "Discrimination and identification for subpixel targets in hyperspectral imagery," Image Processing, 2004. ICIP '04. 2004 International Conference on , vol.5, no., pp. 3339- 3342 Vol. 5, 24-27 Oct. 2004
+doi: 10.1109/ICIP.2004.1421829
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1421829&isnumber=30680
+Veracini, T.; Matteoli, S.; Diani, M.; Corsini, G.; , "Robust hyperspectral image segmentation based on a non-Gaussian model," Cognitive Information Processing (CIP), 2010 2nd International Workshop on , vol., no., pp.192-197, 14-16 June 2010
+doi: 10.1109/CIP.2010.5604242
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5604242&isnumber=5604034
+
+
+==High performance computing + Hyperspectral imagery processing==
+Sánchez, S.; Plaza, A.; , "GPU implementation of the pixel purity index algorithm for hyperspectral image analysis," Cluster Computing Workshops and Posters (CLUSTER WORKSHOPS), 2010 IEEE International Conference on , vol., no., pp.1-7, 20-24 Sept. 2010
+doi: 10.1109/CLUSTERWKSP.2010.5613110
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5613110&isnumber=5613076
+Plaza, A.; Qian Du; Yang-Lang Chang; , "High performance computing for hyperspectral image analysis: Perspective and state-of-the-art," Geoscience and Remote Sensing Symposium,2009 IEEE International,IGARSS 2009 , vol.5, no., pp.V-72-V-75, 12-17 July 2009
+doi: 10.1109/IGARSS.2009.5417729
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5417729&isnumber=5417612
+
+
+==Algae Bloom Detection Using Remotely Sensed Data==
+Richardson, L.L.; Ambrosia, V.G.; , "Hyperspectral imaging sensors and assessment of oceanic littoral zone phytoplankton dynamics," OCEANS '96. MTS/IEEE. 'Prospects for the 21st Century'. Conference Proceedings , vol.3, no., pp.1279-1284 vol.3, 23-26 Sep 1996
+doi: 10.1109/OCEANS.1996.569087
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=569087&isnumber=12378
+Bentz, C.M.; Politano, A.T.; Ebecken, N.F.F.; , "Automatic recognition of coastal and oceanic environmental events with orbital radars," Geoscience and Remote Sensing Symposium, 2007. IGARSS 2007. IEEE International , vol., no., pp.914-916, 23-28 July 2007
+doi: 10.1109/IGARSS.2007.4422946
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4422946&isnumber=4422708
+Kutser, Tiit; “Quantitative Detection of Chlorophyll in Cyanobacterial Blooms by Satellite Remote Sensing,” Limnology and Oceanography, Vol. 49, No. 6 (Nov., 2004), pp. 2179-2189 
+URL: http://www.jstor.org/stable/3597522 
+Rud, O.; Gade, M.; , "Using multi-sensor data for algae bloom monitoring," Geoscience and Remote Sensing Symposium, 2000. Proceedings. IGARSS 2000. IEEE 2000 International , vol.4, no., pp.1714-1716 vol.4, 2000
+doi: 10.1109/IGARSS.2000.857322
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=857322&isnumber=18598
+
+
+==Vessel Track Anomaly Detection and Position Prediction==
+
+The idea here is to take historical tracks of all vessels as derived from for example AIS or coastal radar, as well as models for vessel behavior and detect the presence of a kinematic anomalies.  In addition, using models for vessel movement and behavior, be able to predict the most likely position of a vessel in the future or based on the last received position.  Predicted positions should have confidence associated with them.
+
+==Vessel Information/Static  Anomaly Detection==
+
+Here, static information from a vessel is used to identify anomalies or high risk vessels.  This information may come from a variety of sources;
+i)  AIS static information like vessel name, MMSI, IMO, type, activity, cargo
+ii)  Open source information from sites like vesseltracker.com
+iii) Loyd's Fairplay data, which contains vessel owner, crew, cargo, and destination information.
+These algorithms/tools should recognize unusual or high risk information for vessels.
+
+==Small Vessel Detection in Coastal Radar Data==
+Here, the goal is to take raw radar data and detect and track small vessels, which may otherwise be lost in traditional radar processing.  
