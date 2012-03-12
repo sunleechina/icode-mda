@@ -3,15 +3,15 @@
 =Project Ideas=
 
 Contents
-1) Ship Detection in Synthetic Aperture Radar Imagery	1
-2) Data Correlation and Tracking	3
-3)  Ocean Surface Analysis (Oil slick detection, Ocean current detection/analysis)	3
-4)  Vessel Classification from Hyperspectral and Multispectral data	4
-5) High performance computing + Hyperspectral imagery processing	5
-6) Algae Bloom Detection Using Remotely Sensed Data	5
-7)  Vessel Track Anomaly Detection and Position Prediction	6
-8)  Vessel Information/Static  Anomaly Detection	6
-9)  Small Vessel Detection in Coastal Radar Data	7
+  #Ship Detection in Synthetic Aperture Radar Imagery	1
+  #Data Correlation and Tracking	3
+  #Ocean Surface Analysis (Oil slick detection, Ocean current detection/analysis)
+  #Vessel Classification from Hyperspectral and Multispectral data	
+  #High performance computing + Hyperspectral imagery processing	
+  #Algae Bloom Detection Using Remotely Sensed Data
+  #Vessel Track Anomaly Detection and Position Prediction
+  #Vessel Information/Static  Anomaly Detection
+  #Small Vessel Detection in Coastal Radar Data
 
 
 ==Ship Detection in Synthetic Aperture Radar Imagery==
