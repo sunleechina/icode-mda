@@ -6,6 +6,7 @@
 
   * [GettingStarted OSSIM/OpenCV]
   * [GettingStartedOMAR OMAR]
+  * [ProjectIdeas Project Ideas]
 
 * Imagery and Data
 
