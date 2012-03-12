@@ -15,6 +15,8 @@ After you have looked through the lessons, or if you are already familiar with t
 
 If you're primarily interested in web-portal development, you should check out our [GettingStartedOMAR Getting Started with OMAR] page. It has information on how to get the development environment setup and how to extend OMAR.
 
+to see a list of research ideas that we are interested in researching, check out the [ProjectIdeas Project Ideas page].
+
 = Imagery and Data =
 
   * [LessonGeoRef How to georeference an Image]
