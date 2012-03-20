@@ -190,8 +190,9 @@ A sampling of research on algae blooms is below:<br>
 
 The idea here is to take historical tracks of all vessels as derived from for example AIS or coastal radar, as well as models for vessel behavior and detect the presence of a kinematic anomalies.  In addition, using models for vessel movement and behavior, be able to predict the most likely position of a vessel in the future or based on the last received position.  Predicted positions should have confidence associated with them.
 
-  * Predict Personal Continuous Route. Qian Ye; Ling Chen; Gencai Chen; Intelligent Transportation Systems, 2008. ITSC 2008. 11th International IEEE Conference on Digital Object Identifier: 10.1109/ITSC.2008.4732585
-Publication Year: 2008 , Page(s): 587 - 592
+  * Qian Ye; Ling Chen; Gencai Chen; , "Predict Personal Continuous Route," Intelligent Transportation Systems, 2008. ITSC 2008. 11th International IEEE Conference on , vol., no., pp.587-592, 12-15 Oct. 2008
+doi: 10.1109/ITSC.2008.4732585
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4732585&isnumber=4732517
 
 ==Vessel Information/Static  Anomaly Detection==
 
