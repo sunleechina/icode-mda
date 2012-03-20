@@ -162,6 +162,10 @@ Below are a sampling of recent papers on the topic:<br>
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5417729&isnumber=5417612
 
 ==Algae Bloom Detection Using Remotely Sensed Data==
+An [http://en.wikipedia.org/wiki/Algae_bloom algae bloom] happens when an algae population grows very rapidly. Large algae blooms can be detected from space using remotely sensed data. Some algae blooms are known to be harmful, while others are not. Detecting an algae bloom can give you information about nutrient levels and danger to other aquatic species. 
+
+A sampling of research on algae blooms is below:<br>
+
   * Richardson, L.L.; Ambrosia, V.G.; , "Hyperspectral imaging sensors and assessment of oceanic littoral zone phytoplankton dynamics," OCEANS '96. MTS/IEEE. 'Prospects for the 21st Century'. Conference Proceedings , vol.3, no., pp.1279-1284 vol.3, 23-26 Sep 1996
   doi: 10.1109/OCEANS.1996.569087
 
