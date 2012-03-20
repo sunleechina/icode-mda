@@ -5,28 +5,28 @@ class Ais {
     
     static hasMany = [ locations : Location ]
     
-    int messageType;
-    int mmsi;
-    int navStatus; 
-    float rateOfTurn;  
-    float speedOverGround;
-    double courseOverGround;  
-    double trueHeading; 
-    int IMO;  
+    Integer messageType;
+    Integer mmsi;
+    Integer navStatus; 
+    Float rateOfTurn;  
+    Float speedOverGround;
+    Double courseOverGround;  
+    Double trueHeading; 
+    Integer IMO;  
     String vesselName; 
-    int vesselType; 
-    double length;  
-    double width;  
-    double antennaLocationBow;  
-    double antennaLocationStern;
-    double antennaLocationPort;
-    double antennaLocationStarboard; 
-    double draught;
+    Integer vesselType; 
+    Double length;  
+    Double width;  
+    Double antennaLocationBow;  
+    Double antennaLocationStern;
+    Double antennaLocationPort;
+    Double antennaLocationStarboard; 
+    Double draught;
     String destination;
     String callsign;  
-    double posAccuracy;  
+    Double posAccuracy;  
     Date eta;  
-    int positionFixType;
+    Integer positionFixType;
     Date dateCreated //Note: This is a special name
     Date lastUpdated
 
