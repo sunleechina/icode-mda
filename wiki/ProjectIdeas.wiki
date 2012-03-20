@@ -1,7 +1,14 @@
 #summary Some project ideas that we think would be cool to work on. The page also includes references.
 <wiki:toc max_depth="4" />
 =Project Ideas=
-==Ship Detection in Synthetic Aperture Radar Imagery==
+==Ship Detection in Synthetic Aperture Radar (SAR) Imagery==
+Synthetic aperture radar is an active radar (radiates energy, and observes the reflections) that many people are interested in using for ship detection. The basic idea is that there are generally not many objects in the ocean that reflect the energy emitted by the radar. A ship on the other hand, with its many corners and metal construction can reflect a large amount of the energy emitted. This makes ships stand out very brightly against the dark ocean background.
+
+To learn some of the basics of SAR, you can start here:<br>
+http://en.wikipedia.org/wiki/Synthetic_aperture_radar 
+
+Below are some references to current papers on SAR ship detection<br>
+
   * Liu, Yingjian; Ma, Hui; Yang, Yanming; Liu, Yanyan; , "Automatic ship detection from SAR images," Spatial Data Mining and Geographical Knowledge Services (ICSDM), 2011 IEEE International Conference on , vol., no., pp.386-388, June 29 2011-July 1 2011
   doi: 10.1109/ICSDM.2011.5969070
 
@@ -23,6 +30,8 @@
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4721035&isnumber=4720717
  
 ==Data Correlation and Tracking==
+When dealing with large amounts of information from multiple sensors it can become very difficult to interpret it all and to take away useful information. There is research being done to come up with new methods for taking the information from each sensor and associating it with information from other sensors to gain a more complete understanding of the environment. If you have read through the material on this site, one example that you should be familiar with is correlating AIS information with SAR ship detection information. 
+
 There are two components to the problem.  
   # Creating and maintaining tracks from data points.
   # Fusing tracks and/or data points from several data sources.
@@ -40,17 +49,32 @@ multi-sensor Trackers --
   * Good info from Matlab thread
   http://www.mathworks.cn/matlabcentral/newsreader/view_thread/249783 
 
-  * Algorithms for matching vectors.  We can think of two distinct sets of data as two sets of vectrors
+  * Algorithms for matching vectors.  
+
+We can think of two distinct sets of data as two sets of vectors
+
 [ lat lon length width heading ....]
-To correlate data set 1 with data set 2, we need to find the best match between each of the vectors in data set 1 with all of the vectors in dataset 2
+
+To correlate data set 1 with data set 2, we need to find the best match between each of the vectors in data set 1 with all of the vectors in data set 2.
+
 OpenCV has many algorithms for matching vectors.  Although they are used in OpenCV for matching image feature vectors, they can also be used to match data vectors.  
+
 http://opencv.itseez.com/modules/features2d/doc/common_interfaces_of_descriptor_matchers.html 
-Data matching algorithms in OpenCV:
-KNN Matching - Finds the k best matches for each descriptor from a query set.
-Brute Force - For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one
+
+Data matching algorithms in *OpenCV*:
+
+*KNN Matching* - Finds the k best matches for each descriptor from a query set.
+*Brute Force* - For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one
 
 
 ==Ocean Surface Analysis (Oil slick detection, Ocean current detection/analysis)==
+There are many reasons why someone may want to analyze the surface of the ocean such as:
+
+  * Inputs to weather models
+  * Detect/Predict arrival of hazardous waste
+  * Mission planning
+
+
   * Innman, A.; Easson, G.; Asper, V.L.; Diercks, A.; , "The effectiveness of using MODIS products to map sea surface oil," OCEANS 2010 , vol., no., pp.1-5, 20-23 Sept. 2010
   doi: 10.1109/OCEANS.2010.5664416
   
