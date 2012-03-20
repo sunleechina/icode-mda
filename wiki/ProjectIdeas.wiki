@@ -74,6 +74,9 @@ There are many reasons why someone may want to analyze the surface of the ocean 
   * Detect/Predict arrival of hazardous waste
   * Mission planning
 
+There is active research being conducted aimed at drawing conclusions about the surface of the ocean. The research spans many technologies such as [http://en.wikipedia.org/wiki/Synthetic_aperture_radar SAR], Electo-optical, [http://en.wikipedia.org/wiki/Multispectral_imaging Multispectral] and [http://en.wikipedia.org/wiki/Hyperspectral_imaging Hyperspectral]. More generally, using [http://en.wikipedia.org/wiki/Remote_sensing Remote Sensing].
+
+Below are references to current research papers in the field:<br>
 
   * Innman, A.; Easson, G.; Asper, V.L.; Diercks, A.; , "The effectiveness of using MODIS products to map sea surface oil," OCEANS 2010 , vol., no., pp.1-5, 20-23 Sept. 2010
   doi: 10.1109/OCEANS.2010.5664416
@@ -115,7 +118,13 @@ There are many reasons why someone may want to analyze the surface of the ocean 
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4422938&isnumber=4422708
 
 
-==Vessel Classification from Hyperspectral and Multispectral data Key Algorithms:  Anomaly Detection (ie RX anomaly detection), spectral classification methods==
+==Vessel Detection/Classification from Hyperspectral and Multispectral data==
+There is interest detecting and classifying vessels based on remotely sensed data. Researchers are interested in using [http://en.wikipedia.org/wiki/Hyperspectral hyper-spectral imaging] and [http://en.wikipedia.org/wiki/Multispectral multi-spectral imaging] to identify and classify objects. These hyper/multi-spectral imaging lends itself to the identification/classification task because these images have information about many frequencies of light for each pixel. Research is being done to discover methods which tease out patterns and important information from the data.
+
+Because the objects that are searched for are generally assumed to be anomalous from the background in some way, much of the research is focused on [http://en.wikipedia.org/wiki/Anomaly_detection Anomaly Detection] (e.g. RX anomaly detection). Another main branch of research is in spectral classification methods which aims to classify data based on its spectral profile.
+
+A sample of current research papers are below:<br>
+
   * Bo Du; Liangpei Zhang; , "Random-Selection-Based Anomaly Detector for Hyperspectral Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1578-1589, May 2011
   doi: 10.1109/TGRS.2010.2081677
 
