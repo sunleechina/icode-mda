@@ -194,6 +194,14 @@ The idea here is to take historical tracks of all vessels as derived from for ex
 doi: 10.1109/ITSC.2008.4732585
 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4732585&isnumber=4732517
 
+  * J. Froehlich, J. Krumm, “Route prediction from trip observations”, in Intelligent Vehicle Initiative Technology Advanced Controls and Navigation System, 2008
+
+http://research.microsoft.com/en-us/um/people/jckrumm/publications%202008/sae%20route%20prediction%20-%20camera%20ready%20v3.pdf
+
+  * http://www.comp.nus.edu.sg/~whsu/CS6220/trajectory_sigkdd09p637.pdf
+
+  * http://videolectures.net/kdd07_nanni_tpm/
+
 ==Vessel Information/Static  Anomaly Detection==
 
 Here, static information from a vessel is used to identify anomalies or high risk vessels.  This information may come from a variety of sources;
