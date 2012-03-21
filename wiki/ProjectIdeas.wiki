@@ -202,7 +202,7 @@ http://research.microsoft.com/en-us/um/people/jckrumm/publications%202008/sae%20
 
   * http://videolectures.net/kdd07_nanni_tpm/
 
-==Vessel Information/Static  Anomaly Detection==
+==Vessel Information/Static Anomaly Detection==
 
 Here, static information from a vessel is used to identify anomalies or high risk vessels.  This information may come from a variety of sources;
 i)  AIS static information like vessel name, MMSI, IMO, type, activity, cargo
