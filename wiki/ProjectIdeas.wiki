@@ -212,3 +212,7 @@ These algorithms/tools should recognize unusual or high risk information for ves
 
 ==Small Vessel Detection in Coastal Radar Data==
 Here, the goal is to take raw radar data and detect and track small vessels, which may otherwise be lost in traditional radar processing.  
+
+  * Jian Wang; Kirlin, R.L.; Xiaoli Lu; Dizaji, R.; , "Small ship detection with high frequency radar using an adaptive ocean clutter pre-whitened subspace method," Sensor Array and Multichannel Signal Processing Workshop Proceedings, 2002 , vol., no., pp. 92- 95, 4-6 Aug. 2002
+doi: 10.1109/SAM.2002.1191006
+URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1191006&isnumber=26597
