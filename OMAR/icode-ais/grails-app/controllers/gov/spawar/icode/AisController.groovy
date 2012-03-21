@@ -102,10 +102,9 @@ class AisController {
     
         
     def map = {
+        
     }
     
-     def map2 = {
-    }
     
     def wms = {
        aisMapService.getMap(params, response)
