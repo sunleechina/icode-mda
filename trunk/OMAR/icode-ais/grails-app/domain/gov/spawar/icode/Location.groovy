@@ -8,8 +8,8 @@ class Location  {
     
     
     Point aisGeom;
-    BigDecimal latitude;
-    BigDecimal longitude;
+    Double latitude;
+    Double longitude;
     Date   date;
     String name;
 
@@ -21,10 +21,11 @@ class Location  {
     }
     
     static constraints = {
-          //latitude(blank:false, maxSize:40)
-        //state(blank:true, maxSize:2)
-        //city(blank:true, maxSize:40)
-        //ticker(blank:true, maxSize:8)
+        aisGeom(nullable:false)
+        latitude(nullable:false)
+        longitude(nullable:false)
+        date(nullable:false)
+        name(nullable:false)
         
     }
 }

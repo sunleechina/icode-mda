@@ -65,6 +65,9 @@ class AisData {
 
         ais.addToLocations(location)
         ais.save()
+        if(!ais.save(flush:true)){
+              println("Error: Save AIS errors: ${ais.errors}");
+          }
       }
 
       istream?.close()
