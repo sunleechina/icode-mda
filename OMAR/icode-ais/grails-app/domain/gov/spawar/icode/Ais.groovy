@@ -31,14 +31,29 @@ class Ais {
     Date lastUpdated
 
     static constraints = {
-        vesselName(blank:false, maxSize:50)
-        vesselType()
-        mmsi()
-        IMO()
-        navStatus()
-        callsign()
-        length()
-        width()
+        vesselName(nullable:false,blank:false, maxSize:50)
+        vesselType(nullable:true)
+        mmsi(nullable:false)
+        IMO(nullable:false)
+        navStatus(nullable:true)
+        callsign(nullable:false)
+        length(nullable:false)
+        width(nullable:false)
+        messageType(nullable:true)
+        navStatus(nullable:true)
+        rateOfTurn(nullable:true)
+        speedOverGround(nullable:true)
+        courseOverGround(nullable:true)
+        trueHeading(nullable:true)
+        antennaLocationBow(nullable:true)
+        antennaLocationStern(nullable:true)
+        antennaLocationPort(nullable:true)
+        antennaLocationStarboard(nullable:true)
+        draught(nullable:true)
+        destination(nullable:true)
+        posAccuracy(nullable:true)
+        eta(nullable:true)
+        positionFixType(nullable:true)
     }
     
     String toString(){
