@@ -78,6 +78,22 @@ class AisService {
         return iValid; 
         
     }//isValidIMOCheckSum
+
+    ///////////////////////////
+    //Check Call Sign
+    ///////////////////////////
+    def static boolean isValidCallSign(String ircs)
+    {
+
+	//blank destination
+        ircs.trim();
+	if( ircs.isEmpty() || ircs.equals("0")==0)
+	{
+            return false;
+	}
+	else
+            return true;
+    }
     
     
     
