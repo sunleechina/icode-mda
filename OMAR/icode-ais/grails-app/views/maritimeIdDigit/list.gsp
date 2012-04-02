@@ -1,14 +1,13 @@
 
-<%@ page import="gov.spawar.icode.Country" %>
+<%@ page import="gov.spawar.icode.MaritimeIdDigit" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="generatedViews" />
-        <g:set var="entityName" value="${message(code: 'country.label', default: 'Country')}" />
+        <meta name="layout" content="main" />
+        <g:set var="entityName" value="${message(code: 'maritimeIdDigit.label', default: 'MaritimeIdDigit')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
-    <content tag="content">
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
@@ -23,23 +22,23 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'country.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'maritimeIdDigit.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'country.name.label', default: 'Name')}" />
+                            <th><g:message code="maritimeIdDigit.country.label" default="Country" /></th>
                         
-                            <g:sortableColumn property="countryCode" title="${message(code: 'country.countryCode.label', default: 'Country Code')}" />
+                            <g:sortableColumn property="mid" title="${message(code: 'maritimeIdDigit.mid.label', default: 'Mid')}" />
                         
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${countryInstanceList}" status="i" var="countryInstance">
+                    <g:each in="${maritimeIdDigitInstanceList}" status="i" var="maritimeIdDigitInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${countryInstance.id}">${fieldValue(bean: countryInstance, field: "id")}</g:link></td>
+                            <td><g:link action="show" id="${maritimeIdDigitInstance.id}">${fieldValue(bean: maritimeIdDigitInstance, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: countryInstance, field: "name")}</td>
+                            <td>${fieldValue(bean: maritimeIdDigitInstance, field: "country")}</td>
                         
-                            <td>${fieldValue(bean: countryInstance, field: "countryCode")}</td>
+                            <td>${fieldValue(bean: maritimeIdDigitInstance, field: "mid")}</td>
                         
                         </tr>
                     </g:each>
@@ -47,9 +46,8 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${countryInstanceTotal}" />
+                <g:paginate total="${maritimeIdDigitInstanceTotal}" />
             </div>
         </div>
-    </content>
     </body>
 </html>

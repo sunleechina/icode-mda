@@ -72,19 +72,14 @@ class AisData {
             istream?.close()
         }//Ais Transaction
 
-
+        ////////////////////
         //Load Country Data
+        ////////////////////
         Country.withTransaction {
-            def theFileName = "itu_ircs.txt";
             def istream = AisData.class.getResourceAsStream('itu_ircs.txt')
-            // File theFile = new File("itu_ircs.txt")
             def words
-
-            // if (!theFile.exists()) {
-            //     println "Callsign File does not exist"
-
-            // } else {
             int count =0;
+
             istream.eachLine { line ->
                 count++;
                 if (line.trim().size() == 0 || count==1) {
@@ -117,7 +112,48 @@ class AisData {
                      
                     }//not null line
                 }//for each
-                // }//else
             }//Country Transaction
+
+        //////////////////////////////////////
+        //Load Maritime Identification digits
+        //////////////////////////////////////
+        Country.withTransaction {
+            def istream = AisData.class.getResourceAsStream('countrycodes.txt')
+            def words
+            int count =0;
+
+            istream.eachLine { line ->
+                count++;
+                if (line.trim().size() == 0 || count==1) {
+                    return;
+                    } else {
+
+                        words = line.split("[\t]")
+                        def mid = new MaritimeIdDigit();
+
+                        String countryCode = words[1]
+                        def country = Country.findByCountryCode(countryCode);
+                        if(!country){
+                            country = new Country()
+                            country.countryCode = words[1]
+                            country.name = words[3]
+
+                            country.save()
+                            if(!country.save(flush:true)){
+                                println("Error: Save Country errors: ${country.errors}");
+                            }
+
+                        }
+
+                        mid.with{
+                            mid.mid = words[0]
+                        }
+
+                        country.addToMaritimeIdDigits(mid)
+
+                    }//not null line
+                }//for each
+            }//Country Transaction
+
         }//load
     }

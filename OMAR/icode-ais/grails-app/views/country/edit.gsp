@@ -65,6 +65,22 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="maritimeIdDigits"><g:message code="country.maritimeIdDigits.label" default="Maritime Id Digits" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: countryInstance, field: 'maritimeIdDigits', 'errors')}">
+                                    
+<ul>
+<g:each in="${countryInstance?.maritimeIdDigits?}" var="m">
+    <li><g:link controller="maritimeIdDigit" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
+</g:each>
+</ul>
+<g:link controller="maritimeIdDigit" action="create" params="['country.id': countryInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'maritimeIdDigit.label', default: 'MaritimeIdDigit')])}</g:link>
+
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>
