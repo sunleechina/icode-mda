@@ -94,6 +94,72 @@ class AisService {
 	else
             return true;
     }
+
+    /////////////////////////////////////////////////////////////
+    //Valid Country Code based on MID (MMSI) and PRE (Callsign)
+    /////////////////////////////////////////////////////////////
+    def static boolean isValidCountryCode(int mmsi, String callSign)
+    {
+        String countryCode_mmsi
+        String countryCode_pre
+
+        //////////////////////
+        //Get CC based on PRE
+        //////////////////////
+        def country
+
+        //Given Callsign, check every digit in the first 4 for a Valid PRE of Country
+        for(int j=0; j<callSign.size();j++){
+            int checkSize = callSign.size()-j;
+            if(checkSize > 4) continue; //Only first four digits
+            if(checkSize <= 1) break;   //Only up to last two digits
+
+            String pre_value = callSign.substring(0,checkSize);
+
+            //HasMany Query
+            //country = Country.findByCallSignPrefix(pre_value); //Does not work
+           def countryList = Country.withCriteria {
+               createAlias("callSignPrefix","c")
+               eq("c.prefix", pre_value)
+           }
+           country = countryList[0]
+
+            if(country) break; //quit as soon as you get a hit
+        }
+
+        if(country)
+            countryCode_pre = country.countryCode;
+        else
+            countryCode_pre = "NA";
+
+        //////////////////////
+        //Get CC based on MID
+        //////////////////////
+        int MID = mmsi/1000000;
+
+        //HasMany Query
+        //country = Country.findByMaritimeIdDigit(MID); //Does not work
+        def criteria = Country.createCriteria()
+        def results = criteria {
+            eq(MaritimeIdDigits,MID)
+            maxResults(1)
+        }
+        country = results[0]
+
+        if(country)
+            countryCode_mmsi = country.countryCode;
+        else
+            countryCode_mmsi = "NA";
+
+        //Compare both CCs and determine if we have a valid match
+        if(countryCode_pre.equals(countryCode_mmsi) && !countryCode_mmsi.equalsIgnoreCase()("NA") && !countryCode_mmsi.empty()){
+            return true;
+        }
+        else
+            return false;
+
+
+    }//isValidCountryCode
     
     
     
