@@ -1,7 +1,5 @@
 * [Home ICODE-MDA Home]
 
-  * 
-
 * Getting Started
 
   * [GettingStarted OSSIM/OpenCV]
