@@ -1,0 +1,10 @@
+#summary Automated Fish Density Estimation page.
+
+= Introduction =
+
+This page will include information on the Automated Fish Density Estimation effort.
+
+
+= Details =
+
+- Developer: Kwame Adu Agyekum
