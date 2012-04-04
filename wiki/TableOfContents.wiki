@@ -33,9 +33,9 @@
 
 * Current Projects
 
-  * [Automated SAR Ship Detection]
-  * [Automated SAR Oil Slick Detection]
-  * [Track Correlation]
+  * [AutomatedSARShipDetection Automated SAR Ship Detection Tool]
+  * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
+  * [AutomatedTrackCorrelation Automated Track Correlation]
 
 
 * [References References]
