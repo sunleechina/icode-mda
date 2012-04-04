@@ -36,6 +36,6 @@
   * [AutomatedSARShipDetection Automated SAR Ship Detection Tool]
   * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
   * [AutomatedTrackCorrelation Automated Track Correlation]
-
+  * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
 
 * [References References]
