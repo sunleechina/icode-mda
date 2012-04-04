@@ -2,12 +2,16 @@
 
 = Introduction =
 
-Add your content here.
+This page describes current development of the Automated Oil Slick Detection tool for ICODE-MDA, including who is developing the tool, it's status, and technical details with examples.
 
 
-= Details =
+= Tool Developers =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+
+
+
+= Current Status of Tool =  
+
+
+
+= Technical Details and Examples =
