@@ -43,7 +43,7 @@ to see a list of research ideas that we are interested in researching, check out
   * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
 
 
-* Current Projects
+= Current Projects =
 
   * [AutomatedSARShipDetection Automated SAR Ship Detection Tool]
   * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
