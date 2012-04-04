@@ -7,4 +7,4 @@ This page will include information on the Automated Fish Density Estimation effo
 
 = Details =
 
-- Developer: Kwame Adu Agyekum
+Developer: Kwame Adu Agyekum
