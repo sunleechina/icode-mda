@@ -33,4 +33,11 @@
   * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
   * [OMAR_ADD_WMS_LAYER Adding WMS Layers]
 
+* Current Projects
+
+  * [Automated SAR Ship Detectio]
+  * [Automated SAR Oil Slick Detection]
+  * [Track Correlation]
+
+
 * [References References]
