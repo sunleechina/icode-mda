@@ -2,9 +2,16 @@
 
 = Introduction =
 
-This page will include information on the Automated Fish Density Estimation effort.
+This page describes current development of the  Automated Fish Density Estimation tool for ICODE-MDA, including who is developing the tool, it's status, and technical details with examples.
 
 
-= Details =
+= Tool Developers =
 
-Developer: Kwame Adu Agyekum
+Kwame Adu Agyekum
+
+
+= Current Status of Tool =  
+
+
+
+= Technical Details and Examples =
