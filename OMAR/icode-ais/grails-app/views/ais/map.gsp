@@ -38,9 +38,15 @@
         new OpenLayers.Layer.WMS( "OpenLayers WMS",
           "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} ),
 
-        new OpenLayers.Layer.WMS( "Reference",
-          "http://${InetAddress.localHost.hostAddress}/cgi-bin/mapserv?map=/data/omar/bmng.map&",
-          {layers:'Reference', format: 'image/jpeg'},
+        new OpenLayers.Layer.WMS( "iCubed",
+          "http://hyperquad.ucsd.edu/cgi-bin/i-cubed",
+          {layers: "icubed", format: "image/png", transparent: true, bgcolor: '#99B3CC'},
+          {buffer: 0, transitionEffect: 'resize'}
+          ),
+
+       new OpenLayers.Layer.WMS( "oneEarth",
+          "http://hyperquad.ucsd.edu/cgi-bin/onearth",
+          {layers: "OnEarth", format: "image/png", transparent: true, bgcolor: '#99B3CC'},
           {buffer: 0, transitionEffect: 'resize'}
           ),
           
