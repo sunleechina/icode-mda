@@ -33,7 +33,7 @@ class Ais {
     static constraints = {
         vesselName(nullable:false,blank:false, maxSize:50)
         vesselType(nullable:true)
-        mmsi(nullable:false)
+        mmsi(nullable:false,unique:true)
         IMO(nullable:false)
         navStatus(nullable:true)
         callsign(nullable:false)

@@ -33,3 +33,4 @@ grails.project.dependency.resolution = {
 grails.plugin.location.postgis = '../../plugins/postgis'
 grails.plugin.location.openlayers = '../../plugins/openlayers'
 grails.plugin.location.geoscript = '../../plugins/geoscript'
+grails.plugin.location.omarSecuritySpring = "../../plugins/omar-security-spring"

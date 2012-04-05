@@ -1,8 +1,8 @@
 package gov.spawar.icode
 
 class Country {
-
-    static hasMany = [ callSignPrefixes : CallSignPrefix, maritimeIdDigits : MaritimeIdDigit ]
+    static belongsTo = User
+    static hasMany = [ callSignPrefixes : CallSignPrefix, maritimeIdDigits : MaritimeIdDigit, users : User ]
 
     String name;
     String countryCode;
