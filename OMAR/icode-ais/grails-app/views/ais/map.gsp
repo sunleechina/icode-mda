@@ -85,7 +85,6 @@
 
 <div class="body">
   <br/>
-
   <div id="map"></div>
 </div>
 </content>
