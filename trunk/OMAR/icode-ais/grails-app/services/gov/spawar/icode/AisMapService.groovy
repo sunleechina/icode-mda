@@ -22,9 +22,9 @@ import org.geotools.data.postgis.PostgisNGDataStoreFactory
 
 import grails.converters.JSON
 
-class AisMapService {
+class AisMapService
+{
 
-   
 
   static transactional = false
 
