@@ -2,7 +2,9 @@
 
 = Introduction =
 
-Raw radar data is used to detect and track small vessels in ocean clutter.
+This page is used to describe current development on small vessel tracking and detection in coastal radar clutter. The primary idea is to use raw radar data to detect and track small vessels in ocean clutter. 
 
 
 = Details =
+
+Under development
