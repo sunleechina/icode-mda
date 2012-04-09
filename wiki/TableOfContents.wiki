@@ -37,5 +37,6 @@
   * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
   * [AutomatedTrackCorrelation Automated Track Correlation]
   * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
+  * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
 
 * [References References]
