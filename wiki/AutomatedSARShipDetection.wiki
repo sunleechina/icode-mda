@@ -6,13 +6,20 @@ This page describes current development of the Automated SAR Ship Detection tool
 
 
 = Tool Developers =
-- Michael Agbo Tettey Soli
-- Kwame Agyekum
+ * Michael Agbo Tettey Soli
+ * Kwame Agyekum
 
 
 
 = Current Status of Tool =  
-
+Michael has developed OSSIM C++ code to read in satellite images and
+tile it according to the user specific dimensions and convert it to an
+IPL image for Kwame’s ship detection algorithm to be applied on the IPL
+images. He has packaged this into a header file that can be used easily.
+He is currently working on modularizing Kwame’s ship detection code into
+functions that can be called at various stages for defined purposes.
 
 
 = Technical Details and Examples =
+Proposed date for next update of website:
+Friday, 16th April, 2012
