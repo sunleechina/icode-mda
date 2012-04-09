@@ -6,8 +6,7 @@ This page describes current development of the  Automated Fish Density Estimatio
 
 
 = Tool Developers =
-
-Kwame Adu Agyekum
+ * Kwame Adu Agyekum
 
 
 = Current Status of Tool =  
