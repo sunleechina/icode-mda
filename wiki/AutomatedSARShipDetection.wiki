@@ -6,7 +6,8 @@ This page describes current development of the Automated SAR Ship Detection tool
 
 
 = Tool Developers =
-
+- Michael Agbo Tettey Soli
+- Kwame Agyekum
 
 
 
