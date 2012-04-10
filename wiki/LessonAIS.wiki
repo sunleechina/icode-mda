@@ -6,22 +6,36 @@ This page provides an overview of AIS, the data format, and how it is used.
 
 <br><br>
 == Presentation ==
-*Introduction to AIS
+  * Introduction to AIS
+  * Satellite AIS
+There are two satellite AIS vendors that we have agreements with [http://www.orbcomm.com/ Orbcomm] and [http://www.exactearth.com/ ExactEarth]. Both companies provide a feed of satellite AIS for a fee. As part of a limited objective demonstration, we were able to obtain some of this data, although it cannot be shared publicly. The SSCs of the currently active satellites used by these two companies are below:
+
+For simulation purposes, we can assume that a ship will become visible to the satellite once it is 5 degrees above the horizon.
+
+ExactEarth Satellites and SSC#s<br>
+  * AprizeSat 3 - 35686
+  * AprizeSat 6 - 37793
+  * ResourceSat 1 - 28051
+
+Orbcomm Satellites and SSC#s<br>
+  * VesselSat 1 - 37840
+  * VesselSat 2 - 38047
+  * ISS - 25544
 
 <br><br>
 == Code ==
-*We should have a link here to the AIS parser
+  * We should have a link here to the AIS parser
 
 <br><br>
 == External Links ==
-*[http://en.wikipedia.org/wiki/Automatic_Identification_System AIS Wikipedia Article]
+  * [http://en.wikipedia.org/wiki/Automatic_Identification_System AIS Wikipedia Article]
 
-*[http://www.marinetraffic.com/ Marine Traffic]
+  * [http://www.marinetraffic.com/ Marine Traffic]
 
-*[http://www.vesseltracker.com/ Vessel Tracker]
+  * [http://www.vesseltracker.com/ Vessel Tracker]
 
-*[http://www.lrfairplay.com/ Lloyd´s Ship Register]
+  * [http://www.lrfairplay.com/ Lloyd´s Ship Register]
 
-*[http://www.trackaship.com/ Track-a-ship]
+  * [http://www.trackaship.com/ Track-a-ship]
 
-*[http://gpsd.berlios.de/AIVDM.html AIS Specification]
+  * [http://gpsd.berlios.de/AIVDM.html AIS Specification]
