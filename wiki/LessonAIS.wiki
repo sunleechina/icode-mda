@@ -18,8 +18,8 @@ ExactEarth Satellites and SSC#s<br>
   * ResourceSat 1 - 28051
 
 Orbcomm Satellites and SSC#s<br>
-  * VesselSat 1 - 37840
-  * VesselSat 2 - 38047
+  * VesselSat 1 - 37840 - aka orbcomm03 in satAIS feed
+  * VesselSat 2 - 38047 - aka orbcomm04 in satAIS feed
   * ISS - 25544
 
 <br><br>
