@@ -49,7 +49,9 @@ to see a list of research ideas that we are interested in researching, check out
   * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
   * [AutomatedTrackCorrelation Automated Track Correlation]
   * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
+  * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
   * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
+
 
 = References =
 
