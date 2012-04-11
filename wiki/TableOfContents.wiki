@@ -1,8 +1,10 @@
 * [Home ICODE-MDA Home]
+
 * Getting Started
   * [GettingStarted OSSIM/OpenCV]
   * [GettingStartedOMAR OMAR]
   * [ProjectIdeas Project Ideas]
+
 * Imagery and Data
   * [LessonGeoRef How to georeference an Image]
   * [LessonESA Introduction to an ESA proposal for data]
@@ -10,6 +12,7 @@
   * [LessonKmeans Introduction to k-means]
   * [LessonNDVI Introduction to NDVI]
   * [LessonAIS Introduction to AIS]
+
 * Working with OSSIM
   * [IntroductionToOSSIM Introduction to OSSIM]
   * [LessonOverview General Satellite Imaging Overview]
@@ -18,6 +21,7 @@
   * [LessonBuildOSSIM How to Build OSSIM]
   * [LessonOSSIMfilter The OSSIM tileToIplFilter]
   * [LessonKMLshp Using KMLs and SHPs with OSSIM]
+
 * Working with OMAR
   * [OMAR_CreateSamplePlugin Creating a Sample Plugin]
   * [OMAR_Creating_geodata_sample_plugin Creating geodata Sample Plugin]
@@ -29,4 +33,5 @@
   * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
   * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
   * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
+
 * [References References]
