@@ -1,0 +1,5 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+[https://icode-mda.googlecode.com/svn/wiki/8.1_Canny_Hough.pdf Introduction to Canny and Hough Filter]
