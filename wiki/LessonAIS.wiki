@@ -4,10 +4,6 @@
 
 This page provides an overview of AIS, the data format, and how it is used.
 
-<br><br>
-== Presentation ==
-  * Introduction to AIS
-  * Satellite AIS
 There are two satellite AIS vendors that we have agreements with [http://www.orbcomm.com/ Orbcomm] and [http://www.exactearth.com/ ExactEarth]. Both companies provide a feed of satellite AIS for a fee. As part of a limited objective demonstration, we were able to obtain some of this data, although it cannot be shared publicly. The SSCs of the currently active satellites used by these two companies are below:
 
 For simulation purposes, we can assume that a ship will become visible to the satellite once the satellite is 5 degrees above the horizon from the ships point of view.
@@ -21,6 +17,10 @@ Orbcomm Satellites and SSC#s<br>
   * VesselSat 1 - 37840 - aka orbcomm03 in satAIS feed
   * VesselSat 2 - 38047 - aka orbcomm04 in satAIS feed
   * ISS - 25544
+
+<br><br>
+== Presentations ==
+[https://icode-mda.googlecode.com/svn/wiki/12.1_Introduction_To_AIS.pdf Introduction to AIS]
 
 <br><br>
 == Code ==
