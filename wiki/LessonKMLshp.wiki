@@ -6,9 +6,10 @@ This page provides information on using shape file (shp) and keyhole markup lang
 
 <br><br>
 == Presentations ==
-*Shape Files
+[https://icode-mda.googlecode.com/svn/wiki/9.2_writingKmlKmzFiles.pdf KML/KMZ Files]
 
-*KMLs
+[https://icode-mda.googlecode.com/svn/wiki/9.1_shp.pdf Shapefiles]
+
 
 <br><br>
 == Code ==
