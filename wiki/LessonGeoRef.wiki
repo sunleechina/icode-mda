@@ -1,15 +1,7 @@
-#summary One-sentence summary of this page.
+#summary Information for georeferencing an image
 
 = Introduction =
 
-Add your content here.
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
-
-16.1_georeferenceAnImage.pdf
+[https://icode-mda.googlecode.com/svn/wiki/16.1_georeferenceAnImage.pdf How to Georeference an Image]
