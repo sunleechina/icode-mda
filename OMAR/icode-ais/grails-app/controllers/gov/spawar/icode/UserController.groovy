@@ -2,11 +2,14 @@ package gov.spawar.icode
 
 import grails.plugins.springsecurity.Secured
 import org.ossim.omar.security.SecUser
+import org.ossim.omar.security.SecRole
+import org.ossim.omar.security.SecUserSecRole
 
 
 class UserController {
 
     def springSecurityService
+    def logoutHandlers
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -29,7 +32,12 @@ class UserController {
     def save = {
         def userInstance = new User(params)
         userInstance.password = springSecurityService.encodePassword(userInstance.password)
+        
+        //Add standard Role
+        def userRole = SecRole.findByAuthority("ROLE_USER") ?: new SecRole(authority: "ROLE_USER", description: "Standard User").save()
+
         if (userInstance.save(flush: true)) {
+            SecUserSecRole.create(userInstance, userRole)
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])}"
             redirect(action: "show", id: userInstance.id)
         }
@@ -107,7 +115,7 @@ class UserController {
     }
 
     @Secured(['ROLE_USER'])
-    def showCurrentUser = {
+    def currentUser = {
         def userInstance = SecUser.get(springSecurityService.principal.id)
         if (!userInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
@@ -145,4 +153,5 @@ class UserController {
         }
         [ dois: dois, doiCount: dois.size() ]
     }
+
 }
