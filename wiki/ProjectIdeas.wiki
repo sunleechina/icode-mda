@@ -7,6 +7,10 @@ Synthetic aperture radar is an active radar (radiates energy, and observes the r
 To learn some of the basics of SAR, you can start here:<br>
 http://en.wikipedia.org/wiki/Synthetic_aperture_radar 
 
+
+http://www.boost-technologies.com/web/images/Ship_Detection_Prestige.png
+
+
 Below are some references to current papers on SAR ship detection<br>
 
   * Liu, Yingjian; Ma, Hui; Yang, Yanming; Liu, Yanyan; , "Automatic ship detection from SAR images," Spatial Data Mining and Geographical Knowledge Services (ICSDM), 2011 IEEE International Conference on , vol., no., pp.386-388, June 29 2011-July 1 2011
