@@ -67,7 +67,7 @@ function init()
         "AIS",
         link,
         {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, fill: {color: "#000000", opacity: 0}, label: {property: "name"}}'},
-        {buffer: 0, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
+        {buffer: 0, singleTile: true, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
       ),
 
       new OpenLayers.Layer.WMS(
