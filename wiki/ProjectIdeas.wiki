@@ -7,7 +7,12 @@ Synthetic aperture radar is an active radar (radiates energy, and observes the r
 To learn some of the basics of SAR, you can start here:<br>
 http://en.wikipedia.org/wiki/Synthetic_aperture_radar 
 
-http://www.mdpi.com/2072-4292/1/3/375/ag
+A breif overview of the mathematics behind SAR ship detection can be found here:<br>
+
+http://www.array.ca/nest-web/help/operators/ObjectDetection.html
+
+
+http://www.crisp.nus.edu.sg/~yuanb/img/proj_sarships.jpg
 http://www.boost-technologies.com/web/images/Ship_Detection_Prestige.png
 
 
@@ -35,6 +40,8 @@ Below are some references to current papers on SAR ship detection<br>
  
 ==Data Correlation and Tracking==
 When dealing with large amounts of information from multiple sensors it can become very difficult to interpret it all and to take away useful information. There is research being done to come up with new methods for taking the information from each sensor and associating it with information from other sensors to gain a more complete understanding of the environment. If you have read through the material on this site, one example that you should be familiar with is correlating AIS information with SAR ship detection information. 
+
+
 
 There are two components to the problem.  
   # Creating and maintaining tracks from data points.
