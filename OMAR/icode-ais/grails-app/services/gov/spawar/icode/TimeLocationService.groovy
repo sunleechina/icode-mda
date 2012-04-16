@@ -38,11 +38,11 @@ class TimeLocationService
       inner join (
         select ais_id, max(date) as date
         from location
-        where st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
         group by ais_id
       ) b
       on a.ais_id=b.ais_id
       and a.date=b.date
+      where st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
     ) as y
     where x.id=y.ais_id
     order by name
