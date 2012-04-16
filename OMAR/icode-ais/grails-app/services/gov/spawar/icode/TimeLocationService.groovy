@@ -5,9 +5,6 @@ import geoscript.layer.Layer
 import geoscript.render.Draw
 import geoscript.geom.Bounds
 import geoscript.feature.Field
-import geoscript.style.Shape
-import geoscript.style.Fill
-import geoscript.style.Label
 import geoscript.proj.Projection
 import org.apache.commons.collections.map.CaseInsensitiveMap
 
@@ -16,10 +13,12 @@ class TimeLocationService
 
   static transactional = false
 
+  def aisMapService
+
   def getMap( def params, def response )
   {
     def wmsParams = new CaseInsensitiveMap( params )
-    def postgis = new PostGIS( [user: 'postgres'], 'geodata-dev' )
+    def postgis = aisMapService.createWorkspace()
     def coords = wmsParams.bbox.split( ',' ).collect { it.toDouble() }
 
     /*
@@ -32,7 +31,7 @@ class TimeLocationService
    */
 
     def sql = """
-    select x.id as id, vessel_name, last_known_time, last_known_position
+    select x.id as id, vessel_name as name, last_known_time, last_known_position
     from ais x, (
       select distinct a.ais_id, b.date as last_known_time, ais_geom as last_known_position
       from location a
@@ -46,7 +45,7 @@ class TimeLocationService
       and a.date=b.date
     ) as y
     where x.id=y.ais_id
-    order by vessel_name
+    order by name
     """
 
     def layer = postgis.addSqlQuery(
@@ -61,7 +60,7 @@ class TimeLocationService
     def output = response.outputStream
 
     response.contentType = wmsParams.format
-    layer.style = new Fill( color: '#000000', opacity: 0 ) + new Shape( color: '#FF0000', type: 'circle', size: 5 ) + new Label(property: 'vessel_name')
+    layer.style = aisMapService.createStyle(wmsParams.styles)
     Draw.draw( layer, bounds, size, output, wmsParams.format - 'image/' )
     postgis?.close()
   }
