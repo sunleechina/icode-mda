@@ -31,50 +31,50 @@ class AisMapService
   def grailsApplication
   def dataSource
 
-  def getMap(def params, def response)
+  def getMap( def params, def response )
   {
-    def wmsParams = new CaseInsensitiveMap(params)
+    def wmsParams = new CaseInsensitiveMap( params )
     def mode = 'geoscript'
     def image
 
     def width = wmsParams['width']?.toInteger()
     def height = wmsParams['height']?.toInteger()
     def format = wmsParams['format']
-    def bbox = wmsParams['bbox']?.split(',').collect { it?.toDouble() }
+    def bbox = wmsParams['bbox']?.split( ',' ).collect { it?.toDouble() }
     def layers = wmsParams['layers']
     def srs = wmsParams['srs']
-    def imageType = format?.split('/')[-1]
+    def imageType = format?.split( '/' )[-1]
     def styles = wmsParams['styles']
 
-    Hints.putSystemDefault(Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE);
+    Hints.putSystemDefault( Hints.FORCE_LONGITUDE_FIRST_AXIS_ORDER, Boolean.TRUE );
 
     switch ( mode )
     {
     case 'geoscript':
       def workspace = createWorkspace()
       def layer = workspace[layers]
-      def proj = new Projection(srs)
-      def bounds = new Bounds(bbox[0], bbox[1], bbox[2], bbox[3], proj)
+      def proj = new Projection( srs )
+      def bounds = new Bounds( bbox[0], bbox[1], bbox[2], bbox[3], proj )
 
-      layer.style = createStyle(styles)
-      image = Draw.drawToImage(layer, bounds, [width, height],)
+      layer.style = createStyle( styles )
+      image = Draw.drawToImage( layer, bounds, [width, height], )
       workspace?.close()
       break
     default:
-      image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+      image = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB )
     }
 
     def ostream = response.outputStream
 
     response.contentType = format
-    ImageIO.write(image, imageType, ostream)
+    ImageIO.write( image, imageType, ostream )
     ostream.close()
   }
 
-  def createStyle(def styleJSON)
+  def createStyle( def styleJSON )
   {
-    def jsonObject = JSON.parse(styleJSON)
-    def styleMap = jsonObject.entrySet().inject([:]) { result, i -> result[i.key] = i.value; return result}
+    def jsonObject = JSON.parse( styleJSON )
+    def styleMap = jsonObject.entrySet().inject( [:] ) { result, i -> result[i.key] = i.value; return result}
     def style
 
     styleMap.each { k, v ->
@@ -82,26 +82,26 @@ class AisMapService
       switch ( k )
       {
       case "fill":
-        tmp = new Fill(v)
+        tmp = new Fill( v )
         break
       case "shape":
-        tmp = new Shape(v)
+        tmp = new Shape( v )
         break
       case "stroke":
-        tmp = new Stroke(v)
+        tmp = new Stroke( v )
         break
       case "label":
-        tmp = new Label(v)
+        tmp = new Label( v )
         break
       }
 
-      style = (!style) ? tmp : style + tmp
+      style = ( !style ) ? tmp : style + tmp
     }
 
     return style
   }
 
-  def createWorkspace(def flag = true)
+  def createWorkspace( def flag = true )
   {
     def workspace = null
 
@@ -125,19 +125,19 @@ class AisMapService
       switch ( jdbcParams.url )
       {
       case ~pattern1:
-        def matcher = (jdbcParams.url) =~ pattern1
+        def matcher = ( jdbcParams.url ) =~ pattern1
         dbParams['host'] = matcher[0][2]
         dbParams['port'] = matcher[0][3]
         dbParams['database'] = matcher[0][4]
         break
       case ~pattern2:
-        def matcher = (jdbcParams.url) =~ pattern2
+        def matcher = ( jdbcParams.url ) =~ pattern2
         dbParams['host'] = matcher[0][2]
         dbParams['port'] = "5432"
         dbParams['database'] = matcher[0][3]
         break
       case ~pattern3:
-        def matcher = (jdbcParams.url) =~ pattern3
+        def matcher = ( jdbcParams.url ) =~ pattern3
         dbParams['host'] = "localhost"
         dbParams['port'] = "5432"
         dbParams['database'] = matcher[0][2]
@@ -155,10 +155,10 @@ class AisMapService
     }
     else
     {
-      def getDbParams = [(PostgisNGDataStoreFactory.DATASOURCE.key): dataSource]
-      def dataStore = new PostgisNGDataStoreFactory().createDataStore(getDbParams)
+      def getDbParams = [( PostgisNGDataStoreFactory.DATASOURCE.key ): dataSource]
+      def dataStore = new PostgisNGDataStoreFactory().createDataStore( getDbParams )
 
-      workspace = new Database(dataStore)
+      workspace = new Database( dataStore )
     }
 
     return workspace

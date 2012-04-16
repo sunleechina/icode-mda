@@ -6,6 +6,8 @@ class AisController
   //static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
   def aisMapService
+  def timeLocationService
+
 
   def index = {
     redirect(action: "list", params: params)
@@ -122,8 +124,7 @@ class AisController
     render view: 'map3'
   }
 
-
   def wms = {
-    aisMapService.getMap(params, response)
+    timeLocationService.getMap(params, response)
   }
 }

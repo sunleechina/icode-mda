@@ -12,7 +12,6 @@ class Location
   Double latitude;
   Double longitude;
   Date date;
-  String name;
 
   static mapping = {
     columns {
@@ -26,8 +25,6 @@ class Location
     latitude(nullable: false)
     longitude(nullable: false)
     date(nullable: false)
-    name(nullable: false)
-
   }
 }
 
