@@ -41,12 +41,15 @@ Below are some references to current papers on SAR ship detection<br>
 ==Data Correlation and Tracking==
 When dealing with large amounts of information from multiple sensors it can become very difficult to interpret it all and to take away useful information. There is research being done to come up with new methods for taking the information from each sensor and associating it with information from other sensors to gain a more complete understanding of the environment. If you have read through the material on this site, one example that you should be familiar with is correlating AIS information with SAR ship detection information. 
 
-
-
 There are two components to the problem.  
   # Creating and maintaining tracks from data points.
   # Fusing tracks and/or data points from several data sources.
 multi-sensor Trackers --
+
+The following image is linked from:
+http://www.ksat.no/node/85
+
+http://www.ksat.no/sites/default/files/AIS%20illustration.JPG
 
   * New track correlation algorithms in a multisensor data fusion system , by He You, Zhang Jingwei, Aerospace and Electronic Systems IEEE (2006) Volume: 42, Issue: 4, Pages: 1359-1371
 
