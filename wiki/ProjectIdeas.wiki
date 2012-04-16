@@ -7,7 +7,7 @@ Synthetic aperture radar is an active radar (radiates energy, and observes the r
 To learn some of the basics of SAR, you can start here:<br>
 http://en.wikipedia.org/wiki/Synthetic_aperture_radar 
 
-
+http://www.mdpi.com/2072-4292/1/3/375/ag
 http://www.boost-technologies.com/web/images/Ship_Detection_Prestige.png
 
 
@@ -79,6 +79,8 @@ There are many reasons why someone may want to analyze the surface of the ocean 
   * Mission planning
 
 There is active research being conducted aimed at drawing conclusions about the surface of the ocean. The research spans many technologies such as [http://en.wikipedia.org/wiki/Synthetic_aperture_radar SAR], Electo-optical, [http://en.wikipedia.org/wiki/Multispectral_imaging Multispectral] and [http://en.wikipedia.org/wiki/Hyperspectral_imaging Hyperspectral]. More generally, using [http://en.wikipedia.org/wiki/Remote_sensing Remote Sensing].
+
+http://rssportal.esa.int/deepenandlearn/img/wiki_up/image/RTDprojects/MASS/mass_d5.jpg
 
 Below are references to current research papers in the field:<br>
 
