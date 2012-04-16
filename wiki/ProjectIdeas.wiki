@@ -148,6 +148,13 @@ There is interest detecting and classifying vessels based on remotely sensed dat
 
 Because the objects that are searched for are generally assumed to be anomalous from the background in some way, much of the research is focused on [http://en.wikipedia.org/wiki/Anomaly_detection Anomaly Detection] (e.g. RX anomaly detection). Another main branch of research is in spectral classification methods which aims to classify data based on its spectral profile.
 
+The following images were linked from:
+http://www.cimes.hawaii.edu/satellites2
+
+http://www.cimes.hawaii.edu/sites/www.cimes.hawaii.edu/files/V-Ryr2fig5.jpg
+
+http://www.cimes.hawaii.edu/sites/www.cimes.hawaii.edu/files/V-Ryr2fig6.jpg
+
 A sample of current research papers are below:<br>
 
   * Bo Du; Liangpei Zhang; , "Random-Selection-Based Anomaly Detector for Hyperspectral Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1578-1589, May 2011
