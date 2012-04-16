@@ -162,6 +162,14 @@ A sample of current research papers are below:<br>
 ==High performance computing + Hyperspectral imagery processing==
 Remotely sensed images tend to be very large (~ Gigabytes) and can take a long time to analyze with typical computers. Within the last few years [http://en.wikipedia.org/wiki/GPU GPUs] have been increasingly used for [http://en.wikipedia.org/wiki/Gpu_computing General Purpose computing on a GPU]. The GPUs allow conventional desktops to behave similar to a mini-super computer because of their many parallel processing units. Many algorithms used for remote sensing have the ability to become parallelized. Research is being done to create efficient GPGPU implementations of old algorithms and also to develop new ones.
 
+The following images are linked from:
+http://www.gisportal.cz/en/2011/04/english-pixel-purity-index/
+
+http://www.gisportal.cz/wp-content/uploads/2011/04/fig3.jpg
+
+http://www.gisportal.cz/wp-content/uploads/2011/04/fig1.jpg
+
+
 Below are a sampling of recent papers on the topic:<br>
 
   * Sánchez, S.; Plaza, A.; , "GPU implementation of the pixel purity index algorithm for hyperspectral image analysis," Cluster Computing Workshops and Posters (CLUSTER WORKSHOPS), 2010 IEEE International Conference on , vol., no., pp.1-7, 20-24 Sept. 2010
