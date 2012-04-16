@@ -184,6 +184,11 @@ http://spg.ucsd.edu/satellite_projects/various_habs/A20040292105_chlor_a_RGB_cal
 
 http://spg.ucsd.edu/satellite_projects/various_habs/A2007108211500.L2_LAC.2.map.png
 
+The following image of an algae bloom is linked from:
+http://oceandatacenter.ucsc.edu/SCOOP/mission.html
+
+http://oceandatacenter.ucsc.edu/SCOOP/images/redtide.jpg
+
 A sampling of research on algae blooms is below:<br>
 
   * Richardson, L.L.; Ambrosia, V.G.; , "Hyperspectral imaging sensors and assessment of oceanic littoral zone phytoplankton dynamics," OCEANS '96. MTS/IEEE. 'Prospects for the 21st Century'. Conference Proceedings , vol.3, no., pp.1279-1284 vol.3, 23-26 Sep 1996
