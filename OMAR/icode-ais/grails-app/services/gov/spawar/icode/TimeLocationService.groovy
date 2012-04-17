@@ -15,7 +15,7 @@ class TimeLocationService
 
   def aisMapService
 
-  def getMap( def params, def response )
+  def currentLocation( def params, def response )
   {
     def wmsParams = new CaseInsensitiveMap( params )
     def postgis = aisMapService.createWorkspace()
@@ -45,7 +45,6 @@ class TimeLocationService
       where st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
     ) as y
     where x.id=y.ais_id
-    order by name
     """
 
     def layer = postgis.addSqlQuery(
@@ -64,6 +63,54 @@ class TimeLocationService
     Draw.draw( layer, bounds, size, output, wmsParams.format - 'image/' )
     postgis?.close()
   }
+
+  def vesselTracks( def params, def response )
+  {
+    def wmsParams = new CaseInsensitiveMap( params )
+    def postgis = aisMapService.createWorkspace()
+    def coords = wmsParams.bbox.split( ',' ).collect { it.toDouble() }
+
+    /*
+    def sql = """
+    select a.id as id, vessel_name, date as last_known_time, ais_geom as last_known_position
+    from ais a, location l
+    where a.id=l.ais_id
+    and st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
+   """
+   */
+
+    def sql = """
+    select x.id, vessel_name as name, track
+    from ais x, (
+      select ais_id as id, st_makeline(ais_geom) as track
+      from (
+        select ais_id, ais_geom, date
+        from location
+        where st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
+        order by date
+        ) as t
+        group by ais_id
+    ) as y
+    where x.id=y.id
+    """
+
+    def layer = postgis.addSqlQuery(
+            Layer.newname(),
+            sql,
+            new Field( 'track', 'LINESTRING', 'EPSG:4326' ),
+            ['id']
+    )
+    def proj = new Projection( wmsParams.srs )
+    def bounds = new Bounds( coords[0], coords[1], coords[2], coords[3], proj )
+    def size = [wmsParams.width.toInteger(), wmsParams.height.toInteger()]
+    def output = response.outputStream
+
+    response.contentType = wmsParams.format
+    layer.style = aisMapService.createStyle(wmsParams.styles)
+    Draw.draw( layer, bounds, size, output, wmsParams.format - 'image/' )
+    postgis?.close()
+  }
+
 }
 
 
