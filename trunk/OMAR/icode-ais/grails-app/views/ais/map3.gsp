@@ -46,7 +46,6 @@ function init()
 {
     map = new OpenLayers.Map( 'map' );
 
-    var link = "${createLink(absolute: true, controller: 'ais', action: 'wms')}"
     // "http://localhost:8080/omar/ais/wms"
 
     layers = [
@@ -64,11 +63,19 @@ function init()
       ),
 
       new OpenLayers.Layer.WMS(
-        "AIS",
-        link,
+        "Current Location",
+        "${createLink(absolute: true, controller: 'ais', action: 'currentLocation')}",
         {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, fill: {color: "#000000", opacity: 0}, label: {property: "name"}}'},
         {buffer: 0, singleTile: true, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
       ),
+
+      new OpenLayers.Layer.WMS(
+        "Vessel Tracks",
+        "${createLink(absolute: true, controller: 'ais', action: 'vesselTracks')}",
+        {layers:'location', format: 'image/png', styles: '{stroke: {color: "#FF0000", width: 0.5}, fill: {color: "#000000", opacity: 0}}'},
+        {buffer: 0, singleTile: true, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
+      ),
+
 
       new OpenLayers.Layer.WMS(
         'Location Labels',

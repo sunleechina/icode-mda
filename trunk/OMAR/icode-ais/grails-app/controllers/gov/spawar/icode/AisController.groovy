@@ -124,7 +124,12 @@ class AisController
     render view: 'map3'
   }
 
-  def wms = {
-    timeLocationService.getMap(params, response)
+  def currentLocation = {
+    timeLocationService.currentLocation(params, response)
   }
+
+  def vesselTracks = {
+    timeLocationService.vesselTracks(params, response)
+  }
+
 }
