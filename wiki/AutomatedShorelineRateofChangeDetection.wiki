@@ -11,7 +11,7 @@ This page describes current development of the  Automated Shoreline Rate of Chan
 
 
 = Current Status of Tool =  
-Wahab completed matlab script for shoreline detection (algorithm
+Wahab completed MATLAB script for shoreline detection (algorithm
 approved by Cheryl Hapke); Kofi converting MATLAB script to C++
 (completion by 16 April, 2012); Kofi finding a way about reading
 shapefiles in OSSIM.
