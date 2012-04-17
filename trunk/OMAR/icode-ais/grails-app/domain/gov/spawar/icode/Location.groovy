@@ -14,17 +14,15 @@ class Location
   Date date;
 
   static mapping = {
-    columns {
-      aisGeom type: org.hibernatespatial.GeometryUserType  //
-    }
-
+    aisGeom type: org.hibernatespatial.GeometryUserType
+    date index: 'location_date_idx'
   }
 
   static constraints = {
-    aisGeom(nullable: false)
-    latitude(nullable: false)
-    longitude(nullable: false)
-    date(nullable: false)
+    aisGeom( nullable: false )
+    latitude( nullable: false )
+    longitude( nullable: false )
+    date( nullable: false )
   }
 }
 
