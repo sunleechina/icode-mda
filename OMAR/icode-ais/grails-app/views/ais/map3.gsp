@@ -10,7 +10,7 @@
 <html>
 <head>
   <title>AIS MapView</title>
-  <link rel="stylesheet" href="${resource(contextPath: '', dir: 'css', file: 'main.css')}"/>
+  <link rel="stylesheet" href="${resource( contextPath: '', dir: 'css', file: 'main.css' )}"/>
   <meta content="aisLayout" name="layout">
 </head>
 
@@ -18,7 +18,7 @@
 <content tag="top">
   <div class="nav">
     <span class="menuButton">
-      <a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
+      <a class="home" href="${createLink( uri: '/' )}"><g:message code="default.home.label"/></a>
     </span>
   </div>
 </content>
@@ -44,34 +44,35 @@ var map, layers;
 
 function init()
 {
-    map = new OpenLayers.Map( 'map' );
+    OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
 
-    // "http://localhost:8080/omar/ais/wms"
+    map = new OpenLayers.Map( 'map' );
 
     layers = [
       new OpenLayers.Layer.WMS(
         "OpenLayers WMS",
-        "http://vmap0.tiles.osgeo.org/wms/vmap0",
-        {layers: 'basic'}
+        '${map1.url}',
+        {layers: '${map1.layers}', format: 'image/jpeg' },
+        {buffer: 0, transitionEffect: 'resize'}
       ),
 
       new OpenLayers.Layer.WMS(
         "Reference",
-        "http://${InetAddress.localHost.hostAddress}/cgi-bin/mapserv?map=/data/omar/bmng.map&",
-        {layers:'Reference', format: 'image/jpeg'},
+        '${map2.url}',
+        {layers:'${map2.layers}', format: 'image/jpeg'},
         {buffer: 0, transitionEffect: 'resize'}
       ),
 
       new OpenLayers.Layer.WMS(
         "Current Location",
-        "${createLink(absolute: true, controller: 'ais', action: 'currentLocation')}",
+        "${createLink( absolute: true, controller: 'ais', action: 'currentLocation' )}",
         {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, fill: {color: "#000000", opacity: 0}, label: {property: "name"}}'},
-        {buffer: 0, singleTile: true, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
+        {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
       ),
 
       new OpenLayers.Layer.WMS(
         "Vessel Tracks",
-        "${createLink(absolute: true, controller: 'ais', action: 'vesselTracks')}",
+        "${createLink( absolute: true, controller: 'ais', action: 'vesselTracks' )}",
         {layers:'location', format: 'image/png', styles: '{stroke: {color: "#FF0000", width: 0.5}, fill: {color: "#000000", opacity: 0}}'},
         {buffer: 0, singleTile: true, transitionEffect: 'resize', isBaseLayer: false, /*minScale: 13841995.078125*/}
       ),
@@ -79,10 +80,9 @@ function init()
 
       new OpenLayers.Layer.WMS(
         'Location Labels',
-        'http://vmap0.tiles.osgeo.org/wms/vmap0',
-        {layers: 'clabel,ctylabel,statelabel',
-        visibility: false, transparent: true},
-        {opacity: .5}
+        '${map3.url}',
+        {layers: '${map3.layers}', visibility: false, transparent: true, format: 'image/png'},
+        {opacity: .5, buffer: 0}
       )
     ];
 
