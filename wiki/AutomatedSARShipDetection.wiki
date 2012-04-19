@@ -8,7 +8,8 @@ This page describes current development of the Automated SAR Ship Detection tool
 = Tool Developers =
  * Michael Agbo Tettey Soli
  * Kwame Agyekum
-
+ * Brian Salmon
+ * Waldo Kleynhans
 
 
 = Current Status of Tool =  
@@ -19,6 +20,7 @@ images. He has packaged this into a header file that can be used easily.
 He is currently working on modularizing Kwame’s ship detection code into
 functions that can be called at various stages for defined purposes.
 
+Brian and Waldo are developing OSSIM C++ code that can be used to detect ships. The source code is currently being packaged into functions that can easily be accessed by including the header file.
 
 = Technical Details and Examples =
 Proposed date for next update of website:
