@@ -108,94 +108,104 @@ class AisData
 
   def loadCountryData( )
   {
-    Country.withTransaction {
-      def istream = AisData.class.getResourceAsStream( 'itu_ircs.txt' )
-      def words
-      int count = 0;
+    def istream = AisData.class.getResourceAsStream( 'itu_ircs.txt' )
+    def words
+    int count = 0;
 
-      istream.eachLine { line ->
-        count++;
-        if ( line.trim().size() == 0 || count == 1 )
+    istream.eachLine { line ->
+      count++;
+      if ( line.trim().size() == 0 || count == 1 )
+      {
+        return;
+      }
+      else
+      {
+
+        words = line.split( "[\t]" )
+        //def country = new Country();
+        def prefix = new CallSignPrefix();
+
+        String countryName = words[2]
+        def country = Country.findByName( countryName );
+        if ( !country )
         {
-          return;
-        }
-        else
-        {
+          country = new Country()
+          country.countryCode = words[1]
+          country.name = words[2]
 
-          words = line.split( "[\t]" )
-          //def country = new Country();
-          def prefix = new CallSignPrefix();
+          country.save()
 
-          String countryName = words[2]
-          def country = Country.findByName( countryName );
-          if ( !country )
+          if ( !country.save( flush: true ) )
           {
-            country = new Country()
-            country.countryCode = words[1]
-            country.name = words[2]
-
-            country.save()
-            if ( !country.save( flush: true ) )
-            {
-              println( "Error: Save Country errors: ${country.errors}" );
-            }
-
+            println( "Error: Save Country errors: ${country.errors}" );
           }
 
-          prefix.with {
-            prefix.prefix = words[0]
-          }
+        }
 
-          country.addToCallSignPrefixes( prefix )
+        prefix.with {
+          prefix.prefix = words[0]
+        }
 
-        }//not null line
-      }//for each
-    }//Country Transaction
+        country.addToCallSignPrefixes( prefix )
+
+      }//not null line
+      if ( count % 1000 == 0 )
+      {
+        cleanUpGorm()
+      }
+    }//for each
+
+    cleanUpGorm()
+    istream.close()
 
     //////////////////////////////////////
     //Load Maritime Identification digits
     //////////////////////////////////////
-    Country.withTransaction {
-      def istream = AisData.class.getResourceAsStream( 'countrycodes.txt' )
-      def words
-      int count = 0;
+    istream = AisData.class.getResourceAsStream( 'countrycodes.txt' )
 
-      istream.eachLine { line ->
-        count++;
-        if ( line.trim().size() == 0 || count == 1 )
+    count = 0;
+
+    istream.eachLine { line ->
+      count++;
+      if ( line.trim().size() == 0 || count == 1 )
+      {
+        return;
+      }
+      else
+      {
+
+        words = line.split( "[\t]" )
+        def mid = new MaritimeIdDigit();
+
+        String countryCode = words[1]
+        def country = Country.findByCountryCode( countryCode );
+        if ( !country )
         {
-          return;
-        }
-        else
-        {
+          country = new Country()
+          country.countryCode = words[1]
+          country.name = words[3]
 
-          words = line.split( "[\t]" )
-          def mid = new MaritimeIdDigit();
-
-          String countryCode = words[1]
-          def country = Country.findByCountryCode( countryCode );
-          if ( !country )
+          country.save()
+          if ( !country.save( flush: true ) )
           {
-            country = new Country()
-            country.countryCode = words[1]
-            country.name = words[3]
-
-            country.save()
-            if ( !country.save( flush: true ) )
-            {
-              println( "Error: Save Country errors: ${country.errors}" );
-            }
-
+            println( "Error: Save Country errors: ${country.errors}" );
           }
 
-          mid.with {
-            mid.mid = words[0]
-          }
+        }
 
-          country.addToMaritimeIdDigits( mid )
+        mid.with {
+          mid.mid = words[0]
+        }
 
-        }//not null line
-      }//for each
-    }//Country Transaction
+        country.addToMaritimeIdDigits( mid )
+
+      }//not null line
+      if ( count % 1000 == 0 )
+      {
+        cleanUpGorm()
+      }
+    }//for each
+    cleanUpGorm()
+    istream.close()
   }
 }
