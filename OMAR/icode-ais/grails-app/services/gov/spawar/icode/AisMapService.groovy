@@ -13,6 +13,7 @@ import geoscript.style.Shape
 import geoscript.style.Stroke
 import geoscript.style.Fill
 import geoscript.style.Label
+import geoscript.style.Halo
 import geoscript.workspace.Database
 import geoscript.workspace.PostGIS
 
@@ -92,6 +93,9 @@ class AisMapService
         break
       case "label":
         tmp = new Label( v )
+        break
+      case "halo":
+        tmp = new Halo( v )
         break
       }
 
