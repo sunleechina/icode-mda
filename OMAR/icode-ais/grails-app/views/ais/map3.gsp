@@ -87,15 +87,15 @@ function init()
 
        new OpenLayers.Layer.WMS(
         "I-Cubed",
-        'http://hyperquad.ucsd.edu/cgi-bin/i-cubed',
-        {layers: 'icubed', format: 'image/png' },
+        '${map4.url}',
+        {layers: '${map4.layers}', format: 'image/jpeg' },
         {buffer: 0, transitionEffect: 'resize'}
       ),
 
        new OpenLayers.Layer.WMS(
         "OnEarth",
-        'http://hyperquad.ucsd.edu/cgi-bin/onearth',
-        {layers: 'OnEarth', format: 'image/png' },
+        '${map5.url}',
+        {layers: '${map5.layers}', format: 'image/jpeg' },
         {buffer: 0, transitionEffect: 'resize'}
       )
 
