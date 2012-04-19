@@ -16,13 +16,12 @@ import java.text.SimpleDateFormat
  */
 class AisData
 {
-
-  static def load( )
+  static def load( def filename)
   {
     def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
 
     Ais.withTransaction {
-      def istream = AisData.class.getResourceAsStream( 'Chile2.csv' )
+      def istream = AisData.class.getResourceAsStream( filename )
 
       istream?.toCsvReader( [skipLines: 1] ).eachLine {  tokens ->
 
@@ -33,7 +32,7 @@ class AisData
         formatter = new SimpleDateFormat( "yy-MMM-dd hh.mm.ss a" );
 
         //Search for AIS based on MMSI
-        def mmsiID = tokens[0]
+        def mmsiID = tokens[0]?.toInteger()
         def ais = Ais.findByMmsi( mmsiID );
 
         if ( !ais )
@@ -61,6 +60,7 @@ class AisData
 
           //Save new AIS
           ais.save()
+
           if ( !ais.save( flush: true ) )
           {
             println( "Error: Save AIS errors: ${ais.errors}" );
@@ -179,83 +179,5 @@ class AisData
         }//not null line
       }//for each
     }//Country Transaction
-
-  loadSanDiego();
-
   }//load
-
-  static def loadSanDiego( )
-  {
-
-    def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
-
-    Ais.withTransaction {
-      def istream = AisData.class.getResourceAsStream( 'SanDiego.csv' )
-
-      istream?.toCsvReader( [skipLines: 1] ).eachLine {  tokens ->
-
-        //def ais = new Ais()
-        def location = new Location()
-
-        SimpleDateFormat formatter;  //07-MAY-07 11.41.56 AM
-        formatter = new SimpleDateFormat( "yy-MMM-dd hh.mm.ss a" );
-
-        //Search for AIS based on MMSI
-        def mmsiID = tokens[0]
-        def ais = Ais.findByMmsi( mmsiID );
-
-        if ( !ais )
-        {
-
-          ais = new Ais()
-          // CITY_NAME,COUNTRY,POP,CAP,LONGITUDE,LATITUDE
-          ais.with {
-            mmsi = tokens[0] as Integer
-            navStatus = tokens[1] as Integer
-            rateOfTurn = tokens[2] as Float
-            speedOverGround = tokens[3] as Float
-            posAccuracy = tokens[21] as Double
-            courseOverGround = tokens[6] as Double
-            trueHeading = tokens[7] as Double
-            IMO = tokens[9] as Integer
-            callsign = tokens[20]
-            vesselName = tokens[10]
-            vesselType = tokens[11] as Integer
-            length = tokens[12] as Double
-            width = tokens[13] as Double
-            eta = ( new Date() + 30 )
-            destination = tokens[19]
-          }
-
-          //Save new AIS
-          ais.save()
-          if ( !ais.save( flush: true ) )
-          {
-            println( "Error: Save AIS errors: ${ais.errors}" );
-          }
-        }
-
-
-        long timeStamp = tokens[8] as Long
-        timeStamp = timeStamp * 1000;
-        location.with {
-
-          longitude = tokens[5] as Double
-          latitude = tokens[4] as Double
-          //date = formatter.parse(tokens[8]);
-          date = new Date( timeStamp )
-          //System.out.println("NewDate-->"+formatter.format(date));
-
-          aisGeom = geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
-        }
-
-        ais.addToLocations( location )
-      }
-
-      istream?.close()
-    }//Ais Transaction
-
-
-  }//LoadSanDiego
-
 }

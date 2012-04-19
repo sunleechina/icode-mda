@@ -133,7 +133,8 @@ class AisController
       viewModel['map1'] = [url: tileCacheURL, layers: 'vmapBasic']
       viewModel['map2'] = [url: tileCacheURL, layers: 'omar']
       viewModel['map3'] = [url: tileCacheURL, layers: 'vmapLabels']
-
+      viewModel['map4'] = [url: tileCacheURL, layers: 'iCubed']
+      viewModel['map5'] = [url: tileCacheURL, layers: 'onEarth']
     }
     else
     {
@@ -143,6 +144,8 @@ class AisController
       viewModel['map1'] = [url: vmapServerURL, layers: 'basic']
       viewModel['map2'] = [url: mapServerURL, layers: 'Reference']
       viewModel['map3'] = [url: vmapServerURL, layers: 'clabel,ctylabel,statelabel']
+      viewModel['map4'] = [url: 'http://hyperquad.ucsd.edu/cgi-bin/i-cubed', layers: 'icubed']
+      viewModel['map5'] = [url: 'http://hyperquad.ucsd.edu/cgi-bin/onearth', layers: 'OnEarth']
     }
 
 
