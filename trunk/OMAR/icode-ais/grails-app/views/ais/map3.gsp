@@ -62,8 +62,8 @@ function init()
         {layers:'${map2.layers}', format: 'image/jpeg'},
         {buffer: 0, transitionEffect: 'resize'}
       ),
-
-      new OpenLayers.Layer.WMS(
+      
+       new OpenLayers.Layer.WMS(
         "Current Location",
         "${createLink( absolute: true, controller: 'ais', action: 'currentLocation' )}",
         {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, fill: {color: "#000000", opacity: 0}, label: {property: "name"}}'},
@@ -83,7 +83,22 @@ function init()
         '${map3.url}',
         {layers: '${map3.layers}', visibility: false, transparent: true, format: 'image/png'},
         {opacity: .5, buffer: 0}
+      ),
+
+       new OpenLayers.Layer.WMS(
+        "I-Cubed",
+        'http://hyperquad.ucsd.edu/cgi-bin/i-cubed',
+        {layers: 'icubed', format: 'image/png' },
+        {buffer: 0, transitionEffect: 'resize'}
+      ),
+
+       new OpenLayers.Layer.WMS(
+        "OnEarth",
+        'http://hyperquad.ucsd.edu/cgi-bin/onearth',
+        {layers: 'OnEarth', format: 'image/png' },
+        {buffer: 0, transitionEffect: 'resize'}
       )
+
     ];
 
   map.addLayers(layers);

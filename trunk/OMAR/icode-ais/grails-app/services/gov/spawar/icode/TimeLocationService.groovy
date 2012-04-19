@@ -30,6 +30,7 @@ class TimeLocationService
    """
    */
 
+    //Joining AIS and Location for querying a layer
     def sql = """
     select x.id as id, vessel_name as name, last_known_time, last_known_position
     from ais x, (
@@ -47,11 +48,12 @@ class TimeLocationService
     where x.id=y.ais_id
     """
 
+    //Add SQL query as a Layer
     def layer = postgis.addSqlQuery(
             Layer.newname(),
             sql,
-            new Field( 'last_known_position', 'POINT', 'EPSG:4326' ),
-            ['id']
+            new Field( 'last_known_position', 'POINT', 'EPSG:4326' ), //geometryFld
+            ['id']  //primaryKey
     )
     def proj = new Projection( wmsParams.srs )
     def bounds = new Bounds( coords[0], coords[1], coords[2], coords[3], proj )
