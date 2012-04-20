@@ -1,4 +1,5 @@
 #summary This page describes the project titled Track Stitching Using Graphical Models and Message Passing tool.
+= Track Stitching Using Graphical Models and Message Passing =
 
 = Short description =
 Track stitching has become a prominent part of modern tracking systems. Unfortunately the amount of data associations grow exponentially with the number of targets, thereby leading to a scaling problem in cluttered environments.
