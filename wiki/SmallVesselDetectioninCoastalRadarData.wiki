@@ -15,7 +15,7 @@ Essential to this tool is the input of low threshold (or no-threshold) filtered 
 
 Possible applications for this tool (or derivations thereof) may include the following:
   * Illegal fishing boat detection and tracking. 
-  * Debris and human detection in coastal waters for example from aviation accidents.
+  * Debris and human detection in coastal waters (for example from aviation accidents).
   * Improved Coastal awareness and security.
   * Periscope detection.
   * Small marine vessel detection.
@@ -35,7 +35,7 @@ The rough outline of the planned implementation is as follows:
 
 = Current Researchers =
 
-Manfred Strempel
+Manfred Strempel (Email given on the ICode-MDA page)
 
 = Links of interest = 
 
