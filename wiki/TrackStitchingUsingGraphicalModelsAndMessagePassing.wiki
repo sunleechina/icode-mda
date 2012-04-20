@@ -1,22 +1,19 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-
-= Details =
-
-= Project title =
+#summary This page describes the project titled Track Stitching Using Graphical Models and Message Passing tool.
 
 = Short description =
+Track stitching has become a prominent part of modern tracking systems. Unfortunately the amount of data associations grow exponentially with the number of targets, thereby leading to a scaling problem in cluttered environments.
+
+In this project a graphical model is proposed to model the tracklets as nodes. It is proposed that local messages are passed between neighboring nodes to reduce the computational overhead.
 
 = Expected applications =
 
 = Relevant pictures =
 
 = Researcher bio = 
-Name: LJ van der Merwe
+Name: L.J. van der Merwe
 
-Institution: University of Pretioria (South Africa)
+Institution: University of Pretoria (South Africa)
 
-Contact Information: [loodvdmerwe@gmail.com loodvdmerwe@gmail.com]
+Contact Information: loodvdmerwe@gmail.com
 
 = Interests =
