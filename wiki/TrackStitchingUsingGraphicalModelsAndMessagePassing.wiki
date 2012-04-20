@@ -19,13 +19,13 @@ Targets were simulated to cross at different angles. These results are shown bel
 
 https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim1_LJvanDerMerwe.png
 
-  *The angle was reduced to make it harder for the Viterbi algorithm to discern between measurements for different tracks.
+  * The angle was reduced to make it harder for the Viterbi algorithm to discern between measurements for different tracks.
 
 https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim2_LJvanDerMerwe.png
 
-  *By making the tracks almost parallel to each other the Viterbi algorithm failed to discern between measurements from the two tracks.
+  * By making the tracks almost parallel to each other the Viterbi algorithm failed to discern between measurements from the two tracks.
 
-https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim3_LJvanDerMerwe.png|upright=0.1
+https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim3_LJvanDerMerwe.png
 
 = Researcher Bio = 
 Name: L.J. van der Merwe
