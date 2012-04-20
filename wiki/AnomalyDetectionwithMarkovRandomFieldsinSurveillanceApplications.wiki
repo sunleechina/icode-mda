@@ -37,4 +37,4 @@ https://icode-mda.googlecode.com/svn/wiki/images/ADMRF_simulation.jpg.jpg
 
 =References=
 
- # Michal Jakob, Ondrej Vanek, Stepan Urban, Petr Benda, and Michal Pechoucek, "Adversarial Modeling and Reasoning in the Maritime Domain Year 1 Report," Technical Report
+ # Michal Jakob, Ondrej Vanek, Stepan Urban, Petr Benda, and Michal Pechoucek, "Adversarial Modeling and Reasoning in the Maritime Domain Year 1 Report," _italic_ Technical Report _italic_
