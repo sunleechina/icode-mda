@@ -35,5 +35,6 @@
   * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
   * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
   * [TrackStitchingUsingGraphicalModelsAndMessagePassing Track Stitching Using Graphical Models and Message Passing]
+* [AnomalyDetectionwithMarkovRandomFieldsinSurveillanceApplications Anomaly Detection with Markov Random Fields in Surveillance Applications]
 
 * [References References]
