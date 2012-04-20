@@ -9,9 +9,11 @@ This page describes current development of the Anomaly Detection for Maritime Se
 Joel Dabrowski
 
 = Background and Application =
-In the efforts of maintaining maritime security, maritime surveillance is essential. Electronic surveillance is a tool that can be utilized to  survey  the  maritime  domain.  With  the  vast  spatial  range  of  the  oceans  and  shorelines,  electronic surveillance provides a large set of data. This set of data is too large for a human analyst or operator to efﬁciently observe for the purpose of maritime vessel control and monitoring. Automatic maritime domain awareness systems provide a means for machines to analyse and interpret electronic surveillance data. The purpose of this tool is to provide such a system. One that is able to analyse and detect illegal activity.
 
-= Applications = 
+In the efforts of maintaining maritime security, maritime surveillance is essential. Electronic surveillance is a tool that can be utilized to  survey  the  maritime  domain.  With  the  vast  spatial  range  of  the  oceans  and  shorelines,  electronic surveillance provides a large set of data. This set of data is too large for a human analyst or operator to efﬁciently observe for the purpose of maritime vessel control and monitoring. Automatic maritime domain awareness systems provide a means for machines to analyse and interpret electronic surveillance data. The purpose of this tool is to provide such a system; one that is able to analyse and detect illegal activity.
+
+= Applications =
+
 Applications for the tool include:
  * Piracy
  * Smuggling
