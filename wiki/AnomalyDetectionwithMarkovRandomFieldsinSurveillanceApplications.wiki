@@ -4,9 +4,16 @@
 
 This page describes current development of the Anomaly Detection for Maritime Security tool for ICODE-MDA, including who is developing the tool, it's status, and technical details with examples.
 
+= Tool Developer =
+
+Joel Dabrowski
+
 = Background and Application =
 
-This tool shall provide a means for anomaly detection in a maritime surveillance environment. The tool is intended for the use in security applications. Such applications in include piracy, smuggling and illegal immigration.
+This tool shall provide a means for anomaly detection in a maritime surveillance environment. The tool is intended for the use in security applications. Such applications in include the following:
+ * Piracy
+ * Smuggling
+ * Illegal immigration.
 
 = Simulation =
 
