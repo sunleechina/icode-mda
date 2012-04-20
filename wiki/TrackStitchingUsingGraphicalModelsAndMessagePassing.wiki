@@ -12,7 +12,7 @@ Possible applications for this tool may include the following:
    * In situations where satellite or AIS data might not be available while tracking, the tracklets from the two sensors can be stitched together to determine the intent of a vessel.
 
 = Progress thus far =
-A simulated noisy tracking environment has been set up and data association was performed using a Viterbi algorithm to do data association and a Kalman filter to perform filtering and tracking.
+A simulated noisy tracking environment has been set up in MATLAB and data association was performed using a Viterbi algorithm to do data association and a Kalman filter to perform filtering and tracking.
 
 Targets were simulated to cross at different angles. These results are shown below:
   * In this simulation the target paths were simulated to cross almost perpendicularly, the Viterbi algorithm had no trouble in discerning between measurements from different tracks.
