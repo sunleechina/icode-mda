@@ -23,3 +23,5 @@ Name: L.J. van der Merwe
 Institution: University of Pretoria (South Africa)
 
 Contact Information: loodvdmerwe@gmail.com
+
+https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/researcher_LJvanDerMerwe.png
