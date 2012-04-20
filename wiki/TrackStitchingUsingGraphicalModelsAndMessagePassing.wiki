@@ -14,7 +14,9 @@
 
 = Researcher bio = 
 Name: LJ van der Merwe
+
 Institution: University of Pretioria (South Africa)
+
 Contact Information: loodvdmerwe@gmail.com
 
 = Interests =
