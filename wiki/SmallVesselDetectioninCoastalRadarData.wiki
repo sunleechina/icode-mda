@@ -27,7 +27,7 @@ Currently research is being done into the many possible approaches to achieving 
 The rough outline of the planned implementation is as follows:
   * Script a basic 1D case in MATLAB
   * Apply a threshold limit on the radar amplitude
-  * Apply a simple CFAR tracker for baseline comparison
+  * Apply a simple CFAR detector for baseline comparison
   * Apply a Multiple Model Tracking approach to account for random and linear motion (clutter motion)
   * Group / Cluster groups of tracks together. These could be groups of waves all moving in the same/similar direction.
   * Consider not only signal processing techniques but also image processing techniques on the problem.
