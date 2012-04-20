@@ -36,7 +36,10 @@ The rough outline of the planned implementation is as follows:
 = Current Researchers =
 
 Manfred Strempel (Email given on the ICode-MDA page)
+
 https://icode-mda.googlecode.com/svn/wiki/images/researcher_mdstrempel.jpg
+
+
 = Links of interest = 
 
 Under development
