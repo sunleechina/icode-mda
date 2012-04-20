@@ -31,7 +31,7 @@ The environment shall be modelled using a probabilistic graphical model. In part
 
 Currently the simulation environment is being developed in MATLAB. Path planning, vessel motion and basic finite state machines have been implemented.
 
-The following image is a time slice of a simulation in progress for pirate activity. The cargo vessels (yellow) are simulated to follow paths between specified harbour points. The pirate agents (red) attempt to ambush and attack cargo vessels. Once a cargo vessel has been hijacked, the pirate returns to a home base (1)
+The following image is a time slice of a simulation in progress for pirate activity. The cargo vessels (yellow) are simulated to follow paths between specified harbour points. The pirate agents (red) attempt to ambush and attack cargo vessels. Once a cargo vessel has been hijacked, the pirate returns to a home base (1).
 
 https://icode-mda.googlecode.com/svn/wiki/images/ADMRF_simulation.jpg.jpg
 
