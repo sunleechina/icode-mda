@@ -25,7 +25,7 @@ https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim2_LJvanDerMerwe.
 
   *By making the tracks almost parallel to each other the Viterbi algorithm failed to discern between measurements from the two tracks.
 
-https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim3_LJvanDerMerwe.png
+https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim3_LJvanDerMerwe.png|upright=0.1
 
 = Researcher Bio = 
 Name: L.J. van der Merwe
