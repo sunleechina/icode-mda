@@ -34,5 +34,6 @@
   * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
   * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
   * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
+  * [TrackStitchingUsingGraphicalModelsAndMessagePassing Track Stitching Using Graphical Models and Message Passing]
 
 * [References References]
