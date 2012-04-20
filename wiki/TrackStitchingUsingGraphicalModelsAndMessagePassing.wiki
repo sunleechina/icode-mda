@@ -1,0 +1,17 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+= Details =
+
+= Project title =
+
+= Short description =
+
+= Expected applications =
+
+= Relevant pictures =
+
+= Researcher bio
+
+= Interests =
