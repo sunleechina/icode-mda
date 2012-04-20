@@ -1,0 +1,21 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+This page describes current development of the Anomaly Detection for Maritime Security tool for ICODE-MDA, including who is developing the tool, it's status, and technical details with examples.
+
+= Background and Application =
+
+This tool shall provide a means for anomaly detection in a maritime surveillance environment. The tool is intended for the use in security applications. Such applications in include piracy, smuggling and illegal immigration.
+
+= Simulation =
+
+The tool shall be tested using an agent based simulation environment. The simulation environment may be configured over a particular region with a set of vessels that operate within the region. Each of the vessel's behaviour is simulated using a finite state machine.
+
+= Anomaly Detection=
+
+The environment shall be modelled using a probabilistic graphical model. In particular the Markov Random Field is of interest. The model will provide a means for a classification based anomaly detection algorithm to be implemented. This algorithm will have the purpose of detecting illegal activities.
+
+= Current Status = 
+
+Currently the simulation environment is being developed in MATLAB. Path planning, vessel motion and basic finite state machines have been implemented.
