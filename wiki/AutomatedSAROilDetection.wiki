@@ -7,11 +7,17 @@ This page describes current development of the Automated Oil Slick Detection too
 
 = Tool Developers =
 
-
-
-
-= Current Status of Tool =  
-
-
+Amadi Sefa Twerefour
 
 = Technical Details and Examples =
+
+This project is aimed at detecting oil slick on the ocean surface imaged by space-borne radar sensors.  Image processing techniques such as low-pass filtering, morphological operations and adaptive thresholding are being used to isolate dark pixels that characterize oil contaminated waters from the background ocean clutter.
+
+The thresholding technique includes clutter modeling and image statistic parameter estimation for image segmentation.
+
+ * Expected applications
+  * Marine environmental monitoring
+  * Maritime security and safety
+
+= Current Status of Tool =  
+Under development
