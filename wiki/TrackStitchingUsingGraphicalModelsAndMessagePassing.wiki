@@ -15,7 +15,17 @@ Possible applications for this tool may include the following:
 A simulated noisy tracking environment has been set up and data association was performed using a Viterbi algorithm to do data association and a Kalman filter to perform filtering and tracking.
 
 Targets were simulated to cross at different angles. These results are shown below:
+  * In this simulation the target paths were simulated to cross almost perpendicularly, the Viterbi algorithm had no trouble in discerning between measurements from different tracks.
 
+https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim1_LJvanDerMerwe.png
+
+  *The angle was reduced to make it harder for the Viterbi algorithm to discern between measurements for different tracks.
+
+https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim2_LJvanDerMerwe.png
+
+  *By making the tracks almost parallel to each other the Viterbi algorithm failed to discern between measurements from the two tracks.
+
+https://icode-mda.googlecode.com/svn/wiki/images/loodvdmerwe/sim3_LJvanDerMerwe.png
 
 = Researcher Bio = 
 Name: L.J. van der Merwe
