@@ -12,7 +12,7 @@ There has been a lot of progress made in fight against IUU fishing. Many governm
 
 Despite efforts to reduce IUU fishing, it still poses a very real threat to all fisheries stakeholders. IUU activities are by nature done covertly making monitoring very difficult. Due to lack of monitoring, control and surveillance (MCS) there is a very real threat that industrial fishing vessels could encroach unnoticed in fishing zones which, for example, is reserved for small-scale fisheries [[ftp://ftp.fao.org/docrep/fao/meeting/011/j8989e.pdf 2]]. 
 
-A relevant example is the Southern Ocean that surrounds the continent of Antarctica. In 1982 the Convention on the Conservation of Antarctic Marine Living Resources (CCAMLR) was established to conserve marine life of the Southern Ocean. An alarming increase in IUU fishing activity in the area has been noticed [3]. Due to a lack of MCS, the conservation measures of the CCAMLR is severely compromised. The large size of the Southern Ocean makes it very difficult for Member States to mitigate IUU fishing in the area.
+A relevant example is the Southern Ocean that surrounds the continent of Antarctica. In 1982 the Convention on the Conservation of Antarctic Marine Living Resources (CCAMLR) was established to conserve marine life of the Southern Ocean. An alarming increase in IUU fishing activity in the area has been noticed [[http://www.ccamlr.org/pu/E/sc/fish-monit/iuu-intro.htm 3]]. Due to a lack of MCS, the conservation measures of the CCAMLR is severely compromised. The large size of the Southern Ocean makes it very difficult for Member States to mitigate IUU fishing in the area.
 
 There is no single tool that is able to provide all the necessary information for location, tracking and eventually apprehending IUU fishers and MCS authorities subsequently have to make use of a series of tools. One of the most promising tools are satellite-based monitoring systems (such as VMS or AIS) which is able to transmit information about the vessels, such as name and location to authorities in real time. It should however be stressed that these satellite information systems should be used in conjunction with other tools and are not to be regarded as the single solution to vessel tracking.
 
@@ -61,12 +61,9 @@ Figure 4: Ships detected of the east coast of South Africa.
 
 = Reference =
 
-[2] 
-
-“COMBATING ILLEGAL, UNREPORTED AND UNREGULATED FISHING THROUGH MONITORING, CONTROL AND SURVEILLANCE, PORT STATE MEASURES AND OTHER MEANS” Twenty-seventh Session Rome, Italy, 5 - 9 March 2007
 
 
-[3] http://www.ccamlr.org/pu/E/sc/fish-monit/iuu-intro.htm
+[3] 
 
 
 [4] “FAO REGIONAL WORKSHOP ON PORT STATE MEASURES TO COMBAT ILLEGAL, UNREPORTED AND UNREGULATED FISHING “ Cape Town, South Africa, 28–31 January 2008
