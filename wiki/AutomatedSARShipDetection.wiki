@@ -11,8 +11,8 @@ This page describes current development of the Automated SAR Ship Detection tool
  * Brian Salmon
  * Waldo Kleynhans
 
-
 = Current Status of Tool =  
+
 Michael has developed OSSIM C++ code to read in satellite images and
 tile it according to the user specific dimensions and convert it to an
 IPL image for Kwame’s ship detection algorithm to be applied on the IPL
@@ -22,12 +22,14 @@ functions that can be called at various stages for defined purposes.
 
 Brian and Waldo are developing OSSIM C++ code that can be used to detect ships. The source code is currently being packaged into functions that can easily be accessed by including the header file. They are also in the process of creating a scholarship program dedicated to this project that will be funded by  [http://www.armscor.co.za/ Armscor] and [http://www.csir.co.za/ CSIR].
 
-
 https://icode-mda.googlecode.com/svn/wiki/images/footprints.jpg<br>
 Figure1 : Acquisition profile of ASAR images over the Africa continent. 
 
 https://icode-mda.googlecode.com/svn/wiki/images/Ship01.png<br>
 Figure 2: Initial detection of ships using SAR images shown in figure 1.
+
+https://icode-mda.googlecode.com/svn/wiki/images/Ship02.png<br>
+Figure 3: A zoomed in figure of the Gulf of Guinea of figure 2.
 
 = Technical Details and Examples =
 Proposed date for next update of website:
