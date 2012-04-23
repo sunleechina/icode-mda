@@ -26,10 +26,13 @@ https://icode-mda.googlecode.com/svn/wiki/images/footprints.jpg<br>
 Figure1 : Acquisition profile of ASAR images over the Africa continent. 
 
 https://icode-mda.googlecode.com/svn/wiki/images/Ship01.png<br>
-Figure 2: Initial detection of ships using SAR images shown in figure 1.
+Figure 2: Ships detected using SAR images shown in figure 1.
 
 https://icode-mda.googlecode.com/svn/wiki/images/Ship02.png<br>
-Figure 3: A zoomed in figure of the Gulf of Guinea of figure 2.
+Figure 3: Ships detected in the Gulf of Guinea.
+
+https://icode-mda.googlecode.com/svn/wiki/images/Ship03.png<br>
+Figure 4: Ships detected of the east coast of South Africa.
 
 = Technical Details and Examples =
 Proposed date for next update of website:
