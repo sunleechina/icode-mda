@@ -8,7 +8,7 @@ This page describes current development of the Automated SAR Ship Detection tool
 = Tool Developers =
  * Michael Agbo Tettey Soli
  * Kwame Agyekum
- * Brian Salmon <<MailTo(Firstname DOT Lastname AT example DOT net)>>
+ * Brian Salmon 
  * Waldo Kleynhans
 
 
