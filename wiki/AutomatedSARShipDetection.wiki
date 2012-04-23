@@ -4,6 +4,12 @@
 
 This page describes current development of the Automated SAR Ship Detection tool for ICODE-MDA, including who is developing the tool, it's status, and technical details with examples.
 
+= Background =
+
+[http://http://www.defenceweb.co.za/index.php?option=com_content&view=article&id=24437:navy-to-establish-maritime-awareness-centres&catid=51:Sea&Itemid=106/ Navy to establish Maritime Awareness Centres]
+
+
+
 
 = Tool Developers =
  * Michael Agbo Tettey Soli
