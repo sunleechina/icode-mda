@@ -10,7 +10,7 @@ Illegal, unreported and unregulated (IUU) fishing is locally as well as internat
 
 There has been a lot of progress made in fight against IUU fishing. Many governments have been actively involved in negotiation on the text of the United Nations Food and Agriculture Organization Agreement on Port State Measures to Prevent, Deter and Eliminate Illegal, Unreported and Unregulated Fishing and is continuing its efforts to mitigate IUU fishing together with other concerned members of the international community [[http://www.daff.gov.au/fisheries/iuu/illegal-fishing/ 1]].
 
-Despite efforts to reduce IUU fishing, it still poses a very real threat to all fisheries stakeholders. IUU activities are by nature done covertly making monitoring very difficult. Due to lack of monitoring, control and surveillance (MCS) there is a very real threat that industrial fishing vessels could encroach unnoticed in fishing zones which, for example, is reserved for small-scale fisheries [2]. 
+Despite efforts to reduce IUU fishing, it still poses a very real threat to all fisheries stakeholders. IUU activities are by nature done covertly making monitoring very difficult. Due to lack of monitoring, control and surveillance (MCS) there is a very real threat that industrial fishing vessels could encroach unnoticed in fishing zones which, for example, is reserved for small-scale fisheries [[ftp://ftp.fao.org/docrep/fao/meeting/011/j8989e.pdf 2]]. 
 
 A relevant example is the Southern Ocean that surrounds the continent of Antarctica. In 1982 the Convention on the Conservation of Antarctic Marine Living Resources (CCAMLR) was established to conserve marine life of the Southern Ocean. An alarming increase in IUU fishing activity in the area has been noticed [3]. Due to a lack of MCS, the conservation measures of the CCAMLR is severely compromised. The large size of the Southern Ocean makes it very difficult for Member States to mitigate IUU fishing in the area.
 
@@ -61,10 +61,9 @@ Figure 4: Ships detected of the east coast of South Africa.
 
 = Reference =
 
-[1] 
+[2] 
 
-
-[2] “COMBATING ILLEGAL, UNREPORTED AND UNREGULATED FISHING THROUGH MONITORING, CONTROL AND SURVEILLANCE, PORT STATE MEASURES AND OTHER MEANS” Twenty-seventh Session Rome, Italy, 5 - 9 March 2007
+“COMBATING ILLEGAL, UNREPORTED AND UNREGULATED FISHING THROUGH MONITORING, CONTROL AND SURVEILLANCE, PORT STATE MEASURES AND OTHER MEANS” Twenty-seventh Session Rome, Italy, 5 - 9 March 2007
 
 
 [3] http://www.ccamlr.org/pu/E/sc/fish-monit/iuu-intro.htm
