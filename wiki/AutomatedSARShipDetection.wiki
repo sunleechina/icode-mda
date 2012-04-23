@@ -24,7 +24,7 @@ Brian and Waldo are developing OSSIM C++ code that can be used to detect ships. 
 
 
 https://icode-mda.googlecode.com/svn/wiki/images/footprints.jpg<br>
-<align center> Figure1 : Acquisition profile of ASAR images over the Africa continent. </align>
+Figure1 : Acquisition profile of ASAR images over the Africa continent. 
 
 https://icode-mda.googlecode.com/svn/wiki/images/Ship01.png<br>
 Figure 2: Initial detection of ships using SAR images shown in figure 1.
