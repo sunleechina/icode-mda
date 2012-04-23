@@ -35,5 +35,7 @@ https://icode-mda.googlecode.com/svn/wiki/images/Ship03.png<br>
 Figure 4: Ships detected of the east coast of South Africa.
 
 = Technical Details and Examples =
+Last updated: Monday, 23 April 2012
+
 Proposed date for next update of website:
 Monday, 23 April 2012
