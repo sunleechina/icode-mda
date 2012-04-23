@@ -20,7 +20,7 @@ SAR has the ability to penetrate clouds and provide interferometric and polarime
 
 SAR technology has recently been applied to fisheries monitoring with promising results. There is however a need to further develop image processing and interpretation ability before a widespread application of SAR in the fisheries monitoring domain can be expected [[http://www.fao.org/fishery/topic/18107/en 5]].
 
-Although there are commercial SAR based vessel detection services [[http://www.ksat.no/ 6], [[http://www.cls.fr 7]], these services would typically only indicate the location of detected ships that are not seen by VMS or AIS using the data from a specific SAR satellite platform. 
+Although there are commercial SAR based vessel detection services [[http://www.ksat.no/ 6], [http://www.cls.fr 7]], these services would typically only indicate the location of detected ships that are not seen by VMS or AIS using the data from a specific SAR satellite platform. 
 
 = Related news articles =
 
