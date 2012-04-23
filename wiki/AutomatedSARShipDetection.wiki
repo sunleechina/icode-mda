@@ -14,7 +14,7 @@ Despite efforts to reduce IUU fishing, it still poses a very real threat to all 
 
 A relevant example is the Southern Ocean that surrounds the continent of Antarctica. In 1982 the Convention on the Conservation of Antarctic Marine Living Resources (CCAMLR) was established to conserve marine life of the Southern Ocean. An alarming increase in IUU fishing activity in the area has been noticed [[http://www.ccamlr.org/pu/E/sc/fish-monit/iuu-intro.htm 3]]. Due to a lack of MCS, the conservation measures of the CCAMLR is severely compromised. The large size of the Southern Ocean makes it very difficult for Member States to mitigate IUU fishing in the area.
 
-There is no single tool that is able to provide all the necessary information for location, tracking and eventually apprehending IUU fishers and MCS authorities subsequently have to make use of a series of tools. One of the most promising tools are satellite-based monitoring systems (such as VMS or AIS) which is able to transmit information about the vessels, such as name and location to authorities in real time. It should however be stressed that these satellite information systems should be used in conjunction with other tools and are not to be regarded as the single solution to vessel tracking.
+There is no single tool that is able to provide all the necessary information for location, tracking and eventually apprehending IUU fishers and MCS authorities subsequently have to make use of a series of tools. One of the most promising tools are satellite-based monitoring systems (such as VMS or AIS) which is able to transmit information about the vessels, such as name and location to authorities in real time. It should however be stressed that these satellite information systems should be used in conjunction with other tools and are not to be regarded as the single solution to vessel tracking [[ftp://ftp.fao.org/docrep/fao/010/i0049e/i0049e00.pdf 4]].
 
 SAR has the ability to penetrate clouds and provide interferometric and polarimetry information on ground targets making detection of ships using SAR a very attractive solution. SAR imagery can potentially be used to detect a range of maritime activity, including small vessels, large ocean-going ships and even oil spills. Another advantage of using SAR is the large swath widths that these satellite based sensors can cover (thousands of square kilometres can be covered in a single pass) which reduces the monitoring cost per square kilometre significantly when compared to manual monitoring systems.
 
@@ -66,7 +66,6 @@ Figure 4: Ships detected of the east coast of South Africa.
 [3] 
 
 
-[4] “FAO REGIONAL WORKSHOP ON PORT STATE MEASURES TO COMBAT ILLEGAL, UNREPORTED AND UNREGULATED FISHING “ Cape Town, South Africa, 28–31 January 2008
 
 
 [5] http://www.fao.org/fishery/topic/18107/en
