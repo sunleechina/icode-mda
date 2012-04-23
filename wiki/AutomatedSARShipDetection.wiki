@@ -23,9 +23,7 @@ functions that can be called at various stages for defined purposes.
 Brian and Waldo are developing OSSIM C++ code that can be used to detect ships. The source code is currently being packaged into functions that can easily be accessed by including the header file. They are also in the process of creating a scholarship program dedicated to this project that will be funded by Armscor and CSIR.
 
 https://icode-mda.googlecode.com/svn/wiki/images/footprints.jpg<br>
-<align center>
-Figure1 : Acquisition profile of ASAR images over the Africa continent.
-</align>
+<align center> Figure1 : Acquisition profile of ASAR images over the Africa continent. </align>
 
 https://icode-mda.googlecode.com/svn/wiki/images/Ship01.png<br>
 Figure 2: Initial detection of ships using SAR images shown in figure 1.
