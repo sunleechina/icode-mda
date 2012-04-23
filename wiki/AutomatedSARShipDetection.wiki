@@ -59,7 +59,34 @@ Figure 3: Ships detected in the Gulf of Guinea.
 https://icode-mda.googlecode.com/svn/wiki/images/Ship03.png<br>
 Figure 4: Ships detected of the east coast of South Africa.
 
-Last updated: Monday, 23 April 2012
+= Reference =
 
-Proposed date for next update of website:
-Monday, 23 April 2012
+[1] http://www.daff.gov.au/fisheries/iuu/illegal-fishing
+
+
+[2] “COMBATING ILLEGAL, UNREPORTED AND UNREGULATED FISHING THROUGH MONITORING, CONTROL AND SURVEILLANCE, PORT STATE MEASURES AND OTHER MEANS” Twenty-seventh Session Rome, Italy, 5 - 9 March 2007
+
+
+[3] http://www.ccamlr.org/pu/E/sc/fish-monit/iuu-intro.htm
+
+
+[4] “FAO REGIONAL WORKSHOP ON PORT STATE MEASURES TO COMBAT ILLEGAL, UNREPORTED AND UNREGULATED FISHING “ Cape Town, South Africa, 28–31 January 2008
+
+
+[5] http://www.fao.org/fishery/topic/18107/en
+
+
+[6] http://www.ksat.no/
+
+
+[7] http://www.cls.fr
+
+
+[8] D. J. Crisp , The State-of-the-Art in Ship Detection in Synthetic Aperture Radar Imagery. Intelligence, Surveillance and Reconnaissance Division , Report number DSTO–RR–0272
+
+
+
+
+
+Last updated: Monday, 23 April 2012
+Proposed date for next update of website: Monday, 23 April 2012
