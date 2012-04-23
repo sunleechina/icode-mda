@@ -6,10 +6,11 @@ This page describes current development of the Automated SAR Ship Detection tool
 
 = Background =
 
+
+
 [http://www.defenceweb.co.za/index.php?option=com_content&view=article&id=24437:navy-to-establish-maritime-awareness-centres&catid=51:Sea&Itemid=106/ Navy to establish Maritime Awareness Centres]
 
 [http://www.defenceweb.co.za/index.php?option=com_content&view=article&id=20466:ghanas-navy-receives-four-new-patrol-vessels&catid=51:Sea&Itemid=106/ Ghana’s navy receives four new patrol vessels]
-[http://www.armscor.co.za/ Armscor]
 
 
 
