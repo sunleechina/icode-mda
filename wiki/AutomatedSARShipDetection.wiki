@@ -59,21 +59,8 @@ Figure 3: Ships detected in the Gulf of Guinea.
 https://icode-mda.googlecode.com/svn/wiki/images/Ship03.png<br>
 Figure 4: Ships detected of the east coast of South Africa.
 
-= Reference =
-
-
-
-
-
-
-
-
-
-[8] D. J. Crisp , The State-of-the-Art in Ship Detection in Synthetic Aperture Radar Imagery. Intelligence, Surveillance and Reconnaissance Division , Report number DSTO–RR–0272
-
-
-
-
+= Page information =
 
 Last updated: Monday, 23 April 2012
+
 Proposed date for next update of website: Monday, 23 April 2012
