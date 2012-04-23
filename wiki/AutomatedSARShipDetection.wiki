@@ -18,7 +18,7 @@ There is no single tool that is able to provide all the necessary information fo
 
 SAR has the ability to penetrate clouds and provide interferometric and polarimetry information on ground targets making detection of ships using SAR a very attractive solution. SAR imagery can potentially be used to detect a range of maritime activity, including small vessels, large ocean-going ships and even oil spills. Another advantage of using SAR is the large swath widths that these satellite based sensors can cover (thousands of square kilometres can be covered in a single pass) which reduces the monitoring cost per square kilometre significantly when compared to manual monitoring systems.
 
-SAR technology has recently been applied to fisheries monitoring with promising results. There is however a need to further develop image processing and interpretation ability before a widespread application of SAR in the fisheries monitoring domain can be expected [5].
+SAR technology has recently been applied to fisheries monitoring with promising results. There is however a need to further develop image processing and interpretation ability before a widespread application of SAR in the fisheries monitoring domain can be expected [[http://www.fao.org/fishery/topic/18107/en 5]].
 
 Although there are commercial SAR based vessel detection services [6] [7], these services would typically only indicate the location of detected ships that are not seen by VMS or AIS using the data from a specific SAR satellite platform. 
 
@@ -62,13 +62,6 @@ Figure 4: Ships detected of the east coast of South Africa.
 = Reference =
 
 
-
-[3] 
-
-
-
-
-[5] http://www.fao.org/fishery/topic/18107/en
 
 
 [6] http://www.ksat.no/
