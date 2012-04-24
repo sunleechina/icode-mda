@@ -12,6 +12,15 @@ Kwame also has interest in using various satellite imageries including high reso
 
 Using SST data, we are developing techniques for automatic detection of persistent fronts and verify any relationship with tuna catch distribution in the Gulf of Guinea.  Our approach involves using gradient and histogram based techniques, and a test of bimodality to detect edges within the ocean surface with warm and cold water masses.   To better understand thermal preference of tuna in the eastern equatorial Atlantic, we also identify the warm and cold side of detected fronts and generate a matrix of proximity of catch to fronts, sea surface thermal preference and a preference of warm or cold side of fronts of tuna.  Our preliminary analyses show the three dominant tuna species in the Gulf of Guinea i.e. Yellow fin, Bigeye and Skipjack, abundance decrease away from fronts, with large tuna catch near fronts associated with temperatures between 26 – 28˚C. 
 
+
+https://icode-mda.googlecode.com/svn/wiki/images/fish_density.jpg<br>
+Figure 1: Detected fronts in the Gulf of Guinea, blue and red edges of the fronts show cold and warm sides, respectively.  Green dots show location of tuna catch relative to fronts.
+
+https://icode-mda.googlecode.com/svn/wiki/images/fish_density1.jpg<br>
+https://icode-mda.googlecode.com/svn/wiki/images/fish_density2.jpg<br>
+https://icode-mda.googlecode.com/svn/wiki/images/fish_density3.jpg<br>
+Figure 2 abc:  Proximity of Tuna catch distribution from detected fronts from sea surface temperature. Generally, tuna abundance increases close to fronts.
+
 == Expected applications ==
 
   * Fisheries management
