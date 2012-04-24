@@ -9,6 +9,7 @@ http://en.wikipedia.org/wiki/Synthetic_aperture_radar
 
 The detection and characterization of vessels from space-based synthetic aperture radar (SAR) imagery has a number of important applications, including fisheries monitoring and maritime security. A number of automated SAR ship detection systems exist, most of which are described in one of several review papers.  However, SAR ship detection remains an active area of research with a number of open problems.  Below is a rough guide for the development of an automated SAR ship detection system, including some of the sub-problems of interest.
   
+<br>
 1)	Basic SAR ship detection using Constant False Alarm Rate algorithm.
 
 i)  Background noise model (K-distribution, Gaussian Distribution, etc).
@@ -18,21 +19,37 @@ A breif overview of the mathematics behind CFAR ship detection can be found here
 
 http://www.array.ca/nest-web/help/operators/ObjectDetection.html
 
+<br>
 2)	Detection adaptive to sensor and environmental parameters.
-a.	Sensor - Based on a number of sensor parameters, the model for the ocean background clutter, the target, and appropriate preprocessing steps may change.  Some of these sensors parameters include; radar center frequency, hardware noise characteristics,  radar aperture, satellite velocity, elevation, and imaging geometry.
+<br>
+a.      Sensor - Based on a number of sensor parameters, the model for the ocean background clutter, the target, and appropriate preprocessing steps may change.  Some of these sensors parameters include; radar center frequency, hardware noise characteristics,  radar aperture, satellite velocity, elevation, and imaging geometry.
+<br>
 b.	Imaging mode (StripMap, ScanSAR, Spotlight).  These modes determine several key parameters which effect the ability to detect ships, including; pulse repitition frequency, swath width, range and azimuth resolution, illumination time, and others.
+<br>
 c.	Sea states, eddies, currently, or other surface anomalies (rain storms, bathymetry, etc) which result in high background clutter power reflection.
+<br>
 i.	How to estimate wind field from SAR
+<br>
 ii.	How apply wind field to ship detection
+<br>
 d.	Incidence angle - incidence angle effects the background clutter power, as well as the target (ship) power reflected.  Depending on the incidence angle, one polarization channel may provide improved ship detection performance over others.  
+<br>
 e.	Polarizations - Often both dual polarized or quad polarized data is available.  Each polarization channel (HH, HV, VH, VV) provides information on the scatterer (ship).  Different polarization channels can be utilized to extract different information.  Any SAR ship detector should utilize all polarization channels available and be adaptive to the polarization channel.
+<br>
 3)	Specific problems of interest.
+<br>
 a.	Clusters of small ships, how to detect each ship individually.
+<br>
 b.	Detection, classification, and characterization of  large ships and avoiding multiple detections.
+<br>
 c.	Determining vessel speed based on Doppler shift of vessel from wake.
+<br>
 d.	Determining vessel heading, length and width. 
+<br>
 e.	Land (effective land mask solution) using shape files, image processing, DEMs, and other methods.
+<br>
 f.	Detection and removal of SAR artifacts/false alarms due to azimuth anomalies, smearing, and other effects.
+<br>
 g.	Utilizing dual or quad polarized data.  Specifically how to process multiple polarization channels to improve ship detection and extract additional information.  
 
 
@@ -41,6 +58,17 @@ http://www.boost-technologies.com/web/images/Ship_Detection_Prestige.png
 
 
 Below are some references to current papers on SAR ship detection<br>
+
+
+  * VACHON, P.W., S.J. THOMAS, C.J. CRANTON, H.R. EDEL, and M.D. HENSCHEL, 2000. Validation of ship detection by the RADARSAT Synthetic Aperture Radar and the Ocean Monitoring Workstation. Can. J. Rem. Sens. 26(3), pp. 200-212.
+
+  * CRISP, D.J., 2004: The state-of-the-art in ship detection in synthetic aperture radar imagery. DSTO–RR–0272. Defence Science and Technology Organisation, Edinburgh, South Australia, Australia, 115 p. Available: http://www.dsto.defence.gov.au/publications/2660/.
+  
+  * ARNESEN, T.N., and OLSEN, R.B., 2004, Literature review on vessel detection. FFI/Rapport-2004/02619. Forsvarets Forskningsinstitutt, Kjeller, Norway, 168 p.
+
+  * GREIDANUS, H., and KOURTI, N., 2006: Findings of the DECLIMS project - Detection and classification of marine traffic from space. Proc. SEASAR 2006, Advances in SAR oceanography from ENVISAT and ERS, 23-26 Jan. 2006, ESA-ESRIN, Frascati, Italy.
+
+  * Greidanus, H., Clayton, P., Indregard, M., Staples, G., Suzuki, N., Vachon, P., Wackerman, C., Tennvassas, T., Mallorqui, J., Kourti, N., Ringrose, R., and Melief, H., 2004, Benchmarking operational SAR ship detection. Proc. 2004 International Geoscience and Remote Sensing Symposium (IGARSS 2004), on CD-ROM, 20-24 Sept. 2004, Anchorage, Alaska.
 
   * Liu, Yingjian; Ma, Hui; Yang, Yanming; Liu, Yanyan; , "Automatic ship detection from SAR images," Spatial Data Mining and Geographical Knowledge Services (ICSDM), 2011 IEEE International Conference on , vol., no., pp.386-388, June 29 2011-July 1 2011
   doi: 10.1109/ICSDM.2011.5969070
