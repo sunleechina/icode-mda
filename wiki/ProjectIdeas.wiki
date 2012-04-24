@@ -2,14 +2,38 @@
 <wiki:toc max_depth="4" />
 =Project Ideas=
 ==Ship Detection in Synthetic Aperture Radar (SAR) Imagery==
-Synthetic aperture radar is an active radar (radiates energy, and observes the reflections) that many people are interested in using for ship detection. The basic idea is that there are generally not many objects in the ocean that reflect the energy emitted by the radar. A ship on the other hand, with its many corners and metal construction can reflect a large amount of the energy emitted. This makes ships stand out very brightly against the dark ocean background.
+Synthetic aperture radar is an active radar (radiates energy, and observes the reflections) that many people are interested in using for ship detection. The basic idea is that there are generally not many objects in the ocean that reflect the energy emitted by the radar. A ship on the other hand, with its many corners and metal construction can reflect a large amount of the energy emitted. This causes metal ships to appear bright as compared to the ocean background.  
 
 To learn some of the basics of SAR, you can start here:<br>
 http://en.wikipedia.org/wiki/Synthetic_aperture_radar 
 
-A breif overview of the mathematics behind SAR ship detection can be found here:<br>
+The detection and characterization of vessels from space-based synthetic aperture radar (SAR) imagery has a number of important applications, including fisheries monitoring and maritime security. A number of automated SAR ship detection systems exist, most of which are described in one of several review papers.  However, SAR ship detection remains an active area of research with a number of open problems.  Below is a rough guide for the development of an automated SAR ship detection system, including some of the sub-problems of interest.
+  
+1)	Basic SAR ship detection using Constant False Alarm Rate algorithm.
+
+i)  Background noise model (K-distribution, Gaussian Distribution, etc).
+ii)  CFAR variations (greatest-of CFAR, least-of CFAR, etc)
+
+A breif overview of the mathematics behind CFAR ship detection can be found here:<br>
 
 http://www.array.ca/nest-web/help/operators/ObjectDetection.html
+
+2)	Detection adaptive to sensor and environmental parameters.
+a.	Sensor - Based on a number of sensor parameters, the model for the ocean background clutter, the target, and appropriate preprocessing steps may change.  Some of these sensors parameters include; radar center frequency, hardware noise characteristics,  radar aperture, satellite velocity, elevation, and imaging geometry.
+b.	Imaging mode (StripMap, ScanSAR, Spotlight).  These modes determine several key parameters which effect the ability to detect ships, including; pulse repitition frequency, swath width, range and azimuth resolution, illumination time, and others.
+c.	Sea states, eddies, currently, or other surface anomalies (rain storms, bathymetry, etc) which result in high background clutter power reflection.
+i.	How to estimate wind field from SAR
+ii.	How apply wind field to ship detection
+d.	Incidence angle - incidence angle effects the background clutter power, as well as the target (ship) power reflected.  Depending on the incidence angle, one polarization channel may provide improved ship detection performance over others.  
+e.	Polarizations - Often both dual polarized or quad polarized data is available.  Each polarization channel (HH, HV, VH, VV) provides information on the scatterer (ship).  Different polarization channels can be utilized to extract different information.  Any SAR ship detector should utilize all polarization channels available and be adaptive to the polarization channel.
+3)	Specific problems of interest.
+a.	Clusters of small ships, how to detect each ship individually.
+b.	Detection, classification, and characterization of  large ships and avoiding multiple detections.
+c.	Determining vessel speed based on Doppler shift of vessel from wake.
+d.	Determining vessel heading, length and width. 
+e.	Land (effective land mask solution) using shape files, image processing, DEMs, and other methods.
+f.	Detection and removal of SAR artifacts/false alarms due to azimuth anomalies, smearing, and other effects.
+g.	Utilizing dual or quad polarized data.  Specifically how to process multiple polarization channels to improve ship detection and extract additional information.  
 
 
 http://www.crisp.nus.edu.sg/~yuanb/img/proj_sarships.jpg
