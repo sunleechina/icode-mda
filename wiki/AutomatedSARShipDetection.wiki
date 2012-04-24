@@ -29,7 +29,7 @@ SAR technology has recently been applied to fisheries monitoring with promising 
 = Tool Developers =
  * Michael Agbo Tettey Soli
  * Kwame Agyekum
- * Brian Salmon
+ * Brian Salmon ([http://www.csir.co.za/meraka/rsru/ Remote Sensing Research Unit, Meraka, CSIR, Pretoria, South Africa])
  * Waldo Kleynhans
 
 = Current Status of Tool =  
