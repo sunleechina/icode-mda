@@ -10,18 +10,19 @@ http://en.wikipedia.org/wiki/Synthetic_aperture_radar
 The detection and characterization of vessels from space-based synthetic aperture radar (SAR) imagery has a number of important applications, including fisheries monitoring and maritime security. A number of automated SAR ship detection systems exist, most of which are described in one of several review papers.  However, SAR ship detection remains an active area of research with a number of open problems.  Below is a rough guide for the development of an automated SAR ship detection system, including some of the sub-problems of interest.
   
 <br>
-*	Basic SAR ship detection using Constant False Alarm Rate algorithm.
 
-    i)  Background noise model (K-distribution, Gaussian Distribution, etc).
+#	Basic SAR ship detection using Constant False Alarm Rate algorithm.
 
-    ii)  CFAR variations (greatest-of CFAR, least-of CFAR, etc)
+    a)  Background noise model (K-distribution, Gaussian Distribution, etc).
+
+    b)  CFAR variations (greatest-of CFAR, least-of CFAR, etc)
 
 A breif overview of the mathematics behind CFAR ship detection can be found here:<br>
 
 http://www.array.ca/nest-web/help/operators/ObjectDetection.html
 
 <br>
-*	Detection adaptive to sensor and environmental parameters.
+#	Detection adaptive to sensor and environmental parameters.
 <br>
 
     a.      Sensor - Based on a number of sensor parameters, the model for the ocean background clutter, the target, and appropriate preprocessing steps may change.  Some of these sensors parameters include; radar center frequency, hardware noise characteristics,  radar aperture, satellite velocity, elevation, and imaging geometry.
@@ -46,7 +47,7 @@ http://www.array.ca/nest-web/help/operators/ObjectDetection.html
     data is available.  Each polarization channel (HH, HV, VH, VV) provides information on the scatterer (ship).  Different polarization channels can be utilized to extract different information.  Any SAR ship detector should utilize all polarization channels available and be adaptive to the polarization channel.
 <br>
 
-*	Specific problems of interest.
+#	Specific problems of interest.
 <br>
 
     a.	Clusters of small ships, how to detect each ship individually.
