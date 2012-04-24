@@ -16,6 +16,7 @@ Using SST data, we are developing techniques for automatic detection of persiste
 https://icode-mda.googlecode.com/svn/wiki/images/fish_density.jpg<br>
 Figure 1: Detected fronts in the Gulf of Guinea, blue and red edges of the fronts show cold and warm sides, respectively.  Green dots show location of tuna catch relative to fronts.
 
+
 https://icode-mda.googlecode.com/svn/wiki/images/fish_density1.jpg<br>
 https://icode-mda.googlecode.com/svn/wiki/images/fish_density2.jpg<br>
 https://icode-mda.googlecode.com/svn/wiki/images/fish_density3.jpg<br>
