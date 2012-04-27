@@ -71,8 +71,10 @@ http://www.array.ca/nest-web/help/operators/ObjectDetection.html
     g.	Utilizing dual or quad polarized data.  Specifically how to process multiple polarization channels to improve ship detection and extract additional information.  
 
 
+{{{
 http://www.crisp.nus.edu.sg/~yuanb/img/proj_sarships.jpg
 http://www.boost-technologies.com/web/images/Ship_Detection_Prestige.png
+}}}
 
 
 Below are some references to current papers on SAR ship detection<br>
@@ -124,7 +126,9 @@ multi-sensor Trackers --
 The following image is linked from:
 http://www.ksat.no/node/85
 
+{{{
 http://www.ksat.no/sites/default/files/AIS%20illustration.JPG
+}}}
 
   * Vervecka, Martynas; , "Data fusion algorithms for sea target tracking using coastal radar model," Radar Symposium (IRS), 2010 11th International , vol., no., pp.1-3, 16-18 June 2010
 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5547510&isnumber=5547363
@@ -169,7 +173,9 @@ There are many reasons why someone may want to analyze the surface of the ocean 
 
 There is active research being conducted aimed at drawing conclusions about the surface of the ocean. The research spans many technologies such as [http://en.wikipedia.org/wiki/Synthetic_aperture_radar SAR], Electo-optical, [http://en.wikipedia.org/wiki/Multispectral_imaging Multispectral] and [http://en.wikipedia.org/wiki/Hyperspectral_imaging Hyperspectral]. More generally, using [http://en.wikipedia.org/wiki/Remote_sensing Remote Sensing].
 
+{{{
 http://rssportal.esa.int/deepenandlearn/img/wiki_up/image/RTDprojects/MASS/mass_d5.jpg
+}}}
 
 Below are references to current research papers in the field:<br>
 
@@ -221,10 +227,11 @@ Because the objects that are searched for are generally assumed to be anomalous 
 The following images were linked from:
 http://www.cimes.hawaii.edu/satellites2
 
+{{{
 http://www.cimes.hawaii.edu/sites/www.cimes.hawaii.edu/files/V-Ryr2fig5.jpg
 
 http://www.cimes.hawaii.edu/sites/www.cimes.hawaii.edu/files/V-Ryr2fig6.jpg
-
+}}}
 A sample of current research papers are below:<br>
 
   * Bo Du; Liangpei Zhang; , "Random-Selection-Based Anomaly Detector for Hyperspectral Imagery," Geoscience and Remote Sensing, IEEE Transactions on , vol.49, no.5, pp.1578-1589, May 2011
@@ -254,14 +261,15 @@ Remotely sensed images tend to be very large (~ Gigabytes) and can take a long t
 The following images are linked from:
 http://www.gisportal.cz/en/2011/04/english-pixel-purity-index/
 
+{{{
 http://www.gisportal.cz/wp-content/uploads/2011/04/fig3.jpg
 
 http://www.gisportal.cz/wp-content/uploads/2011/04/fig1.jpg
-
+}}}
 
 Below are a sampling of recent papers on the topic:<br>
 
-  * Sánchez, S.; Plaza, A.; , "GPU implementation of the pixel purity index algorithm for hyperspectral image analysis," Cluster Computing Workshops and Posters (CLUSTER WORKSHOPS), 2010 IEEE International Conference on , vol., no., pp.1-7, 20-24 Sept. 2010
+  * Sánchez, S.; Plaza, A.; , "GPU implementation of the pixel purity index algorithm for hyperspectral image analysis," Cluster Computing Workshops and Posters (CLUSTER WORKSHOPS), 2010 IEEE International Conference on , vol., no., pp.1-7, 20-24 Sept. 2010
   doi: 10.1109/CLUSTERWKSP.2010.5613110
 
   URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5613110&isnumber=5613076
@@ -277,14 +285,17 @@ An [http://en.wikipedia.org/wiki/Algae_bloom algae bloom] happens when an algae 
 The following images are linked from:
 http://spg.ucsd.edu/satellite_projects/various_habs/satellite_detection_of_habs.htm
 
+{{{
 http://spg.ucsd.edu/satellite_projects/various_habs/A20040292105_chlor_a_RGB_cal_aco_1km.jpg
 
 http://spg.ucsd.edu/satellite_projects/various_habs/A2007108211500.L2_LAC.2.map.png
-
+}}}
 The following image of an algae bloom is linked from:
 http://oceandatacenter.ucsc.edu/SCOOP/mission.html
 
+{{{
 http://oceandatacenter.ucsc.edu/SCOOP/images/redtide.jpg
+}}}
 
 A sampling of research on algae blooms is below:<br>
 
@@ -315,10 +326,11 @@ The idea here is to take historical tracks of all vessels as derived from for ex
 The following images were linked from:
 http://www.locationaware.usf.edu/ongoing-research/technology/path-prediction/
 
+{{{
 http://www.locationaware.usf.edu/wp-content/uploads/2011/08/LAISYC-Figure-6.jpg
 
 http://www.locationaware.usf.edu/wp-content/uploads/2011/08/LAISYC-Figure-7.jpg
-
+}}}
   * Qian Ye; Ling Chen; Gencai Chen; , "Predict Personal Continuous Route," Intelligent Transportation Systems, 2008. ITSC 2008. 11th International IEEE Conference on , vol., no., pp.587-592, 12-15 Oct. 2008
 doi: 10.1109/ITSC.2008.4732585
 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4732585&isnumber=4732517
@@ -345,7 +357,9 @@ Here, the goal is to take raw radar data and detect and track small vessels, whi
 The following image was linked from:
 http://www.thalesgroup.com/coastalradars/
 
+{{{
 http://www.thalesgroup.com/uploadedImages/Signposts/External_Signposts/Markets/Defence/coastalradars_flyer.jpg
+}}}
 
   * Di Lazzaro, M.; Naldi, M.; Pangrazi, R.; , "A detection technique for sea targets in coastal radars," Radar 92. International Conference , vol., no., pp.106-109, 12-13 Oct 1992
 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=187055&isnumber=4767
