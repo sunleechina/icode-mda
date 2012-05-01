@@ -44,13 +44,14 @@ to see a list of research ideas that we are interested in researching, check out
 
 
 = Current Projects =
-
-  * [AutomatedSARShipDetection Automated SAR Ship Detection Tool]
-  * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
-  * [AutomatedTrackCorrelation Automated Track Correlation]
-  * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
-  * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
-  * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
+ * [AutomatedSARShipDetection Automated SAR Ship Detection Tool]
+ * [AutomatedSAROilDetection Automated SAR Oil Slick Detection Tool]
+ * [AutomatedTrackCorrelation Automated Track Correlation]
+ * [AutomatedFishDensityEstimation Automated Fish Density Estimation]
+ * [AutomatedShorelineRateofChangeDetection Automated Shoreline Rate of Change Detection Tool]
+ * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
+ * [TrackStitchingUsingGraphicalModelsAndMessagePassing Track Stitching Using Graphical Models and Message Passing]
+ * [AnomalyDetectionwithMarkovRandomFieldsinSurveillanceApplications Anomaly Detection with Markov Random Fields in Surveillance Applications]
 
 
 = References =
