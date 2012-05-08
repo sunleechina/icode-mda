@@ -1,0 +1,48 @@
+#summary Installation of OMAR (OSSIM Mapping Archive) on Windows 7 VS2010
+
+= Introduction =
+
+OMAR is a web based system for archival, retrieval, processing, and distribution of geospatial assets. Satellite and aerial images, vector sets, unmanned aerial vehicle (UAV) video sets, as well as user generated tags and reference items can be easily searched and manipulated with the system. Searching can be performed on the basis of location, time, or any combination of the stored metadata. OMAR is unique in its ability to dynamically process raw materials and create value added products on the fly. Imagery is orthorectified (geometrically corrected), precision terrain corrected, and histogram stretched on demand. OMAR combines, fuses, or chips areas of interest according to the users needs. Geospatial assets can then be manipulated, viewed, and processed to provide a wide range of value added products.
+
+These instructions where tested on Windows 7 VS2010 express (32bit). Using:
+  **OSSIM ver 1.8.12-1 (svn tag)
+  **Grails v1.3.8
+  **Groovy v1.8.3
+  **OSG v2.8.4
+
+= Details =
+
+ # Define the following Windows environment variables. Make sure that specified locations match your environment.
+{{{
+OSSIM_DEV_HOME = "C:\ossim\ossim-1.8.12-1"
+OSSIM_HOME = "%OSSIM_DEV_HOME%/ossim"
+OSSIM_INSTALL_PREFIX = "C:\ossim\build4Omar\Release"
+OSSIM_DEPENDENCIES = "c:/opt/radiantblue"
+OSSIM_PREFS_FILE = "%OSSIM_INSTALL_PREFIX%/ossim_preferences"
+
+JAVA_HOME = "Your Java Home Directory"
+GRAILS_HOME = "c:/opt/radiantblue/grails-1.3.8"
+GROOVY_HOME = "C:\groovy\groovy-1.8.3"
+GRAILS_VERSION = "1.3.8"
+GROOVY_VERSION = "1.8.3"
+
+PG_HOME="Your postGris installation Directory"
+POSTGIS_HOME="Your postGIS installation Directory"
+
+OSG_HOME="C:\ossim\OpenSceneGraph-2.8.4"
+
+OMAR_HOME="c:/opt/radiantblue/omar/apps/omar"
+OMAR_DEV_HOME="c:/opt/radiantblue/omar"
+
+ANT_HOME="Your Ant Installation directory"
+SWIG_HOME="Your SWIG Installation directory"
+
+PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%;%SWIG_HOME%"
+LD_LIBRARY_PATH="%OSSIM_INSTALL_PREFIX%"
+
+}}}
+ # Install PostgreSQl / PostGIS
+  ** Log in as postgres 
+{{{
+  postgres
+}}}
