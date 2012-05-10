@@ -33,7 +33,7 @@ OMAR_DEV_HOME="c:/opt/radiantblue/omar"
 JAVA_HOME = "Your Java Home Directory"
 
 PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
-LD_LIBRARY_PATH="%OSSIM_INSTALL_PREFIX%"
+
 }}}
  # Install Apache Ant : http://ant.apache.org/bindownload.cgi
   ** Define the environment variable ANT_HOME="Your Ant Installation directory"
