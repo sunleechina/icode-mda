@@ -61,6 +61,7 @@ LD_LIBRARY_PATH="%OSSIM_INSTALL_PREFIX%"
  # Install FFmpeg 2012-05-03 Build : http://ffmpeg.zeranoe.com/builds/
   ** Download the Shared and Dev 32-bit Builds
   ** Unpack both folder in the c:\ossim directory
+  ** Add the bin directory of the shared distribution to your PATH
  # Install Cmake : http://www.cmake.org/cmake/resources/software.html
   ** Use the Win32 Installer
  # Install Curl : http://curl.haxx.se/download.html
