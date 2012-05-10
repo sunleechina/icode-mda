@@ -70,6 +70,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  # Install OSSIM
   # Obtain the "ossim-3rd-party-vs2010" libaries : http://code.google.com/p/icode-mda/downloads/detail?name=3rd-party.zip&can=2&q=
    ** Unpack folder into "c:\ossim" directory
+   ** Add the "./3rd-party-vs10-2010-express/vs2010/bin/win32" directory to your PATH
   # Check out OSSIM svn tag 1.8.12-1 : https://svn.osgeo.org/ossim/tags/ossim-1.8.12-1
    ** Place folder in c:\ossim (See %OSSIM_DEV_HOME%)
   # Creat build directory: c:\ossim\build4Omar
