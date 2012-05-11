@@ -90,7 +90,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   # Build Release version of the OSSIM Libs
  # Check out OMAR source tree
 {{{
-cd $OMAR_DEV_HOME
+cd %OMAR_DEV_HOME%
 svn co https://svn.osgeo.org/ossim/omar omar
 }}}
  # Build and Install JOMS
