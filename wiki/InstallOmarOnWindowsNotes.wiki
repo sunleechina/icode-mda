@@ -79,4 +79,69 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
    ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
    ** ossim-package-cmake-config-vs10-nmake-v2.bat : http://code.google.com/p/icode-mda/downloads/detail?name=ossim-package-cmake-config-vs10-nmake-v2.bat&can=2&q=
   # Double click "Build_ossim_vs10.bat" to build VS solution.
-  # Open the VisualStudios solutions file and build a Release version
+  # Open the VisualStudios solutions file 
+   **add the following ffmpeg dev include directory to the ossimPredator, OMS and OSSIM projects list of include directories
+    ** %ffmpeg-dev%/include
+    ** %ffmpeg-dev%/include/libavformat
+    ** %ffmpeg-dev%/include/libavdevice
+    ** %ffmpeg-dev%/include/libavcodec
+    ** %ffmpeg-dev%/include/libavutil
+   **Disable the OSSIM_PREDATOR_VIDEO_ENABLED Preprocessor on the OMS project
+  # Build Release version of the OSSIM Libs
+ # Check out OMAR source tree
+{{{
+cd $OMAR_DEV_HOME
+svn co https://svn.osgeo.org/ossim/omar omar
+}}}
+ # Build and Install JOMS
+  # open the %OSSIM_DEV_HOME%/oms/joms directory
+  # Run “ant clean”
+  # Run “ant initialize-environment”
+  # Run “ant generate-wrappers”
+  # Run “ant compile-java”
+  # Run “ant compile-groovy”
+  # Edit  %OSSIM_DEV_HOME%/oms/joms/swig/oms_wrap.cxx Around line # 1249: Find the ossimKeyWordlist_toString function and replace it with this: 
+{{{
+SWIGINTERN std::string ossimKeywordlist_toString(ossimKeywordlist *self){
+		return std::string(ossimString(self->toString()).string());
+	}
+}}}
+  # Run “%VS100COMNTOOLS%\vsvars32.bat”
+  # Run “ant compile-c++”
+  # Run “ant dist”
+  # Run “ant install”
+ # Install JAI. Add all JAI jars to $OMAR_HOME/lib
+ # Setup OMAR Databases for Production
+{{{
+cd $OMAR_HOME
+grails prod drop-postgis-database
+grails prod create-postgis-database
+grails prod schema-export ./ddl.sql
+
+grails prod run-sql-file ddl.sql
+
+//Edit geoms.sql and get rid of the GIST_GEOMETRY_OPS from  the Create Index command
+grails prod run-sql-file geoms.sql
+grails prod  run-script ./scripts/defaults.groovy
+}}}
+ # Run OMAR from the command line
+{{{
+cd $OMAR_HOME
+./run.sh prod app true
+}}}
+ # Run OMAR from Netbeans
+{{{
+1. Download the Netbeans
+2. Install Grails/Groovy Plugin
+3. Load OMAR project at $OMAR_HOME
+4. Run
+}}}
+ # Use Omar
+{{{
+1. Open browser to http://localhost:8080/omar
+}}} 
+ # Default logins are:
+{{{
+    User: admin Pw: admin
+    User: user  Pw: user
+}}}
