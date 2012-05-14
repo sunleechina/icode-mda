@@ -28,3 +28,18 @@ grails prod war omar.war
   # Copy your WAR file to the tomcat "webapps" folder 
   # Start Tomcat
   # Point your web browser to : http://localhost:8080/omar
+
+
+
+=Trouble Shooting=
+ # I'm getting the following error message:
+{{{
+"java.lang.NoClassDefFoundError: org.hibernatespatial.postgis.PostgisDialect"
+}}}
+ Your WAR is missing postgis plugin.  Tends to happen now and again.
+ To fix it do the following:
+ {{{
+cd $OMAR_HOME
+grails clean
+grails prod war omar.war
+}}}
