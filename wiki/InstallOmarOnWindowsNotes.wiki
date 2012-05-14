@@ -131,7 +131,7 @@ grails prod  run-script ./scripts/defaults.groovy
  # Run OMAR from the command line
 {{{
 cd $OMAR_HOME
-./run.sh prod app true
+grails prod run-app
 }}}
  # Run OMAR from Netbeans
 {{{
