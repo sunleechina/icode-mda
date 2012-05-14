@@ -149,3 +149,15 @@ cd $OMAR_HOME
     User: admin Pw: admin
     User: user  Pw: user
 }}}
+
+
+=Trouble Shooting=
+ # I'm getting the following error message:
+{{{
+"'std::basic_string<_Elem,_Traits,_Ax>::basic_string' : ambiguous call to 
+overloaded function"
+}}}
+ See the following thread
+ {{{
+ http://osgeo-org.1560.n6.nabble.com/Problem-Building-OSSIM-OMS-on-VS-2010-SOLVED-td4947635.html
+}}}
