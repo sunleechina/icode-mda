@@ -65,8 +65,8 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   ** Add the bin directory of the shared distribution to your PATH
   ** Define %ffmpeg-dev% env variable to your dev folder
   ** Add the following header files to the %ffmpeg-dev%/include directory
-   *** http://code.google.com/p/icode-mda/downloads/detail?name=stdint.h&can=2&q=
-   *** http://code.google.com/p/icode-mda/downloads/detail?name=inttypes.h&can=2&q=
+   *** inttypes.h : http://code.google.com/p/icode-mda/downloads/detail?name=stdint.h&can=2&q=
+   *** stdint.h : http://code.google.com/p/icode-mda/downloads/detail?name=inttypes.h&can=2&q=
  # Install Cmake : http://www.cmake.org/cmake/resources/software.html
   ** Use the Win32 Installer
  # Install Curl : http://curl.haxx.se/download.html
