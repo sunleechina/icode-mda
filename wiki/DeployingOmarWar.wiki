@@ -36,7 +36,7 @@ grails prod war omar.war
 {{{
 "java.lang.NoClassDefFoundError: org.hibernatespatial.postgis.PostgisDialect"
 }}}
- Your WAR is missing postgis plugin.  Tends to happen now and again.
+ Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
  To fix it do the following:
  {{{
 cd $OMAR_HOME
