@@ -39,6 +39,9 @@ grails prod war omar.war
  Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
  To fix it do the following:
  {{{
+cd $OMAR_DEV_HOME/plugins/postgis
+grails clean
+grails package-plugin
 cd $OMAR_HOME
 grails clean
 grails prod war omar.war
