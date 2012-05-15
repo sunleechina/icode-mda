@@ -47,17 +47,27 @@ pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.
 
 
 =Trouble Shooting=
+
  # I'm getting the following error message:
 {{{
 "java.lang.NoClassDefFoundError: org.hibernatespatial.postgis.PostgisDialect"
 }}}
- Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
- To fix it do the following:
- {{{
+Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
+To fix it do the following:
+{{{
 cd $OMAR_DEV_HOME/plugins/postgis
 grails clean
 grails package-plugin
 cd $OMAR_HOME
 grails clean
 grails prod war omar.war
+}}}
+ # On Windows target machine, I'm getting the following
+{{{
+Native code library failed to load.
+}}}
+ You probably need Microsoft Visual C++ Redistributable Package installed
+Here is the 2010 Version. Download the version you used to build it with.
+{{{
+Native code library failed to load.
 }}}
