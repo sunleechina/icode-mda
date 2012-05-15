@@ -8,6 +8,7 @@ Deployment is the term used for the process of installing a web application (eit
 = Details =
  # Installation
   # Development computer : Computer where OMAR was built
+   # Configuration: Make sure your $OMAR_HOME/grails-app/conf/DataSource.groovy Production configuration is setup for you target computer (Username, Password, etc)
    # Create WAR File: From a working OMAR development project do the following:
 {{{
 cd $OMAR_HOME
