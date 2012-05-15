@@ -14,6 +14,11 @@ Deployment is the term used for the process of installing a web application (eit
 cd $OMAR_HOME
 grails prod war omar.war
 }}}
+   # Take the following to the Target computer
+    ** $OMAR_HOME/ddl.sql
+    ** $OMAR_HOME/geoms.sql
+    ** $OMAR_HOME/omar.war
+    ** All libs, unless target computer is different then the development computer.  In that case all the libs will need to be built on the target computer. 
   # Server Computer : Computer where OMAR will be deployed to
    # Install Java.  Make sure the same java version and java bit size is installed that was used on your development computer.  
    # Install PostgreSQl / PostGIS: http://www.postgresql.org/download/windows/
@@ -21,7 +26,10 @@ grails prod war omar.war
     ** Run Stack Builder to load additional software
     ** Install PostGIS 2.0
     ** Define the environment variable POSTGIS_HOME = "GIS Installed directory"
-    ** Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Temmplate under the Definition tab.
+    ** Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
+    ** Run the ddl.sql script on your database
+    ** Run the geoms.sql script on your database
+    
    # Install Tomcat http://tomcat.apache.org/whichversion.html
    # Install OSSIM LIBS
    ** Make sure all OSSIM libs are located at $OSSIM_INSTALL_PREFIX 
