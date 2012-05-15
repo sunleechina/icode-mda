@@ -34,6 +34,7 @@ pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.
     ** Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
     ** Run the ddl.sql script on your database
     ** Run the geoms.sql script on your database
+    ** Run the omarData.sql on your database
    # Install Tomcat http://tomcat.apache.org/whichversion.html
    # Install OSSIM LIBS
    ** Make sure all OSSIM libs are located at $OSSIM_INSTALL_PREFIX 
