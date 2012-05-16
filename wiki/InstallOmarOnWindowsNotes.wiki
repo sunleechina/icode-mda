@@ -120,6 +120,11 @@ std::string oms::DataInfo::convertAcqDateToXmlDate(const std::string& value) con
 }
 
 }}}
+   ** Modify: oms/coms/include/oms/Video.h
+    *** Add include statement
+{{{
+#include <ossim/base/ossimReferenced.h>
+}}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
    ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
