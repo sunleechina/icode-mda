@@ -91,6 +91,35 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  //int err = av_open_input_file(&theFormatCtx, videoFile.c_str(), NULL, 0, NULL);
    int err = avformat_open_input(&theFormatCtx, videoFile.c_str(), NULL, NULL);
 }}}
+   ** Modify oms/coms/sr/oms/DataInfo.cpp
+    *** Fixed ambiguous call
+{{{
+//Change this line to this
+//std::string klvnumber = ossimString::toString(idx);
+std::string klvnumber = std::string(ossimString(idx).string());
+
+//Change to this
+std::string oms::DataInfo::convertAcqDateToXmlDate(const std::string& value) const
+{
+   if (value.size() == 8) // assume 4 character year 2 month and 2 day format
+   {
+      return std::string(ossimString(value.begin(), value.begin() + 4).string() + "-"
+              + ossimString(value.begin() + 4, value.begin() + 6).string() + "-"
+              + ossimString(value.begin() + 6, value.begin() + 8).string());
+   }
+   if (value.size() == 14) // assume 4 character year 2 month and 2 day 2 hour 2 minute 2 seconds
+   {
+      return std::string(ossimString(value.begin(), value.begin() + 4).string() + "-"
+              + ossimString(value.begin() + 4, value.begin() + 6).string() + "-"
+              + ossimString(value.begin() + 6, value.begin() + 8).string() + "T"
+              + ossimString(value.begin() + 8, value.begin() + 10).string() + ":"
+              + ossimString(value.begin() + 10, value.begin() + 12).string() + ":"
+              + ossimString(value.begin() + 12, value.begin() + 14).string() + "Z");
+   }
+   return "";
+}
+
+}}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
    ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
