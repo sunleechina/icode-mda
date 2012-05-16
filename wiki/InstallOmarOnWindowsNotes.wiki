@@ -78,6 +78,19 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
    ** Add the "./3rd-party-vs10-2010-express/vs2010/bin/win32" directory to your PATH
   # Check out OSSIM svn tag 1.8.12-1 : https://svn.osgeo.org/ossim/tags/ossim-1.8.12-1
    ** Place folder in c:\ossim (See %OSSIM_DEV_HOME%)
+   ** Modify: libwms/src/wms.cpp
+    *** Had to surrond the curl.h include as c extern
+{{{
+ extern "C" {
+   #include <curl/curl.h>
+ }
+}}}
+   ** Modify: ossimPredator/src/ossimPredatorVideo.cpp
+    *** Had to replace old av_open_input_file in the "open" function
+{{{
+ //int err = av_open_input_file(&theFormatCtx, videoFile.c_str(), NULL, 0, NULL);
+   int err = avformat_open_input(&theFormatCtx, videoFile.c_str(), NULL, NULL);
+}}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
    ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
