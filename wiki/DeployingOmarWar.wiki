@@ -69,5 +69,5 @@ Native code library failed to load.
  You probably need Microsoft Visual C++ Redistributable Package installed
 Here is the 2010 Version. Download the version you used to build it with.
 {{{
-Native code library failed to load.
+http://www.microsoft.com/en-us/download/details.aspx?id=5555
 }}}
