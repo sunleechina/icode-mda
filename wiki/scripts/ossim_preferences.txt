@@ -20,7 +20,17 @@ epsg_database_file4:D:\libraries\ossim\ossim_trunk\ossim\share\ossim\ossim_harn_
 wkt_database_file:D:\libraries\ossim\ossim_trunk\ossim\share\ossim\ossim_wkt_pcs.csv
 
 
+//ELEVATION FILES
 //Set this to the location of all of your SRTM elevation files
+//If you have another type of elevation files, you should see http://trac.osgeo.org/ossim/wiki/ossimPreferenceFile for a 
+//full explanation of the different options.
+//
+//If you do not have any elevation, you can leave this entry how it is and when OSSIM sees that there are no files there
+//it will go on doing its work.
+//
+//SRTM data for the world can be downloaded at http://dds.cr.usgs.gov/srtm/version2_1/
+//Once downloading it, you will need it to all be unzipped in the directory listed below.
+//Many other U.S. Goverment websites have other elevation data available to the general public
 elevation_manager.elevation_source1.connection_string: D:\elevation\srtm\version2_1\3arc
 elevation_manager.elevation_source1.type: srtm_directory
 elevation_manager.elevation_source1.min_open_cells: 25
