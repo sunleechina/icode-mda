@@ -45,6 +45,15 @@ You will need to download the OpenCV source code. OpenCV also hosts its code on 
 
 More information on OpenCV can be found on their [http://opencv.willowgarage.com/wiki/ Wiki].
 
+===Elevation Data===
+For OSSIM to give accurate latitude and longitude coordinates of pixels, it requires elevation data. OSSIM can support many different types of [http://trac.osgeo.org/ossim/wiki/ossimElevationSetup elevation data] such as DTED, SRTM, and general raster. For simplicity we will only work with [http://en.wikipedia.org/wiki/Shuttle_Radar_Topography_Mission SRTM] data. 
+
+Each of the SRTM files represents one square degree ( 1 latitude degree x 1 longitude degree). This can be a lot of files depending on how large of a region you are interested in. Posted below are a MATLAB script and a Python script (choose your poison) that are meant to help you download elevation files.
+
+[https://icode-mda.googlecode.com/svn/wiki/scripts/elevation_downloader.py Python Script for Downloading SRTM Elevation Data]
+
+[https://icode-mda.googlecode.com/svn/wiki/scripts/elevation_downloader.m Matlab Script for Downloading SRTM Elevation Data]
+
 ==Windows==
 
 ===Visual Studio 2010 Express===
