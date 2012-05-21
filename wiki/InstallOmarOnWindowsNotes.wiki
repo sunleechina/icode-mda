@@ -146,6 +146,7 @@ svn co https://svn.osgeo.org/ossim/omar omar
 }}}
  # Build and Install JOMS
   # open the %OSSIM_DEV_HOME%/oms/joms directory
+  # Replace build.xml file with this build.xml : http://code.google.com/p/icode-mda/downloads/detail?name=build.xml&can=2&q=
   # Run “ant clean”
   # Run “ant initialize-environment”
   # Run “ant generate-wrappers”
