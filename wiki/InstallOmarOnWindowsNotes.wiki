@@ -91,7 +91,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  //int err = av_open_input_file(&theFormatCtx, videoFile.c_str(), NULL, 0, NULL);
    int err = avformat_open_input(&theFormatCtx, videoFile.c_str(), NULL, NULL);
 }}}
-   ** Modify oms/coms/sr/oms/DataInfo.cpp
+   ** Modify oms/coms/src/oms/DataInfo.cpp
     *** Fixed ambiguous call
 {{{
 //Change this line to this
