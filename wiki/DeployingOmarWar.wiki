@@ -44,7 +44,23 @@ pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.
   # Start Tomcat
   # Point your web browser to : http://localhost:8080/omar
 
-
+=External Configuration=
+The default configuration files in grails-app/conf is fine in the majority of cases, but there may be circumstances where you want to maintain the configuration in a file outside the main application structure. For example if you are deploying to a WAR some administrators prefer the configuration of the application to be externalized to avoid having to re-package the WAR due to a change of configuration. To do this the configuration must be externalized:
+  
+ # Create an external Configuration file. The following is an example of a file that overrides the database username and password
+{{{
+environments {
+    production {
+	dataSource.username = "postgres"
+        dataSource.password = "123abcd"
+    }
+}
+}}}
+ # Create an environmental variable named "OMAR_CONFIG" pointing the the external configuration file created above.
+{{{
+   export OMAR_CONFIG = /opt/config/omarConfig.groovy
+}}}
+ 
 
 =Trouble Shooting=
 
