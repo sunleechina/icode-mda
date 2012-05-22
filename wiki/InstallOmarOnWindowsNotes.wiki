@@ -80,6 +80,12 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
 ProxyPass /omar http://localhost:8080/omar
 ProxyPassReverse /omar http://localhost:8080/omar
 }}}
+  ** Make sure the following modules are enabled
+{{{
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule proxy_http_module modules/mod_proxy_http.so 
+}}}
  # Install OSSIM
   # Obtain the "ossim-3rd-party-vs2010" libaries : http://code.google.com/p/icode-mda/downloads/detail?name=3rd-party.zip&can=2&q=
    ** Unpack folder into "c:\ossim" directory
