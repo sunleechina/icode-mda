@@ -75,6 +75,11 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   ** Unpack folder into the "C:\ossim" directory
  # Install MS4W (Apachie) : http://www.maptools.org/ms4w/index.phtml?page=downloads.html
   ** Download and run the installer
+  ** Add the following to the end of the "httpd.conf" file
+{{{
+ProxyPass /omar http://localhost:8080/omar
+ProxyPassReverse /omar http://localhost:8080/omar
+}}}
  # Install OSSIM
   # Obtain the "ossim-3rd-party-vs2010" libaries : http://code.google.com/p/icode-mda/downloads/detail?name=3rd-party.zip&can=2&q=
    ** Unpack folder into "c:\ossim" directory
