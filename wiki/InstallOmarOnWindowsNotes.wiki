@@ -74,7 +74,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   ** Choose the Win32 - MSVC
   ** Unpack folder into the "C:\ossim" directory
  # Install MS4W (Apachie) : http://www.maptools.org/ms4w/index.phtml?page=downloads.html
-  ** Download and run the installer
+  ** Download and run the installer (Use port 8080)
   ** Add the following to the end of the "httpd.conf" file
 {{{
 ProxyPass /omar http://localhost:8080/omar
