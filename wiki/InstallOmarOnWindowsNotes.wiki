@@ -80,7 +80,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
 ProxyPass /omar http://localhost:8080/omar
 ProxyPassReverse /omar http://localhost:8080/omar
 }}}
-  ** Make sure the following modules are enabled
+  ** Make sure the following modules are enabled in the "httpd.conf" file
 {{{
 LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_connect_module modules/mod_proxy_connect.so
