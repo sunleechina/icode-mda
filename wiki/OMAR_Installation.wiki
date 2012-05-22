@@ -149,7 +149,7 @@ plugin.file7: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimcontrib_plugin.s
 
 geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm96.grd
 }}}
- # Install Grails:   Download Version 1.3.7 from www.grails.org
+ # Install Grails:   Download Version 2.0.3 from www.grails.org
 {{{
 cd /opt/radiantblue
 sudo unzip ~/Downloads/grails-2.0.3.zip
