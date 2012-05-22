@@ -24,7 +24,7 @@ export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
 
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
-export GRAILS_HOME=/opt/radiantblue/grails-1.3.7
+export GRAILS_HOME=/opt/radiantblue/grails-2.0.3
 export PATH=$GRAILS_HOME/bin:$PATH
 export PG_HOME=/usr
 export POSTGIS_HOME=/usr/share/pgsql/contrib 
@@ -152,7 +152,7 @@ geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm9
  # Install Grails:   Download Version 1.3.7 from www.grails.org
 {{{
 cd /opt/radiantblue
-sudo unzip ~/Downloads/grails-1.3.7.zip
+sudo unzip ~/Downloads/grails-2.0.3.zip
 }}}
  # Check out OMAR source tree
 {{{
