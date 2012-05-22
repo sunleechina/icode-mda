@@ -17,6 +17,7 @@ These instructions where tested on Windows 7 VS2010 express (32bit). Using:
   **FFmpeg 2012-05-03 (Win Build)
   **CMake v2.8.8
   **Curl v7.18.0
+  **MS4W v3.0.4
 
 = Details =
 
@@ -72,6 +73,8 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  # Install Curl : http://curl.haxx.se/download.html
   ** Choose the Win32 - MSVC
   ** Unpack folder into the "C:\ossim" directory
+ # Install MS4W (Apachie) : http://www.maptools.org/ms4w/index.phtml?page=downloads.html
+  ** Download and run the installer
  # Install OSSIM
   # Obtain the "ossim-3rd-party-vs2010" libaries : http://code.google.com/p/icode-mda/downloads/detail?name=3rd-party.zip&can=2&q=
    ** Unpack folder into "c:\ossim" directory
