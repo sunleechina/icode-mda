@@ -6,7 +6,7 @@ OMAR is a web based system for archival, retrieval, processing, and distribution
 
 These instructions where tested on Windows 7 VS2010 express (32bit). Using:
   **OSSIM ver 1.8.12-1 (svn tag)
-  **Grails v1.3.8
+  **Grails v2.0.3
   **Groovy v1.8.6
   **OSG v2.8.4
   **Apache Ant 1.8.3
