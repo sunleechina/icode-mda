@@ -17,7 +17,7 @@ The detection and characterization of vessels from space-based synthetic apertur
 
     b)  CFAR variations (greatest-of CFAR, least-of CFAR, etc)
 
-A breif overview of the mathematics behind CFAR ship detection can be found here:<br>
+A brief overview of the mathematics behind CFAR ship detection can be found here:<br>
 
 http://www.array.ca/nest-web/help/operators/ObjectDetection.html
 
