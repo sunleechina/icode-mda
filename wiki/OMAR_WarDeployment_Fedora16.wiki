@@ -136,8 +136,8 @@ environments {
 {{{
 "java.lang.NoClassDefFoundError: org.hibernatespatial.postgis.PostgisDialect"
 }}}
-Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
-To fix it do the following:
+  Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
+  To fix it do the following:
 {{{
 cd $OMAR_DEV_HOME/plugins/postgis
 grails clean
@@ -158,4 +158,12 @@ http://www.microsoft.com/en-us/download/details.aspx?id=5555
  # OMAR is not working and I don't get any error Messages
 {{{
 //Check /tmp/logs/omar.log
+}}}
+ # I'm getting the following error message:
+{{{
+"java.lang.UnsatisfiedLinkError: no joms in java.library.path"
+}}}
+ Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
+ {{{
+ sudo chmod +x libjoms.so
 }}}
