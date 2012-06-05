@@ -37,6 +37,7 @@ export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
 export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
+export OSSIM_PREFS_FILE=$OSSIM_INSTALL_PREFIX/ossim_preferences
 }}}
    # Setup PostgreSQL
     ** Log in as postgres 
