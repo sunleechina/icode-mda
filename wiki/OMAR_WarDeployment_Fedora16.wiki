@@ -146,15 +146,6 @@ cd $OMAR_HOME
 grails clean
 grails prod war omar.war
 }}}
- # On Windows target machine, I'm getting the following
-{{{
-Native code library failed to load.
-}}}
-  You probably need Microsoft Visual C++ Redistributable Package installed
-  Here is the 2010 Version. Download the version you used to build it with.
-{{{
-http://www.microsoft.com/en-us/download/details.aspx?id=5555
-}}}
  # OMAR is not working and I don't get any error Messages
 {{{
 //Check /tmp/logs/omar.log
