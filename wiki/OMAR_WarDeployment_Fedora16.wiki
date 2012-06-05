@@ -64,6 +64,15 @@ systemctl restart httpd.service
 {{{
 sudo cp /usr/sbin/mapserv /var/www/cgi-bin/
 }}}
+   # Create OMAR CACHE directory
+{{{
+su - 
+mkdir /data
+chmod 777 /data
+exit
+mkdir /data/omar
+mkdir /data/omar/omar-cache
+}}}
    # Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
 {{{
 //Create PostGIS template database
@@ -140,8 +149,12 @@ grails prod war omar.war
 {{{
 Native code library failed to load.
 }}}
- You probably need Microsoft Visual C++ Redistributable Package installed
-Here is the 2010 Version. Download the version you used to build it with.
+  You probably need Microsoft Visual C++ Redistributable Package installed
+  Here is the 2010 Version. Download the version you used to build it with.
 {{{
 http://www.microsoft.com/en-us/download/details.aspx?id=5555
+}}}
+ # OMAR is not working and I don't get any error Messages
+{{{
+//Check /tmp/logs/omar.log
 }}}
