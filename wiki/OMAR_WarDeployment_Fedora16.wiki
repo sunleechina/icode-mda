@@ -95,6 +95,7 @@ psql -d postgres -c "UPDATE pg_database SET datallowconn='false' WHERE datname='
 //Create Database
 su -
 su - postgres
+psql -Upostgres
 create database omardb-1.8.14-prod with template=postgis_template;
 }}}
     ** Run the ddl.sql script on your database
