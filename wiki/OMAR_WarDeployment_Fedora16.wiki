@@ -105,10 +105,12 @@ The default configuration files in grails-app/conf is fine in the majority of ca
   
  # Create an external Configuration file. The following is an example of a file that overrides the database username and password
 {{{
+//  File: /opt/config/omarConfig.groovy
 environments {
     production {
 	dataSource.username = "postgres"
         dataSource.password = "123abcd"
+        dataSource.url = jdbc:postgresql_postGIS://localhost:5432/omardb-1.8.14-prod
     }
 }
 }}}
