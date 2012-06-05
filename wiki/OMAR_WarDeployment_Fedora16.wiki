@@ -1,0 +1,145 @@
+#summary Deploying OMAR war file into tomcat
+
+= Introduction =
+
+Deployment is the term used for the process of installing a web application (either a 3rd party WAR or your own custom web application) into the Tomcat server. The following are instructions on deploying your OMAR War file. 
+
+These instructions where tested on Linux Fedora-16 64bit system.
+
+
+= Details =
+ # Installation
+  # *Development computer* : Computer where OMAR was built
+   # Configuration: Make sure your $OMAR_HOME/grails-app/conf/DataSource.groovy Production configuration is setup for you target computer (Username, Password, etc) or see External Configuration section below
+   # Create WAR File: From a working OMAR development project do the following:
+{{{
+cd $OMAR_HOME
+grails prod war omar.war
+}}}
+   # Make a data dump of your database
+   {{{
+pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.sql omardb-1.8.14-prod 
+   }}}
+   # Take the following to the Target computer
+    ** $OMAR_HOME/ddl.sql
+    ** $OMAR_HOME/geoms.sql
+    ** $OMAR_HOME/omar.war
+    ** omarData.sql
+    ** OSSIM build dependencies (see: http://code.google.com/p/icode-mda/wiki/OMAR_Installation)
+  # *Target Computer* : Computer where OMAR will be deployed to
+   # Install Dependencies.
+{{{
+yum install gcc gcc-c++ binutils-devel kernel kernel-devel postgis postgis-jdbc postgis-utils postgresql-server pgadmin3 httpd java-1.6.0-openjdk httpd mapserver mapserver-java proj-nad proj-epsg   swig  gdal-devel geos-devel libpng-devel libjpeg-turbo-devel curl expat-devel libcurl-devel  OpenThreads-devel 
+}}}  
+   # Define the following in your $HOME/.bash_profile file. Make sure that specified locations match your environment.
+{{{
+export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
+export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
+export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
+export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
+}}}
+   # Setup PostgreSQL
+    ** Log in as postgres 
+{{{
+  su
+  su - postgres
+}}}
+    ** Creates a new PostgreSQL database cluster (or database system). A database cluster is a collection of databases that are managed by a single server instance.
+{{{
+initdb /var/lib/pgsql/data
+}}}
+    ** Setup to start at boot time
+{{{
+su - 
+systemctl enable postgresql.service
+systemctl restart postgresql.service
+}}}
+   # Setup Apache HTTPD to start at boot time
+{{{
+su - 
+systemctl enable httpd.service
+systemctl restart httpd.service
+}}}
+   # Setup Mapserver by copying it to our server cgi directory
+{{{
+sudo cp /usr/sbin/mapserv /var/www/cgi-bin/
+}}}
+   # Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
+{{{
+//Create PostGIS template database
+su
+su - postgres
+createdb -E UTF8 -T template0 postgis_template
+createlang -d postgis_template plpgsql
+psql -d postgis_template -f  /usr/share/pgsql/contrib/postgis-64.sql
+psql -d postgis_template -f  /usr/share/pgsql/contrib/spatial_ref_sys.sql
+psql -d postgis_template -c "GRANT ALL ON geometry_columns TO PUBLIC;"
+psql -d postgis_template -c "GRANT ALL ON geography_columns TO PUBLIC;"
+psql -d postgis_template -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+psql -d postgis_template -c "VACUUM FULL;"
+psql -d postgis_template -c "VACUUM FREEZE;"
+psql -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='postgis_template';"
+psql -d postgres -c "UPDATE pg_database SET datallowconn='false' WHERE datname='postgis_template';"
+}}}
+{{{
+//Create Database
+su -
+su - postgres
+create database omardb-1.8.14-prod with template=postgis_template;
+}}}
+    ** Run the ddl.sql script on your database
+    ** Run the geoms.sql script on your database
+    ** Run the omarData.sql on your database
+   # Install Tomcat http://tomcat.apache.org/whichversion.html
+   # Install OSSIM LIBS
+   ** Make sure all OSSIM depencencies are located at $OSSIM_INSTALL_PREFIX 
+    *** Add $OSSIM_INSTALL_PREFIX/bin to your PATH environment variable
+    *** Add $OSSIM_INSTALL_PREFIX/lib to your LD_LIBRARY_PATH environment variable
+ # Launch OMAR application
+  # Copy your WAR file to the tomcat "webapps" folder 
+  # Start Tomcat
+  # Point your web browser to : http://localhost:8080/omar
+
+=External Configuration=
+The default configuration files in grails-app/conf is fine in the majority of cases, but there may be circumstances where you want to maintain the configuration in a file outside the main application structure. For example if you are deploying to a WAR some administrators prefer the configuration of the application to be externalized to avoid having to re-package the WAR due to a change of configuration. To do this the configuration must be externalized:
+  
+ # Create an external Configuration file. The following is an example of a file that overrides the database username and password
+{{{
+environments {
+    production {
+	dataSource.username = "postgres"
+        dataSource.password = "123abcd"
+    }
+}
+}}}
+ # Create an environmental variable named "OMAR_CONFIG" pointing the the external configuration file created above.
+{{{
+   export OMAR_CONFIG = /opt/config/omarConfig.groovy
+}}}
+ 
+
+=Trouble Shooting=
+
+ # I'm getting the following error message:
+{{{
+"java.lang.NoClassDefFoundError: org.hibernatespatial.postgis.PostgisDialect"
+}}}
+Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
+To fix it do the following:
+{{{
+cd $OMAR_DEV_HOME/plugins/postgis
+grails clean
+grails package-plugin
+cd $OMAR_HOME
+grails clean
+grails prod war omar.war
+}}}
+ # On Windows target machine, I'm getting the following
+{{{
+Native code library failed to load.
+}}}
+ You probably need Microsoft Visual C++ Redistributable Package installed
+Here is the 2010 Version. Download the version you used to build it with.
+{{{
+http://www.microsoft.com/en-us/download/details.aspx?id=5555
+}}}
