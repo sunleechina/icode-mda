@@ -79,6 +79,8 @@ cd $OSSIM_DEV_HOME/gpstk-1.6.src
 make
 sudo make install
 }}}
+
+note: if building gpstk 1.7, you'd need to run ./autogen.sh before ./configure
  # Check out the OSSIM projects from SVN
 {{{
 cd $OSSIM_DEV_HOME
