@@ -3,12 +3,18 @@
 // to us this as well,
 // A name like water-front change rate estimator :)
 
+// Determine what format the shorelines files are in and convert to m/kn/nm/miles based on parameter to pass 
+
+// need to refactor the code
+// need a baseline class
+// need to handle multiple baselines (a vector of baselines)
+// need to create a vector of shorelines
 #ifndef fewerLines
 #include <iostream>
 #include <cassert>
 #include <string>
 #include <vector>
-using namespace std;
+#include <deque>
 
 #include "ogrsf_frmts.h"
 #include <ossim/base/ossimFilename.h>
@@ -35,25 +41,51 @@ using namespace std;
 #include <ossim/imaging/ossimOverviewBuilderFactoryRegistry.h>
 #include <shapefil.h>
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/linestring.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+
+using namespace std;
+
 #endif
 #define PI 3.142
+typedef boost::geometry::model::d2::point_xy<double> point;
+typedef boost::geometry::model::linestring<point> linestring;
 
-//Keeps shapeffile points//
+//Keeps shoreline points///
 class coordinate
 {
 public:
 	//constructor
 	coordinate(double x, double y)
 	{
-		this->X=x;
-		this->Y=y;
-		//		X=x;
-		//		Y=y;
+		//this->X=x;
+		//this->Y=y;
+		X=x;
+		Y=y;
 	}
 	double X,Y;
 };
+/////////////////////////
+class BaseLine
+{
+	
+// look for first shoreline		//shoreLine.[1];
+// determine whether to create 1 baseline/create multiple baselines
+// create transects
+// 
+// 
+};
+
+///////////////
+// when loading the other shapefiles, 
+// check to ensure both use the same coordinate system
+// after loading everything, store everything into one folder [directory]
 //////////////////////////
 class ShoreLine{
+// store intersections in the shoreline class
+
+
 private:
 	double m,c,d,slp,trns_int;
 	int n;
@@ -63,6 +95,11 @@ private:
 	double y2;
 
 public:
+	
+	ShoreLine(){
+		m,c,d,slp, trns_int,x1,x2,y1,y2=0;
+		n=0;
+	}
 
 	void getShapePoints(string filename)
 	{
@@ -124,11 +161,15 @@ public:
 			return;
 		}
 
-		x1=X.front();		
-		x2=X.back();
-		y1=Y.front()+offset;	//offset here
 
-		y2=Y.back()+offset;		// offset here as well
+	//x
+	-m/sqrt(pow(m,2)+1);
+	//y
+	1/sqrt(pow(m,2)+1);
+		x1=X.front()+ (-m*offset)/sqrt(pow(m,2)+1);
+		x2=X.back()+ (-m*offset)/sqrt(pow(m,2)+1);
+		y1=Y.front()+offset*(1/sqrt(pow(m,2)+1));
+		y2=Y.back()+offset*(1/sqrt(pow(m,2)+1));
 
 		m=(y2-y1)/(x2-x1);		c=y1-m*x1;
 		slp=atan(m)*(180/PI);	d=sqrt(pow((x2-x1),2)+pow((y2-y1),2));
@@ -199,10 +240,10 @@ public:
 
 	void setTransectLines()
 	{
-		/*		// calculate the maximum point on the shoreline
+		// calculate the maximum point on the shoreline
 		// offset the maximum by a default value
 		// set transect endpoint to offset value [adjusted via e]
-		*/
+		
 		float extremeX;
 		if (m<0)
 		{
@@ -249,11 +290,40 @@ public:
 	void getIntersectionPoints()
 	{
 		// use the transect points to obtain the intersection point
-		//
-		for (int i=0;i<transectPoint.size();i++)
+		
+		linestring shoreline;//you could just initialise shoreline to the shapefile
+
+		for(int i =0; i<X.size(); i++)
+		{
+			point temp(X[i], Y[i]); //x,y
+			shoreline.push_back(temp);
+		}
+
+		for(int i=0;i<transectPoint.size();i++)
 		{
 
+			linestring transect;
+			point transectPointFromBaseline(transectPoint[i].X, transectPoint[i].Y);
+			transect.push_back(transectPointFromBaseline);
+
+			point transectPointCalculatedOnOtherSideOfShoreline(transectLineEnd[i].X,transectLineEnd[i].Y);
+			transect.push_back(transectPointCalculatedOnOtherSideOfShoreline);
+
+			vector<point> intersectingPoints;
+
+			boost::geometry::intersection(shoreline, transect, intersectingPoints);
+			intersectingPointsOfTransect.push_back(intersectingPoints);
+
+			/*for(int j=0; j<intersectingPoints.size(); j++)
+			{
+			cout << "(" << intersectingPoints[j].x() <<", " <<
+			intersectingPoints[j].y() << ")" << endl;
+			}*/
 		}
+		//for (int i=0;i<transectPoint.size();i++)
+		//{
+
+		//}
 	}
 
 	void print()
@@ -263,21 +333,24 @@ public:
 			printf("(%10.11f , %10.11f)\n",X[j],Y[j]);
 		}
 	}
-	vector<double> X;
-	vector<double> Y;
-	vector<coordinate> transectPoint;
-	vector<coordinate> transectLineEnd;
+	vector <double> X;
+	vector <double> Y;
+	vector <coordinate> transectPoint;
+	vector <coordinate> transectLineEnd;
+	
+	vector< vector <point> > intersectingPointsOfTransect;
 };
-/////////////////////////
+//////////////////////////////////
 class CoastLineComparer{
 	//sum of( difference b/n point a on shorelina A and corresponding point b on shoreline B[ =distance changed/ ])
 	// divided by the number of years difference. (year of shapefile)
 
 public:
-	CoastLineComparer()
-	{
 
-	}
+	//CoastLineComparer()
+	//{
+
+	//}
 	unsigned int yr1,yr2,nMnths,mn1,mn2;
 	double d;
 	unsigned int nYrs;
@@ -306,43 +379,49 @@ public:
 			mCoastB.print();
 		}
 	}
-
 	void baseline(double Offset)
 	{
 		double o=Offset;
 		mCoastA.getBaseLine(o);
 	}
-
 	void baselineShp(string outputFile)
 	{
 		string File=outputFile;
 		mCoastA.writeBaselineShp(File);
 	}
-
 	void transect()
 	{
 		mCoastA.getTransectPoints();
 	}
-
-	void compare(int method){
+	void compare(int method)
+	{
 		//now compare the two coast lines using specified method
 		// method A is what we'll build first
 		// method A will just build a transect and so on with preset parameters for now
+			// different results (METHODS) to compute
+	/*  weighted linear regression
+	 1	linear regression rate
+	 2	least median of squares
+	 3	net shoreline movement
+	 4	shoreline change envelope
+	 5	endpoint rate
+	 */
+
 		if(method==METHODA)
 		{
-
+			for (int i=0;i<inputShp1.
 
 		}
 
 	}
-
+	
 	static const int METHODA = 1; // simple approach to getting baseline
 	static const int METHODB = 2 ;
 
 	ShoreLine mCoastA;
 	ShoreLine mCoastB;
 };
-////////////////////////////////
+//////////////////////////////////////////
 int main(int argc,char*  argv[])
 {
 	ossimTimer::instance()->setStartTick();
@@ -366,12 +445,7 @@ int main(int argc,char*  argv[])
 	clc.baseline(1);
 	clc.baselineShp("xxxxxxxxxxxxx.shp");
 	clc.transect();
-
-	//	CoastLine Ghana;
-	//	Ghana.getShapePoints(argv[1]);
-	//	Ghana.getBaseLine();
-	//	Ghana.getTransectPoints();
-	//	Ghana.writeBaselineShp(inputShpName1);
+	
 	clc.compare(CoastLineComparer::METHODA);
 
 	//getShapePoints(inputShpName.string());
@@ -409,6 +483,8 @@ int main(int argc,char*  argv[])
 				ossimRefPtr<ossimImageGeometry> oig = inputShp1->getImageGeometry();
 				oig->setTargetRrds(7);
 				shpView1->setView(oig.get());
+
+				// attempts to incorporate 
 
 				/*oig = inputShp2->getImageGeometry();
 				oig->setTargetRrds(7);
@@ -480,7 +556,7 @@ int main(int argc,char*  argv[])
 	}
 	else
 	{
-		cerr << "Could not open: " << inputShpName1<<" or "<<inputShpName2<< endl;
+		cerr <<"Either "<< inputShpName1<<" or "<<inputShpName2<<" is not not valid"<< endl;
 	}
 	return 0;
 }
