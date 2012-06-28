@@ -61,8 +61,8 @@ class TimeLocationService
     def output = response.outputStream
 
     response.contentType = wmsParams.format
-    layer.style = aisMapService.createStyle(wmsParams.styles)
-    Draw.draw( layer, bounds, size, output, wmsParams.format - 'image/' )
+    layer.style = aisMapService.createStyle( wmsParams.styles )
+    Draw.draw( [bounds: bounds, site: size, out: output, format: wmsParams.format - 'image/'], layer )
     postgis?.close()
   }
 
@@ -108,8 +108,8 @@ class TimeLocationService
     def output = response.outputStream
 
     response.contentType = wmsParams.format
-    layer.style = aisMapService.createStyle(wmsParams.styles)
-    Draw.draw( layer, bounds, size, output, wmsParams.format - 'image/' )
+    layer.style = aisMapService.createStyle( wmsParams.styles )
+    Draw.draw( [bounds: bounds, size: size, out: output, format: wmsParams.format - 'image/'], layer )
     postgis?.close()
   }
 
