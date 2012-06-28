@@ -67,7 +67,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   ** Define %ffmpeg-dev% env variable to your dev folder
   ** Add the following header files to the %ffmpeg-dev%/include directory
    *** stdint.h  : http://code.google.com/p/msinttypes/downloads/list
-   *** inttypes.h : http://code.google.com/p/msinttypes/downloads/list
+  *** inttypes.h : http://code.google.com/p/msinttypes/downloads/list
  # Install Cmake : http://www.cmake.org/cmake/resources/software.html
   ** Use the Win32 Installer
  # Install Curl : http://curl.haxx.se/download.html
