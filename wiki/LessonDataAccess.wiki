@@ -3,9 +3,7 @@ This page provides a number of sources of satellite imagery, both free and for p
 = Sources of Free Satellite Imagery=
 
  
-{| class="wikitable" border="1"
-|-
-! width="150" | Data Source
+|| Data Source
 ! width="150" | Company
 ! width="225" | Weblink
 |-align="center"
@@ -15,8 +13,7 @@ This page provides a number of sources of satellite imagery, both free and for p
 |-align="center"
 | Radarsat-1 and Radarsat-2
 | align="left" | McDonald Detwiller Associates (MDA)
-| width="75" |  
-|}
+| width="75" ||
 
 
 = Commercial Satellite Imagery=
