@@ -21,6 +21,9 @@ Possible applications for this tool (or derivations thereof) may include the fol
   * Small marine vessel detection.
 
 = Current Status of Tool =
+
+A recent presentation for this project can be found [https://icode-mda.googlecode.com/svn/wiki/MDStrempel_Low_threshold_radar_tracking.pptx here].
+
 Currently research is being done into the many possible approaches to achieving the required processing. Techniques include adaptive matched filters, block-filters, neural network programming and fractal analysis. After a successful MATLAB implementation has been completed the scripts will be ported to ICode-MDA from which the tool will be created.
 
 = Planned Execution =
