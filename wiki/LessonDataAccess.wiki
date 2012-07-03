@@ -15,5 +15,6 @@ Some data requires applying online.  In particular, both ESA and DLR (TerraSAR-X
 
 [http://sss.terrasar-x.dlr.de/ How to Apply for TerraSAR-X and Tandem-X Datasets]
 
+[http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html Vector shoreline data provided by NOAA]
 
 = Commercial Satellite Imagery=
