@@ -13,6 +13,8 @@ Possible applications for this tool may include the following:
    * In situations where satellite or AIS data might not be available while tracking, the tracklets from the two sensors can be stitched together to determine the intent of a vessel.
 
 = Progress thus far =
+A recent presentation of the progress can be found [https://icode-mda.googlecode.com/svn/wiki/Track_stitching_Presentation-LJ_van_der_Merwe.pdf here]
+
 A simulated noisy tracking environment has been set up in MATLAB and data association was performed using a Viterbi algorithm to do data association and a Kalman filter to perform filtering and tracking.
 
 Targets were simulated to cross at different angles. These results are shown below:
