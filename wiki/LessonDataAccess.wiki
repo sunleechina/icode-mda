@@ -11,9 +11,9 @@ This page provides a number of sources of satellite imagery, both free and for p
 
 Some data requires applying online.  In particular, both ESA and DLR (TerraSAR-X) provide data at reduced costs for research.  
 
-[https://earth.esa.int/web/guest/data-access/content?p_r_p_564233524_assetIdentifier=how-to-apply-1375] How to Apply for ESA Datasets
+[https://earth.esa.int/web/guest/data-access/content?p_r_p_564233524_assetIdentifier=how-to-apply-1375 How to Apply for ESA Datasets]
 
-[http://sss.terrasar-x.dlr.de/] How to Apply for TerraSAR-X and Tandem-X Datasets
+[http://sss.terrasar-x.dlr.de/ How to Apply for TerraSAR-X and Tandem-X Datasets]
 
 
 = Commercial Satellite Imagery=
