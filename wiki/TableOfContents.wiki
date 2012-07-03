@@ -7,6 +7,7 @@
 
 * Imagery and Data
   * [LessonGeoRef How to georeference an Image]
+  * [LessonDataAccess Where to get satellite imagery]
   * [LessonESA Introduction to an ESA proposal for data]
   * [LessonCannyHough Introduction to the Canny Edge Filter and Hough Transform]
   * [LessonKmeans Introduction to k-means]
