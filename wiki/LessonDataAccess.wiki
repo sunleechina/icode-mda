@@ -1,7 +1,22 @@
-#This page provides a number of sources of satellite imagery, both free and for purchase.
+This page provides a number of sources of satellite imagery, both free and for purchase.
 
 = Sources of Free Satellite Imagery=
 
-Satellite Imagery 
+ 
+{| class="wikitable" border="1"
+|-
+! width="150" | Data Source
+! width="150" | Company
+! width="225" | Weblink
+|-align="center"
+| TerraSAR-X, Tandem-X, SPOT-4/5, DEMs | 
+| width="75" | Astrium-Geo
+| width="75" | http://www.astrium-geo.com/en/23-sample-imagery
+|-align="center"
+| Radarsat-1 and Radarsat-2
+| align="left" | McDonald Detwiller Associates (MDA)
+| width="75" |  
+|}
+
 
 = Commercial Satellite Imagery=
