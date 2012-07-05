@@ -9,6 +9,7 @@ This page provides a number of sources of satellite imagery, both free and for p
 || ENVISAT Products (ASAR, MERIS, etc) || European Space Agency || http://envisat.esa.int/services/sample_products/ ||
 || Landsat-7, Radarsat-1, ALOS || ACRES || ftp://acres.ga.gov.au/acres/samples ||
 || Level-1 MODIS || NASA || http://ladsweb.nascom.nasa.gov/ ||
+|| Landsat || NASA/USGS || http://earthexplorer.usgs.gov/ ||
 
  
 
