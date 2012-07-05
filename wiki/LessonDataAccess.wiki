@@ -44,18 +44,18 @@ AIS was originally designed primarily for search and rescue, collision avoidance
 
 There are four main types of AIS systems:
 
-  # Class A 
+1)  Class A 
   * Integrated display showing other vessels information.
   * 12W transmission power (30nm range typically)
   * Interface to ship navigation systems (gyrocompass, GNSS)
   * Transmission rate every 3-120 seconds (depending on activity)
-  # Class B 
+2)  Class B 
   * 2 W transmission power (8nm range typically)
   * Transmission rate every 30 seconds
   * Requires at least GPS and VHF antenna
-  # Base Stations
+3)  Base Stations
   * Shore-based AIS transceiver able to control/interrogate individual transponders within range
-  # Aids to Navigation (AtoN)
+4)  Aids to Navigation (AtoN)
   * Shore or buoy based transceiver designed to collect and transmit sea and weather condition messages.
 
 A Class A AIS system consists of three main components:
@@ -84,5 +84,5 @@ Although the range of AIS is limited to VHF range, it is possible to collect AIS
   * http://www.atlanticsource.es/sat/ - Vessels around the world
   * http://www.shipplotter.dk/dk-kort.html - Vessels around Denmark
   * http://www.northernbaltic.se/ais/ - Live AIS Vessels in Northern Baltic Sea
-  * http://www.trackaship.com - Ship and vessel tracking worldwide. 
+  * http://www.trackaship.com - Ship and vessel tracking worldwide.
 
