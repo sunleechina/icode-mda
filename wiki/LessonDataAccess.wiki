@@ -35,7 +35,7 @@ The following are sources for commercial imagery, both Synthetic Aperture Radar 
 
 = Sources of Other Maritime Data =
 
-Sources of Automated Identification System (AIS) data are provided in the table below.  For an overview of AIS, see 
+Sources of Automated Identification System (AIS) data are provided in the table below.  For an overview of AIS, see [LessonAIS Introduction to AIS]
 
   * http://www.shippingexplorer.net/ - Live Vessel Tracking
   * http://www.marinetraffic.com/ais/default.aspx?language=_EN – Marine Traffic
@@ -57,5 +57,3 @@ Sources of Automated Identification System (AIS) data are provided in the table 
 Most of these sources only allow users to view the vessel information via web-display.  To recieve the raw AIS messages for storage, processing, and display, there are a number of options.
 
 Also provided is a table with a few of the many available AIS receivers which can be purchased.  
-
-
