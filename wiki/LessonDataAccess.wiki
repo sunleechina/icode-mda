@@ -35,40 +35,7 @@ The following are sources for commercial imagery, both Synthetic Aperture Radar 
 
 = Sources of Other Maritime Data =
 
-
-In 1998,  International Maritime Organization's (IMO) International Convention passed Safety of Life at Sea (SOLAS), requiring Automated Identification System (AIS) transponders to be fitted aboard international voyaging ships with gross tonnage (GT) of 300 or more tons, and all passenger ships regardless of size NLT 31 December, 2004.  It's estimated that approximately 40,000 ships currently carry class A AIS equipment.  
-
-In 2007, the Class B AIS standard was introduced which enabled a new generation of low cost AIS transceivers.  Class B equipment is now required on most vessels in many nations (Singapore, China, Turkey and North America).  It's estimated that over 100,000 vessels worldwide currently carry class B transponders.
-
-AIS was originally designed primarily for search and rescue, collision avoidance, and accident investigation.  However, in recent years, many additional applications of AIS have developed, including maritime security and monitoring.  
-
-There are four main types of AIS systems:
-
-1)  Class A 
-  * Integrated display showing other vessels information.
-  * 12W transmission power (30nm range typically)
-  * Interface to ship navigation systems (gyrocompass, GNSS)
-  * Transmission rate every 3-120 seconds (depending on activity)
-2)  Class B 
-  * 2 W transmission power (8nm range typically)
-  * Transmission rate every 30 seconds
-  * Requires at least GPS and VHF antenna
-3)  Base Stations
-  * Shore-based AIS transceiver able to control/interrogate individual transponders within range
-4)  Aids to Navigation (AtoN)
-  * Shore or buoy based transceiver designed to collect and transmit sea and weather condition messages.
-
-A Class A AIS system consists of three main components:
-
-  # AIS Transceiver – transmits binary formatted messages at regular intervals.  Also receives AIS messages from all transponders within VHF range.  
-  # VHF antenna – receives and transmits AIS messages to be decoded by the AIS transceiver
-  # GPS antenna – used to provided GPS position of vessel in AIS messages
-  # In addition, the AIS transceiver will often be hooked into ship-board gyros to provide rate of turn and true heading information.
-
-
-AIS messages are transmitted in the VHF maritime channels 87B (161.975 MHz) and 88B (162.025MHz).  Any VHF antenna can receive AIS messages, which can then be decoded by the AIS receiver.  There are 25 distinct AIS message types, each described in detail at http://gpsd.berlios.de/AIVDM.html.  AIS contains a wide variety of information about the vessel, including both dynamic (speed, heading, rate of turn) and static (vessel name, destination, length, width) information.  
-
-Although the range of AIS is limited to VHF range, it is possible to collect AIS messages for large areas by pushing messages collected locally to a network.  In the past decade, several networks of terrestrial AIS receivers have been developed.  These networks collect AIS received from a large number of land-based AIS receivers from around the world.   Several examples of AIS networks are listed below:
+Sources of Automated Identification System (AIS) data are provided in the table below.  For an overview of AIS, see 
 
   * http://www.shippingexplorer.net/ - Live Vessel Tracking
   * http://www.marinetraffic.com/ais/default.aspx?language=_EN – Marine Traffic
@@ -85,4 +52,10 @@ Although the range of AIS is limited to VHF range, it is possible to collect AIS
   * http://www.shipplotter.dk/dk-kort.html - Vessels around Denmark
   * http://www.northernbaltic.se/ais/ - Live AIS Vessels in Northern Baltic Sea
   * http://www.trackaship.com - Ship and vessel tracking worldwide.
+
+
+Most of these sources only allow users to view the vessel information via web-display.  To recieve the raw AIS messages for storage, processing, and display, there are a number of options.
+
+Also provided is a table with a few of the many available AIS receivers which can be purchased.  
+
 
