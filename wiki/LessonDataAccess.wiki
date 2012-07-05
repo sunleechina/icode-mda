@@ -5,6 +5,7 @@ This page provides a number of sources of satellite imagery, both free and for p
 || *Data Source* || *Company* || *Weblink* ||
 || TerraSAR-X, Tandem-X, SPOT-4/5, DEMs || Astrium-Geo || http://www.astrium-geo.com/en/23-sample-imagery ||
 || Radarsat-1 and Radarsat-2 || MDA || http://gs.mdacorporation.com/SatelliteData/Radarsat2/SampleDataset.aspx ||
+|| Radarsat-1 from Hawaii supersite || MDA || http://supersites.earthobservations.org/cdn_HawaiiRSAT.html ||
 || ENVISAT Products (ASAR, MERIS, etc) || European Space Agency || http://envisat.esa.int/services/sample_products/ ||
 || Landsat-7, Radarsat-1, ALOS || ACRES || ftp://acres.ga.gov.au/acres/samples ||
 || Level-1 MODIS || NASA || http://ladsweb.nascom.nasa.gov/ ||
