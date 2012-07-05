@@ -25,6 +25,7 @@ Orbcomm Satellites and SSC#s<br>
 <br><br>
 == Code ==
   * A parser for NMEA AIS messages is available in the source code for this project [http://code.google.com/p/icode-mda/source/browse/#svn%2Ftrunk%2FAisParser AIS Parsing Code].  This code takes AIS "log" files containing NMEA messages, and parses them into a number of possible output types;
+
   
   *  KML file with positions derived from each message
   *  KML file with tracks of each vessel and static information (dynamic+static information merged)
@@ -33,8 +34,12 @@ Orbcomm Satellites and SSC#s<br>
 
 https://icode-mda.googlecode.com/svn/wiki/images/Screenshot1.jpg<br>
 
+Figure 2 below shows an example KML track output for a satellite AIS log file.  
 
-This code is easy to modify to accept other AIS message formats and produce other output types.  
+https://icode-mda.googlecode.com/svn/wiki/images/GoogleEarthTracksExample.jpg 
+<br>
+
+The code is easy to modify to accept other AIS message formats and produce other output types.  Once AIS data is pushed to an SQL database, it can easily be parsed, analyzed, and displayed.  
 
 <br><br>
 == External Links ==
