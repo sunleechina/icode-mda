@@ -43,43 +43,46 @@ In 2007, the Class B AIS standard was introduced which enabled a new generation 
 AIS was originally designed primarily for search and rescue, collision avoidance, and accident investigation.  However, in recent years, many additional applications of AIS have developed, including maritime security and monitoring.  
 
 There are four main types of AIS systems:
-1)	Class A 
--	Integrated display showing other vessels information.
--	12W transmission power (30nm range typically)
--	Interface to ship navigation systems (gyrocompass, GNSS)
--	Transmission rate every 3-120 seconds (depending on activity)
-2)	Class B 
--	2 W transmission power (8nm range typically)
--	Transmission rate every 30 seconds
--	Requires at least GPS and VHF antenna
-3)	Base Stations
--	Shore-based AIS transceiver able to control/interrogate individual transponders within range
-4)	Aids to Navigation (AtoN)
-	-  Shore or buoy based transceiver designed to collect and transmit sea and 	weather condition messages.
+
+  # Class A 
+  * Integrated display showing other vessels information.
+  * 12W transmission power (30nm range typically)
+  * Interface to ship navigation systems (gyrocompass, GNSS)
+  * Transmission rate every 3-120 seconds (depending on activity)
+  # Class B 
+  * 2 W transmission power (8nm range typically)
+  * Transmission rate every 30 seconds
+  * Requires at least GPS and VHF antenna
+  # Base Stations
+  * Shore-based AIS transceiver able to control/interrogate individual transponders within range
+  # Aids to Navigation (AtoN)
+  * Shore or buoy based transceiver designed to collect and transmit sea and weather condition messages.
 
 A Class A AIS system consists of three main components:
 
-1)	AIS Transceiver – transmits binary formatted messages at regular intervals.  Also receives AIS messages from all transponders within VHF range.  
-2)	VHF antenna – receives and transmits AIS messages to be decoded by the AIS transceiver
-3)	GPS antenna – used to provided GPS position of vessel in AIS messages
-4)	In addition, the AIS transceiver will often be hooked into ship-board gyros to provide rate of turn and true heading information.
+  # AIS Transceiver – transmits binary formatted messages at regular intervals.  Also receives AIS messages from all transponders within VHF range.  
+  # VHF antenna – receives and transmits AIS messages to be decoded by the AIS transceiver
+  # GPS antenna – used to provided GPS position of vessel in AIS messages
+  # In addition, the AIS transceiver will often be hooked into ship-board gyros to provide rate of turn and true heading information.
+
 
 AIS messages are transmitted in the VHF maritime channels 87B (161.975 MHz) and 88B (162.025MHz).  Any VHF antenna can receive AIS messages, which can then be decoded by the AIS receiver.  There are 25 distinct AIS message types, each described in detail at http://gpsd.berlios.de/AIVDM.html.  AIS contains a wide variety of information about the vessel, including both dynamic (speed, heading, rate of turn) and static (vessel name, destination, length, width) information.  
 
 Although the range of AIS is limited to VHF range, it is possible to collect AIS messages for large areas by pushing messages collected locally to a network.  In the past decade, several networks of terrestrial AIS receivers have been developed.  These networks collect AIS received from a large number of land-based AIS receivers from around the world.   Several examples of AIS networks are listed below:
 
-*   http://www.shippingexplorer.net/ - Live Vessel Tracking
-*   http://www.marinetraffic.com/ais/default.aspx?language=_EN – Marine Traffic
-*   http://www.digital-seas.com/ - Worldwide real time vessel tracking
-*   http://Vesseltracker.com  - Worldwide AIS tracking Website
-*   http://www.vtexplorer.com/ - AIS vessel tracking based on standalone VT Explorer application
-*   http://www.ios-hellas.gr/ais - Vessels from around the world update 
-*   http://www.mariweb.gr/ecs - On-Line tracking of vessels from around the world
-*   http://www.shipspotting.com/modules/myalbum/ais.php - Vessels in Northern Europe
-*   http://www.vesseltrax.com/ -  Vessels in the Gulf of Mexico and Texas Ports
-*   http://www.shipais.com/ - Vessels in the Irish Sea, Great Britain, United Kingdom, and Ireland
-*   http://www.lrfairplay.com/ - Loyds register of ship information
-*   http://www.atlanticsource.es/sat/ - Vessels around the world
-*   http://www.shipplotter.dk/dk-kort.html - Vessels around Denmark
-*   http://www.northernbaltic.se/ais/ - Live AIS Vessels in Northern Baltic Sea
-*   http://www.trackaship.com - Ship and vessel tracking worldwide. 
+  * http://www.shippingexplorer.net/ - Live Vessel Tracking
+  * http://www.marinetraffic.com/ais/default.aspx?language=_EN – Marine Traffic
+  * http://www.digital-seas.com/ - Worldwide real time vessel tracking
+  * http://Vesseltracker.com  - Worldwide AIS tracking Website
+  * http://www.vtexplorer.com/ - AIS vessel tracking based on standalone VT Explorer application
+  * http://www.ios-hellas.gr/ais - Vessels from around the world update 
+  * http://www.mariweb.gr/ecs - On-Line tracking of vessels from around the world
+  * http://www.shipspotting.com/modules/myalbum/ais.php - Vessels in Northern Europe
+  * http://www.vesseltrax.com/ -  Vessels in the Gulf of Mexico and Texas Ports
+  * http://www.shipais.com/ - Vessels in the Irish Sea, Great Britain, United Kingdom, and Ireland
+  * http://www.lrfairplay.com/ - Loyds register of ship information
+  * http://www.atlanticsource.es/sat/ - Vessels around the world
+  * http://www.shipplotter.dk/dk-kort.html - Vessels around Denmark
+  * http://www.northernbaltic.se/ais/ - Live AIS Vessels in Northern Baltic Sea
+  * http://www.trackaship.com - Ship and vessel tracking worldwide. 
+
