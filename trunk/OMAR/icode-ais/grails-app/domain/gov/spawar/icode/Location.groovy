@@ -8,9 +8,10 @@ class Location
   static belongsTo = [ais: Ais]
 
 
-  Point aisGeom;
-  Double latitude;
-  Double longitude;
+  Point geometryObject;
+  Double latitude=0;
+  Double longitude=0;
+  Double altitude=0;
   Date date;
 
   static mapping = {
@@ -19,10 +20,9 @@ class Location
   }
 
   static constraints = {
-    aisGeom( nullable: false )
+    geometryObject( nullable: false )
     latitude( nullable: false )
     longitude( nullable: false )
     date( nullable: false )
   }
 }
-
