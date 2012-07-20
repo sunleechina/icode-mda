@@ -39,16 +39,17 @@ class DataLoader
             loadAisCSV('SanDiego.csv')
             loadAisCSV('Chile2.csv')
             loadCountryData()
-            //loadRadarXML('ST_Track.xsd')
+            //loadRadarXML('ST_Track.xml')
         }
     }
   
     def loadRadarXML( def filename )
     {
         def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
+        def istream = DataLoader.class.getResourceAsStream( filename )
         
         //Use RadarXMLParser calls
-        Vector<Object> vector = RadarXMLParser.read(filename);
+        Vector<Object> vector = RadarXMLParser.read(istream);
         System.out.println("Done Parsing Complete Radar doc: " + vector.size());
         
         //Determine what type of Object we have and add it to the DB
@@ -57,16 +58,18 @@ class DataLoader
             Object obj = itr.next();
             if (obj instanceof STTrackAirT) {
                 STTrackAirT air = (STTrackAirT) obj;
-                int UID = air.getMsgID(); //using this as the UID until we figure out what the right thing to use is
+                //int UID = air.getMsgID(); //using this as the UID until we figure out what the right thing to use is
                 
                 //See if it already exists
+                /*****************************************************
                 def airTrack = RadarAirTrack.findByUID( UID );
                 
                 if ( !airTrack )
                 {
               
-                    airTrack = convertToRadarAirTrack(air);
+                    //airTrack = convertToRadarAirTrack(air);
                 }
+                ********************************************************/
                 
 
             } 
@@ -91,8 +94,6 @@ class DataLoader
     def loadAisCSV( def filename )
     {
         
-        println( "DEBUG 1001" );
-        int debugCount =0;
         def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
 
         def istream = DataLoader.class.getResourceAsStream( filename )
@@ -106,8 +107,6 @@ class DataLoader
             //Search for AIS based on MMSI
             def mmsiID = tokens[0]?.toInteger()
             def ais = Ais.findByMmsi( mmsiID );
-            
-            debugCount++;
 
             if ( !ais )
             {
