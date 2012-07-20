@@ -39,7 +39,7 @@ class DataLoader
             loadAisCSV('SanDiego.csv')
             loadAisCSV('Chile2.csv')
             loadCountryData()
-            //loadRadarXML('ST_Track.xml')
+            loadRadarXML('ST_Track.xml')
         }
     }
   
@@ -149,6 +149,8 @@ class DataLoader
                 date: new Date( timeStamp ),
                 geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
             )
+            
+            ais.addToLocations( location )
 
             if ( ++count % 1000 == 0 )
             {
