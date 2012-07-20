@@ -15,7 +15,7 @@ class Location
   Date date;
 
   static mapping = {
-    aisGeom type: org.hibernatespatial.GeometryUserType
+    geometryObject type: org.hibernatespatial.GeometryUserType
     date index: 'location_date_idx'
   }
 

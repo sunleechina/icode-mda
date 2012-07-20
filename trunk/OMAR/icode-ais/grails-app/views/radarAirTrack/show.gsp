@@ -122,6 +122,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${radarAirTrackInstance?.UID}">
+				<li class="fieldcontain">
+					<span id="UID-label" class="property-label"><g:message code="radarAirTrack.UID.label" default="UID" /></span>
+					
+						<span class="property-value" aria-labelledby="UID-label"><g:fieldValue bean="${radarAirTrackInstance}" field="UID"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${radarAirTrackInstance?.altitudeGNSS}">
 				<li class="fieldcontain">
 					<span id="altitudeGNSS-label" class="property-label"><g:message code="radarAirTrack.altitudeGNSS.label" default="Altitude GNSS" /></span>

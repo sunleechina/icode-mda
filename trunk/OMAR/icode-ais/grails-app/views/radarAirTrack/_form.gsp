@@ -90,6 +90,14 @@
 	<g:field type="number" name="ROT" step="any" required="" value="${radarAirTrackInstance.ROT}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: radarAirTrackInstance, field: 'UID', 'error')} ">
+	<label for="UID">
+		<g:message code="radarAirTrack.UID.label" default="UID" />
+		
+	</label>
+	<g:textField name="UID" value="${radarAirTrackInstance?.UID}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: radarAirTrackInstance, field: 'altitudeGNSS', 'error')} required">
 	<label for="altitudeGNSS">
 		<g:message code="radarAirTrack.altitudeGNSS.label" default="Altitude GNSS" />

@@ -3,6 +3,7 @@ package gov.spawar.icode
 class RadarSurfTrack {
     static hasMany = [locations: Location]
     
+    String UID  //Place holder for our (ICODE) unique ID. 
     int messageID=0;
     String portalName="";
     double messageTime=0;
