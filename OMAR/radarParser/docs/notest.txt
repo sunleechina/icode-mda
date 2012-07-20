@@ -1,0 +1,6 @@
+
+
+- Added the following tags to generated files:
+
+@XmlRootElement(name = "ST_Track_surf")
+@XmlRootElement(name = "ST_Track_air")
