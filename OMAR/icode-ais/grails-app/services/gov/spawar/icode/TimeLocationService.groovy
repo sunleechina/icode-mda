@@ -34,7 +34,7 @@ class TimeLocationService
     def sql = """
     select x.id as id, vessel_name as name, last_known_time, last_known_position
     from ais x, (
-      select distinct a.ais_id, b.date as last_known_time, ais_geom as last_known_position
+      select distinct a.ais_id, b.date as last_known_time, geometry_object as last_known_position
       from location a
       inner join (
         select ais_id, max(date) as date
@@ -43,7 +43,7 @@ class TimeLocationService
       ) b
       on a.ais_id=b.ais_id
       and a.date=b.date
-      where st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
+      where st_within(geometry_object, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
     ) as y
     where x.id=y.ais_id
     """
@@ -84,11 +84,11 @@ class TimeLocationService
     def sql = """
     select x.id, vessel_name as name, track
     from ais x, (
-      select ais_id as id, st_makeline(ais_geom) as track
+      select ais_id as id, st_makeline(geometry_object) as track
       from (
-        select ais_id, ais_geom, date
+        select ais_id, geometry_object, date
         from location
-        where st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
+        where st_within(geometry_object, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
         order by date
         ) as t
         group by ais_id

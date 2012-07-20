@@ -1,9 +1,14 @@
 package gov.spawar.icode
 
+import com.spawar.icode.radar.STTrackAirT;
+import com.spawar.icode.radar.STTrackSurfT;
+
 class RadarAirTrack {
     
     static hasMany = [locations: Location]
     
+    
+    String UID  //Place holder for our (ICODE) unique ID. 
     int messageID=0;
     String portalName="";
     double messageTime=0;
@@ -124,4 +129,5 @@ class RadarAirTrack {
         sdsTrackID_site min:0, max:255
         
     }
+    
 }

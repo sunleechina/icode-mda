@@ -146,6 +146,14 @@
 	<g:field type="number" name="altitudeGNSS" step="any" min="0.0" max="13435.0" required="" value="${radarSurfTrackInstance.altitudeGNSS}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'UID', 'error')} ">
+	<label for="UID">
+		<g:message code="radarSurfTrack.UID.label" default="UID" />
+		
+	</label>
+	<g:textField name="UID" value="${radarSurfTrackInstance?.UID}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'bClassA', 'error')} ">
 	<label for="bClassA">
 		<g:message code="radarSurfTrack.bClassA.label" default="BC lass A" />

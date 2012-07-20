@@ -185,6 +185,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${radarSurfTrackInstance?.UID}">
+				<li class="fieldcontain">
+					<span id="UID-label" class="property-label"><g:message code="radarSurfTrack.UID.label" default="UID" /></span>
+					
+						<span class="property-value" aria-labelledby="UID-label"><g:fieldValue bean="${radarSurfTrackInstance}" field="UID"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${radarSurfTrackInstance?.bClassA}">
 				<li class="fieldcontain">
 					<span id="bClassA-label" class="property-label"><g:message code="radarSurfTrack.bClassA.label" default="BC lass A" /></span>
