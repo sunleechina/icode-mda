@@ -8,7 +8,7 @@ class RadarAirTrack {
     static hasMany = [locations: Location]
     
     
-    String UID  //Place holder for our (ICODE) unique ID. 
+    String uID  //Place holder for our (ICODE) unique ID.
     int messageID=0;
     String portalName="";
     double messageTime=0;

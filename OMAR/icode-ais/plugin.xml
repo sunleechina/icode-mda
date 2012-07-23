@@ -1,4 +1,4 @@
-<plugin name='icode-ais' version='0.1' grailsVersion='1.3.7 &gt; *'>
+<plugin name='icode-ais' version='0.1' grailsVersion='2.0.4 &gt; *'>
   <author>Your name</author>
   <title>Plugin summary/headline</title>
   <description>\
@@ -41,8 +41,8 @@ Brief description of the plugin.
       <plugin group='org.grails.plugins' name='filterpane' version='2.0.1.1' />
     </compile>
     <runtime>
-      <plugin group='org.grails.plugins' name='tomcat' version='2.0.4' />
       <plugin group='org.grails.plugins' name='hibernate' version='2.0.4' />
+      <plugin group='org.grails.plugins' name='tomcat' version='2.0.4' />
       <plugin group='org.grails.plugins' name='yui' version='2.8.2.1' />
     </runtime>
   </plugins>

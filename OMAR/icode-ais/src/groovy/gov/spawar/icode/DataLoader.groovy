@@ -56,27 +56,38 @@ class DataLoader
         ListIterator itr = vector.listIterator();
         while (itr.hasNext()) {
             Object obj = itr.next();
+
+            //Air Track
             if (obj instanceof STTrackAirT) {
                 STTrackAirT air = (STTrackAirT) obj;
-                //int UID = air.getMsgID(); //using this as the UID until we figure out what the right thing to use is
+                int UID = air.getAir().getAisSup().getUserId() //using this as the UID until we figure out what the right thing to use is
                 
                 //See if it already exists
-                /*****************************************************
                 def airTrack = RadarAirTrack.findByUID( UID );
                 
                 if ( !airTrack )
                 {
-              
-                    //airTrack = convertToRadarAirTrack(air);
+                    airTrack = convertToRadarAirTrack(air);
                 }
-                ********************************************************/
                 
 
-            } 
+            }
+            //Surf Track
             else if (obj instanceof STTrackSurfT) {
                 STTrackSurfT surf = (STTrackSurfT) obj;
-                
-              
+
+                int UID = surf.getSurf().getAisSup().getUserId() //using this as the UID until we figure out what the right thing to use is
+
+                //See if it already exists
+                def surfTrack = RadarSurfTrack.findByUID( UID );
+
+                if ( !surfTrack )
+                {
+                    surfTrack = convertToRadarSurfTrack(surf);
+                }
+
+
+
 
             } 
             else {
@@ -285,119 +296,232 @@ class DataLoader
         
         RadarAirTrack track = new RadarAirTrack();
         
-        track.UID  = rTrack.getMsgID();
+        track.uID  = rTrack.getAir().getAisSup().getUserId()
         track.messageID=rTrack.getMsgID();
         track.portalName=rTrack.getPortalName();
-        track.messageTime=rTrack.getPortalName();
+        track.messageTime=rTrack.getMsgTime();
 
         //Header
 
         ////SdsTrackID
-        track.sdsTrackID_kluster=0; // (0 - 255)
-        track.sdsTrackID_port=0; //  (0-15)
-        track.sdsTrackID_platform=0; //  (0-15)
-        track.sdsTrackID_category=0; //(0-255)
-        track.sdsTrackID_amplification=0; //(0-255)
-        track.sdsTrackID_site=0; // (0-255)
-        track.sdsTrackID_radar=0; // (0-15)
-        track.sdsTrackID_trackID=0; //(0-4095)
+        track.sdsTrackID_kluster=rTrack.getHdr().getSdsTrackID().getKluster() // (0 - 255)
+        track.sdsTrackID_port=rTrack.getHdr().getSdsTrackID().getPort() //  (0-15)
+        track.sdsTrackID_platform=rTrack.getHdr().getSdsTrackID().getPlatform() //  (0-15)
+        track.sdsTrackID_category=rTrack.getHdr().getSdsTrackID().getCategory() //(0-255)
+        track.sdsTrackID_amplification=rTrack.getHdr().getSdsTrackID().getAmplification() //(0-255)
+        track.sdsTrackID_site=rTrack.getHdr().getSdsTrackID().getSite()// (0-255)
+        track.sdsTrackID_radar=rTrack.getHdr().getSdsTrackID().getRadar() // (0-15)
+        track.sdsTrackID_trackID=rTrack.getHdr().getSdsTrackID().getTrackID() //(0-4095)
 
         ////System Track ID
-        track.systemTrackID_kluster=0; // (0 - 255)
-        track.systemTrackID_port=0; //  (0-15)
-        track.systemTrackID_platform=0; //  (0-15)
-        track.systemTrackID_category=0; // (0-255)
-        track.systemTrackID_amplification=0;// (0-255)
-        track.systemTrackID_site=0; // (0-255)
-        track.ystemTrackID_radar=0; // (0-15)
-        track.systemTrackID_trackID=0; //(0-4095)
+        track.systemTrackID_kluster=rTrack.getHdr().getSystemTrackID().getKluster() // (0 - 255)
+        track.systemTrackID_port=rTrack.getHdr().getSystemTrackID().getPort() //  (0-15)
+        track.systemTrackID_platform=rTrack.getHdr().getSystemTrackID().getPlatform() //  (0-15)
+        track.systemTrackID_category=rTrack.getHdr().getSystemTrackID().getCategory() // (0-255)
+        track.systemTrackID_amplification=rTrack.getHdr().getSystemTrackID().getAmplification()// (0-255)
+        track.systemTrackID_site=rTrack.getHdr().getSystemTrackID().getSite() // (0-255)
+        track.systemTrackID_radar=rTrack.getHdr().getSystemTrackID().getSite() // (0-15)
+        track.systemTrackID_trackID=rTrack.getHdr().getSystemTrackID().getTrackID() //(0-4095)
 
 
         //Vect
-        track.eading=0; // (-360 to 360)
-        track.speed=0; //
-        track.climb=0; //
+        track.heading=rTrack.getHdr().getVec().getHeading() // (-360 to 360)
+        track.speed=rTrack.getHdr().getVec().getSpeed()//
+        track.climb=rTrack.getHdr().getVec().getClimb() //
 
         track.bVecValid=false;
         // trackStatus {0=TRK_TRACKING, 1=TRK_COASTING, 2=TRK_NEW, 3=TRK_STALE, 4=TRK_DELETE, 5=TRK_TRAIN_SIDING, 6=TRK_TRAIN_BLOCKED, 63= TRK_UNKNOWN}
         //enum TrackStatus {TRK_TRACKING(0), TRK_COASTING(1), TRK_NEW(2), TRK_STALE(3), TRK_DELETE(4), TRK_TRAIN_SIDING(5),TRK_TRAIN_BLOCKED(6), TRK_UNKNOWN(63)};
         //TrackStatus trackStatus;
     
-        track.quality=0;
-        track.sdsIndex=0;
-        track.bIgnoreAlarms=false;
-        track.time=0;
-        track.playerListId=0;
-        track.bPlayerListIdValid=false;
-        track.remote_name="";
+        track.quality=rTrack.getHdr().getQuality()
+        track.sdsIndex=rTrack.getHdr().getSdsIndex()
+        track.bIgnoreAlarms=rTrack.getHdr().BIgnoreAlarms
+        track.time=rTrack.getHdr().getTime()
+        track.playerListId=rTrack.getHdr().getPlayerListId()
+        track.bPlayerListIdValid=rTrack.getHdr().BPlayerListIdValid
+        track.remote_name=rTrack.getHdr().getRemoteName()
 
         ////////////////////////////
         //Air
         ////////////////////////////
-        track.condition=0; //(0-63)
-        track.d_3a_validity=false;
-        track.md_c_validity=false;
-        track.Mode3A=0;
-        track.bMode2Valid=false;
-        track.mode2=0;
-        track.radar_num=0;
-        track.extAAHorzSep=0.0;
-        track.extAAVertSep=0;
-        track.extAALookAhead=0;
-        track.extAAHorizBuf=0;
-        track.extAAVertExten=0;
-        track.extAADebugFlag=0;
-        track.extAAVertVel=0;
-        track.precisionAltDiff=0;
-        track.bPrecisionAltDiffSet=false;
-        track.bHDVertVel=false;
-        track.bHDHorizVel=false;
-        track.bHDDirChange=false;
-        track.bHighDynamic=false;
-        track.sensorMode3=0;
-        track.bSensorMode3Valid=false;
-        track.sensorMode2=0
-        track.bSensorMode2Valid=false;
-        track.sensorCondition=0;
+        track.condition=rTrack.getAir().getCondition() //(0-63)
+        track.md_3a_validity=rTrack.getAir().isMd3AValidity()
+        track.md_c_validity=rTrack.getAir().isMdCValidity()
+        track.Mode3A=rTrack.getAir().getMode3A()
+        track.bMode2Valid=rTrack.getAir().isBMode2Valid()
+        track.mode2=rTrack.getAir().getMode2()
+        track.radar_num=rTrack.getAir().getRadarNum()
+        track.extAAHorzSep=rTrack.getAir().getExtAAHorzSep()
+        track.extAAVertSep=rTrack.getAir().getExtAAVertSep()
+        track.extAALookAhead=rTrack.getAir().getExtAALookAhead()
+        track.extAAHorizBuf=rTrack.getAir().getExtAAHorizBuf()
+        track.extAAVertExten=rTrack.getAir().getExtAAVertExten()
+        track.extAADebugFlag=rTrack.getAir().extAADebugFlag
+        track.extAAVertVel=rTrack.getAir().getExtAAVertVel()
+        track.precisionAltDiff=rTrack.getAir().getPrecisionAltDiff()
+        track.bPrecisionAltDiffSet=rTrack.getAir().isBPrecisionAltDiffSet()
+        track.bHDVertVel=rTrack.getAir().isBHDVertVel()
+        track.bHDHorizVel=rTrack.getAir().isBHDHorizVel()
+        track.bHDDirChange=rTrack.getAir().isBHDDirChange()
+        track.bHighDynamic=rTrack.getAir().isBHighDynamic()
+        track.sensorMode3=rTrack.getAir().getSensorMode3()
+        track.bSensorMode3Valid=rTrack.getAir().isBSensorMode3Valid()
+        track.sensorMode2=rTrack.getAir().getSensorMode2()
+        track.bSensorMode2Valid=rTrack.getAir().isBMode2Valid()
+        track.sensorCondition=rTrack.getAir().getSensorCondition()
 
         //AIS Sup
-        track.userId=0;//  (0 -999999999 )
-        track.ROT=0;// (-721 to 721)
-        track.bLessThan10MetersError=0; //(0 to 1 ) 
-        track.TypeOfPositionDevice=0; //(0 to 15 )
-        track.ReportLat=0;
-        track.ReportLon=0;
-        track.bCenterPositionValid=0;// (0 to 1) 
-        track.CenterLat=0;
-        track.CenterLon=0;
-        track.corner1Lat=0;
-        track.corner1Lon=0;
-        track.corner2Lat=0;
-        track.corner2Lon=0;
-        track.corner3Lat=0;
-        track.corner3Lon=0;
-        track.corner4Lat=0;
-        track.corner4Lon=0;
-        track.typeOfShip1=0;// (0 to 19)
-        track.typeOfShip2=0;// (-1 to 19)
-        track.trueHeading=0; 
-        track.callSign="";
-        track.name="";
-        track.dimensionLength=0; // (0-1022)
-        track.dimensionWidth=0; //  (0-126)
-        track.ETAmonth=0;//  (-1 to 12)
-        track.ETAday=0;//(-1 to 31)
-        track.ETAhour=0;// (-1 to 23)
-        track.ETAminute=0;// (0-59)
-        track.maxDraught=0;//(0 to 255)
-        track.destination="";
-        track.altitudeGNSS=0;// (0 to 13435)
-        track.bSurfaceTrack=false;
-        track.bMobileTrack=false;
-        track.bSensorSite=false;
-        track.bClassA=false;
+        track.userId=rTrack.getAir().getAisSup().getUserId()//  (0 -999999999 )
+        track.ROT=rTrack.getAir().getAisSup().getROT()// (-721 to 721)
+        track.bLessThan10MetersError=rTrack.getAir().getAisSup().getBLessThan10MetersError(); //(0 to 1 )
+        track.TypeOfPositionDevice=rTrack.getAir().getAisSup().getTypeOfPositionDevice(); //(0 to 15 )
+        track.ReportLat=rTrack.getAir().getAisSup().getReportLat()
+        track.ReportLon=rTrack.getAir().getAisSup().getReportLon()
+        track.bCenterPositionValid=rTrack.getAir().getAisSup().getBCenterPositionValid()// (0 to 1)
+        track.CenterLat=rTrack.getAir().getAisSup().getCenterLat()
+        track.CenterLon=rTrack.getAir().getAisSup().getCenterLon()
+        track.corner1Lat=rTrack.getAir().getAisSup().getCorner1Lat()
+        track.corner1Lon=rTrack.getAir().getAisSup().getCorner1Lon()
+        track.corner2Lat=rTrack.getAir().getAisSup().getCorner2Lat()
+        track.corner2Lon=rTrack.getAir().getAisSup().getCorner2Lon()
+        track.corner3Lat=rTrack.getAir().getAisSup().getCorner3Lat()
+        track.corner3Lon=rTrack.getAir().getAisSup().getCorner3Lon()
+        track.corner4Lat=rTrack.getAir().getAisSup().getCorner4Lat()
+        track.corner4Lon=rTrack.getAir().getAisSup().getCorner4Lon()
+        track.typeOfShip1=rTrack.getAir().getAisSup().getTypeOfShip1()// (0 to 19)
+        track.typeOfShip2=rTrack.getAir().getAisSup().getTypeOfShip2()// (-1 to 19)
+        track.trueHeading=rTrack.getAir().getAisSup().getTrueHeading()
+        track.callSign=rTrack.getAir().getAisSup().getCallSign()
+        track.name=rTrack.getAir().getAisSup().getName()
+        track.dimensionLength=rTrack.getAir().getAisSup().getDimensionLength()// (0-1022)
+        track.dimensionWidth=rTrack.getAir().getAisSup().getDimensionWidth(); //  (0-126)
+        track.ETAmonth=rTrack.getAir().getAisSup().getETAmonth()//  (-1 to 12)
+        track.ETAday=rTrack.getAir().getAisSup().getETAday()//(-1 to 31)
+        track.ETAhour=rTrack.getAir().getAisSup().getETAhour()// (-1 to 23)
+        track.ETAminute=rTrack.getAir().getAisSup().getETAminute()// (0-59)
+        track.maxDraught=rTrack.getAir().getAisSup().getMaxDraught()//(0 to 255)
+        track.destination=rTrack.getAir().getAisSup().getDestination()
+        track.altitudeGNSS=rTrack.getAir().getAisSup().getAltitudeGNSS()// (0 to 13435)
+        track.bSurfaceTrack=rTrack.getAir().getAisSup().isBSurfaceTrack()
+        track.bMobileTrack=rTrack.getAir().getAisSup().isBMobileTrack()
+        track.bSensorSite=rTrack.getAir().getAisSup().isBSensorSite()
+        track.bClassA=rTrack.getAir().getAisSup().isBClassA()
+
+        return track;
         
-        
+    }//Converter
+
+
+    //Converter from  JAXB Radar Objects to Grails RadarAirTrack Object
+    public RadarSurfTrack convertToRadarSurfTrack(STTrackSurfT rTrack){
+
+        RadarSurfTrack track = new RadarSurfTrack();
+
+        track.uID  = rTrack.getSurf().getAisSup().getUserId();
+        track.messageID=rTrack.getMsgID();
+        track.portalName=rTrack.getPortalName();
+        track.messageTime=rTrack.getMsgTime();
+
+        //Header
+
+        ////SdsTrackID
+        track.sdsTrackID_kluster=rTrack.getHdr().getSdsTrackID().getKluster() // (0 - 255)
+        track.sdsTrackID_port=rTrack.getHdr().getSdsTrackID().getPort() //  (0-15)
+        track.sdsTrackID_platform=rTrack.getHdr().getSdsTrackID().getPlatform() //  (0-15)
+        track.sdsTrackID_category=rTrack.getHdr().getSdsTrackID().getCategory() //(0-255)
+        track.sdsTrackID_amplification=rTrack.getHdr().getSdsTrackID().getAmplification() //(0-255)
+        track.sdsTrackID_site=rTrack.getHdr().getSdsTrackID().getSite()// (0-255)
+        track.sdsTrackID_radar=rTrack.getHdr().getSdsTrackID().getRadar() // (0-15)
+        track.sdsTrackID_trackID=rTrack.getHdr().getSdsTrackID().getTrackID() //(0-4095)
+
+        ////System Track ID
+        track.systemTrackID_kluster=rTrack.getHdr().getSystemTrackID().getKluster() // (0 - 255)
+        track.systemTrackID_port=rTrack.getHdr().getSystemTrackID().getPort() //  (0-15)
+        track.systemTrackID_platform=rTrack.getHdr().getSystemTrackID().getPlatform() //  (0-15)
+        track.systemTrackID_category=rTrack.getHdr().getSystemTrackID().getCategory() // (0-255)
+        track.systemTrackID_amplification=rTrack.getHdr().getSystemTrackID().getAmplification()// (0-255)
+        track.systemTrackID_site=rTrack.getHdr().getSystemTrackID().getSite() // (0-255)
+        track.systemTrackID_radar=rTrack.getHdr().getSystemTrackID().getSite() // (0-15)
+        track.systemTrackID_trackID=rTrack.getHdr().getSystemTrackID().getTrackID() //(0-4095)
+
+
+        //Vect
+        track.heading=rTrack.getHdr().getVec().getHeading() // (-360 to 360)
+        track.speed=rTrack.getHdr().getVec().getSpeed()//
+        track.climb=rTrack.getHdr().getVec().getClimb() //
+
+        track.bVecValid=false;
+        // trackStatus {0=TRK_TRACKING, 1=TRK_COASTING, 2=TRK_NEW, 3=TRK_STALE, 4=TRK_DELETE, 5=TRK_TRAIN_SIDING, 6=TRK_TRAIN_BLOCKED, 63= TRK_UNKNOWN}
+        //enum TrackStatus {TRK_TRACKING(0), TRK_COASTING(1), TRK_NEW(2), TRK_STALE(3), TRK_DELETE(4), TRK_TRAIN_SIDING(5),TRK_TRAIN_BLOCKED(6), TRK_UNKNOWN(63)};
+        //TrackStatus trackStatus;
+
+        track.quality=rTrack.getHdr().getQuality()
+        track.sdsIndex=rTrack.getHdr().getSdsIndex()
+        track.bIgnoreAlarms=rTrack.getHdr().BIgnoreAlarms
+        track.time=rTrack.getHdr().getTime()
+        track.playerListId=rTrack.getHdr().getPlayerListId()
+        track.bPlayerListIdValid=rTrack.getHdr().BPlayerListIdValid
+        track.remote_name=rTrack.getHdr().getRemoteName()
+
+        ////////////////////////////
+        //Surf
+        ////////////////////////////
+        track.Name=rTrack.getSurf().getAisSup().getName()
+        // enum VesselType {TKR_P(0), TKR_H(1), TKR_G(2), TOW_P(3), TOW_H(4), TOW_G(5),FER(6), GOVT(7),UNK(8),FREIGHT(9),PASS(10),UTIL(11),VTS_MAX_VESSEL_TYPES(12)};
+        //VesselType type;
+        track.vin = rTrack.getSurf().getVi().getVin()
+
+        track.reportTime=rTrack.getSurf().getReportTime()
+        track.plotSize=rTrack.getSurf().getPlotSize()
+        track.range=rTrack.getSurf().getRange()
+
+        /******************************************************
+         {   <xs:enumeration value="0" /> <!-- "TRK_MANUAL" -->
+         <xs:enumeration value="1" /> <!-- "TRK_AUTO" -->
+         <xs:enumeration value="2" /> <!-- "TRK_GLOBAL" -->
+         }
+         ********************************************************/
+        track.acquired=rTrack.getSurf().getAcquired()
+
+        //AIS Sup
+        track.userId=rTrack.getSurf().getAisSup().getUserId();//  (0 -999999999 )
+        track.rot=rTrack.getSurf().getAisSup().getROT()// (-721 to 721)
+        track.bLessThan10MetersError=rTrack.getSurf().getAisSup().getBLessThan10MetersError();// (0 to 1 )
+        track.typeOfPositionDevice=rTrack.getSurf().getAisSup().getTypeOfPositionDevice()// (0 to 15 )
+        track.reportLat=rTrack.getSurf().getAisSup().getReportLat()
+        track.reportLon=rTrack.getSurf().getAisSup().getReportLon()
+        track.bCenterPositionValid=rTrack.getSurf().getAisSup().getBCenterPositionValid()// (0 to 1)
+        track.centerLat=rTrack.getSurf().getAisSup().getCenterLat()
+        track.centerLon=rTrack.getSurf().getAisSup().getCenterLon()
+        track.corner1Lat=rTrack.getSurf().getAisSup().getCorner1Lat()
+        track.corner1Lon=rTrack.getSurf().getAisSup().getCorner1Lon()
+        track.corner2Lat=rTrack.getSurf().getAisSup().getCorner2Lat()
+        track.corner2Lon=rTrack.getSurf().getAisSup().getCorner2Lon()
+        track.corner3Lat=rTrack.getSurf().getAisSup().getCorner3Lat()
+        track.corner3Lon=rTrack.getSurf().getAisSup().getCorner4Lon()
+        track.corner4Lat=rTrack.getSurf().getAisSup().getCorner4Lat()
+        track.corner4Lon=rTrack.getSurf().getAisSup().getCorner4Lon()
+        track.typeOfShip1=rTrack.getSurf().getAisSup().getTypeOfShip1()// (0 to 19)
+        track.typeOfShip2=rTrack.getSurf().getAisSup().getTypeOfShip2()// (-1 to 19)
+        track.trueHeading=rTrack.getSurf().getAisSup().getTrueHeading()
+        track.callSign=rTrack.getSurf().getAisSup().getCallSign()
+        track.dimensionLength=rTrack.getSurf().getAisSup().getDimensionLength()// (0-1022)
+        track.dimensionWidth=rTrack.getSurf().getAisSup().getDimensionWidth() //  (0-126)
+        track.etaMonth=rTrack.getSurf().getAisSup().getETAmonth() //  (-1 to 12)
+        track.etaDay=rTrack.getSurf().getAisSup().getETAday() // (-1 to 31)
+        track.etaHour=rTrack.getSurf().getAisSup().getETAhour()// (-1 to 23)
+        track.etaMinute=rTrack.getSurf().getAisSup().getETAminute()// (0-59)
+        track.maxDraught=rTrack.getSurf().getAisSup().getMaxDraught(); // (0 to 255)
+        track.destination=rTrack.getSurf().getAisSup().getDestination();
+        track.altitudeGNSS=rTrack.getSurf().getAisSup().getAltitudeGNSS(); // (0 to 13435)
+        track.bSurfaceTrack=rTrack.getSurf().getAisSup().isBSurfaceTrack()
+        track.bMobileTrack=rTrack.getSurf().getAisSup().isBMobileTrack()
+        track.bSensorSite=rTrack.getSurf().getAisSup().isBSensorSite()
+        track.bClassA=rTrack.getSurf().getAisSup().BClassA
+
+        return track;
+
     }//Converter
     
     
