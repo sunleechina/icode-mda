@@ -1,9 +1,13 @@
 package gov.spawar.icode
 
+import com.spawar.icode.radar.STTrackAirT;
+import com.spawar.icode.radar.STTrackSurfT;
+
 class RadarSurfTrack {
+
     static hasMany = [locations: Location]
     
-    String UID  //Place holder for our (ICODE) unique ID. 
+    String uID=0; //Place holder for our (ICODE) unique ID.
     int messageID=0;
     String portalName="";
     double messageTime=0;
@@ -75,7 +79,7 @@ class RadarSurfTrack {
     ******************************************************************************/
     enum VesselType {TKR_P(0), TKR_H(1), TKR_G(2), TOW_P(3), TOW_H(4), TOW_G(5),FER(6), GOVT(7),UNK(8),FREIGHT(9),PASS(10),UTIL(11),VTS_MAX_VESSEL_TYPES(12)};
     VesselType type;
-    int vin;
+    String vin;
 
     double reportTime=0;
     float plotSize=0;
