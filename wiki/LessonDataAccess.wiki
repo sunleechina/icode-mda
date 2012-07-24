@@ -10,6 +10,8 @@ This page provides a number of sources of satellite imagery, both free and for p
 || Landsat-7, Radarsat-1, ALOS || ACRES || ftp://acres.ga.gov.au/acres/samples ||
 || Level-1 MODIS || NASA || http://ladsweb.nascom.nasa.gov/ ||
 || Landsat || NASA/USGS || http://earthexplorer.usgs.gov/ ||
+|| COSMO-SkyMed || e-GEOS || ftp://ftp.e-geos.it/ ||
+|| GeoEye-1 and IKONOS || GeoEye || http://www.geoeye.com/CorpSite/resource/sample_imagery.aspx ||
 
  
 
@@ -24,6 +26,15 @@ Some data requires applying online.  In particular, both ESA and DLR (TerraSAR-X
 = Commercial Satellite Imagery=
 
 The following are sources for commercial imagery, both Synthetic Aperture Radar and Electro-Optical.  Depending on your geographical location, you may purchase data from an authorized reseller for your region.  
+
+
+|| *Data* || *Company* || *Weblink* ||
+|| Radarsat-1 and Radarsat-2|| MDA || http://gs.mdacorporation.com/CustomerSupport/CustomerSupport.aspx ||
+|| Worldview-1, Worldview-2, and Quickbird|| Digital Globe|| http://www.digitalglobe.com/products ||
+|| GeoEye-1 and Geoeye-2 || GeoEye|| http://www.geoeye.com/CorpSite/products-and-services/channel-partners/Default.aspx ||
+|| TerraSAR-X/Tandem-X and SPOT-4/5 and Pleides || Astrium Geo || http://www.astrium-geo.com/en/23-sample-imagery ||
+
+
 
 
 
