@@ -92,18 +92,6 @@ int main(int argc, char** argv)
 			return -1;
 		}
 
-		if(!vmsKMLWriter.isReady())
-		{
-			debug("vmsKMLWriter is not ready");
-			return -1;
-		}
-
-		if(!vmsCSVWriter.isReady())
-		{
-			debug("vmsCSVWriter is not ready");
-			return -1;
-		}
-
 		for(unsigned int messageCount = 0; ((messagesPerFile == 0) || (messageCount < messagesPerFile)) && (InputSource.isReady()); messageCount++)
 		{
 			//load the next sentence from the AIS input to the parser
