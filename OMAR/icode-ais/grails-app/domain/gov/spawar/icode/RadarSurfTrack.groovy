@@ -42,8 +42,8 @@ class RadarSurfTrack {
 
     boolean bVecValid
     //int trackStatus {0=TRK_TRACKING, 1=TRK_COASTING, 2=TRK_NEW, 3=TRK_STALE, 4=TRK_DELETE, 5=TRK_TRAIN_SIDING, 6=TRK_TRAIN_BLOCKED, 63= TRK_UNKNOWN}
-    enum TrackStatus {TRK_TRACKING(0), TRK_COASTING(1), TRK_NEW(2), TRK_STALE(3), TRK_DELETE(4), TRK_TRAIN_SIDING(5),TRK_TRAIN_BLOCKED(6), TRK_UNKNOWN(63)};
-    TrackStatus trackStatus;
+   // enum TrackStatus {TRK_TRACKING(0), TRK_COASTING(1), TRK_NEW(2), TRK_STALE(3), TRK_DELETE(4), TRK_TRAIN_SIDING(5),TRK_TRAIN_BLOCKED(6), TRK_UNKNOWN(63)};
+   // TrackStatus trackStatus;
     
     double quality=0;
     int sdsIndex=0;
@@ -77,8 +77,8 @@ class RadarSurfTrack {
 
     }
     ******************************************************************************/
-    enum VesselType {TKR_P(0), TKR_H(1), TKR_G(2), TOW_P(3), TOW_H(4), TOW_G(5),FER(6), GOVT(7),UNK(8),FREIGHT(9),PASS(10),UTIL(11),VTS_MAX_VESSEL_TYPES(12)};
-    VesselType type;
+   // enum VesselType {TKR_P(0), TKR_H(1), TKR_G(2), TOW_P(3), TOW_H(4), TOW_G(5),FER(6), GOVT(7),UNK(8),FREIGHT(9),PASS(10),UTIL(11),VTS_MAX_VESSEL_TYPES(12)};
+    //VesselType type;
     String vin;
 
     double reportTime=0;

@@ -185,15 +185,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${radarSurfTrackInstance?.UID}">
-				<li class="fieldcontain">
-					<span id="UID-label" class="property-label"><g:message code="radarSurfTrack.UID.label" default="UID" /></span>
-					
-						<span class="property-value" aria-labelledby="UID-label"><g:fieldValue bean="${radarSurfTrackInstance}" field="UID"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${radarSurfTrackInstance?.bClassA}">
 				<li class="fieldcontain">
 					<span id="bClassA-label" class="property-label"><g:message code="radarSurfTrack.bClassA.label" default="BC lass A" /></span>
@@ -637,15 +628,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${radarSurfTrackInstance?.trackStatus}">
-				<li class="fieldcontain">
-					<span id="trackStatus-label" class="property-label"><g:message code="radarSurfTrack.trackStatus.label" default="Track Status" /></span>
-					
-						<span class="property-value" aria-labelledby="trackStatus-label"><g:fieldValue bean="${radarSurfTrackInstance}" field="trackStatus"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${radarSurfTrackInstance?.trueHeading}">
 				<li class="fieldcontain">
 					<span id="trueHeading-label" class="property-label"><g:message code="radarSurfTrack.trueHeading.label" default="True Heading" /></span>
@@ -655,20 +637,20 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${radarSurfTrackInstance?.type}">
-				<li class="fieldcontain">
-					<span id="type-label" class="property-label"><g:message code="radarSurfTrack.type.label" default="Type" /></span>
-					
-						<span class="property-value" aria-labelledby="type-label"><g:fieldValue bean="${radarSurfTrackInstance}" field="type"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${radarSurfTrackInstance?.typeOfPositionDevice}">
 				<li class="fieldcontain">
 					<span id="typeOfPositionDevice-label" class="property-label"><g:message code="radarSurfTrack.typeOfPositionDevice.label" default="Type Of Position Device" /></span>
 					
 						<span class="property-value" aria-labelledby="typeOfPositionDevice-label"><g:fieldValue bean="${radarSurfTrackInstance}" field="typeOfPositionDevice"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${radarSurfTrackInstance?.uID}">
+				<li class="fieldcontain">
+					<span id="uID-label" class="property-label"><g:message code="radarSurfTrack.uID.label" default="UID" /></span>
+					
+						<span class="property-value" aria-labelledby="uID-label"><g:fieldValue bean="${radarSurfTrackInstance}" field="uID"/></span>
 					
 				</li>
 				</g:if>

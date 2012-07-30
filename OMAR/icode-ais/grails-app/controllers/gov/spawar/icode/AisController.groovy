@@ -128,6 +128,9 @@ class AisController
 
     if ( useTileCache )
     {
+      //////////////////////////////////////
+      //Base Layers with Tilecache
+      /////////////////////////////////////
       def tileCacheURL = "http://${hostAddress}/tilecache/tilecache.py";
 
       viewModel['map1'] = [url: tileCacheURL, layers: 'vmapBasic']
@@ -138,6 +141,9 @@ class AisController
     }
     else
     {
+        //////////////////////////////////////
+        //Base Layers without Tilecache
+        /////////////////////////////////////
       def mapServerURL = "http://${hostAddress}/cgi-bin/mapserv?map=/data/omar/bmng.map&"
       def vmapServerURL = "http://vmap0.tiles.osgeo.org/wms/vmap0"
 
@@ -152,11 +158,17 @@ class AisController
     render view: 'map3', model: viewModel
   }
 
-
+  //CurrentLocation Action to display position of AIS
   def currentLocation = {
     timeLocationService.currentLocation( params, response )
   }
 
+  //radarCurrentLocation Action to display position of Radar
+  def radarCurrentLocation = {
+    timeLocationService.radarCurrentLocation( params, response )
+  }
+
+  //vesselTracks Action used to display AIS Track information
   def vesselTracks = {
     timeLocationService.vesselTracks( params, response )
   }

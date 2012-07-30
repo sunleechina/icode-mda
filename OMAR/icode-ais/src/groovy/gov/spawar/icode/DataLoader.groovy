@@ -39,7 +39,7 @@ class DataLoader
             loadAisCSV('SanDiego.csv')
             loadAisCSV('Chile2.csv')
             loadCountryData()
-            loadRadarXML('ST_Track.xml')
+            //loadRadarXML('ST_Track.xml')
         }
     }
   
@@ -47,6 +47,7 @@ class DataLoader
     {
         def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
         def istream = DataLoader.class.getResourceAsStream( filename )
+        def count = 0
         
         //Use RadarXMLParser calls
         Vector<Object> vector = RadarXMLParser.read(istream);
@@ -68,6 +69,31 @@ class DataLoader
                 if ( !airTrack )
                 {
                     airTrack = convertToRadarAirTrack(air);
+
+                    //Add to DB
+                    airTrack.save();
+                }
+
+                /////////////////////////////////
+                //Save Location Information
+                /////////////////////////////////
+                long timeStamp = air.getMsgTime() as Long
+                timeStamp = timeStamp * 1000
+
+                def longitude = air.getHdr().getLoc().getLon();
+                def latitude = air.getHdr().getLoc().getLat()
+                def location = new Location(
+                        longitude: longitude,
+                        latitude: latitude,
+                        date: new Date( timeStamp ),
+                        geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                )
+
+                airTrack.addToLocations( location )
+
+                if ( ++count % 1000 == 0 )
+                {
+                    cleanUpGorm()
                 }
                 
 
@@ -84,9 +110,32 @@ class DataLoader
                 if ( !surfTrack )
                 {
                     surfTrack = convertToRadarSurfTrack(surf);
+
+                    //Add to DB
+                    surfTrack.save();
                 }
 
+                /////////////////////////////////
+                //Save Location Information
+                /////////////////////////////////
+                long timeStamp = surf.getMsgTime() as Long
+                timeStamp = timeStamp * 1000
 
+                def longitude = surf.getHdr().getLoc().getLon();
+                def latitude = surf.getHdr().getLoc().getLat()
+                def location = new Location(
+                        longitude: longitude,
+                        latitude: latitude,
+                        date: new Date( timeStamp ),
+                        geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                )
+
+                surfTrack.addToLocations( location )
+
+                if ( ++count % 1000 == 0 )
+                {
+                    cleanUpGorm()
+                }
 
 
             } 
@@ -96,7 +145,7 @@ class DataLoader
         }//while
         
         
-        cleanUpGorm()
+       // cleanUpGorm()
         istream?.close()
     }//load Radar Data
     

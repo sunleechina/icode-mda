@@ -146,14 +146,6 @@
 	<g:field type="number" name="altitudeGNSS" step="any" min="0.0" max="13435.0" required="" value="${radarSurfTrackInstance.altitudeGNSS}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'UID', 'error')} ">
-	<label for="UID">
-		<g:message code="radarSurfTrack.UID.label" default="UID" />
-		
-	</label>
-	<g:textField name="UID" value="${radarSurfTrackInstance?.UID}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'bClassA', 'error')} ">
 	<label for="bClassA">
 		<g:message code="radarSurfTrack.bClassA.label" default="BC lass A" />
@@ -546,28 +538,12 @@
 	<g:field type="number" name="time" step="any" required="" value="${radarSurfTrackInstance.time}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'trackStatus', 'error')} required">
-	<label for="trackStatus">
-		<g:message code="radarSurfTrack.trackStatus.label" default="Track Status" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select name="trackStatus" from="${gov.spawar.icode.RadarSurfTrack$TrackStatus?.values()}" keys="${gov.spawar.icode.RadarSurfTrack$TrackStatus.values()*.name()}" required="" value="${radarSurfTrackInstance?.trackStatus?.name()}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'trueHeading', 'error')} required">
 	<label for="trueHeading">
 		<g:message code="radarSurfTrack.trueHeading.label" default="True Heading" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field type="number" name="trueHeading" step="any" required="" value="${radarSurfTrackInstance.trueHeading}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'type', 'error')} required">
-	<label for="type">
-		<g:message code="radarSurfTrack.type.label" default="Type" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select name="type" from="${gov.spawar.icode.RadarSurfTrack$VesselType?.values()}" keys="${gov.spawar.icode.RadarSurfTrack$VesselType.values()*.name()}" required="" value="${radarSurfTrackInstance?.type?.name()}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'typeOfPositionDevice', 'error')} required">
@@ -578,6 +554,14 @@
 	<g:field type="number" name="typeOfPositionDevice" required="" value="${radarSurfTrackInstance.typeOfPositionDevice}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'uID', 'error')} ">
+	<label for="uID">
+		<g:message code="radarSurfTrack.uID.label" default="UID" />
+		
+	</label>
+	<g:textField name="uID" value="${radarSurfTrackInstance?.uID}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'userId', 'error')} required">
 	<label for="userId">
 		<g:message code="radarSurfTrack.userId.label" default="User Id" />
@@ -586,11 +570,11 @@
 	<g:field type="number" name="userId" required="" value="${radarSurfTrackInstance.userId}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'vin', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: radarSurfTrackInstance, field: 'vin', 'error')} ">
 	<label for="vin">
 		<g:message code="radarSurfTrack.vin.label" default="Vin" />
-		<span class="required-indicator">*</span>
+		
 	</label>
-	<g:field type="number" name="vin" required="" value="${radarSurfTrackInstance.vin}"/>
+	<g:textField name="vin" value="${radarSurfTrackInstance?.vin}"/>
 </div>
 

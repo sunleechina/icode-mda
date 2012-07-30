@@ -3,11 +3,13 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="generatedViews" />
 		<g:set var="entityName" value="${message(code: 'radarAirTrack.label', default: 'RadarAirTrack')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
+    <content tag="content">
 		<a href="#list-radarAirTrack" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 		<div class="nav" role="navigation">
 			<ul>
@@ -62,5 +64,6 @@
 				<g:paginate total="${radarAirTrackInstanceTotal}" />
 			</div>
 		</div>
+    </content>
 	</body>
 </html>
