@@ -42,20 +42,24 @@ class TimeLocationService
 
     //Joining AIS and Location for querying a layer
     def sql = """
-    select x.id as id, vessel_name as name, last_known_time, last_known_position
-    from ais x, (
-      select distinct a.ais_id, b.date as last_known_time, geometry_object as last_known_position
-      from location a
-      inner join (
-        select ais_id, max(date) as date
-        from location
-        group by ais_id
-      ) b
-      on a.ais_id=b.ais_id
-      and a.date=b.date
-      where st_within(geometry_object, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
-    ) as y
-    where x.id=y.ais_id
+SELECT  distinct
+  a.id as id, a.vessel_name as name, d.date as last_known_time, d.geometry_object as last_know_position
+  FROM ais a
+  JOIN
+     (
+      SELECT   a.ais_locations_id, MAX(b.Date) AS maxdate
+      FROM     ais_location a
+      JOIN     location b ON a.Location_id = b.ID
+      GROUP BY a.ais_locations_id
+     ) b
+
+     ON a.ID = b.ais_locations_id
+  JOIN
+     ais_location c ON b.ais_locations_id = c.ais_locations_id
+  JOIN
+     location d ON c.Location_id = d.ID AND b.maxdate = d.Date
+  WHERE st_within(geometry_object, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
+
     """
 
     //Add SQL query as a Layer
@@ -83,7 +87,7 @@ class TimeLocationService
      * @param response
      * @return
      */
-    /***************************************************************************************
+    /*********************************************************************************
     def radarCurrentLocation( def params, def response )
     {
         def wmsParams = new CaseInsensitiveMap( params )
@@ -94,20 +98,22 @@ class TimeLocationService
 
         //Joining Radar and Location for querying a layer
         def sql = """
-    select x.id as id, vessel_name as name, last_known_time, last_known_position
-    from ais x, (
-      select distinct a.ais_id, b.date as last_known_time, geometry_object as last_known_position
-      from location a
-      inner join (
-        select ais_id, max(date) as date
-        from location
-        group by ais_id
-      ) b
-      on a.ais_id=b.ais_id
-      and a.date=b.date
-      where st_within(geometry_object, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
-    ) as y
-    where x.id=y.ais_id
+
+ SELECT DISTINCT a.id, vessel_name as name, last_known_date, last_known_position
+ from ais a
+ join
+    (
+      select a.id, MAX(l.date) as last_known_date
+      from ais a
+      JOIN ais_location al on al.ais_locations_id = a.id
+      JOIN Location l on l.id = al.location_id
+      GROUP BY a.id
+    ) ALMax
+ on ALMax.id = a.id
+ join ais_location al on al.ais_locations_id=a.id
+ join Location l on al.location_id = l.id and l.date = ALMax.last_known_date
+ where st_within(geometry_object, st_makeenvelope( \${coords[0]}, \${coords[1]}, \${coords[2]}, \${coords[3]}, 4326 ))
+
     """
 
         //Add SQL query as a Layer
@@ -127,8 +133,7 @@ class TimeLocationService
         Draw.draw( [bounds: bounds, site: size, out: output, format: wmsParams.format - 'image/'], layer )
         postgis?.close()
     }
-
-     ****************************************************************/
+      ************************************************************************************************************/
 
     /**
      * Service used to display AIS Track info
