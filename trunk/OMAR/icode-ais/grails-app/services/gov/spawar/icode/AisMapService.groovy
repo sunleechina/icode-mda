@@ -14,6 +14,7 @@ import geoscript.style.Stroke
 import geoscript.style.Fill
 import geoscript.style.Label
 import geoscript.style.Halo
+import geoscript.style.Font
 import geoscript.workspace.Database
 import geoscript.workspace.PostGIS
 
@@ -22,6 +23,7 @@ import org.geotools.factory.Hints
 import org.geotools.data.postgis.PostgisNGDataStoreFactory
 
 import grails.converters.JSON
+import sun.beans.editors.FontEditor
 
 class AisMapService
 {
@@ -93,6 +95,7 @@ class AisMapService
         break
       case "label":
         tmp = new Label( v )
+        tmp.font = new Font(style: "normal", weight: "bold", size: 18, family: "Arial")
         break
       case "halo":
         tmp = new Halo( v )
