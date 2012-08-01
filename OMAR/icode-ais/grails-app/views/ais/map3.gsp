@@ -66,6 +66,7 @@ function init()
         {buffer: 0, transitionEffect: 'resize'}
       ),
 
+<%--
        <!-- Base Layer -->
        new OpenLayers.Layer.WMS(
         "I-Cubed",
@@ -81,12 +82,12 @@ function init()
         {layers: '${map5.layers}', format: 'image/jpeg' },
         {buffer: 0, transitionEffect: 'resize'}
       ),
-
+--%>
        <!-- Overylay: AIS Current Location -->
        new OpenLayers.Layer.WMS(
         "Current Location",
         "${createLink( absolute: true, controller: 'ais', action: 'currentLocation' )}",
-        {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, label: {property: "name"}, fill: {color: "#FF0000", opacity: 0}, halo: {color: "#FF0000", radius: 2}}'},
+        {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 15}, label: {property: "name"}, fill: {color: "#FF0000", opacity: 0}, halo: {color: "#FF0000", radius: 2}}'},
         {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
       ),
 
@@ -95,7 +96,7 @@ function init()
         "Vessel Tracks",
         "${createLink( absolute: true, controller: 'ais', action: 'vesselTracks' )}",
         {layers:'location', format: 'image/png', styles: '{stroke: {color: "#FF0000", width: 0.5}, fill: {color: "#000000", opacity: 0}}'},
-        {buffer: 0, singleTile: true, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
+        {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
       ),
 
       <!-- Overylay: Location Labels-->
@@ -104,8 +105,9 @@ function init()
         '${map3.url}',
         {layers: '${map3.layers}', visibility: false, transparent: true, format: 'image/png'},
         {opacity: .5, buffer: 0}
-      ),
+      )//,
 
+<%--
       <!-- Overylay: Radar Data-->
       new OpenLayers.Layer.WMS(
         'Radar',
@@ -114,7 +116,7 @@ function init()
         {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
 
       )
-
+--%>
     ];
 
   map.addLayers(layers);
