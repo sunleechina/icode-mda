@@ -42,16 +42,16 @@ using namespace std;
 #define PI 3.142
 	
 	//baseline type parameter. To be developed later
-	static const int AUTO_BASELINE = 1;
-	static const int SINGLE_BASELINE = 2;
-	static const int MULTI_BASELINE = 3;
+#define AUTO_BASELINE	1
+#define SINGLE_BASELINE	2
+#define MULTI_BASELINE	3
 
 	//shoreline change rate change tool [parameter] to use. To be developed later
-	static const int LINEAR_REGRESSION_RATE=1;
-	static const int LEAST_MEDIAN_SQUARE=2;
-	static const int ENDPOINT_RATE=3;
-	static const int SHORELINE_CHANGE_ENVELOPE=4;
-	static const int NET_SHORELINE_MOVEMENT=5;
+#define LINEAR_REGRESSION_RATE		1
+#define LEAST_MEDIAN_SQUARE			2
+#define ENDPOINT_RATE				3
+#define SHORELINE_CHANGE_ENVELOPE	4
+#define NET_SHORELINE_MOVEMENT		5
 
 	vector < double > X;
 	vector < double > Y;
@@ -68,13 +68,13 @@ public:
 	}
 	double X,Y;
 };
-vector < coordinate > transectPoint;
-vector < coordinate > transectLineEnd;
+vector <coordinate> transectPoint;
+vector <coordinate> transectLineEnd;
 
 //contains the baseline/collection of baselines for the shoreline
-
 class ShoreLine{
 public:
+		
 	void loadShoreLine(string file1, string file2, bool printFiles = false)
 	{
 		ShoreLine mShoreLineA;
@@ -91,6 +91,8 @@ public:
 		cout<<endl<<"--------------"<<file2<<"-------------------"<<endl;
 		mShoreLineB.printShoreLine();
 	}
+
+
 	void getShapePoints(string filename)
 	{
 		RegisterOGRShape();				/* OGR Drivers for reading shapefiles only */
@@ -120,7 +122,7 @@ public:
 			numpoints = ((OGRLineString*)poGeometry)->getNumPoints();
 
 			// can rewrite this part into a switch statement to allow for all other 
-			// tcoordYpes of shapefiles
+			// types of shapefiles
 			if( poGeometry != NULL && wkbFlatten(poGeometry->getGeometryType()) == wkbLineString )
 			{
 				OGRLineString *poLine= (OGRLineString*) poGeometry;
@@ -133,7 +135,7 @@ public:
 			}
 			else
 			{
-				printf( "no readable geometrcoordY\n" );
+				printf( "no readable geometry\n" );
 			}
 			OGRFeature::DestroyFeature( poFeature );
 		}
@@ -169,8 +171,8 @@ public:
 
 			for(unsigned int j=0; j<intersectingPoints.size(); j++)
 			{
-				cout << "(" << intersectingPoints[j].X() <<", " <<
-					intersectingPoints[j].Y() << ")" << endl;
+				cout << "(" << intersectingPoints[j].x() <<", " <<
+					intersectingPoints[j].y() << ")" << endl;
 			}
 		}
 		for (unsigned int i=0;i<transectPoint.size();i++)
@@ -178,6 +180,7 @@ public:
 
 		}
 	}
+	
 	void printShoreLine()
 	{
 		for (unsigned int j=0; j<X.size();j++)
@@ -185,8 +188,10 @@ public:
 			printf("(%10.11f , %10.11f)\n",X[j],Y[j]);
 		}
 	}
+		
 	vector < vector < point > > intersectingPointsOfTransect;
 };
+
 class BaseLine{
 private:
 	double d,slp,trns_int;
@@ -196,8 +201,8 @@ protected:
 	double x1, x2, y1,y2;
 public:
 	double m,c;
-	//Test this method. How ever, its not nearlcoordY the most important thing in question here
-//Test this method. How ever, its not nearlcoordY the most important thing in question here
+	//Test this method. How ever, its not nearly the most important thing in question here
+//Test this method. How ever, its not nearly the most important thing in question here
 	void writeBaselineShp(string outputFile)
 	{
 		ossimFilename shapefilename(outputFile+="_Shp");
@@ -233,26 +238,25 @@ public:
 
 		SHPClose(hSHP );
 	}
-	void getBaseLine(string Filename,int baseLineTcoordYpe, double offset=0.00)
+	void getBaseLine(string Filename,int baseLineType, double offset=0.00)
 	{
 		
-		if(baseLineTcoordYpe==1)
+		if(baseLineType==1)
 		{
 			if(X.size() == 0 || Y.size() == 0)  //X & Y need to be coordinates from the shapefile1
 			{
 				cerr << "no data" << endl;
 				
-				//must make this a coordinate tcoordYpe
-				//X.begin() = mShoreLineA[0].X;
-				//Y.begin() = mShoreLineA[0].Y;
-
-				//X.end();
-				//Y.end();
+				//must make this a coordinate type
+				X.begin();
+				Y.begin();
+				X.end();
+				Y.end();
 
 				return;
 			}
-			else if (baseLineTcoordYpe==2)
-			{
+		else if (baseLineType==2)
+		{
 				cout<<"x1\n";
 				cin>>x1;
 				cout<<"y1\n";
@@ -261,8 +265,8 @@ public:
 				cin>>x2;
 				cout<<"y1\n";
 				cin>>y2;
-			}
-			else if (baseLineTcoordYpe==3)
+		}
+		else if (baseLineType==3)
 			{
 				//vector of vector coordinates
 
@@ -272,11 +276,10 @@ public:
 			}
 		}
 
-
 		x1 = X.front() + (-m*offset) / sqrt(pow(m,2) + 1);
 		x2 = X.back() + (-m*offset) / sqrt(pow(m,2) + 1);
-		y1 = Y.front() + offset*(1 / sqrt(pow(m,2) + 1));
-		y2 = Y.back() + offset*(1 / sqrt(pow(m,2) + 1));
+		y1 = Y.front() + offset*( 1 / sqrt(pow(m,2) + 1) );
+		y2 = Y.back() + offset*( 1 / sqrt(pow(m,2) + 1) );
 
 		m = (y2-y1) / (x2-x1);	
 		c = y1-m*x1;
@@ -296,18 +299,19 @@ public:
 			<<"\ndistance: \t"<<d
 			<<"\nintercept: \t"<<c;
 	}
-//Obtains transect points of baseline / shoreline. Not sure which coordYet
+//Obtains transect points of baseline / shoreline. Not sure which yet
 	void getTransectPoints()
 		{
 		double a=d*cos(atan(m)); // what is a?
 
 		for (int i=0;i<n;i++)
 		{
-			double coordXcoordX=x1+i*a;
-			transectPoint.push_back(coordinate(coordXcoordX,m*(coordXcoordX)+c));
+			double xx=x1+i*a;
+			transectPoint.push_back(coordinate(xx,m*(xx)+c));
 		}
 	}
 };
+
 class TransectLine:BaseLine{
 public:
 void getTransectPoints()
@@ -319,7 +323,7 @@ void setTransectLines()
 		if (m<0)
 		{
 			extremex=-9999999;
-			//determine macoordXcoordX
+			//determine max X
 			for(unsigned int i=0;i<X.size();i++)
 			{
 				if(X.at(i)> extremex)
@@ -328,12 +332,11 @@ void setTransectLines()
 				}
 			}
 			extremex+=10;
-
 		}
 		else
 		{
 			extremex=9999999;
-			//determine mincoordX
+			//determine minX
 			for(unsigned int i=0;i<X.size();i++)
 			{
 				if(X.at(i)<extremex)
@@ -348,11 +351,12 @@ void setTransectLines()
 		//evaluate equations of transect lines at extremex to get the y value
 				for (unsigned int i=0; i<transectPoint.size();i++)
 		{
-			float y=-1/m*extremex+c+(m+1/m)*transectPoint[i].X;  
-			transectLineEnd.push_back(coordinate(extremex,Y));
+			float y=-1/m*extremex+c+(m+1/m)*transectPoint[i].X;
+			transectLineEnd.push_back(coordinate(extremex,y));
 		}
 	}
 };
+
 class ShoreLineComparer
 {
 	//sum of( difference b/n point a on shoreline A and corresponding point b on shoreline B[ =distance changed/ ])
@@ -360,25 +364,28 @@ class ShoreLineComparer
 	
 private:
 	double d;			// sums the difference b/n the two transect intersectino points
-	unsigned int yrs;	//
 	double y1,y2,x2,x1;	//
 
 public:
-void averageRate()//accept age of shoreline bcoordY 
+	unsigned int yrs;	
+void averageRate()//&file1,&file2,yrs)//accept age of shoreline by 
 {	
-
-		cout<<"\nenter time difference in coordYears"<<endl;
+	cout<<"\nenter time difference in years"<<endl;
 
 		for (unsigned int i=0;i<=transectPoint.size();i++)
 		{
 
 		//loop through the intersection points
-		//first ecoordXtract the (X,Y) transectpoints into this (x1,y1),(x2,y2) then 
+		//first extract the (X,Y) transectpoints into this (x1,y1),(x2,y2) then 
 		//something like transectPoints
 		d+=sqrt(pow((x2-x1),2)+pow((y2-y1),2));
 		}
 	}
+
+// this aught to work in later editions
+/*
 void compare(int method)
 	{
 		}
+		*/
 };
