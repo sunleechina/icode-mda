@@ -1,0 +1,15 @@
+#summary A Google Maps page that uses MySQL and PHP
+
+== Introduction ==
+This page contains information for using the Google Maps JavaScript API to create a simple mapping application. The page will display information that is put into a MySQL database. The database calls are made by using PHP. The example was created using the Apache HTTPD server.
+
+<br><br>
+== Presentations ==
+[https://icode-mda.googlecode.com/svn/wiki/GoogleMapsWithMySQL.pdf Google Maps with MySQL and PHP]
+
+<br><br>
+== Code ==
+The code for the presentation can be found on the SVN server [http://icode-mda.googlecode.com/svn/trunk/googleMapsIcode here]. 
+<br><br>
+== External Links ==
+ 
