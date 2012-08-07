@@ -1,0 +1,15 @@
+#summary Kernel Based Image Processing
+
+== Introduction ==
+
+
+<br><br>
+== Presentations ==
+[https://icode-mda.googlecode.com/svn/wiki/17.1_kernelPtn.pdf Kernel Based Image Processing]
+
+<br><br>
+== Code ==
+
+<br><br>
+== External Links ==
+ 
