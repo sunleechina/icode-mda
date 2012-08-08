@@ -43,6 +43,7 @@ class DataLoader
             loadVesselData()
             loadMessageTypeData()
             loadNavigationStatus()
+            loadCountryClass()
             //loadRadarXML('ST_Track.xml')
         }
     }
@@ -569,6 +570,91 @@ class DataLoader
 
 
         }//load Ports
+
+
+
+
+
+    ////////////////////////////////
+    // Load Country Classification
+    ///////////////////////////////
+    def loadCountryClass()
+    {
+        def istream = DataLoader.class.getResourceAsStream( 'countryClassification.txt' )
+        def words;
+        int count = 0;
+
+        istream.eachLine { line ->
+            count++;
+            if ( line.trim().size() == 0 || count == 1 || line.startsWith('#') )
+            {
+                return;
+            }
+            else
+            {
+
+                words = line.split( "[\t]" )
+
+                String countryCode = words[0]
+                def country = Country.findByCountryCode( countryCode );
+                if ( country )
+                {
+
+                    def excess = words[2] as Double
+                    String newRisk = words[3]
+                    String newType = words[4]
+
+                    FlagStatus status = new FlagStatus();
+                    status.excessFactor = excess;
+
+                    //Risk
+                    if(newRisk.equalsIgnoreCase("Low")){
+                        status.risk= Risk.LOW;
+                    }
+                    else if(newRisk.equalsIgnoreCase("Low to Medium")){
+                        status.risk = Risk.LOW_TO_MEDIUM;
+                    }
+                    else if(newRisk.equalsIgnoreCase("Medium")){
+                        status.risk = Risk.MEDIUM;
+                    }
+                    else if(newRisk.equalsIgnoreCase("Medium to High")){
+                        status.risk = Risk.MEDIUM_TO_HIGH;
+                    }
+                    else if(newRisk.equalsIgnoreCase("High")){
+                        status.risk = Risk.HIGH;
+                    }
+                    else if(newRisk.equalsIgnoreCase("very high")){
+                        status.risk = Risk.VERY_HIGH;
+                    }
+
+                    //List Type
+                    if(newType.equalsIgnoreCase("white")){
+                        status.listType = ListType.WHITE
+                    }
+                    else if(newType.equalsIgnoreCase("grey")){
+                        status.listType = ListType.GREY;
+                    }
+                    else if(newType.equalsIgnoreCase("black")){
+                        status.listType = ListType.GREY;
+                    }
+                    //status.setCountry(country)
+                    //country.flagStatus = status;
+                    //country.add
+                    //country.save()
+                   // status.save();
+
+                }
+            }//not null line
+            if ( count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+        }//for each
+        cleanUpGorm()
+        istream.close()
+
+
+    }//load Class
 
 
 
