@@ -39,6 +39,10 @@ class DataLoader
             loadAisCSV('SanDiego.csv')
             loadAisCSV('Chile2.csv')
             loadCountryData()
+            loadPortData()
+            loadVesselData()
+            loadMessageTypeData()
+            loadNavigationStatus()
             //loadRadarXML('ST_Track.xml')
         }
     }
@@ -150,7 +154,9 @@ class DataLoader
     }//load Radar Data
     
 
-
+    ////////////////////////////////
+    // Load AIS Data
+    ///////////////////////////////
     def loadAisCSV( def filename )
     {
         
@@ -182,20 +188,21 @@ class DataLoader
                     IMO: tokens[9] as Integer,
                     callsign: tokens[20],
                     vesselName: tokens[10],
-                    vesselType: tokens[11] as Integer,
+                    //vesselType: tokens[11] as Integer,            //XXX Need to replace this with type logic
                     length: tokens[12] as Double,
                     width: tokens[13] as Double,
                     eta: ( new Date() + 30 ),
-                    destination: tokens[19]
+                    //destination: tokens[19]
+                    //mid //MaritimeIdDigit
                 )
 
                 //Save new AIS
                 ais.save()
 
-                // if ( !ais.save( flush: true ) )
-                // {
-                //   println( "Error: Save AIS errors: ${ais.errors}" );
-                // }
+                 if ( !ais.save( flush: true ) )
+                 {
+                   println( "Error: Save AIS errors: ${ais.errors}" );
+                 }
             }
 
             long timeStamp = tokens[8] as Long
@@ -337,9 +344,256 @@ class DataLoader
         cleanUpGorm()
         istream.close()
     }//load Country Data
-    
-    
-    
+
+
+
+
+    ////////////////////
+    //Load Vessel Type Data
+    ////////////////////
+    def loadVesselData( )
+    {
+
+        def istream = DataLoader.class.getResourceAsStream( 'vesselType.txt' )
+        def words
+        int count = 0;
+
+        istream.eachLine { line ->
+            count++;
+            if ( line.trim().size() == 0 || count == 1 )
+            {
+                return;
+            }
+            else
+            {
+
+                words = line.split( "[\t]" )
+                def type = new VesselType();
+
+
+                type.code = words[0].toInteger();
+                type.classification = words[1]
+
+                type.save()
+                if ( !type.save( flush: true ) )
+                {
+                    println( "Error: Save Type errors: ${type.errors}" );
+                }
+            }//else
+            if ( count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+        }//for each
+        cleanUpGorm()
+        istream.close()
+    }//load Vessel Type Data
+
+
+    ////////////////////
+    //Load Message Types
+    ////////////////////
+    def loadMessageTypeData( )
+    {
+
+        def istream = DataLoader.class.getResourceAsStream( 'messageType.txt' )
+        def words
+        int count = 0;
+
+        istream.eachLine { line ->
+            count++;
+            if ( line.trim().size() == 0 || count == 1 )
+            {
+                return;
+            }
+            else
+            {
+
+                words = line.split( "[\t]" )
+                def type = new MessageType();
+
+
+                type.code = words[0].toInteger();
+                type.description = words[1]
+
+                type.save()
+                if ( !type.save( flush: true ) )
+                {
+                    println( "Error: Save Message Type errors: ${type.errors}" );
+                }
+            }//else
+            if ( count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+        }//for each
+        cleanUpGorm()
+        istream.close()
+    }//load Vessel Type Data
+
+
+
+    ////////////////////
+    //Load Navigation Status
+    ////////////////////
+    def loadNavigationStatus( )
+    {
+
+        def istream = DataLoader.class.getResourceAsStream( 'navigationStatus.txt' )
+        def words
+        int count = 0;
+
+        istream.eachLine { line ->
+            count++;
+            if ( line.trim().size() == 0 || count == 1 )
+            {
+                return;
+            }
+            else
+            {
+
+                words = line.split( "[\t]" )
+                def type = new NavigationStatus();
+
+
+                type.code = words[0].toInteger();
+                type.description = words[1]
+
+                type.save()
+                if ( !type.save( flush: true ) )
+                {
+                    println( "Error: Save Nav Status Type errors: ${type.errors}" );
+                }
+            }//else
+            if ( count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+        }//for each
+        cleanUpGorm()
+        istream.close()
+    }//load Vessel Type Data
+
+
+
+
+    ////////////////////
+    //Load EPFD Types
+    ////////////////////
+    def loadEPFD( )
+    {
+
+        def istream = DataLoader.class.getResourceAsStream( 'epfd.txt' )
+        def words
+        int count = 0;
+
+        istream.eachLine { line ->
+            count++;
+            if ( line.trim().size() == 0 || count == 1 )
+            {
+                return;
+            }
+            else
+            {
+
+                words = line.split( "[\t]" )
+                def type = new Epfd();
+
+
+                type.code = words[0].toInteger();
+                type.positionFixType = words[1]
+
+                type.save()
+                if ( !type.save( flush: true ) )
+                {
+                    println( "Error: Save EPFD Type errors: ${type.errors}" );
+                }
+            }//else
+            if ( count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+        }//for each
+        cleanUpGorm()
+        istream.close()
+    }//load Vessel Type Data
+
+
+
+
+    ////////////////////////////////
+    // Load Port Data
+    ///////////////////////////////
+    def loadPortData()
+    {
+        def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
+        def istream = DataLoader.class.getResourceAsStream( 'ports.txt' )
+        def words;
+        int count = 0;
+
+        istream.eachLine { line ->
+            count++;
+            if ( line.trim().size() == 0 || count == 1 || line.startsWith('#') )
+            {
+                return;
+            }
+            else
+            {
+
+                words = line.split( "[\t]" )
+
+                String countryCode = words[0]
+                def country = Country.findByCountryCode( countryCode );
+                if ( country )
+                {
+
+                    def longitude = words[3] as Double
+                    def latitude = words[2] as Double
+                    String strName = words[1]
+                    def port = new Port(
+                            name: strName,
+                            geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                    )
+
+                    country.addToPorts( port)
+
+                }
+            }//not null line
+            if ( count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+        }//for each
+        cleanUpGorm()
+        istream.close()
+
+
+        }//load Ports
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Converter from  JAXB Radar Objects to Grails RadarAirTrack Object
     public RadarAirTrack convertToRadarAirTrack(STTrackAirT rTrack){
         
