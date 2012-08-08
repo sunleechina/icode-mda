@@ -1,11 +1,12 @@
 package gov.spawar.icode
 
 class Country {
-    static belongsTo = User
-    static hasMany = [ callSignPrefixes : CallSignPrefix, maritimeIdDigits : MaritimeIdDigit, users : User ]
+    static belongsTo = [ User ]
+    static hasMany = [ callSignPrefixes : CallSignPrefix, maritimeIdDigits : MaritimeIdDigit, users : User, ports : Port ]
 
     String name;
     String countryCode;
+    FlagStatus flagStatus = FlagStatus.WHITE;
 
     String toString() { name }
 

@@ -5,7 +5,7 @@ import org.ossim.omar.security.SecUser
 
 class User extends SecUser {
 
-    static hasMany = [ countryOfInterest: Country, destinationOfInterest: Country ]
+    static hasMany = [ countryOfInterest: Country, destinationOfInterest: Country, vesselTypeOfInterest: VesselType ]
 
 
     static constraints = {

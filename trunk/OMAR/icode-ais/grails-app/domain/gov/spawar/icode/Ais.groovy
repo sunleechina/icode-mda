@@ -6,7 +6,7 @@ class Ais
 
   static hasMany = [locations: Location]
 
-  Integer messageType;
+  //Integer messageType;
   Integer mmsi;
   Integer navStatus;
   Float rateOfTurn;
@@ -15,7 +15,7 @@ class Ais
   Double trueHeading;
   Integer IMO;
   String vesselName;
-  Integer vesselType;
+  VesselType vesselType;
   Double length;
   Double width;
   Double antennaLocationBow;
@@ -23,11 +23,12 @@ class Ais
   Double antennaLocationPort;
   Double antennaLocationStarboard;
   Double draught;
-  String destination;
+  Country destination;
   String callsign;
   Double posAccuracy;
   Date eta;
   Integer positionFixType;
+  MaritimeIdDigit mid;
 
   //Note: This is a special name
   Date dateCreated
@@ -42,7 +43,7 @@ class Ais
     callsign( nullable: false )
     length( nullable: false )
     width( nullable: false )
-    messageType( nullable: true )
+    //messageType( nullable: true )
     navStatus( nullable: true )
     rateOfTurn( nullable: true )
     speedOverGround( nullable: true )
@@ -57,6 +58,7 @@ class Ais
     posAccuracy( nullable: true )
     eta( nullable: true )
     positionFixType( nullable: true )
+    mid(nullable: true)
   }
 
   String toString( )
@@ -68,6 +70,7 @@ class Ais
     sort "mmsi"
     mmsi index: 'ais_mmsi_idx'
     vesselName index: 'ais_vessel_name_idx'
+    locations  joinTable: [name:"ais_location",key:'ais_locations_id']
   }
 }
 
