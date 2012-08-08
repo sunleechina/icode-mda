@@ -641,8 +641,8 @@ class DataLoader
                     //country.flagStatus = status;
                     //country.add
                     //country.save()
-                   // status.save();
-
+                   country.setFlagStatus(status);
+                   country.save();
                 }
             }//not null line
             if ( count % 1000 == 0 )
