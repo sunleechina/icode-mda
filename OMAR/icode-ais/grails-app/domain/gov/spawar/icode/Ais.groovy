@@ -4,11 +4,12 @@ package gov.spawar.icode
 class Ais
 {
 
-  static hasMany = [locations: Location]
+  static hasMany = [locations: Location, changes: Change]
 
   //Integer messageType;
+  String uId;
   Integer mmsi;
-  Integer navStatus;
+  NavigationStatus navStatus;
   Float rateOfTurn;
   Float speedOverGround;
   Double courseOverGround;
@@ -29,6 +30,7 @@ class Ais
   Date eta;
   Integer positionFixType;
   MaritimeIdDigit mid;
+  Epfd  electronicPositionFixingDevice;
 
   //Note: This is a special name
   Date dateCreated
@@ -59,6 +61,7 @@ class Ais
     eta( nullable: true )
     positionFixType( nullable: true )
     mid(nullable: true)
+    electronicPositionFixingDevice(nullable: true)
   }
 
   String toString( )
