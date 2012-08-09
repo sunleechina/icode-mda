@@ -32,6 +32,7 @@ In the libpqxx source code folder follow win32/install.txt instructions.
 
 Usually this means copy the win32/common-sample file to win32/common, and edit it to agree with your machine. If you've installed the database to your machine using default directories, you will most likely have to comment out sections of code, and uncomment the sections directly below.
 
+{{{
 PGSQLSRC="C:\Program Files\PostgreSQL\9.1"
 LIBPQINC=$(PGSQLSRC)\include
 LIBPQPATH=$(PGSQLSRC)\lib
@@ -40,14 +41,17 @@ LIBPQLIB=libpq.lib
 LIBPQDPATH=$(PGSQLSRC)\lib
 LIBPQDDLL=libpq.dll
 LIBPQDLIB=libpq.lib
+}}}
 
 Copy the header files from sample-headers to your include/pqxx directory, for Visual Studio 2010 and libpq 9.0 you would copy the following files:
 
+{{{
 config\sample-headers\compiler\VisualStudio2010\pqxx\config-internal-compiler.h
 
 config\sample-headers\compiler\VisualStudio2010\pqxx\config-public-compiler.h
 
 config\sample-headers\libpq\9.0\pqxx\config-internal-libpq.h
+}}}
 
 To include\pqxx
 
@@ -58,17 +62,22 @@ Edit the following file win32\vc-libpqxx.mak
 
 Replace:
 
+{{{
 LINK_FLAGS_BASE=kernel32.lib ws2_32.lib advapi32.lib /nologo /dll /machine:I386 shell32.lib secur32.lib wldap32.lib
+}}}
 
 With:
-
+{{{
 LINK_FLAGS_BASE=kernel32.lib ws2_32.lib advapi32.lib /nologo /dll /machine:x64 shell32.lib secur32.lib wldap32.lib
+}}}
 
 The only change was the machine argument /machine:x64
 
 = Build =
 Run the following command:
+{{{
 nmake /f win32/vc-libpqxx.mak ALL
+}}}
 
 This should give you the libs and dlls that you need to build applications that link with libpqxx.
 
