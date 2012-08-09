@@ -1,0 +1,38 @@
+#summary The steps for building libpqxx
+
+= Introduction =
+
+libpqxx is the official C++ client API for  PostgreSQL, the enterprise-strength open-source relational database. (If "PostgreSQL" is too verbose, call it by its shorter name, postgres).
+
+If you are writing software in C++ that needs to access databases managed by postgres—on just about any platform—then libpqxx is the library you use. It is the standard C++ language binding for the postgres RDBMS.
+
+The source code for libpqxx is available under the BSD license, so you're free to download it, pass it on to others, change it, sell it, include it in your own code, and share your changes with anyone you choose. No charge, no catch. In most cases you'll want a pre-built package provided by a package maintainer for your platform, and distributed through your normal package management infrastructure.
+
+http://pqxx.org/development/libpqxx/
+
+= Pre-Build = 
+You will need to download the libpqxx source code:
+
+http://pqxx.org/development/libpqxx/wiki/DownloadPage
+
+This page will refer to version 4.0
+
+To build libpqxx, you will also need the libpq library and header files. There are a number of ways to do this, I will assume that you have gotten them by installing a PostgreSQL database on your machine.
+
+http://www.postgresql.org/download/
+
+http://www.enterprisedb.com/products-services-training/pgdownload#windows
+
+If you choose to install a 32-bit database, you will only be able to build the 32-bit libpqxx (similarly for 64-bit)
+
+The build process is very similar with only a few different changes between the 32/64 machines.
+
+= 32-bit and 64-bit =
+Follow win32/install.txt
+
+Usually this means copy win32/common-sample to win32/common, and edit it to agree with your machine.
+
+Copy the header files from sample-headers to your include/pqxx directory
+
+= 64-bit only =
+in the win32/makefile you need to specify /machine:x64
