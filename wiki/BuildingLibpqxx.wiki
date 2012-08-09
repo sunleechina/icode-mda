@@ -74,6 +74,8 @@ LINK_FLAGS_BASE=kernel32.lib ws2_32.lib advapi32.lib /nologo /dll /machine:x64 s
 The only change was the machine argument /machine:x64
 
 = Build =
+Open a command prompt and set your environment to allow you to build applications. Microsoft Visual Studio has an easy way to do this. From the start button, you can open "Visual Studio Command Prompt (2010)" to build 32 bit applications. To build 64 bit applications, there is a similarly named command prompt.
+
 Run the following command:
 {{{
 nmake /f win32/vc-libpqxx.mak ALL
