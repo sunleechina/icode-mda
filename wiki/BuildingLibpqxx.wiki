@@ -1,6 +1,11 @@
 #summary The steps for building libpqxx
 
 = Introduction =
+If you are using Visual Studio 2010 Service Pack 1, you can download a pre-compiled libpqxx from here:
+
+http://code.google.com/p/icode-mda/downloads/detail?name=libpqxx.zip
+
+Otherwise, you'll need to continue reading. The instructions below are for Windows 7, using Microsoft Visual Studio 2010.
 
 libpqxx is the official C++ client API for  PostgreSQL, the enterprise-strength open-source relational database. (If "PostgreSQL" is too verbose, call it by its shorter name, postgres).
 
