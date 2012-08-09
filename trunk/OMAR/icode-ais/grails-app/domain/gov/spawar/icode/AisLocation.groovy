@@ -4,13 +4,13 @@ class AisLocation {
 
     Integer aisLocationsId;
     Integer locationId;
-    String sourceId;
-    Integer messageType;
+    String messageSourceId="";
+    MessageType messageType;
     //int version;
 
     static constraints = {
         //message_type( nullable:  true)
-        sourceId( nullable: true )
+        messageSourceId( nullable: true )
         messageType( nullable: true)
     }
 
