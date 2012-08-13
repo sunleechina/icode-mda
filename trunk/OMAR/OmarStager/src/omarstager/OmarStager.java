@@ -474,6 +474,31 @@ public class OmarStager {
         //Go thru each directory given to find image files
         //////////////////////////////////////////////////////////////////////
         File baseDir;
+        
+        //Check if there is already another job started.
+        //If there is, quit this job with a warning.
+         //Look through all directories passed in for files
+        for (int index = g.getOptind(); index < argv.length; index++) {
+
+            String dir = argv[index];
+            baseDir = new File(dir);
+            if (baseDir.exists() && baseDir.isDirectory()) {
+                String[] children = baseDir.list();
+                for (int i = 0; i < children.length; i++) {
+
+                    File file = new File(dir, children[i]);
+                    String ext = getFileExt(file.getName());
+
+                    if(ext.equalsIgnoreCase(".tmp")){
+                        System.err.println("Current processes already running.");
+                        System.err.println("If you think this is an error, make sure all tmp files are removed.");
+                        return;
+                    }
+
+                   
+                }
+            }
+        }//for
         System.out.println("Stager Started...");
 
         //Look through all directories passed in for files
@@ -502,13 +527,9 @@ public class OmarStager {
                     //Add File to OMAR Raster Entry
                     ////////////////////////////////////
                     stager.addRaster(file);
-
-
                 }
-
             }
-
-        }
+        }//for
 
         //////////////////////////////
         // Update Image IDs
