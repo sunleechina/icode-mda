@@ -41,7 +41,6 @@ class Ais
     vesselType( nullable: true )
     mmsi( nullable: false, unique: true )
     IMO( nullable: false )
-    navStatus( nullable: true )
     callsign( nullable: false )
     length( nullable: false )
     width( nullable: false )
@@ -62,6 +61,7 @@ class Ais
     positionFixType( nullable: true )
     mid(nullable: true)
     electronicPositionFixingDevice(nullable: true)
+    uId(nullable: true)
   }
 
   String toString( )
