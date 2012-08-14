@@ -1,10 +1,10 @@
 //Standard library includes
-#include <string>
-#include <vector>
-#include <deque>
-#include <ctime>
+//#include <string>
+//#include <vector>
+//#include <deque>
+//#include <ctime>
 		
-//ossim includes
+	//ossim includes
 #include "ogrsf_frmts.h"
 #include <ossim/base/ossimFilename.h>
 #include <ossim/base/ossimRefPtr.h>
@@ -29,7 +29,7 @@
 #include <ossim/imaging/ossimOverviewBuilderBase.h>
 #include <ossim/imaging/ossimOverviewBuilderFactoryRegistry.h>
 
-//shapefil library for esri shapefiles
+	//shapefil library for esri shapefiles
 #include <shapefil.h>
 
 //boost library includes
@@ -41,25 +41,35 @@ using namespace std;
 
 #define PI 3.142
 	
-	//baseline type parameter. To be developed later
+	 // baseline type parameter. To be developed later
 #define AUTO_BASELINE	1
-#define SINGLE_BASELINE	2
-#define MULTI_BASELINE	3
+#define MULTI_BASELINE	2
+#define SINGLE_BASELINE	3
 
-	//shoreline change rate change tool [parameter] to use. To be developed later
-#define LINEAR_REGRESSION_RATE		1
+	//  shoreline change rate change tool [parameter] to use. To be developed later
+#define ENDPOINT_RATE				1
 #define LEAST_MEDIAN_SQUARE			2
-#define ENDPOINT_RATE				3
-#define SHORELINE_CHANGE_ENVELOPE	4
-#define NET_SHORELINE_MOVEMENT		5
+#define NET_SHORELINE_MOVEMENT		3
+#define LINEAR_REGRESSION_RATE		4
+#define SHORELINE_CHANGE_ENVELOPE	5
 
-	vector < double > X;
-	vector < double > Y;
-	typedef boost::geometry::model::d2::point_xy<double> point;
-	typedef boost::geometry::model::linestring<point> linestring;
+//	vector <double> X;
+//	vector <double> Y;
+	typedef boost::geometry::model::d2::point_xy <double> point;
+	typedef boost::geometry::model::linestring <point> linestring;
 
+	//forward declaration
+	class coordinate;
+	class TransectLine;
+	class BaseLine;
+	class ShoreLine;
 
-class coordinate{
+	vector <coordinate> transectPoint;
+	vector <coordinate> transectLineEnd;
+
+	
+class coordinate
+{
 public:
 	coordinate(double x, double y)
 	{
@@ -68,31 +78,18 @@ public:
 	}
 	double X,Y;
 };
-vector <coordinate> transectPoint;
-vector <coordinate> transectLineEnd;
 
+vector <coordinate> shoreLinePoints;
 //contains the baseline/collection of baselines for the shoreline
 class ShoreLine{
+private:
+			vector<point> intersectingPoints;
+			linestring shoreline;//You could just initialise shoreline to the shapefile
+
+
 public:
-		
-	void loadShoreLine(string file1, string file2, bool printFiles = false)
-	{
-		ShoreLine mShoreLineA;
-		ShoreLine mShoreLineB;
-
-		//load shapefiles into member variables mShoreLineA and mShoreLineB
-		mShoreLineA.getShapePoints(file1);
-		mShoreLineB.getShapePoints(file2);
-
-		if(printFiles = true)
-		//Will have to print both file's names 
-		cout<<endl<<"--------------"<<file1<<"-------------------"<<endl;
-		mShoreLineA.printShoreLine();
-		cout<<endl<<"--------------"<<file2<<"-------------------"<<endl;
-		mShoreLineB.printShoreLine();
-	}
-
-
+//	friend class ShoreLineComparer;	
+	
 	void getShapePoints(string filename)
 	{
 		RegisterOGRShape();				/* OGR Drivers for reading shapefiles only */
@@ -129,8 +126,10 @@ public:
 				for (int i=0;i<=numpoints;i++)
 				{
 					//write to vector here
-					X.push_back(poLine->getX(i));
-					Y.push_back(poLine->getY(i));
+					shoreLinePoints.push_back(coordinate(poLine->getX(i),poLine->getY(i)));
+
+	//				X.push_back(poLine->getX(i));
+	//				Y.push_back(poLine->getY(i));
 				}
 			}
 			else
@@ -143,16 +142,30 @@ public:
 		OGRDataSource::DestroyDataSource( poDS );
 		return;
 	}
+
+	void loadShoreLine(string fileName,bool printFiles = false)
+	{
+	ShoreLine mShoreLineA;
+	
+		//load shapefiles into member variables mShoreLineA and mShoreLineB
+		mShoreLineA.getShapePoints(fileName);
+
+		if(printFiles = true)
+		//Will have to print both file's names 
+		cout<<endl<<"--------------"<<fileName<<"-------------------"<<endl;
+
+		mShoreLineA.printShoreLine();
+	}
+
 	void getIntersectionPoints()// string shorelineName)
 	{
-		// use the transect points to obtain the intersection point
+		// Uses transect points to obtain the intersection point
 
-		linestring shoreline;//You could just initialise shoreline to the shapefile
 
-		for(unsigned int i =0; i<X.size(); i++)
+		for(unsigned int i = 0; i<shoreLinePoints.size(); i++)
 		{
-			point temp(X[i], Y[i]);	
-			shoreline.push_back(temp);
+			point temp(shoreLinePoints[i].X,shoreLinePoints[i].Y);	// defines a temp variable consisting of X,Y loaded by the shoreline object
+			shoreline.push_back(temp);  // puts the shoreline [X and Y] into a linestring variable 
 		}
 
 		for(unsigned int i=0;i<transectPoint.size();i++)
@@ -164,16 +177,11 @@ public:
 			point transectPointCalculatedOnOtherSideOfShoreline(transectLineEnd[i].X,transectLineEnd[i].Y);
 			transect.push_back(transectPointCalculatedOnOtherSideOfShoreline);
 
-			vector<point> intersectingPoints;
 
 			boost::geometry::intersection(shoreline, transect, intersectingPoints);
 			intersectingPointsOfTransect.push_back(intersectingPoints);
 
-			for(unsigned int j=0; j<intersectingPoints.size(); j++)
-			{
-				cout << "(" << intersectingPoints[j].x() <<", " <<
-					intersectingPoints[j].y() << ")" << endl;
-			}
+		
 		}
 		for (unsigned int i=0;i<transectPoint.size();i++)
 		{
@@ -183,25 +191,29 @@ public:
 	
 	void printShoreLine()
 	{
-		for (unsigned int j=0; j<X.size();j++)
+		for (unsigned int i=0; i<shoreLinePoints.size();i++)
 		{
-			printf("(%10.11f , %10.11f)\n",X[j],Y[j]);
+			printf("(%10.11f , %10.11f)\n",shoreLinePoints[i].X,shoreLinePoints[i].Y);
 		}
 	}
-		
+	void printIntersectionPoints()
+	{
+			for(unsigned int i=0; i<intersectingPoints.size(); i++)
+			{
+				cout << "(" << intersectingPoints[i].x() <<", " <<
+					intersectingPoints[i].y() << ")" << endl;
+			}
+	}
 	vector < vector < point > > intersectingPointsOfTransect;
 };
 
 class BaseLine{
 private:
-	double d,slp,trns_int;
+	double d,slp,trns_int,baseLineX1,baseLineX2,baseLineY1,baseLineY2,m,c;
 	int n;
-	
-protected:
-	double x1, x2, y1,y2;
+
 public:
-	double m,c;
-	//Test this method. How ever, its not nearly the most important thing in question here
+
 //Test this method. How ever, its not nearly the most important thing in question here
 	void writeBaselineShp(string outputFile)
 	{
@@ -238,53 +250,22 @@ public:
 
 		SHPClose(hSHP );
 	}
-	void getBaseLine(string Filename,int baseLineType, double offset=0.00)
+
+	void getBaseLine(ShoreLine BaseShoreLine, double offset=0.00,bool detail=false)
 	{
-		
-		if(baseLineType==1)
-		{
-			if(X.size() == 0 || Y.size() == 0)  //X & Y need to be coordinates from the shapefile1
-			{
-				cerr << "no data" << endl;
+				baseLineX1 = shoreLinePoints.front().X;
+				baseLineY1 = shoreLinePoints.front().Y;
 				
-				//must make this a coordinate type
-				X.begin();
-				Y.begin();
-				X.end();
-				Y.end();
+				baseLineX2 = shoreLinePoints.back().X;
+				baseLineY2 = shoreLinePoints.back().Y;
 
-				return;
-			}
-		else if (baseLineType==2)
-		{
-				cout<<"x1\n";
-				cin>>x1;
-				cout<<"y1\n";
-				cin>>y1;
-				cout<<"x2\n";
-				cin>>x2;
-				cout<<"y1\n";
-				cin>>y2;
-		}
-		else if (baseLineType==3)
-			{
-				//vector of vector coordinates
 
-				vector<coordinate> multiBaseLine;
-				//now how to read in values. 
-				//consult matlab script
-			}
-		}
-
-		x1 = X.front() + (-m*offset) / sqrt(pow(m,2) + 1);
-		x2 = X.back() + (-m*offset) / sqrt(pow(m,2) + 1);
-		y1 = Y.front() + offset*( 1 / sqrt(pow(m,2) + 1) );
-		y2 = Y.back() + offset*( 1 / sqrt(pow(m,2) + 1) );
-
-		m = (y2-y1) / (x2-x1);	
-		c = y1-m*x1;
+				if(detail=true)
+				{
+						m = (baseLineY2-baseLineY1) / (baseLineX2-baseLineX1);	
+		c = baseLineY1-m*baseLineX1;
 		slp = atan(m)*(180/PI);
-		d = sqrt(pow((x2-x1),2)+pow((y2-y1),2));
+		d = sqrt(pow((baseLineX2-baseLineX1),2)+pow((baseLineY2-baseLineY1),2));
 
 		cout<<"Please enter transect interval: ....";
 		cin>>trns_int;
@@ -299,36 +280,125 @@ public:
 			<<"\ndistance: \t"<<d
 			<<"\nintercept: \t"<<c;
 	}
-//Obtains transect points of baseline / shoreline. Not sure which yet
+
+	}
+	void getBaseLine(string Filename,int baseLineType, double offset=0.00)
+	{
+		
+		if(baseLineType==1)
+		{
+//			mShoreLineA
+baseLineX1 = shoreLinePoints.front().X;
+				baseLineY1 = shoreLinePoints.front().Y;
+				
+				baseLineX2 = shoreLinePoints.back().X;
+				baseLineY2 = shoreLinePoints.back().Y;
+
+			if(shoreLinePoints.size() == 0 )  //X & Y need to be coordinates from the shapefile1
+			{
+				cerr << "no data" << endl;
+				
+				
+				return;
+			}
+		else if (baseLineType==2)
+		{
+				cout<<"Enter x1: \n";
+				cin>>baseLineX1;
+				cout<<"Enter y1: \n";
+				cin>>baseLineY1;
+				cout<<"Enter x2: \n";
+				cin>>baseLineX2;
+				cout<<"Enter y1: \n";
+				cin>>baseLineY2;
+		}
+		else if (baseLineType==3)
+			{
+				//vector of vector coordinates
+
+				vector < vector<coordinate> > BaseLine;
+				//now how to read in values. 
+				//consult matlab script
+
+
+			}
+		}
+		
+		baseLineX1 = shoreLinePoints.front().X + (-m*offset) / sqrt(pow(m,2) + 1);
+		baseLineY1 = shoreLinePoints.front().Y + offset*( 1 / sqrt(pow(m,2) + 1) );
+		
+		baseLineX2 = shoreLinePoints.back().X + (-m*offset) / sqrt(pow(m,2) + 1);
+		baseLineY2 = shoreLinePoints.back().Y + offset*( 1 / sqrt(pow(m,2) + 1) );
+
+		m = (baseLineY2-baseLineY1) / (baseLineX2-baseLineX1);	
+		c = baseLineY1-m*baseLineX1;
+		slp = atan(m)*(180/PI);
+		d = sqrt(pow((baseLineX2-baseLineX1),2)+pow((baseLineY2-baseLineY1),2));
+
+		cout<<"Please enter transect interval: ....";
+		cin>>trns_int;
+		printf("\ngradient: \t%f\n",m);
+
+		n=ceil(d/trns_int);
+
+
+		// Must determine intersection points here
+		cout<<"\nslope:\t"<<slp
+			<<"\nnumber of transects:\t"<<n
+			<<"\ndistance: \t"<<d
+			<<"\nintercept: \t"<<c;
+	}
+
+//Obtains corresponding points for transectline of shoreline
 	void getTransectPoints()
 		{
 		double a=d*cos(atan(m)); // what is a?
 
 		for (int i=0;i<n;i++)
 		{
-			double xx=x1+i*a;
+			double xx=baseLineX1+i*a;
 			transectPoint.push_back(coordinate(xx,m*(xx)+c));
 		}
 	}
 };
 
-class TransectLine:BaseLine{
+BaseLine base;
+class TransectLine{
+
+private:
+	
+	double baselineM,baselineC;
+
+	/*
+	void getVar(BaseLine &base)
+	{
+		baselineM=base.m;
+		baselineC=base.c;
+	}
+	*/
+
 public:
+
+	friend class ShoreLineComparer;	
+
 void getTransectPoints()
-	{}
+	{
+
+
+	}
 //Sets the endpoint coordinates for the transect lines
 void setTransectLines()
 	{
 		float extremex;
-		if (m<0)
+		if (baselineM<0)
 		{
 			extremex=-9999999;
 			//determine max X
-			for(unsigned int i=0;i<X.size();i++)
+			for(unsigned int i=0;i<shoreLinePoints.size();i++)
 			{
-				if(X.at(i)> extremex)
+				if(shoreLinePoints[i].X> extremex)
 				{
-					extremex=X[i];
+					extremex=shoreLinePoints[i].X;
 				}
 			}
 			extremex+=10;
@@ -337,21 +407,20 @@ void setTransectLines()
 		{
 			extremex=9999999;
 			//determine minX
-			for(unsigned int i=0;i<X.size();i++)
+			for(unsigned int i=0;i<shoreLinePoints.size();i++)
 			{
-				if(X.at(i)<extremex)
+				if(shoreLinePoints[i].X<extremex)
 				{
-					extremex=X[i];
+					extremex=shoreLinePoints[i].X;
 				}
 			}
 			extremex-=10;
-
 		}
 
 		//evaluate equations of transect lines at extremex to get the y value
-				for (unsigned int i=0; i<transectPoint.size();i++)
+			for (unsigned int i=0; i<transectPoint.size();i++)
 		{
-			float y=-1/m*extremex+c+(m+1/m)*transectPoint[i].X;
+			float y=-1/baselineM*extremex+baselineC+(baselineM+1/baselineM)*transectPoint[i].X;
 			transectLineEnd.push_back(coordinate(extremex,y));
 		}
 	}
@@ -363,29 +432,61 @@ class ShoreLineComparer
 	//divided by the number of years difference. (year of shapefile)
 	
 private:
-	double d;			// sums the difference b/n the two transect intersectino points
-	double y1,y2,x2,x1;	//
+	double d;			// Sums the difference b/n the two transect intersectino points
+	double y1,y2,x2,x1;	// This probably isn't the rigt way to go about this
+	unsigned int yrs;	
+
+//	string fileName1;
+//	string fileName2;
+
+
+BaseLine Base;
+ShoreLine ShoreA;
+ShoreLine ShoreB;
 
 public:
-	unsigned int yrs;	
-void averageRate()//&file1,&file2,yrs)//accept age of shoreline by 
+void averageRate(string file1,string file2,unsigned int noOfYears)	//&file1,&file2,yrs)//accept age of shoreline by 
 {	
-	cout<<"\nenter time difference in years"<<endl;
+
+		//	loop through the intersection points
+		//	first extract the (X,Y) transectpoints into this (x1,y1),(x2,y2) then 
+		//	something like transectPoints
+
+			ShoreA.getShapePoints(file1);
+			ShoreB.getShapePoints(file2);
+			
+			Base.getBaseLine(ShoreA);
+	//		Base.getTransectPoints();
+			
+			ShoreA.getIntersectionPoints();
+			ShoreB.getIntersectionPoints();
+
 
 		for (unsigned int i=0;i<=transectPoint.size();i++)
 		{
 
-		//loop through the intersection points
-		//first extract the (X,Y) transectpoints into this (x1,y1),(x2,y2) then 
-		//something like transectPoints
-		d+=sqrt(pow((x2-x1),2)+pow((y2-y1),2));
+		//	how do i access a vector of a vector of a boost library point?
+			// the second loop to go through 
+			for (unsigned int j;j<=ShoreA.intersectingPointsOfTransect.size();j++)	//This can't be transectPoint again
+			{
+				x1=ShoreA.intersectingPointsOfTransect[i][j].x();
+				y1=ShoreA.intersectingPointsOfTransect[i][j].y();
+
+				x2=ShoreB.intersectingPointsOfTransect[i][j].x();
+				y2=ShoreB.intersectingPointsOfTransect[i][j].y();
+
+				d+=sqrt(pow((x2-x1),2)+pow((y2-y1),2));
+			}
 		}
+
+
+		// And the answer is ...
+		cout<<"\nAverage Rate is:"<<d/noOfYears<<"... per year"<<endl;
 	}
 
 // this aught to work in later editions
-/*
-void compare(int method)
+void ShoreLineRate(int method) // use the methods declared globally
 	{
-		}
-		*/
+
+	}
 };
