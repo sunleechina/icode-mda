@@ -44,7 +44,7 @@ class DataLoader
             loadMessageTypeData()
             loadNavigationStatus()
             loadCountryClass()
-            //loadRadarXML('ST_Track.xml')
+            loadRadarXML('ST_Track.xml')
         }
     }
   
