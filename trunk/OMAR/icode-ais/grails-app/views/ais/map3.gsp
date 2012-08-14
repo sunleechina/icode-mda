@@ -66,7 +66,6 @@ function init()
         {buffer: 0, transitionEffect: 'resize'}
       ),
 
-<%--
        <!-- Base Layer -->
        new OpenLayers.Layer.WMS(
         "I-Cubed",
@@ -82,7 +81,7 @@ function init()
         {layers: '${map5.layers}', format: 'image/jpeg' },
         {buffer: 0, transitionEffect: 'resize'}
       ),
---%>
+
        <!-- Overylay: AIS Current Location -->
        new OpenLayers.Layer.WMS(
         "Current Location",
