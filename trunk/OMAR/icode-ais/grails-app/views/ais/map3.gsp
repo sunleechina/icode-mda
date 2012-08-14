@@ -105,9 +105,9 @@ function init()
         '${map3.url}',
         {layers: '${map3.layers}', visibility: false, transparent: true, format: 'image/png'},
         {opacity: .5, buffer: 0}
-      )//,
+      ),
 
-<%--
+
       <!-- Overylay: Radar Data-->
       new OpenLayers.Layer.WMS(
         'Radar',
@@ -116,7 +116,7 @@ function init()
         {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
 
       )
---%>
+
     ];
 
   map.addLayers(layers);
