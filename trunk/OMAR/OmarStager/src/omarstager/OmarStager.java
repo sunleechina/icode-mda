@@ -378,6 +378,11 @@ public class OmarStager {
      * @param argv *********************************************
      */
     public static void main(String[] argv) {
+	
+	if(argv.length<1){
+		usage();
+        System.exit(0);
+	}
 
         OmarStager stager = new OmarStager();
 
@@ -445,17 +450,7 @@ public class OmarStager {
                 //
                 case '?':
                 case 'h':
-                    System.out.println("OmarStager Usage:\n");
-                    System.out.println("\t[");
-                    System.out.println("\t--h: help menu");
-                    System.out.println("\t--s: Turn on SSH (Default: off)");
-                    System.out.println("\t--dbhost: Database Server Name or IP (Default: localhost)");
-                    System.out.println("\t--dbname: Database Name (Default: omardb-1.8.14-prod)");
-                    System.out.println("\t--dbpw: Password to access Database (Default: postgres)");
-                    System.out.println("\t--dbuser: Database User (Default: postgres)");
-                    System.out.println("\t--omarhost: Omar Host Name or IP address (Default: localhost)");
-                    System.out.println("\t--omarport: Omar port (Default: 8082)");
-                    System.out.println("\t] dir <dir2 dir3>");
+                    usage();
                     System.exit(0);
                     break;
                 //
@@ -470,14 +465,13 @@ public class OmarStager {
         }
       
 
-        /////////////////////////////////////////////////////////////////////
-        //Go thru each directory given to find image files
-        //////////////////////////////////////////////////////////////////////
         File baseDir;
         
-        //Check if there is already another job started.
-        //If there is, quit this job with a warning.
-         //Look through all directories passed in for files
+		////////////////////////////////////////////////////////////
+        // Check if there is already another job started.
+        // If there is, quit this job with a warning.
+        // Look through all directories passed in for files
+		//////////////////////////////////////////////////////////
         for (int index = g.getOptind(); index < argv.length; index++) {
 
             String dir = argv[index];
@@ -500,6 +494,11 @@ public class OmarStager {
             }
         }//for
         System.out.println("Stager Started...");
+		
+		
+        /////////////////////////////////////////////////////////////////////
+        //Go thru each directory given to find image files
+        //////////////////////////////////////////////////////////////////////
 
         //Look through all directories passed in for files
         for (int index = g.getOptind(); index < argv.length; index++) {
@@ -537,5 +536,19 @@ public class OmarStager {
         stager.updateImageID();
 
         System.out.println("Stager Completed.");
-    }
-}
+    }//main
+	
+	void usage(){
+	    System.out.println("Usage: java -jar OmarStager.jar <options> imageDirectory\n");
+        System.out.println("\tOptions:");
+        System.out.println("\t\t--h: help menu");
+        System.out.println("\t\t--s: Turn on SSH (Default: off)");
+        System.out.println("\t\t--dbhost: Database Server Name or IP (Default: localhost)");
+        System.out.println("\t\t--dbname: Database Name (Default: omardb-1.8.14-prod)");
+        System.out.println("\t\t--dbpw: Password to access Database (Default: postgres)");
+        System.out.println("\t\t--dbuser: Database User (Default: postgres)");
+        System.out.println("\t\t--omarhost: Omar Host Name or IP address (Default: localhost)");
+        System.out.println("\t\t--omarport: Omar port (Default: 8082)");
+        System.out.println("\tImareDirectory:  one or more directories containing target images <dir2 dir3>");
+	}
+}//class
