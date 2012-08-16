@@ -18,6 +18,8 @@ import com.spawar.icode.radar.STTrackSurfT;
 import com.spawar.icode.radar.TrackAirT;
 import com.spawar.icode.radar.TrackSurfT;
 import com.spawar.icode.radar.dataParser.RadarXMLParser;
+import com.spawar.icode.radar.vms.parser.VmsData;
+import com.spawar.icode.radar.vms.parser.VmsParser;
 import java.io.*;
 import javax.xml.bind.*;
 import java.io.InputStream;
@@ -45,8 +47,66 @@ class DataLoader
             loadNavigationStatus()
             loadCountryClass()
             loadRadarXML('ST_Track.xml')
+            loadVmsData()
         }
     }
+
+    def loadVmsData()
+    {
+        String filename = "vmsData.txt";
+        def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
+        def istream = DataLoader.class.getResourceAsStream( filename )
+        def count = 0
+
+        //Use VmsParser Libarary
+        VmsParser parser = new VmsParser(istream);
+        Vector<VmsData> vector = parser.parseFile();
+        //System.out.println("Done Parsing Complete VMS doc: " + vector.size());
+
+
+        ListIterator itr = vector.listIterator();
+        while (itr.hasNext()) {
+            Object obj = itr.next();
+            VmsData vmsData = (VmsData)obj;
+            String name =  vmsData.getVESSELNAME(); //XXX Need a way to uniquely Identify VMS data
+
+            //See if it already exists
+            def vms = Vms.findByVesselName( name );
+
+            if ( !vms )
+            {
+                vms = convertToVms(vmsData);
+
+                //Add to DB
+                vms.save();
+            }
+
+            /////////////////////////////////
+            //Save Location Information
+            /////////////////////////////////
+
+            def longitude = vms.getLon();
+            def latitude  = vms.getLat();
+            def location = new Location(
+                    longitude: longitude,
+                    latitude: latitude,
+                    date: vms.date,
+                    geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+            )
+
+            vms.addToLocations( location )
+
+            if ( ++count % 1000 == 0 )
+            {
+                cleanUpGorm()
+            }
+
+        }
+
+
+        // cleanUpGorm()
+        istream?.close()
+    }//load VMS Data
   
     def loadRadarXML( def filename )
     {
@@ -56,7 +116,7 @@ class DataLoader
         
         //Use RadarXMLParser calls
         Vector<Object> vector = RadarXMLParser.read(istream);
-        System.out.println("Done Parsing Complete Radar doc: " + vector.size());
+        //System.out.println("Done Parsing Complete Radar doc: " + vector.size());
         
         //Determine what type of Object we have and add it to the DB
         ListIterator itr = vector.listIterator();
@@ -659,23 +719,29 @@ class DataLoader
 
 
 
+    /**
+     * Convert from Java Object VmsData to Grails Object VMS
+     * @param data
+     * @return
+     */
+    public Vms convertToVms(VmsData data){
+        Vms vms = new Vms();
 
+        vms.callSign = data.getCALLSIGN();
+        vms.country = data.getCOUNTRY();
+        vms.course = data.getCOURSE();
+        vms.date  = data.getDATE();
+        vms.destination = data.getDESTINATION();
+        vms.flag  = data.getFLAG();
+        vms.lat  = data.getLAT();
+        vms.lon = data.getLON();
+        vms.messageType = data.getMESSAGETYPE();
+        vms.registration = data.getREGISTRATION();
+        vms.speed = data.getSPEED();
+        vms.vesselName = data.getVESSELNAME();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return vms;
+    }
 
 
 

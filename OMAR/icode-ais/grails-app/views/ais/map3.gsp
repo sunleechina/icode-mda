@@ -114,6 +114,15 @@ function init()
         {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, label: {property: "name"}, fill: {color: "#FF0000", opacity: 0}, halo: {color: "#FF0000", radius: 2}}'},
         {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
 
+      ),
+
+       <!-- Overylay: VMS Data-->
+      new OpenLayers.Layer.WMS(
+        'VMS',
+        "${createLink( absolute: true, controller: 'ais', action: 'vmsCurrentLocation' )}",
+        {layers:'location', format: 'image/png', styles: '{shape: {color: "#FF0000", type: "circle", size: 5}, label: {property: "name"}, fill: {color: "#FF0000", opacity: 0}, halo: {color: "#FF0000", radius: 2}}'},
+        {buffer: 0, singleTile: false, transitionEffect: 'resize', isBaseLayer: false/*, minScale: 13841995.078125*/}
+
       )
 
     ];
