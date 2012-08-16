@@ -168,6 +168,12 @@ class AisController
     timeLocationService.radarCurrentLocation( params, response )
   }
 
+
+  //radarCurrentLocation Action to display position of Radar
+  def vmsCurrentLocation = {
+      timeLocationService.vmsCurrentLocation( params, response )
+  }
+
   //vesselTracks Action used to display AIS Track information
   def vesselTracks = {
     timeLocationService.vesselTracks( params, response )

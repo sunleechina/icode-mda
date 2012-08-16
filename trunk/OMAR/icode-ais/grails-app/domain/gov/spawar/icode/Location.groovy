@@ -5,7 +5,7 @@ import com.vividsolutions.jts.geom.Point
 class Location
 {
 
-  static belongsTo = [Ais, RadarSurfTrack, RadarAirTrack]
+  static belongsTo = [Ais, RadarSurfTrack, RadarAirTrack, Vms]
   //static belongsTo = [ais:Ais]
 
 

@@ -115,6 +115,54 @@ AND ST_Within(location.geometry_object, ST_MakeEnvelope( ${minLon}, ${minLat}, $
         postgis?.close()
     }
 
+
+
+
+
+    /**
+     * VMSCurrent Location used to display position Overlay
+     *
+     * @param params
+     * @param response
+     * @return
+     */
+    def vmsCurrentLocation(def params, def response) {
+
+        def wmsParams = new CaseInsensitiveMap(params)
+        def postgis = aisMapService.createWorkspace()
+        def (minLon, minLat, maxLon, maxLat) = wmsParams.bbox.split( ',' ).collect { it.toDouble() }
+        def sql = """
+SELECT DISTINCT vms.id as id, vms.vessel_name as name, location.date as last_known_date, location.geometry_object AS last_known_position
+FROM vms , location, vms_location, (
+    SELECT vms_locations_id, max(date) AS bar
+    FROM location, vms_location
+    WHERE location.id=vms_location.location_id
+    GROUP BY vms_locations_id) AS foo
+WHERE vms.id=vms_location.vms_locations_id
+AND location.id=vms_location.location_id
+AND foo.vms_locations_id=vms.id
+AND foo.bar=location.date
+AND ST_Within(location.geometry_object, ST_MakeEnvelope( ${minLon}, ${minLat}, ${maxLon}, ${maxLat}, 4326 ))
+    """
+
+        //Add SQL query as a Layer
+        def layer = postgis.addSqlQuery(
+                Layer.newname(),
+                sql,
+                new Field('last_known_position', 'POINT', 'EPSG:4326'), //geometryFld
+                ['id']  //primaryKey
+        )
+        def proj = new Projection(wmsParams.srs)
+        def bounds = new Bounds( minLon, minLat, maxLon, maxLat, proj )
+        def size = [wmsParams.width.toInteger(), wmsParams.height.toInteger()]
+        def output = response.outputStream
+
+        response.contentType = wmsParams.format
+        layer.style = aisMapService.createStyle(wmsParams.styles)
+        Draw.draw([bounds: bounds, site: size, out: output, format: wmsParams.format - 'image/'], layer)
+        postgis?.close()
+    }
+
     /**
      * Service used to display AIS Track info
      *
