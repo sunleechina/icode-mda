@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,6 +37,7 @@ public class VmsParser {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 	String m_strFileName="";
 	FileInputStream m_fstream = null;
+	InputStreamReader m_isReader = null;
 
 
 	/**
@@ -49,6 +51,8 @@ public class VmsParser {
 		
 		m_strFileName = strFileName;
 		m_fstream = new FileInputStream(m_file);
+		DataInputStream in = new DataInputStream(m_fstream);
+		m_isReader = new InputStreamReader(in);
 
 	}
 	
@@ -63,6 +67,8 @@ public class VmsParser {
 		
 		m_file = newFile;
 		m_fstream = new FileInputStream(m_file);
+		DataInputStream in = new DataInputStream(m_fstream);
+		m_isReader = new InputStreamReader(in);
 
 	}
 	
@@ -72,11 +78,33 @@ public class VmsParser {
 	 * Takes in the File descriptor as a File Object
 	 * 
 	 */
-	private VmsParser(FileReader newFile) {
+	public VmsParser(FileReader newFile) {
 		
 		//m_fileReader = newFile;
 		//m_fstream = new FileReaderInputStream(m_fileReader.);
-
+		m_isReader = (InputStreamReader) newFile;
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * Takes in the File descriptor as an InputStreamReader
+	 * 
+	 */
+	public VmsParser(InputStreamReader newISR) {
+		
+		m_isReader = (InputStreamReader) newISR;
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * Takes in the File descriptor as an InputStreamReader
+	 * 
+	 */
+	public VmsParser(InputStream newIS) {
+		
+		m_isReader = new InputStreamReader(newIS);
 	}
 	
 	
@@ -103,8 +131,8 @@ public class VmsParser {
 			
 
 			// Get the object of DataInputStream
-			DataInputStream in = new DataInputStream(m_fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			//DataInputStream in = new DataInputStream(m_fstream);
+			BufferedReader br = new BufferedReader(m_isReader);
 			String strLine;
 
 			// Read File Line By Line
@@ -357,12 +385,13 @@ public class VmsParser {
 			VmsParser parser = new VmsParser(newFile);
 			dataVector = parser.parseFile();
 		} catch (IOException ex) {
-
+			return;
 		} catch (Exception ex) {
-
+			return;
 		}
 		
 		System.out.println("Everything seems to be working.");
+		return;
 
 	}
 
