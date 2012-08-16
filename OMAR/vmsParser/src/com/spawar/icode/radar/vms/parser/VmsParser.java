@@ -172,7 +172,7 @@ public class VmsParser {
 	}
 
 	static void usage() {
-		System.out.println("\n  Usage: java -jar VmsParser <input-filename> \n\n");
+		System.out.println("\n  Usage: java -jar VmsParser.jar <input-filename> \n\n");
 
 	}
 
@@ -369,6 +369,7 @@ public class VmsParser {
 		
 		if(args.length !=1){
 			usage();
+			return;
 			
 		}
 
