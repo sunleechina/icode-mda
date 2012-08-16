@@ -88,107 +88,107 @@ public class VmsData {
 		}
 	}
 
-	String getDESTINATION() 
+	public String getDESTINATION() 
 	{
 		return DESTINATION;
 	}
-	void setDESTINATION(String destination)
+	public void setDESTINATION(String destination)
 	{
 		DESTINATION = destination;
 	}
-	String getCOUNTRY()
+	public String getCOUNTRY()
 	{
 		return COUNTRY;
 	}
-	void setCOUNTRY(String country)
+	public void setCOUNTRY(String country)
 	{
 		COUNTRY = country;
 	}
-	String getMESSAGETYPE()
+	public String getMESSAGETYPE()
 	{
 		return MESSAGETYPE;
 	}
-	void setMESSAGETYPE(String messagetype)
+	public void setMESSAGETYPE(String messagetype)
 	{
 		MESSAGETYPE = messagetype;
 	}
-	String getVESSELNAME()
+	public String getVESSELNAME()
 	{
 		return VESSELNAME;
 	}
-	void setVESSELNAME(String vesselname)
+	public void setVESSELNAME(String vesselname)
 	{
 		VESSELNAME = vesselname;
 	}
-	String getREGISTRATION()
+	public String getREGISTRATION()
 	{
 		return REGISTRATION;
 	}
-	void setREGISTRATION(String registration)
+	public void setREGISTRATION(String registration)
 	{
 		REGISTRATION = registration;
 	}
-	String getCALLSIGN()
+	public String getCALLSIGN()
 	{
 		return CALLSIGN;
 	}
-	void setCALLSIGN(String callsign)
+	public void setCALLSIGN(String callsign)
 	{
 		CALLSIGN = callsign;
 	}
-	Date getDATE() 
+	public Date getDATE() 
 	{
 		return DATE;
 	}
-	void setDATE(Date date)
+	public void setDATE(Date date)
 	{
 		DATE = date;
 	}
-	int getTIME() 
+	public int getTIME() 
 	{
 		return TIME;
 	}
-	void setTIME(int time)
+	public void setTIME(int time)
 	{
 		TIME = time;
 	}
-	double getLAT() 
+	public double getLAT() 
 	{
 		return LAT;
 	}
-	void setLAT(double lat)
+	public void setLAT(double lat)
 	{
 		LAT = lat;
 	}
-	double getLON() 
+	public double getLON() 
 	{
 		return LON;
 	}
-	void setLON(double lon)
+	public void setLON(double lon)
 	{
 		LON = lon;
 	}
-	double getSPEED() 
+	public double getSPEED() 
 	{
 		return SPEED;
 	}
-	void setSPEED(double speed)
+	public void setSPEED(double speed)
 	{
 		SPEED = speed;
 	}
-	int getCOURSE() 
+	public int getCOURSE() 
 	{
 		return COURSE;
 	}
-	void setCOURSE(int course)
+	public void setCOURSE(int course)
 	{
 		COURSE = course;
 	}
-	String getFLAG() 
+	public String getFLAG() 
 	{
 		return FLAG;
 	}
-	void setFLAG(String flag)
+	public void setFLAG(String flag)
 	{
 		FLAG = flag;
 	}
