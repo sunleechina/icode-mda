@@ -5,6 +5,8 @@
   * [GettingStartedOMAR OMAR]
   * [ProjectIdeas Project Ideas]
 
+* [HowTos]
+
 * Imagery and Data
   * [LessonGeoRef How to georeference an Image]
   * [LessonDataAccess Where to get satellite imagery]
