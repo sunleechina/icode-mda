@@ -1,3 +1,4 @@
 #summary Contains some of the projects How-tos
 
+= Database = 
 [BuildingLibpqxx Building the C++ interface for a PostgreSQL database]
