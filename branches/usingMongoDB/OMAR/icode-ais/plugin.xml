@@ -1,0 +1,51 @@
+<plugin name='icode-ais' version='0.1' grailsVersion='2.0.4 &gt; *'>
+  <author>Your name</author>
+  <title>Plugin summary/headline</title>
+  <description>\
+Brief description of the plugin.
+</description>
+  <documentation>http://grails.org/plugin/icode-ais</documentation>
+  <type>IcodeAisGrailsPlugin</type>
+  <resources>
+    <resource>gov.spawar.icode.AisController</resource>
+    <resource>gov.spawar.icode.CallSignPrefixController</resource>
+    <resource>gov.spawar.icode.CountryController</resource>
+    <resource>gov.spawar.icode.LocationController</resource>
+    <resource>gov.spawar.icode.MaritimeIdDigitController</resource>
+    <resource>gov.spawar.icode.RadarAirTrackController</resource>
+    <resource>gov.spawar.icode.RadarSurfTrackController</resource>
+    <resource>gov.spawar.icode.UserController</resource>
+    <resource>gov.spawar.icode.Ais</resource>
+    <resource>gov.spawar.icode.CallSignPrefix</resource>
+    <resource>gov.spawar.icode.Country</resource>
+    <resource>gov.spawar.icode.Location</resource>
+    <resource>gov.spawar.icode.MaritimeIdDigit</resource>
+    <resource>gov.spawar.icode.RadarAirTrack</resource>
+    <resource>gov.spawar.icode.RadarSurfTrack</resource>
+    <resource>gov.spawar.icode.User</resource>
+    <resource>gov.spawar.icode.AisMapService</resource>
+    <resource>gov.spawar.icode.AisService</resource>
+    <resource>gov.spawar.icode.TimeLocationService</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://download.java.net/maven/2/' url='http://download.java.net/maven/2/' />
+  </repositories>
+  <dependencies />
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='filterpane' version='2.0.1.1' />
+    </compile>
+    <runtime>
+      <plugin group='org.grails.plugins' name='hibernate' version='2.0.4' />
+      <plugin group='org.grails.plugins' name='tomcat' version='2.0.4' />
+      <plugin group='org.grails.plugins' name='yui' version='2.8.2.1' />
+    </runtime>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>
