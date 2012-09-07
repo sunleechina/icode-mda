@@ -1,4 +1,4 @@
-#Anomaly Detection with Markov Random Fields in Surveillance Applications Page.
+#summary Anomaly Detection with Markov Random Fields in Surveillance Applications Page.
 
 = Introduction =
 
