@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+    <ModulePrefs title="Simulation Example" /> 
+    <Content type="html">
+        <![CDATA[ 
+            <!--Declare application as HTML5-->
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    
+                    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+                    <!--Setup the CSS style-->
+                    <style type="text/css">
+                        html { height: 100% }
+                        body { height: 100%; margin: 0; padding: 0 }
+                        #map_canvas { height: 100% }
+                        #holder_left
+                        {
+                            float: left;
+                            margin-left: 5px;
+                            margin-top: 5px;
+                            width: 200px;
+                            min-width: 200px;
+                        }
+                    </style>
+                    
+                    <!--Load the Google Maps API-->
+                    <script type="text/javascript"
+                        src="http://maps.googleapis.com/maps/api/js?&sensor=true">
+                    </script>
+                    
+                    <!--Javascript functions-->
+                    <script type="text/javascript">
+                        //Global variables
+                        var map;
+                        var shipIconTransport;
+                        var shipIconFishing;
+                        var shipIconPirate;
+                        var shipIconHijacked
+                        var data = null;
+                        var timestepData;
+                        var numVessels;
+                        var simTimeStep;
+                        var numTimeSteps;
+                        var currentTimeStep;
+                        var markersArray;
+                        
+                        //Initialization function called when the form is loaded
+                        function initialize() 
+                        {
+                            googleMapsInit();
+                        }
+                        
+                        //Initialize the google maps
+                        function googleMapsInit()
+                        {
+                            //Ensure google maps is available
+                            if(typeof google === 'object' && typeof google.maps === 'object')
+                            {
+                                //Draw the google map
+                                var mapOptions = 
+                                {
+                                    center: new google.maps.LatLng(12.2, 47.6),
+                                    zoom: 7,
+                                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                                };
+                                map = new google.maps.Map(document.getElementById("map_canvas"),
+                                mapOptions);
+
+                                // Draw the icon
+                                // Origins, anchor positions and coordinates of the marker
+                                // increase in the X direction to the right and in
+                                // the Y direction down.
+                                shipIconTransport = new google.maps.MarkerImage('shipIconTransport_2.png', 
+                                    // This marker is 50 pixels wide by 50 pixels tall.
+                                    new google.maps.Size(50,50),
+                                    // The origin for this image is 0,0.
+                                    new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center.
+                                    new google.maps.Point(25, 25));
+                                shipIconFishing = new google.maps.MarkerImage('shipIconFishing_2.png',
+                                    // This marker is 50 pixels wide by 50 pixels tall.
+                                    new google.maps.Size(50,50),
+                                    // The origin for this image is 0,0.
+                                    new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center.
+                                    new google.maps.Point(25, 25));
+                                shipIconPirate = new google.maps.MarkerImage('shipIconPirate_2.png',
+                                    // This marker is 50 pixels wide by 50 pixels tall.
+                                    new google.maps.Size(50,50),
+                                    // The origin for this image is 0,0.
+                                    new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center.
+                                    new google.maps.Point(25, 25));
+                                shipIconHijacked = new google.maps.MarkerImage('shipIconHijacked_2.png',
+                                    // This marker is 50 pixels wide by 50 pixels tall.
+                                    new google.maps.Size(50,50),
+                                    // The origin for this image is 0,0.
+                                    new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center.
+                                    new google.maps.Point(25, 25));
+                  
+                                /*
+                                //Event listener for clicking on map
+                                google.maps.event.addListener(map, 'click', function(e)
+                                {
+                                    placeMarker(e.latLng, map);
+                                });
+                                */
+                                /*
+                                //Mouse over event to get coordinates of marker
+                                google.maps.event.addListener(marker, 'mouseover', function() {
+                                var pos = marker.getPosition();
+                                var lat = pos.lat();
+                                var lng = pos.lng();
+                                document.write(lat);
+                                document.write(lng);
+                                // use pixel.x, pixel.y ... (after some rounding)
+                                });
+                                */
+                            }
+                            else
+                            {
+                                //Write the error message in the map canvas
+                                document.getElementById("map_canvas").innerHTML = "Google maps API is not available.";
+                            }
+                        }
+                        
+                        //Place marker when location is clicked
+                        function placeMarker(position, map)
+                        {
+                            var marker = new google.maps.Marker({
+                            position: position,
+                            map: map
+                            });
+                            map.panTo(position);
+                        }
+                        
+                        //HTML5 API for reading file
+                        function readDataFile()
+                        {
+                            // Check for the various File API support.
+                            if (window.File && window.FileReader && window.FileList && window.Blob)
+                            {
+                                input = document.getElementById('fileinput');
+                                if (!input.files)
+                                {
+                                    alert("This browser does not seem to support the `files` property of file inputs.");
+                                }
+                                else if (!input.files[0]) 
+                                {
+                                    alert("Please select a file before clicking");
+                                }
+                                else {
+                                    file = input.files[0];
+                                    fr = new FileReader();
+                                    //Read file as text
+                                    fr.readAsText(file);
+                                    //Event for when file has loaded
+                                    fr.onload = onLoadEventHandlerHTML5;
+                                    //Event for the case of an error
+                                    fr.error = errorEventHandlerHTML5;
+                                    /*
+                                    fr.onload = function(event)
+                                    {            
+                                        data = event.target.result;
+                                        if(data != null)
+                                            alert("File read successful.");
+                                        else
+                                            alert("File read failed. Null data.");
+                                    }
+                                    //Display read error
+                                    fr.error = function(event)
+                                    {            
+                                        alert(event.target.error.name);
+                                    }
+                                    */
+                                }
+
+                            }
+                            else
+                            {
+                                //try reading the files with activeX or with the XMLHttpRequest function
+                                /*if(navigator.appName == "Microsoft Internet Explorer" && window.ActiveXObject)
+                                {
+                                    readFileActiveX();
+                                }
+                                else */if(window.XMLHttpRequest)
+                                {
+                                    readFileXMLHttp();
+                                }
+                                else
+                                {
+                                    alert('The File APIs are not fully supported by your browser.');
+                                }
+                            }
+                        }
+                        
+                        //Event handler for the onload event in the FileReader HTML5 function 
+                        function onLoadEventHandlerHTML5(evnt)
+                        {
+                            data = evnt.target.result;
+                            if(data == null)
+                                throw "Data file could not be read.";
+                            else
+                                processDataFile();
+                        }
+                        
+                        //Event handler for the error event in the FileReader HTML5 function
+                        function errorEventHandlerHTML5(evnt)
+                        {
+                            alert(evnt.target.error.name);
+                        }
+                        
+                        //ActiveX file reading (Only for IE)
+                        function readFileActiveX()
+                        {
+                            if (navigator.appName == "Microsoft Internet Explorer")
+                            {
+                                var fso, f;
+                                fso = new ActiveXObject("Scripting.FileSystemObject");
+                                f = fso.OpenTextFile("test.txt", 1, false, 0);
+                                data = f.ReadAll();
+                            }
+                            else
+                            {
+                                alert('This browser is not supported. Please use Microsoft Internet Exploror');
+                            }
+                        }
+                        
+                        //XMLHttpRequest function used for reading file
+                        function readFileXMLHttp()
+                        {
+                            var textFile
+                            var allText;
+                            //Try to instantiate a XMLHttp
+                            try
+                            {
+                                textFile = new XMLHttpRequest();
+                                textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
+                                textFile.open("GET", "file://C:/Users/JJD/Desktop/test.txt", true);
+                            }
+                            catch(e)
+                            {
+                                try
+                                {
+                                    textFile = new ActiveXObject("Msxml2.XMLHTTP");
+                                    textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
+                                    textFile.open("GET", "file://C:/Users/JJD/Desktop/test.txt", true);
+                                }
+                                catch(e)
+                                {
+                                    try
+                                    {
+                                        textFile = new ActiveXObject("Microsoft.XMLHTTP");
+                                        textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
+                                        textFile.open("GET", "file://C:/Users/JJD/Desktop/test.txt", true);
+                                    }
+                                    catch (e)
+                                    {
+                                        alert("This browser does not seem to support file reading.");
+                                        return;
+                                    }
+                                }
+                            }
+                            //Event handler for the onload event in the XMLHttp function 
+                            function onLoadEventHandlerXMLHttp()
+                            {
+                                if(textFile.readyState === 4 && textFile.status === 200) //Doc is ready to parse && the file is found
+                                {
+                                    allText = textFile.responseText;
+                                    data = allText;
+                                    processDataFile();
+                                }
+                                else
+                                {
+                                    alert("Data file could not be read.");
+                                }
+                            }
+                        }
+                        
+                        //Display data in a popup window
+                        function showData()
+                        {
+                            alert(data);
+                        }
+                        
+                        //Process the data from the data file
+                        function processDataFile()
+                        {
+                            //Split data rows of coordinats
+                            var temp = data.split(";");
+                            //Remove the last newline char
+                            temp.splice(temp.length-1,1);
+                            //Retrieve the timestep
+                            simTimeStep = temp[0];
+                            if(simTimeStep <= 0)
+                                simTimeStep = 1000; //ms
+                            temp.splice(0,1);
+                            //Retrieve the number of vessels
+                            numVessels = temp[0];
+                            temp.splice(0,1);
+                            //Retrieve the number of timesteps
+                            numTimeSteps = temp.length;
+                            currentTimeStep = 0;
+                            //Store the data
+                            data = temp;
+                            //Start the simulation
+                            simTimeStepEvent();
+                        }
+                        
+                        //Extracts the coordinates of the vessels in the current time slice
+                        function extractCurrentTimeStepData()
+                        {
+                            //Split data rows of coordinats
+                            var n = data[currentTimeStep].split("\r\n");
+                            size = n.length;
+                            var m = new Array(size);
+                            for(var i = 0; i<size; i++)
+                            {
+                                //Split data columns of coordinates and save as numbers
+                                var temp = n[i].split(",");
+                                m[i] = new Array(3);
+                                //Coordinates
+                                m[i][0] = Number(temp[0]);
+                                m[i][1] = Number(temp[1]);
+                                //vessel type
+                                m[i][2] = Number(temp[2]);
+                            }
+                            timestepData = m;
+                        }
+                        
+                        //Update the time step
+                        function simTimeStepEvent()
+                        {
+                            if(currentTimeStep < numTimeSteps)
+                            {
+                                //Clear the screen of all markers
+                                clearMarkers();
+                                //Process new time step data and plot it
+                                plotMarkers();
+                                //Increment the time step
+                                currentTimeStep++;
+                                //Set the timeout for plotting the next timestep
+                                window.setTimeout(simTimeStepEvent, simTimeStep);
+                            }
+                        }
+                        
+                        //Function to plot the data markers
+                        function plotMarkers()
+                        {
+                            //Extract the current time steps data
+                            extractCurrentTimeStepData();
+                            markersArray = new Array(timestepData.length);
+                            for(var i = 0; i<timestepData.length; i++)
+                            {
+                                var myLatLng = new google.maps.LatLng(timestepData[i][0], timestepData[i][1]);
+                                if(timestepData[i][2] == 0) //transport vessel
+                                {
+                                    markersArray[i] = new google.maps.Marker({
+                                            position: myLatLng,
+                                            map: map,
+                                            icon: shipIconTransport});
+                                }
+                                else if(timestepData[i][2] == 1) //fishing vessel
+                                {
+                                    markersArray[i] = new google.maps.Marker({
+                                            position: myLatLng,
+                                            map: map,
+                                            icon: shipIconFishing});
+                                }
+                                else if(timestepData[i][2] == 2) //Pirate vessel
+                                {
+                                    markersArray[i] = new google.maps.Marker({
+                                            position: myLatLng,
+                                            map: map,
+                                            icon: shipIconPirate});
+                                }
+                                else if(timestepData[i][2] == 3) //Hijacked vessel
+                                {
+                                    markersArray[i] = new google.maps.Marker({
+                                            position: myLatLng,
+                                            map: map,
+                                            icon: shipIconHijacked});
+                                }
+                            }
+                        }
+                        
+                        //Clear all markers on the map
+                        function clearMarkers()
+                        {
+                            if(markersArray)
+                            {
+                                for (i in markersArray)
+                                {
+                                    markersArray[i].setMap(null);
+                                }
+                                markersArray.length = 0;
+                            }
+                        }
+                        
+                        //Reset the simulation
+                        function restartSim()
+                        {
+                            if(data != null)
+                            {
+                                //Reset the current timestep to 0
+                                currentTimeStep = 0;
+                                //Start the simulation
+                                simTimeStepEvent();
+                            }
+                            else
+                            {
+                                alert("No data file loaded. Please load a file.");
+                            }
+                        }
+
+                    </script>
+                </head>
+                <!--On load, call the initialize Javascript function-->
+                <body onload="initialize()">
+                <!--Left panel-->
+                <div id="holder_left">
+                    <h2>ICODE MDA</h2>
+                    <hr>
+                    <span id="sect1">
+                    <input id="CheckPorts" name="CheckPorts" type="checkbox" onclick="changePorts();"> <img align="top" src="port_3.png" style=""> Ports <br>
+                    <span id="sect2">
+                    <!--File load button for loading the data file.-->
+                    <input type='file' id='fileinput' value='Load Data File' onchange='readDataFile()'>
+                    <!--Reset button to reset the simulation.-->
+                    <input type='button' id='btnRestart' value='Restart Simulation' onclick='restartSim()'>
+                    
+                    <!--<input type='button' id='btnLoad' value='Load' onclick='readDataFile()'>-->
+                    <!--<input type='button' id='btnShowData' value='Show data' onclick='showData()'>-->
+                    <!--<input type='button' id='btnProcessData' value='Process data' onclick='processDataFile()'>-->
+                </div>
+                <!--Map canvas: Reserve space for the map using the div element in the DOM-->
+                <div id="map_canvas" style="height: 100%; position: relative; background-color: rgb(229, 227, 223); overflow: hidden; "></div> 
+                </body>
+            </html>
+       
+        ]]>
+    </Content> 
+</Module>
