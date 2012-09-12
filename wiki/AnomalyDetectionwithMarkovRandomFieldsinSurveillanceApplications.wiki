@@ -35,6 +35,8 @@ The following image is a time slice of a simulation in progress for pirate activ
 
 https://icode-mda.googlecode.com/svn/wiki/images/ADMRF_simulation.jpg.jpg
 
+https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/SimulationGadget.xml
+
 =References=
 
  # Michal Jakob, Ondrej Vanek, Stepan Urban, Petr Benda, and Michal Pechoucek, "_Adversarial Modeling and Reasoning in the Maritime Domain Year 1 Report_," Technical Report
