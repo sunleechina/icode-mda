@@ -35,7 +35,7 @@ The following image is a time slice of a simulation in progress for pirate activ
 
 https://icode-mda.googlecode.com/svn/wiki/images/ADMRF_simulation.jpg.jpg
 
-https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/SimulationGadget.xml
+<wiki:gadget url="https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/SimulationGadget.xml" up_projectName="support" />
 
 =References=
 
