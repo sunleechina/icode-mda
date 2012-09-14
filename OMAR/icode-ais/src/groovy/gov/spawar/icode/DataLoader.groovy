@@ -260,10 +260,10 @@ class DataLoader
                 //Save new AIS
                 ais.save()
 
-                 if ( !ais.save( flush: true ) )
-                 {
-                   println( "Error: Save AIS errors: ${ais.errors}" );
-                 }
+               //  if ( !ais.save( flush: true ) )
+               //  {
+               //    println( "Error: Save AIS errors: ${ais.errors}" );
+               //  }
             }
 
             long timeStamp = tokens[8] as Long
