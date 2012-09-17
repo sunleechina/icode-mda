@@ -1,3 +1,4 @@
+#Code Description
 0	Under way using engine
 1	At anchor
 2	Not under command
