@@ -38,8 +38,6 @@ class DataLoader
     
         if (Ais.count() == 0)
         {
-            loadAisCSV('SanDiego.csv')
-            loadAisCSV('Chile2.csv')
             loadCountryData()
             loadPortData()
             loadVesselData()
@@ -48,6 +46,8 @@ class DataLoader
             loadCountryClass()
             loadRadarXML('ST_Track.xml')
             loadVmsData()
+            loadAisCSV('SanDiego.csv')
+            loadAisCSV('Chile2.csv')
         }
     }
 
@@ -240,7 +240,7 @@ class DataLoader
 
                 ais = new Ais(
                     mmsi: tokens[0] as Integer,
-                    navStatus: tokens[1] as Integer,
+                    //navStatus: tokens[1] as Integer,
                     rateOfTurn: tokens[2] as Float,
                     speedOverGround: tokens[3] as Float,
                     posAccuracy: tokens[21] as Double,
@@ -256,14 +256,20 @@ class DataLoader
                     //destination: tokens[19]
                     //mid //MaritimeIdDigit
                 )
+				
+				//Find NavStatus
+                int navCode = tokens[1] as Integer
+                def nav = NavigationStatus.findByCode(navCode) ;
+                if(nav)  ais.navStatus = nav;
+
 
                 //Save new AIS
                 ais.save()
 
-                 if ( !ais.save( flush: true ) )
-                 {
-                   println( "Error: Save AIS errors: ${ais.errors}" );
-                 }
+               //  if ( !ais.save( flush: true ) )
+               //  {
+               //    println( "Error: Save AIS errors: ${ais.errors}" );
+               //  }
             }
 
             long timeStamp = tokens[8] as Long
