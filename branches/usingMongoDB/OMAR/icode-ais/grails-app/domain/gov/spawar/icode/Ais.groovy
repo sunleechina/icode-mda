@@ -73,7 +73,7 @@ class Ais
     sort "mmsi"
     mmsi index: 'ais_mmsi_idx'
     vesselName index: 'ais_vessel_name_idx'
-    locations  joinTable: [name:"ais_location",key:'ais_locations_id']
+    //locations  joinTable: [name:"ais_location",key:'ais_locations_id']
   }
 }
 

@@ -38,16 +38,16 @@ class DataLoader
     
         if (Ais.count() == 0)
         {
-            loadCountryData()
-            loadPortData()
-            loadVesselData()
-            loadMessageTypeData()
-            loadNavigationStatus()
-            loadCountryClass()
-            loadRadarXML('ST_Track.xml')
-            loadVmsData()
-            loadAisCSV('SanDiego.csv')
-            loadAisCSV('Chile2.csv')
+           loadCountryData()
+           loadPortData()
+           loadVesselData()
+           loadMessageTypeData()
+           loadNavigationStatus()
+           loadCountryClass()
+           loadRadarXML('ST_Track.xml')
+           loadVmsData()
+           loadAisCSV('SanDiego.csv')
+           loadAisCSV('Chile2.csv')
         }
     }
 
@@ -91,9 +91,13 @@ class DataLoader
                     longitude: longitude,
                     latitude: latitude,
                     date: vms.date,
-                    geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                    //geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                    geometryObject: [longitude,latitude]
             )
 
+            location['source']='vms'
+            location['vms']= vms.id;
+            location.save();
             vms.addToLocations( location )
 
             if ( ++count % 1000 == 0 )
@@ -151,9 +155,13 @@ class DataLoader
                         longitude: longitude,
                         latitude: latitude,
                         date: new Date( timeStamp ),
-                        geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                        //geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                        geometryObject: [longitude, latitude]
                 )
 
+                location['source']= 'radarAirTrack';
+                location['radarAirTrack']= airTrack.id;
+                location.save();
                 airTrack.addToLocations( location )
 
                 if ( ++count % 1000 == 0 )
@@ -192,8 +200,13 @@ class DataLoader
                         longitude: longitude,
                         latitude: latitude,
                         date: new Date( timeStamp ),
-                        geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                        //geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                        geometryObject: [longitude, latitude]
                 )
+
+                location['source']= 'radarSurfTrack';
+                location['radarSurfTrack']= surfTrack.id;
+                location.save();
 
                 surfTrack.addToLocations( location )
 
@@ -256,20 +269,19 @@ class DataLoader
                     //destination: tokens[19]
                     //mid //MaritimeIdDigit
                 )
-				
-				//Find NavStatus
-                int navCode = tokens[1] as Integer
-                def nav = NavigationStatus.findByCode(navCode) ;
-                if(nav)  ais.navStatus = nav;
 
+                //Find NavStatus
+                int navCode = tokens[1] as Integer
+                def nav = NavigationStatus.findByCode(navCode);
+                if(nav) ais.navStatus = nav;
 
                 //Save new AIS
                 ais.save()
 
-               //  if ( !ais.save( flush: true ) )
-               //  {
-               //    println( "Error: Save AIS errors: ${ais.errors}" );
-               //  }
+                // if ( !ais.save( flush: true ) )
+                // {
+                //   println( "Error: Save AIS errors: ${ais.errors}" );
+                // }
             }
 
             long timeStamp = tokens[8] as Long
@@ -281,10 +293,20 @@ class DataLoader
                 longitude: longitude,
                 latitude: latitude,
                 date: new Date( timeStamp ),
-                geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                //geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) ),
+                //geometryObject:[lat: latitude, lon: longitude]
+                geometryObject:[longitude, latitude]
             )
-            
+
+            location['source']= 'ais';
+            location['ais']= ais.id;
+            location.save();
+
             ais.addToLocations( location )
+            ais.save();
+
+
+
 
             if ( ++count % 1000 == 0 )
             {
@@ -299,10 +321,10 @@ class DataLoader
 
     def cleanUpGorm( )
     {
-        def session = sessionFactory.currentSession
-        session.flush()
-        session.clear()
-        propertyInstanceMap.get().clear()
+       // def session = sessionFactory.currentSession
+       // session.flush()
+       // session.clear()
+       // propertyInstanceMap.get().clear()
     }
 
     ////////////////////
@@ -358,7 +380,7 @@ class DataLoader
             }
         }//for each
 
-        cleanUpGorm()
+        //cleanUpGorm()
         istream.close()
 
         //////////////////////////////////////
@@ -408,7 +430,7 @@ class DataLoader
                 cleanUpGorm()
             }
         }//for each
-        cleanUpGorm()
+        //cleanUpGorm()
         istream.close()
     }//load Country Data
 
@@ -619,7 +641,8 @@ class DataLoader
                     String strName = words[1]
                     def port = new Port(
                             name: strName,
-                            geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                            //geometryObject: geometryFactory.createPoint( new Coordinate( longitude, latitude ) )
+                            geometryObject: [longitude, latitude]
                     )
 
                     country.addToPorts( port)
