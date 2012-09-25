@@ -7,7 +7,6 @@ class Country {
 
     String name;
     String countryCode;
-    //ListType flagStatus = ListType.WHITE;
 
     String toString() { name }
 

@@ -23,6 +23,8 @@ grails.project.dependency.resolution = {
     //mavenRepo "http://download.java.net/maven/2/"
     //mavenRepo "http://repository.jboss.com/maven2/"
   }
+
+
   dependencies {
     // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
@@ -30,7 +32,7 @@ grails.project.dependency.resolution = {
   }
 }
 
-grails.plugin.location.postgis = "${System.env['OMAR_DEV_HOME']}/plugins/postgis"
+//grails.plugin.location.postgis = "${System.env['OMAR_DEV_HOME']}/plugins/postgis"
 grails.plugin.location.openlayers = "${System.env['OMAR_DEV_HOME']}/plugins/openlayers"
 grails.plugin.location.geoscript = "${System.env['OMAR_DEV_HOME']}/plugins/geoscript"
 grails.plugin.location.omarSecuritySpring = "${System.env['OMAR_DEV_HOME']}/plugins/omar-security-spring"

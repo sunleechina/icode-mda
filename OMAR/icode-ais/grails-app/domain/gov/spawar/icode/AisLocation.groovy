@@ -6,10 +6,8 @@ class AisLocation {
     Integer locationId;
     String messageSourceId="";
     MessageType messageType;
-    //int version;
 
     static constraints = {
-        //message_type( nullable:  true)
         messageSourceId( nullable: true )
         messageType( nullable: true)
     }

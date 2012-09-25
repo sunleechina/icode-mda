@@ -1,6 +1,6 @@
 package gov.spawar.icode
 
-import com.vividsolutions.jts.geom.Point
+//import com.vividsolutions.jts.geom.Point
 
 class Port {
 
@@ -17,7 +17,8 @@ class Port {
     String type;
     String size;
 
-    Point geometryObject;
+    //Point geometryObject;
+    List geometryObject;
 
 
 
@@ -34,6 +35,7 @@ class Port {
     }
 
     static mapping = {
-        geometryObject type: org.hibernatespatial.GeometryUserType
+        //geometryObject type: org.hibernatespatial.GeometryUserType
+        geometryObject geoIndex:true
     }
 }

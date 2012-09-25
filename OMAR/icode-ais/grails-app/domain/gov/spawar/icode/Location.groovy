@@ -9,14 +9,20 @@ class Location
   //static belongsTo = [ais:Ais]
 
 
-  Point geometryObject;
-  //Double latitude=0;
-  //Double longitude=0;
+  //Point geometryObject;
+
+  //Mongos Geospacial native support
+  List geometryObject;
+
+
+  Double latitude=0;
+  Double longitude=0;
   Double altitude=0;
   Date date;
 
   static mapping = {
-    geometryObject type: org.hibernatespatial.GeometryUserType
+    //geometryObject type: org.hibernatespatial.GeometryUserType
+    geometryObject geoIndex:true
     date index: 'location_date_idx'
     ais  joinTable: [name:"ais_location",key:'location_id']
   }
