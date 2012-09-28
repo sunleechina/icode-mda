@@ -17,6 +17,7 @@ import geoscript.style.Halo
 import geoscript.style.Font
 import geoscript.workspace.Database
 import geoscript.workspace.PostGIS
+import geoscript.workspace.Memory
 
 
 import org.geotools.factory.Hints
@@ -108,11 +109,11 @@ class AisMapService
     return style
   }
 
-  def createWorkspace( def flag = true )
+  def createWorkspace( def dataSource = "postGIS" )
   {
     def workspace = null
 
-    if ( flag )
+    if ( dataSource.equals("postGIS")  )
     {
       def jdbcParams = grailsApplication.config.dataSource
 
@@ -159,6 +160,11 @@ class AisMapService
               dbParams['user'],
               dbParams['passwd']
       )
+    }
+    if ( dataSource.equals("mongo")  )
+    {
+        //Create Workspace in Memory.  Mongo does not have GIS objects like postGIS
+        workspace = new Memory();
     }
     else
     {

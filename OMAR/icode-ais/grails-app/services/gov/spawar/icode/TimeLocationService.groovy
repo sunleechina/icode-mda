@@ -4,9 +4,11 @@ import geoscript.workspace.PostGIS
 import geoscript.layer.Layer
 import geoscript.render.Draw
 import geoscript.geom.Bounds
+import geoscript.geom.Point
 import geoscript.feature.Field
 import geoscript.proj.Projection
 import org.apache.commons.collections.map.CaseInsensitiveMap
+import com.gmongo.GMongo
 
 /**
  * TimeLocationService used to display Track and Position information Overlays
@@ -25,18 +27,16 @@ class TimeLocationService {
      * @return
      */
     def currentLocation(def params, def response) {
-        def wmsParams = new CaseInsensitiveMap(params)
-        def postgis = aisMapService.createWorkspace()
-        def (minLon, minLat, maxLon, maxLat) = wmsParams.bbox.split(',').collect { it.toDouble() }
 
-        /*
-         def sql = """
-         select a.id as id, vessel_name, date as last_known_time, ais_geom as last_known_position
-         from ais a, location l
-         where a.id=l.ais_id
-         and st_within(ais_geom, st_makeenvelope( ${coords[0]}, ${coords[1]}, ${coords[2]}, ${coords[3]}, 4326 ))
-        """
-        */
+        def dataSource = "mongo";
+
+        def wmsParams = new CaseInsensitiveMap(params)
+        def workSpace = aisMapService.createWorkspace(dataSource)
+        def (minLon, minLat, maxLon, maxLat) = wmsParams.bbox.split(',').collect { it.toDouble() }
+        def layer = null;
+
+
+       if(dataSource.equals("postGIS")){
 
         //Joining AIS and Location for querying a layer
         def sql = """
@@ -54,12 +54,88 @@ AND ST_Within(location.geometry_object, ST_MakeEnvelope( ${minLon}, ${minLat}, $
     """
 
         //Add SQL query as a Layer
-        def layer = postgis.addSqlQuery(
+        layer = workSpace.addSqlQuery(
                 Layer.newname(),
                 sql,
                 new Field('last_known_position', 'POINT', 'EPSG:4326'), //geometryFld
                 ['id']  //primaryKey
         )
+
+
+       }//postGIS
+      else if(dataSource.equals("mongo")){
+
+           def mongo = new GMongo();
+           def db = mongo.getDB("mongoMan")
+
+           //Get count of AIS
+           Integer aisCount = db.ais.count();
+
+           //Get All AIS and last reported position location
+           def box = [[minLon, minLat], [maxLon, maxLat]]
+           def box2 = [[0,-90], [90,0]]
+
+           //Get all AIS with last reported Loction information
+           def ais = db.ais.find([:],[_id:1, IMO:1, callsign:1, locations:[$slice: -1]])
+           //def ais = db.ais.find([ "location.geometryobject" : [$within : [ $box: box  ]]],[_id:1, IMO:1, callsign:1, locations:[$slice: -1]]) //.max({location: date});
+           db.location.ensureIndex(["geometryobject" : "2d"])
+           //def aoi = db.location.find([geometryObject:[$within :[ $box :[ [0, -90], [90,0] ]]]] )
+
+           //Find all locations within AOI
+           def myAoi = db.location.find([geometryObject:[$within :[ $box :  box2  ]]] )
+           //def aoi = db.ais.find(["location.geometryObject" :[$within :[ $box :  box  ]]] ,[_id:1, IMO:1, callsign:1, locations:[$slice: -1]])
+           println "This is my AOI OBJECT: "  + myAoi.toString();
+
+         //def ais2 =  ais.getCollection().findAll([geometryObject:[$within :[ $box :  box  ]]])
+
+          // myAoi.
+
+           Vector<Location> aoiVector = new Vector<Location>();
+           println box
+           myAoi.each{
+               println "------------Adding Stuff---------------------------"
+               aoiVector.add(it)
+           }
+
+
+           //Layer that will hold all geo info
+           layer =  new Layer(Layer.newname())
+
+
+           //Go through each AIS
+           //println "What is up---------------"
+           //println myAoi.class.toString()
+
+           ais.each {
+               //println it
+               def locationID = it.locations[0].id
+               //println "MyLocation ID: " +  locationID
+               def lastReported = Location.findById(locationID);
+               if(aoiVector.contains(lastReported) ){
+                   println "--------------We found something-----------------------"
+
+                   //Add a feature
+                   List feature;
+                   feature.
+
+
+                   //Loop for each location
+                   layer.addChild([new Point(lastReported.longitude,lastReported.latitude)])
+
+
+               }
+
+
+               //println lastReported;
+           }
+
+
+
+      }
+      else{
+           layer = null;
+       }
+
         def proj = new Projection(wmsParams.srs)
         def bounds = new Bounds(minLon, minLat, maxLon, maxLat, proj)
         def size = [wmsParams.width.toInteger(), wmsParams.height.toInteger()]
@@ -68,7 +144,7 @@ AND ST_Within(location.geometry_object, ST_MakeEnvelope( ${minLon}, ${minLat}, $
         response.contentType = wmsParams.format
         layer.style = aisMapService.createStyle(wmsParams.styles)
         Draw.draw([bounds: bounds, site: size, out: output, format: wmsParams.format - 'image/'], layer)
-        postgis?.close()
+        workSpace?.close()
     }
 
     /**
