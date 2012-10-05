@@ -156,163 +156,27 @@
                             }
                         }
                         
-                        //Place marker when location is clicked
-                        function placeMarker(position, map)
+                        //Fetch the data file
+                        function fetchData()
                         {
-                            var marker = new google.maps.Marker({
-                            position: position,
-                            map: map
-                            });
-                            map.panTo(position);
+                            textFile = new XMLHttpRequest();
+                            textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
+                            textFile.open("GET", "https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/coorData.txt", true);
                         }
                         
-                        //HTML5 API for reading file
-                        function readDataFile()
+                        //Event handler for the onload event in the XMLHttp function 
+                        function onLoadEventHandlerXMLHttp()
                         {
-                            // Check for the various File API support.
-                            if (window.File && window.FileReader && window.FileList && window.Blob)
+                            if(textFile.readyState === 4 && textFile.status === 200) //Doc is ready to parse && the file is found
                             {
-                                input = document.getElementById('fileinput');
-                                if (!input.files)
-                                {
-                                    alert("This browser does not seem to support the `files` property of file inputs.");
-                                }
-                                else if (!input.files[0]) 
-                                {
-                                    alert("Please select a file before clicking");
-                                }
-                                else {
-                                    file = input.files[0];
-                                    fr = new FileReader();
-                                    //Read file as text
-                                    fr.readAsText(file);
-                                    //Event for when file has loaded
-                                    fr.onload = onLoadEventHandlerHTML5;
-                                    //Event for the case of an error
-                                    fr.error = errorEventHandlerHTML5;
-                                    /*
-                                    fr.onload = function(event)
-                                    {            
-                                        data = event.target.result;
-                                        if(data != null)
-                                            alert("File read successful.");
-                                        else
-                                            alert("File read failed. Null data.");
-                                    }
-                                    //Display read error
-                                    fr.error = function(event)
-                                    {            
-                                        alert(event.target.error.name);
-                                    }
-                                    */
-                                }
-
-                            }
-                            else
-                            {
-                                //try reading the files with activeX or with the XMLHttpRequest function
-                                /*if(navigator.appName == "Microsoft Internet Explorer" && window.ActiveXObject)
-                                {
-                                    readFileActiveX();
-                                }
-                                else */if(window.XMLHttpRequest)
-                                {
-                                    readFileXMLHttp();
-                                }
-                                else
-                                {
-                                    alert('The File APIs are not fully supported by your browser.');
-                                }
-                            }
-                        }
-                        
-                        //Event handler for the onload event in the FileReader HTML5 function 
-                        function onLoadEventHandlerHTML5(evnt)
-                        {
-                            data = evnt.target.result;
-                            if(data == null)
-                                throw "Data file could not be read.";
-                            else
+                                allText = textFile.responseText;
+                                data = allText;
                                 processDataFile();
-                        }
-                        
-                        //Event handler for the error event in the FileReader HTML5 function
-                        function errorEventHandlerHTML5(evnt)
-                        {
-                            alert(evnt.target.error.name);
-                        }
-                        
-                        //ActiveX file reading (Only for IE)
-                        function readFileActiveX()
-                        {
-                            if (navigator.appName == "Microsoft Internet Explorer")
-                            {
-                                var fso, f;
-                                fso = new ActiveXObject("Scripting.FileSystemObject");
-                                f = fso.OpenTextFile("test.txt", 1, false, 0);
-                                data = f.ReadAll();
                             }
                             else
                             {
-                                alert('This browser is not supported. Please use Microsoft Internet Exploror');
+                                alert("Data file could not be read.");
                             }
-                        }
-                        
-                        //XMLHttpRequest function used for reading file
-                        function readFileXMLHttp()
-                        {
-                            var textFile
-                            var allText;
-                            //Try to instantiate a XMLHttp
-                            try
-                            {
-                                textFile = new XMLHttpRequest();
-                                textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
-                                textFile.open("GET", "file://C:/Users/JJD/Desktop/test.txt", true);
-                            }
-                            catch(e)
-                            {
-                                try
-                                {
-                                    textFile = new ActiveXObject("Msxml2.XMLHTTP");
-                                    textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
-                                    textFile.open("GET", "file://C:/Users/JJD/Desktop/test.txt", true);
-                                }
-                                catch(e)
-                                {
-                                    try
-                                    {
-                                        textFile = new ActiveXObject("Microsoft.XMLHTTP");
-                                        textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
-                                        textFile.open("GET", "file://C:/Users/JJD/Desktop/test.txt", true);
-                                    }
-                                    catch (e)
-                                    {
-                                        alert("This browser does not seem to support file reading.");
-                                        return;
-                                    }
-                                }
-                            }
-                            //Event handler for the onload event in the XMLHttp function 
-                            function onLoadEventHandlerXMLHttp()
-                            {
-                                if(textFile.readyState === 4 && textFile.status === 200) //Doc is ready to parse && the file is found
-                                {
-                                    allText = textFile.responseText;
-                                    data = allText;
-                                    processDataFile();
-                                }
-                                else
-                                {
-                                    alert("Data file could not be read.");
-                                }
-                            }
-                        }
-                        
-                        //Display data in a popup window
-                        function showData()
-                        {
-                            alert(data);
                         }
                         
                         //Process the data from the data file
@@ -454,10 +318,11 @@
                     <h2>ICODE MDA</h2>
                     <hr>
                     <span id="sect1">
-                    <input id="CheckPorts" name="CheckPorts" type="checkbox" onclick="changePorts();"> <img align="top" src="port_3.png" style=""> Ports <br>
+                    <!--<input id="CheckPorts" name="CheckPorts" type="checkbox" onclick="changePorts();"> <img align="top" src="port_3.png" style=""> Ports <br>-->
                     <span id="sect2">
                     <!--File load button for loading the data file.-->
-                    <input type='file' id='fileinput' value='Load Data File' onchange='readDataFile()'>
+                    <!--<input type='file' id='fileinput' value='Load Data File' onchange='readDataFile()'>-->
+                    <input type='button' id='runSimulation' value='Run Simulation' onchange='readDataFile()'>
                     <!--Reset button to reset the simulation.-->
                     <input type='button' id='btnRestart' value='Restart Simulation' onclick='restartSim()'>
                     
