@@ -314,13 +314,9 @@
                     <!--<input id="CheckPorts" name="CheckPorts" type="checkbox" onclick="changePorts();"> <img align="top" src="port_3.png" style=""> Ports <br>-->
                     <span id="sect2">
                     <!--Button to run the simulation.-->
-                    <input type='button' id='btnLoad' value='Start Simulation' onclick='getContacts()'>
+                    <input type='button' id='btnLoad' value='Start Simulation' onclick='fetchData()'>
                     <!--Reset button to reset the simulation.-->
                     <input type='button' id='btnRestart' value='Restart Simulation' onclick='restartSim()'>
-                    
-                    <!--<input type='button' id='btnLoad' value='Load' onclick='readDataFile()'>-->
-                    <!--<input type='button' id='btnShowData' value='Show data' onclick='showData()'>-->
-                    <!--<input type='button' id='btnProcessData' value='Process data' onclick='processDataFile()'>-->
                 </div>
                 <!--Map canvas: Reserve space for the map using the div element in the DOM-->
                 <div id="map_canvas" style="height: 100%; position: relative; background-color: rgb(229, 227, 223); overflow: hidden; "></div> 
