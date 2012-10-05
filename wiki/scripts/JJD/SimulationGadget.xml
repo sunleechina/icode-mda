@@ -72,28 +72,28 @@
                                 // increase in the X direction to the right and in
                                 // the Y direction down.
                                 /*
-                                shipIconTransport = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/shipIconTransport_2.png', 
+                                shipIconTransport = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/shipIconTransport_2.png', 
                                     // This marker is 50 pixels wide by 50 pixels tall.
                                     new google.maps.Size(50,50),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
-                                shipIconFishing = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/shipIconFishing_2.png',
+                                shipIconFishing = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/shipIconFishing_2.png',
                                     // This marker is 50 pixels wide by 50 pixels tall.
                                     new google.maps.Size(50,50),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
-                                shipIconPirate = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/shipIconPirate_2.png',
+                                shipIconPirate = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/shipIconPirate_2.png',
                                     // This marker is 50 pixels wide by 50 pixels tall.
                                     new google.maps.Size(50,50),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
-                                shipIconHijacked = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/shipIconHijacked_2.png',
+                                shipIconHijacked = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/shipIconHijacked_2.png',
                                     // This marker is 50 pixels wide by 50 pixels tall.
                                     new google.maps.Size(50,50),
                                     // The origin for this image is 0,0.
@@ -101,28 +101,28 @@
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
                                 */
-                                shipIconTransport = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
+                                shipIconTransport = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                shipIconFishing = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/sailing.png',
+                                shipIconFishing = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/sailing.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                shipIconPirate = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/pirates.png',
+                                shipIconPirate = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/pirates.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                shipIconHijacked = new google.maps.MarkerImage('mda.googlecode.com/svn/wiki/scripts/JJD/boatHJ.png',
+                                shipIconHijacked = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boatHJ.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
