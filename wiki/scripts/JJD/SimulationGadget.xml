@@ -101,28 +101,28 @@
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
                                 */
-                                shipIconTransport = new google.maps.MarkerImage('icons/boat.png', 
+                                shipIconTransport = new google.maps.MarkerImage('boat.png', 
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                shipIconFishing = new google.maps.MarkerImage('icons/sailing.png',
+                                shipIconFishing = new google.maps.MarkerImage('sailing.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                shipIconPirate = new google.maps.MarkerImage('icons/pirates.png',
+                                shipIconPirate = new google.maps.MarkerImage('pirates.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                shipIconHijacked = new google.maps.MarkerImage('icons/boatHJ.png',
+                                shipIconHijacked = new google.maps.MarkerImage('boatHJ.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
                                     // The origin for this image is 0,0.
