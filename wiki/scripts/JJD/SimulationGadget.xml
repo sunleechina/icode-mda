@@ -322,7 +322,7 @@
                     <span id="sect2">
                     <!--File load button for loading the data file.-->
                     <!--<input type='file' id='fileinput' value='Load Data File' onchange='readDataFile()'>-->
-                    <input type='button' id='runSimulation' value='Run Simulation' onchange='fetchData()'>
+                    <input type='button' id='runSimulation' value='Run Simulation' onclick='fetchData()'>
                     <!--Reset button to reset the simulation.-->
                     <input type='button' id='btnRestart' value='Restart Simulation' onclick='restartSim()'>
                     
