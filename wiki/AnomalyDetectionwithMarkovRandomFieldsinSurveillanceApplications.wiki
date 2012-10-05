@@ -33,8 +33,9 @@ Currently the simulation environment is being developed in MATLAB. Path planning
 
 The following image is a time slice of a simulation in progress for pirate activity. The cargo vessels (yellow) are simulated to follow paths between specified harbour points. The pirate agents (red) attempt to ambush and attack cargo vessels. Once a cargo vessel has been hijacked, the pirate returns to a home base (1).
 
+<wiki:comment>
 https://icode-mda.googlecode.com/svn/wiki/images/ADMRF_simulation.jpg.jpg
-
+</wiki:comment>
 
 <wiki:gadget url="https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/SimulationGadget.xml" width="900" height="600" />
 
