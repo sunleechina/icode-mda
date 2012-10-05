@@ -160,7 +160,10 @@
                         function fetchData()
                         {
                             textFile = new XMLHttpRequest();
-                            textFile.onreadystatechange = onLoadEventHandlerXMLHttp;
+                            textFile.onreadystatechange = function() {
+                                if(this.readyState == 4)
+                                  alert(xmlhttp.responseText)
+                            }
                             textFile.open("GET", "https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/coorData.txt", true);
                         }
                         
