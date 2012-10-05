@@ -309,6 +309,22 @@
                             }
                         }
                         
+                        // This example fetches data from a CSV file containing contact information. In the CSV file, 
+                        // each record consists of a name, email address, and phone number.
+                        function getContacts()
+                        {
+                            var params = {};  
+                            params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.TEXT;  
+                            var url = "https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/coorData.txt";
+                            gadgets.io.makeRequest(url, response, params);
+                        }
+                        // Callback function to process the response
+                        function response(obj)
+                        {
+                            var responseText = obj.text;
+                        }
+                        
+  
                         //Display data in a popup window
                         function showData()
                         {
@@ -461,6 +477,7 @@
                     <input type='file' id='fileinput' value='Load Data File' onchange='readDataFile()'>
                     <!--Reset button to reset the simulation.-->
                     <input type='button' id='btnRestart' value='Restart Simulation' onclick='restartSim()'>
+                    <input type='button' id='btnLoad' value='Start Simulation' onclick='getContacts()'>
                     
                     <!--<input type='button' id='btnLoad' value='Load' onclick='readDataFile()'>-->
                     <!--<input type='button' id='btnShowData' value='Show data' onclick='showData()'>-->
