@@ -56,6 +56,7 @@ to see a list of research ideas that we are interested in researching, check out
  * [SmallVesselDetectioninCoastalRadarData Small Vessel Detection in Coastal Radar Data]
  * [TrackStitchingUsingGraphicalModelsAndMessagePassing Track Stitching Using Graphical Models and Message Passing]
  * [AnomalyDetectionwithMarkovRandomFieldsinSurveillanceApplications Anomaly Detection with Markov Random Fields in Surveillance Applications]
+ * [SAR Oil Spill detection]
 
 = Related Careers =
 
