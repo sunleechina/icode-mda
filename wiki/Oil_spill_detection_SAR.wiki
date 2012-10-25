@@ -1,0 +1,9 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+This is Amadi's first page
+
+= Details =
+
+Will add soon
