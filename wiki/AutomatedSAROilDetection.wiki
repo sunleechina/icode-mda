@@ -67,6 +67,15 @@ Figure 2: Something
 https://icode-mda.googlecode.com/svn/wiki/images/Oil02.JPG<br>
 Figure 3: Something
 
+https://icode-mda.googlecode.com/svn/wiki/images/Oil03.png<br>
+Figure 4: Something
+
+https://icode-mda.googlecode.com/svn/wiki/images/Oil04.png<br>
+Figure 5: Something
+
+https://icode-mda.googlecode.com/svn/wiki/images/Oil05.png<br>
+Figure 6: Something
+
 Related news articles
 
 Gulf of Guinea Oil Spill [http://gcaptain.com/tag/gulf-of-guinea-oil-spill/]
