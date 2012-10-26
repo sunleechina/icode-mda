@@ -18,7 +18,7 @@ Automatic oil spill detection techniques using SAR imagery helps to provide the 
 
 An oil spill detection algorithm has been developed for the Gulf of Guinea region, through this tool. A poster session was given on this research at IGARSS 2012.  There has been an increase in offshore oil exploratory activities in the Gulf of Guinea. Countries such as Ghana, Equatorial Guinea, have now joined the older oil drilling states such as Nigeria, Angola, Cameroon, and Gabon in this region. It is imperative to have an early and efficient warning system in place for proper contingency planning in order to combat oil spills in the most efficient manner possible. 
 
-This will help to avoid some of the spill disasters that have already occurred in the region due to inappropriate detection and management of spills that have already occured. In the case of Nigeria, the Niger Delta has become severely polluted, animal and plant life endangered and the livelihood of about 20 million people destroyed due to improper management of spills [2]. For example, about two-thirds (2/3) of the mangrove species found in Africa are found in this delta but most of these mangroves have been destroyed by oil spills.
+This will help to avoid some of the spill disasters that have already occurred in the region due to inappropriate detection and management of spills that have already occured. In the case of Nigeria, the Niger Delta has become severely polluted, animal and plant life endangered and the livelihood of about 20 million people destroyed due to improper management of spills [[http://www.corpwatch.org/article.php?id=14202 2]]. For example, about two-thirds (2/3) of the mangrove species found in Africa are found in this delta but most of these mangroves have been destroyed by oil spills.
 
 ==Mechanism of Operation of SAR Sensors==
 
@@ -54,12 +54,6 @@ RSRU-CSIR [http://www.csir.co.za/meraka/rsru/rsru_afis.htm]
 
 Department of Marine and Fisheries Sciences, University of Ghana [http://www.ug.edu.gh/index1.php?linkid=562]
 	
-
-Reference
-New Estimates Puts Oil Leak At 49 Million Barrels [[http://www.pbs.org/newshour/rundown/2010/08/new-estimate-puts-oil-leak-at-49-million-barrels.htm 1]]
-
-Nigeria: Niger Delta Bears Brunt After 50 Years of Oil Spills [[http://www.corpwatch.org/article.php?id=14202 2]]
-
 
 
 https://icode-mda.googlecode.com/svn/wiki/images/Oil00.jpg<br>
