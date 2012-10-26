@@ -86,10 +86,10 @@ Figure 7: Poster Presentation at IGARSS 2012
 https://icode-mda.googlecode.com/svn/wiki/images/Oil07(1).JPG<br>
 Figure 8: IGARSS 2012
 
-https://icode-mda.googlecode.com/svn/wiki/images/Oil08.JPG<br>
+https://icode-mda.googlecode.com/svn/wiki/images/Oil08.jpg<br>
 Figure 9: SAR Image (RADARSAT-2)
 
-https://icode-mda.googlecode.com/svn/wiki/images/Oil009.JPEG<br>
+https://icode-mda.googlecode.com/svn/wiki/images/Oil09.JPEG<br>
 Figure 10: Filtered SAR Image to Reduce Noise
 
 Related news articles
