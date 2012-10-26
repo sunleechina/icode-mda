@@ -63,7 +63,7 @@ Nigeria: Niger Delta Bears Brunt After 50 Years of Oil Spills [[http://www.corpw
 
 
 https://icode-mda.googlecode.com/svn/wiki/images/Oil00.jpg<br>
-Figure 1: ENVISTA ASAR Image from the Gulf of Mexico
+Figure 1: ENVISAT ASAR Image from the Gulf of Mexico
 
 https://icode-mda.googlecode.com/svn/wiki/images/Oil01.JPG<br>
 Figure 2: Applying Thresholding Techniques to ENVISAT ASAR Image from the Gulf of Mexico 1
