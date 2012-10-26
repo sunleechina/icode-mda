@@ -95,8 +95,11 @@ Figure 10: Filtered SAR Image to Reduce Noise
 Related news articles
 
 Gulf of Guinea Oil Spill [http://gcaptain.com/tag/gulf-of-guinea-oil-spill/]
+
 Global Marine Oil Pollution Information Gateway – West and Central Africa [http://oils.gpa.unep.org/framework/region-10.htm]
+
 The 10 worst oil spills [http://environment.about.com/od/environmentalevents/tp/worst-oil-spills.htm]
+
 How Do Oil Spills Damage the Environment? [http://environment.about.com/od/petroleum/a/oil_spills_and_environment.htm]
 
 https://icode-mda.googlecode.com/svn/wiki/images/Amadi_id.JPG<br>
