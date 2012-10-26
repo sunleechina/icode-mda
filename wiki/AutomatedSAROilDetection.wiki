@@ -61,6 +61,8 @@ New Estimates Puts Oil Leak At 49 Million Barrels [[http://www.pbs.org/newshour/
 https://icode-mda.googlecode.com/svn/wiki/images/Oil00.jpg<br>
 Figure 1: Something
 
+https://icode-mda.googlecode.com/svn/wiki/images/Oil01.tiff<br>
+Figure 2: Something
 
 Related news articles
 
