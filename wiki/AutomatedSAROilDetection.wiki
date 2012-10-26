@@ -58,7 +58,7 @@ Reference
 Nigeria: Niger Delta Bears Brunt After 50 Years of Oil Spills [[http://www.corpwatch.org/article.php?id=14202 2]]
 New Estimates Puts Oil Leak At 49 Million Barrels [[http://www.pbs.org/newshour/rundown/2010/08/new-estimate-puts-oil-leak-at-49-million-barrels.htm 1]]
 
-https://icode-mda.googlecode.com/svn/wiki/images/Oil00.JPG<br>
+https://icode-mda.googlecode.com/svn/wiki/images/Oil00.jpg<br>
 Figure 1: Something
 
 
