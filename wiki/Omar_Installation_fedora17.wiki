@@ -59,7 +59,16 @@ systemctl restart httpd.service
 {{{
 sudo cp /usr/sbin/mapserv /var/www/cgi-bin/
 }}}
- # Build FFMPEG using the provided source code in ffmpeg-20101202.tgz:
+ # Create OMAR CACHE directory
+{{{
+su - 
+mkdir /data
+chmod 777 /data
+exit
+mkdir /data/omar
+mkdir /data/omar/omar-cache
+}}}
+ # Build FFMPEG using the provided source code in  [http://icode-mda.googlecode.com/files/ffmpeg-20101202.tgz ffmpeg-20101202.tgz]:
 {{{
 cd $OSSIM_DEV_HOME
 tar xvfz ~/Downloads/ffmpeg-20101202.tgz
