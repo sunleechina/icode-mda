@@ -73,7 +73,7 @@ mkdir /data/omar/omar-cache
 cd $OSSIM_DEV_HOME
 tar xvfz ~/Downloads/ffmpeg-1.0.tar.gz
 cd ffmpeg-1.0
-./configure --prefix=$OSSIM_INSTALL_PREFIX --disable-mmx --disable-mmx2 --enable-shared --disable-static --enable-pthreads
+./configure --prefix=$OSSIM_INSTALL_PREFIX --disable-mmx --enable-shared --disable-static --enable-pthreads
 make
 sudo make install
 }}}
