@@ -23,7 +23,7 @@ export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
 
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
-export GRAILS_HOME=/opt/radiantblue/grails-2.0.3
+export GRAILS_HOME=/opt/radiantblue/grails-2.1.1
 export PATH=$GRAILS_HOME/bin:$PATH
 export PG_HOME=/usr
 export POSTGIS_HOME=/usr/share/pgsql/contrib 
