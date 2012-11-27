@@ -45,9 +45,9 @@ initdb /var/lib/pgsql/data
 }}}
   ** Setup to start at boot time
 {{{
-chkconfig --add /etc/init.d/postgresql
-chkconfig --level 345 postgresql on
-service postgresql start
+su - 
+systemctl enable postgresql.service
+systemctl restart postgresql.service
 }}}
  # Setup Apache HTTPD to start at boot time
 {{{
