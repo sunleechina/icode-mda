@@ -51,10 +51,9 @@ systemctl restart postgresql.service
 }}}
  # Setup Apache HTTPD to start at boot time
 {{{
-su
-chkconfig --add /etc/init.d/httpd
-chkconfig --level 345 httpd on
-service httpd start
+su - 
+systemctl enable httpd.service
+systemctl restart httpd.service
 }}}
  # Setup Mapserver by copying it to our server cgi directory
 {{{
