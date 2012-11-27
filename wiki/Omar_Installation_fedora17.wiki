@@ -77,16 +77,6 @@ cd ffmpeg-20101202
 make
 sudo make install
 }}}
- # Build GPSTK using provided source code in [http://icode-mda.googlecode.com/files/gpstk-1.6.src.tgz gpstk-1.6.src.tgz]
-{{{
-cd $OSSIM_DEV_HOME
-tar xvfz ~/Downloads/gpstk-1.6.src.tgz
-cd $OSSIM_DEV_HOME/gpstk-1.6.src
-./configure --prefix=$OSSIM_INSTALL_PREFIX --disable-static --enable-shared
-make
-sudo make install
-}}} 
-   ===note: if building gpstk 1.7, you'd need to run ./autogen.sh before ./configure===
  # Check out the OSSIM projects from SVN
 {{{
 cd $OSSIM_DEV_HOME
