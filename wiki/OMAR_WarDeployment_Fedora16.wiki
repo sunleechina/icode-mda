@@ -11,7 +11,7 @@ These instructions where tested on Linux Fedora-16 64bit system.
  # Installation
   # *Development computer* : Computer where OMAR was built
    # Configuration: Make sure your $OMAR_HOME/grails-app/conf/DataSource.groovy Production configuration is setup for you target computer (Username, Password, etc) or see External Configuration section below
-   # Create WAR File: From a working OMAR development project do the following (You can also download a working WAR file from here: [http://code.google.com/p/icode-mda/downloads/detail?name=omar.war&can=2&q=]):
+   # Create WAR File: From a working OMAR development project do the following (You can also download a working WAR file from here: [http://code.google.com/p/icode-mda/downloads/detail?name=omar.war&can=2&q= omar.war]):
 {{{
 cd $OMAR_HOME
 grails prod war omar.war
