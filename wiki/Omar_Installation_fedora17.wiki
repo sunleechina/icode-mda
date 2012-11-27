@@ -68,11 +68,11 @@ exit
 mkdir /data/omar
 mkdir /data/omar/omar-cache
 }}}
- # Build FFMPEG using the provided source code in  [http://icode-mda.googlecode.com/files/ffmpeg-20101202.tgz ffmpeg-20101202.tgz]:
+ # Build FFMPEG using the provided source code in  [http://icode-mda.googlecode.com/files/ffmpeg-1.0.tar.gz ffmpeg-1.0.tar.gz]:
 {{{
 cd $OSSIM_DEV_HOME
-tar xvfz ~/Downloads/ffmpeg-20101202.tgz
-cd ffmpeg-20101202
+tar xvfz ~/Downloads/ffmpeg-1.0.tar.gz
+cd ffmpeg-1.0
 ./configure --prefix=$OSSIM_INSTALL_PREFIX --disable-mmx --disable-mmx2 --enable-shared --disable-static --enable-pthreads
 make
 sudo make install
