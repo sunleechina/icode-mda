@@ -77,7 +77,7 @@ cd ffmpeg-20101202
 make
 sudo make install
 }}}
- # Build GPSTK using provided source code in gpstk-1.6.src.tgz
+ # Build GPSTK using provided source code in [http://icode-mda.googlecode.com/files/gpstk-1.6.src.tgz gpstk-1.6.src.tgz]
 {{{
 cd $OSSIM_DEV_HOME
 tar xvfz ~/Downloads/gpstk-1.6.src.tgz
