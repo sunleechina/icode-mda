@@ -1,0 +1,12 @@
+Install Instructions for Windows - for PostgreSQL database through ODBC connection
+(tested on Windows 7, 64-bit)
+
+
+- Install WampServer (http://www.wampserver.com/en/)
+  - requires administrative account or administrative priviledges
+  - This installs Apache, PHP, and MySQL in one package
+- Install PostgreSQL driver for ODBC (http://www.postgresql.org/ftp/odbc/versions/msi/)
+- Copy all files in this directory into your www directory
+- Open pgAdmin III to create and edit PostgreSQL AIS database/table
+  - use original table fields format...
+- Open a web browser and go to http://localhost/index.html
