@@ -154,7 +154,7 @@ geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm9
  # Install Grails:   [http://icode-mda.googlecode.com/files/grails-2.0.4.zip grails-2.0.4.zip] 
 {{{
 cd /opt/radiantblue
-sudo unzip ~/Downloads/grails-2.1.1.zip
+sudo unzip ~/Downloads/grails-2.0.4.zip
 }}}
  # Check out OMAR source tree
 {{{
