@@ -149,7 +149,8 @@ grails prod war omar.war
 }}}
  # OMAR is not working and I don't get any error Messages
 {{{
-//Check /tmp/logs/omar.log
+//Check 
+/tmp/logs/omar.log
 }}}
  # I'm getting the following error message:
 {{{
