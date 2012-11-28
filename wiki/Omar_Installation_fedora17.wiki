@@ -25,7 +25,7 @@ export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
 
 export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.9.x86_64
-export GRAILS_HOME=/opt/radiantblue/grails-2.1.1
+export GRAILS_HOME=/opt/radiantblue/grails-2.0.4
 export GROOVY_HOME=/usr/share/java
 export GROOVY_VERSION=1.8.7
 export PATH=$GRAILS_HOME/bin:$PATH
@@ -151,7 +151,7 @@ plugin.file7: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimcontrib_plugin.s
 
 geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm96.grd
 }}}
- # Install Grails:   [http://icode-mda.googlecode.com/files/grails-2.1.1.zip grails-2.1.1.zip] 
+ # Install Grails:   [http://icode-mda.googlecode.com/files/grails-2.0.4.zip grails-2.0.4.zip] 
 {{{
 cd /opt/radiantblue
 sudo unzip ~/Downloads/grails-2.1.1.zip
