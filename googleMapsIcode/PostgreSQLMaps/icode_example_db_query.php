@@ -13,10 +13,11 @@ return $xmlStr;
 
 /* Connection data */
 $odbc_driver      = 'PostgreSQL Unicode(x64)';
-$odbc_database    = 'ais_terr';
+$odbc_database    = 'YOURTABLENAME';
 $odbc_host        = 'localhost';
 $odbc_user        = 'postgres';
-$odbc_password    = 'H3lloG00dby3H3lloG00dby3';
+$odbc_password    = 'YOURPASSWORD';
+
 
 /* ************************************************** */
 
@@ -35,22 +36,11 @@ if (!$connection) {
    exit("Connection Failed: " . $conn);
 }
 
-
-/*
-// Opens a connection to a MySQL server
-$connection=mysql_connect ();
-if (!$connection) {
-  die('Not connected : ' . mysql_error());
+if(count($_GET) > 0)
+{
+   $limit = $_GET["limit"];
+   $type = $_GET["type"];
 }
-
-// Set the active MySQL database
-$db_selected = mysql_select_db("test", $connection);
-if (!$db_selected) {
-  die ('Can\'t use db : ' . mysql_error());
-}
-*/
-
-//$type = $_GET["type"];
 
 // Select all the rows in the markers table
 $query = "SELECT * FROM ter_20120130 limit 50";
