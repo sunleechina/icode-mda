@@ -222,12 +222,16 @@ cd $OMAR_HOME
 {{{
 "java.lang.UnsatisfiedLinkError: no joms in java.library.path"
 }}}
- Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
+  Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
 {{{
  sudo chmod +x libjoms.so
 }}}
  # Grails commands are getting stuck. They don't print anything beyond "configuring classpath" message.
- * Cleaning .ivy cache
+  * Cleaning .ivy cache
 {{{
  delete $HOME/.grails/ivy-cache
+}}}
+ # OMAR is not working and I don't get any error Messages
+{{{
+//Check /tmp/logs/omar.log
 }}}
