@@ -235,3 +235,8 @@ cd $OMAR_HOME
 {{{
 //Check /tmp/logs/omar.log
 }}}
+ # OMAR is not generating OVR or HIST files for my image.
+  * Try generating them manually using the OSSIM exe (Found in your OSSIM Build.  This should give you a better idea of what is wrong.
+{{{
+ ossim-img2rr -r --create-histogram <filename>
+}}}
