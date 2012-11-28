@@ -168,7 +168,7 @@ cp local.properties.template local.properties
 sudo -E ant install
 }}}
  # Install JAI. Add all JAI jars ( [http://icode-mda.googlecode.com/files/jai.zip jai.zip] ) to $OMAR_HOME/lib
- # Setup OMAR Databases for Development and Production
+ # Setup OMAR Databases for Development and Production (Make sure you built the prod and/or the dev libs)
 {{{
 cd $OMAR_HOME
 ./setupdb.sh prod
