@@ -9,7 +9,7 @@ To get started with OMAR development, you will first have to get the development
   * [OMAR_Installation OMAR Installation Instructions for fedora 14 x64]
   * [OMAR_WarDeployment_Fedora16 OMAR WAR deployment for fedora 16 x64 ]
   * [InstallOmarOnWindowsNotes OMAR Installation Instructions for windows7 *(Not verified to work correctly yet)* ]
-  * [OMAR_Installation_Fedora17 OMAR installation Instructions for fedora 17 x64 ]
+  * [Omar_Installation_fedora17 OMAR installation Instructions for fedora 17 x64 ]
 
 Once you have OMAR installed, you're ready to start developing. We've made a few guides to developing that are listed below:
   # [OMAR_CreateSamplePlugin Creating a sample plugin]
