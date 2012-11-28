@@ -159,7 +159,7 @@ sudo unzip ~/Downloads/grails-2.1.1.zip
  # Check out OMAR source tree
 {{{
 cd $OMAR_DEV_HOME
-svn co https://svn.osgeo.org/ossim/omar omar
+svn co https://svn.osgeo.org/ossim/omar .
 }}}
  # Build and Install JOMS
 {{{
