@@ -167,7 +167,7 @@ cd $OSSIM_DEV_HOME/oms/joms
 cp local.properties.template local.properties
 sudo -E ant install
 }}}
- # Install JAI. Add all JAI jars to $OMAR_HOME/lib
+ # Install JAI. Add all JAI jars ( [http://icode-mda.googlecode.com/files/jai.zip jai.zip] ) to $OMAR_HOME/lib
  # Setup OMAR Databases for Development and Production
 {{{
 cd $OMAR_HOME
