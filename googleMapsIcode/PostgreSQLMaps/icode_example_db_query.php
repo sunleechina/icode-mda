@@ -11,12 +11,8 @@ return $xmlStr;
 } 
 
 
-/* Connection data */
-$odbc_driver      = 'PostgreSQL Unicode(x64)';
-$odbc_database    = 'YOURTABLENAME';
-$odbc_host        = 'localhost';
-$odbc_user        = 'postgres';
-$odbc_password    = 'YOURPASSWORD';
+//Keep database connection information secure
+require("phpsql_dbinfo.php");
 
 
 /* ************************************************** */
@@ -36,14 +32,35 @@ if (!$connection) {
    exit("Connection Failed: " . $conn);
 }
 
+$query = "SELECT * FROM ter_20120130";
 if(count($_GET) > 0)
 {
-   $limit = $_GET["limit"];
-   $type = $_GET["type"];
+   if(!empty($_GET["type"]))
+   {
+      $type = $_GET["type"];
+      if ($type == 999)
+         $query = $query . " where vesseltypeint=" .$type;
+      else if ($type == 70)
+         $query = $query . " where vesseltypeint>=70 and vesseltypeint <=79";
+      else if ($type == 80)
+         $query = $query . " where vesseltypeint>=80 and vesseltypeint <=89";
+      else if ($type == 60)
+         $query = $query . " where vesseltypeint>=60 and vesseltypeint <=69";
+      else
+         $query = $query . " where vesseltypeint=" .$type;
+   }
+   if(!empty($_GET["limit"]))
+   {
+      $limit = $_GET["limit"];
+      $query = $query . " limit " . $limit;
+   }
+}
+else
+{
+   $limit = 50;
+   $query = "SELECT * FROM ter_20120130 limit " . $limit;
 }
 
-// Select all the rows in the markers table
-$query = "SELECT * FROM ter_20120130 limit 50";
 $result = @odbc_exec($connection, $query) or die('Query error: '.htmlspecialchars(odbc_errormsg()));;
 //$result = mysql_query($query);
 if (!$result) {

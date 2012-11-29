@@ -23,10 +23,11 @@ function initialize()
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
 
-	markerClusterer = new MarkerClusterer(map);
-	markerClusterer.setMinimumClusterSize(20);
+	//markerClusterer = new MarkerClusterer(map);
+	//markerClusterer.setMinimumClusterSize(20);
 
-	getCurrentAISFromDB(0,0);
+	//getCurrentAISFromDB(0,0);
+	getCurrentAISFromDB();
 
 //	var markerCluster = new MarkerClusterer(map, markerArray);
 //	alert(markerArray.length);
@@ -35,99 +36,91 @@ function initialize()
 	//loadWMS(map,"http://mapserver-slp.mendelu.cz/cgi-bin/mapserv?map=/var/local/slp/krtinyWMS.map&", custom_commands);
 	//setMapCenterToCenterOfMass(map,tips);
 
-	//addMarkersAndInfoWindows(map,tips);
 	//addTracks(map,tips);
 
-	addDrawingManager(map);	
+	//addDrawingManager(map);	
 	//addWeatherLayer(map);
 	//addHeatmap(map);
-
-   google.maps.event.addListener(map, 'click', function() {	
-      if (markerArray) {
-   		for (i in markerArray) {
-            if (markerArray[i].infoWindow) {
-   			   markerArray[i].infoWindow.close();
-            }
-   		}
-   	}
-      alert(markerArray.length); });
-   google.maps.event.addListener(map, 'center_changed', function() { closeAllInfowindows(); });
 }
 
 /* Get AIS data from XML, which is from database */
-function getCurrentAISFromDB(arg1, arg2)
+function getCurrentAISFromDB()
 {
+	markerClusterer = new MarkerClusterer(map);
+	markerClusterer.setMinimumClusterSize(20);
+
    var typesSelected =  getTypesSelected();
-	for(var i = 0; i<typesSelected.length; i++){
-		var infoWindow = new google.maps.InfoWindow;
-		//var phpWithArg = "icode_example_db_query.php?type=\"" + typesSelected[i] + "\"";
-		var phpWithArg = "icode_example_db_query.php";
+   for(var i = 0; i<typesSelected.length; i++) {
+      var infoWindow = new google.maps.InfoWindow;
+      var phpWithArg = "icode_example_db_query.php?limit=5000&type=" + typesSelected[i] + "";
 		downloadUrl(phpWithArg, 
                   function(data) {
-			var xml = data.responseXML;
-			if(xml == null){return;}
-			var ais_tips = xml.documentElement.getElementsByTagName("ais");
-			for (var i = 0; i < ais_tips.length; i++) {
-				var key_column = ais_tips[i].getAttribute("key_column");
-				var messagetype = ais_tips[i].getAttribute("messagetype");
-				var mmsi = ais_tips[i].getAttribute("mmsi");
-				var navstatus = ais_tips[i].getAttribute("navstatus");
-            var rot = ais_tips[i].getAttribute("rot");
-            var sog = ais_tips[i].getAttribute("sog");
-				var lon = ais_tips[i].getAttribute("lon");
-				var lat = ais_tips[i].getAttribute("lat");
-				var point = new google.maps.LatLng(
-						parseFloat(ais_tips[i].getAttribute("lat")),
-						parseFloat(ais_tips[i].getAttribute("lon")));
-				var cog = ais_tips[i].getAttribute("cog");
-				var true_heading = ais_tips[i].getAttribute("true_heading");
-				var datetime = ais_tips[i].getAttribute("datetime");
-				var imo = ais_tips[i].getAttribute("imo");
-				var vesselname = ais_tips[i].getAttribute("vesselname");
-				var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
-				var length = ais_tips[i].getAttribute("length");
-				var shipwidth = ais_tips[i].getAttribute("shipwidth");
-				var bow = ais_tips[i].getAttribute("bow");
-				var stern = ais_tips[i].getAttribute("stern");
-				var port = ais_tips[i].getAttribute("port");
-				var starboard = ais_tips[i].getAttribute("starboard");
-				var draught = ais_tips[i].getAttribute("draught");
-				var destination = ais_tips[i].getAttribute("destination");
-				var callsign = ais_tips[i].getAttribute("callsign");
-				var posaccuracy = ais_tips[i].getAttribute("posaccuracy");
-				var eta = ais_tips[i].getAttribute("eta");
-				var posfixtype = ais_tips[i].getAttribute("posfixtype");
-				var streamid = ais_tips[i].getAttribute("streamid");
+                     var xml = data.responseXML;
+                     if(xml == null){ return; }
+                     var ais_tips = xml.documentElement.getElementsByTagName("ais");
+                     for (var i = 0; i < ais_tips.length; i++) {
+                        var key_column = ais_tips[i].getAttribute("key_column");
+                        var messagetype = ais_tips[i].getAttribute("messagetype");
+                        var mmsi = ais_tips[i].getAttribute("mmsi");
+                        var navstatus = ais_tips[i].getAttribute("navstatus");
+                        var rot = ais_tips[i].getAttribute("rot");
+                        var sog = ais_tips[i].getAttribute("sog");
+                        var lon = ais_tips[i].getAttribute("lon");
+                        var lat = ais_tips[i].getAttribute("lat");
+                        var point = new google.maps.LatLng(
+                           parseFloat(ais_tips[i].getAttribute("lat")),
+                           parseFloat(ais_tips[i].getAttribute("lon")));
+                        var cog = ais_tips[i].getAttribute("cog");
+                        var true_heading = ais_tips[i].getAttribute("true_heading");
+                        var datetime = ais_tips[i].getAttribute("datetime");
+                        var imo = ais_tips[i].getAttribute("imo");
+                        var vesselname = ais_tips[i].getAttribute("vesselname");
+                        var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
+                        var length = ais_tips[i].getAttribute("length");
+                        var shipwidth = ais_tips[i].getAttribute("shipwidth");
+                        var bow = ais_tips[i].getAttribute("bow");
+                        var stern = ais_tips[i].getAttribute("stern");
+                        var port = ais_tips[i].getAttribute("port");
+                        var starboard = ais_tips[i].getAttribute("starboard");
+                        var draught = ais_tips[i].getAttribute("draught");
+                        var destination = ais_tips[i].getAttribute("destination");
+                        var callsign = ais_tips[i].getAttribute("callsign");
+                        var posaccuracy = ais_tips[i].getAttribute("posaccuracy");
+                        var eta = ais_tips[i].getAttribute("eta");
+                        var posfixtype = ais_tips[i].getAttribute("posfixtype");
+                        var streamid = ais_tips[i].getAttribute("streamid");
 
-				var html = '<div id="content">'+
-				'<div id="siteNotice">'+
-				'</div>'+
-				'<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>'+
-				'<div id="bodyContent">'+
-				'Vesseltypeint: ' + vesseltypeint + '<br>'+
-				'Navstatus: ' + navstatus + '<br>'+
-				'Length x Width: ' + length + ' X ' + shipwidth + '<br>'+
-				'Draught: ' + draught  + '<br>'+
-				'Destination: ' + destination + '<br>'+
-				'ETA: ' + eta + '<br>'+
-            'Datetime: ' + datetime + '<br>'+
-				'</div>'+
-				'</div>';
+                        var html = '<div id="content">'+
+                           '<div id="siteNotice">'+
+                           '</div>'+
+                           '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>'+
+                           '<div id="bodyContent">'+
+                           'Vesseltypeint: ' + vesseltypeint + '<br>'+
+                           'Navstatus: ' + navstatus + '<br>'+
+                           'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
+                           'Draught: ' + draught  + '<br>'+
+                           'Destination: ' + destination + '<br>'+
+                           'ETA: ' + eta + '<br>'+
+                           'Datetime: ' + datetime + '<br>'+
+                           '</div>'+
+                           '</div>';
 
-				var iconLocation = getIconType(vesseltypeint);
-				var marker = new google.maps.Marker({
-					//map: map,
-					position: point,
-					icon: iconLocation
-				});
+                        var iconLocation = getIconLocation(typesSelected[i]);
+                        var marker = new google.maps.Marker({
+                           //map: map,
+                           position: point,
+                            icon: iconLocation
+                        });
 
-				bindInfoWindow(marker, map, infoWindow, html);
-				markerArray.push(marker);
-				markerClusterer.addMarker(marker);
-			}
-//   addHeatmap(map);
-		});
-	}
+                        bindInfoWindow(marker, map, infoWindow, html);
+                        markerArray.push(marker);
+                        //markerClusterer.addMarker(marker);
+                     }
+                     markerClusterer.addMarkers(markerArray);
+                     //   addHeatmap(map);
+                  }            
+            );
+   }
 }
 
 function bindInfoWindow(marker, map, infoWindow, html) {
@@ -155,10 +148,10 @@ function downloadUrl(url, callback) {
 			request.send(null);
 }
 
-function doNothing() {}
+function doNothing() {
+}
 
-function clearMap()
-{
+function clearMap() {
 
 }
 
@@ -167,8 +160,7 @@ function refreshLayers() {
 	deleteOverlays();
 	markerClusterer.clearMarkers();
 	clearMap();
-	getCurrentAISFromDB(map.getBounds().getSouthWest(), map.getBounds().getNorthEast());
-	//addMarkersAndInfoWindows(map,tips);
+	getCurrentAISFromDB();	//getCurrentAISFromDB(map.getBounds().getSouthWest(), map.getBounds().getNorthEast());
 	//addTracks(map,tips);
 
 } 
@@ -177,134 +169,116 @@ function refreshPositions() {
 	refreshLayers();
 }
 
-/*
-function addMarkersAndInfoWindows(map, tips)
-{
-	for(var i=0; i<tips.length; i++)
-	{
-		var contentString = '<div id="content">'+
-		'<div id="siteNotice">'+
-		'</div>'+
-		'<h2 id="firstHeading" class="firstHeading">' + tips[i].name + '</h2>'+
-		'<div id="bodyContent">'+
-		'Flag: ' + tips[i].flag + '<br>' +
-		'Ship Type: ' + tips[i].ship_type + '<br>'+
-		'Status: ' + tips[i].status + '<br>'+
-		'Speed/Course: ' + tips[i].speed + ' / ' + tips[i].course + '<br>'+
-		'Length x Breadth: ' + tips[i].length + ' X ' + tips[i].breadth + '<br>'+
-		'Draught: ' + tips[i].draught  + '<br>'+
-		'Destination: ' + tips[i].destination + '<br>'+
-		'ETA: ' + tips[i].eta + '<br>'+
-		'Received: ' + tips[i].received + '<br>'+
-		'</div>'+
-		'</div>';
-
-		var placemarkCoord = new google.maps.LatLng(tips[i].lat, tips[i].lon);
-		//var iconLocation = getIconLocation(tips[i].ship_type);
-		var iconLocation = getIconType(tips[i].vesseltypeint);
-		var marker = new google.maps.Marker({
-			position: placemarkCoord,
-			map: map,
-			icon: iconLocation,
-			title:tips[i].name
-		});
-
-		var infowindow = new google.maps.InfoWindow({content: contentString});
-		marker.infowindow=infowindow;
-		google.maps.event.addListener(marker, 'click', function() {
-			//close the windows
-			closeAllInfowindows();
-			this.infowindow.open(map,this);
-		});	
-
-		markerArray.push(marker);
-	}
-}
-*/
-
 function getTypesSelected()
 {
 	var types = [];
-	if(document.getElementById("CheckType0").checked ){
-		types.push(UNSPECIFIED); 
-	}
-	if(document.getElementById("CheckType1").checked ){
-		types.push(NAVAIDS);        
-	}
-	if(document.getElementById("CheckType2").checked ){
-		types.push(FISHING);        
-	}
-	if(document.getElementById("CheckType3").checked ){
-		types.push(TUG);        
-	}
-	if(document.getElementById("CheckType4").checked ){
-		types.push(HIGHSPEED);        
-	}
-	if(document.getElementById("CheckType6").checked ){
-		types.push(PASSENGER);        
-	}
-	if(document.getElementById("CheckType7").checked ){
-		types.push(CARGO);        
-	}
-	if(document.getElementById("CheckType8").checked ){
-		types.push(TANKER);        
-	}
-	if(document.getElementById("CheckType9").checked ){
-		types.push(YACHT);        
-	}
-	if(document.getElementById("CheckMoving").checked ){
-		types.push(MOVING);        
-	}
-	if(document.getElementById("CheckStopped").checked ){
-		types.push(STOPPED);        
-	}
+
+   if(document.getElementById("7-Cargo Vessels").checked) {
+      types.push(70);   //covers 70-79
+   }
+   if(document.getElementById("8-Tankers").checked) {
+      types.push(80);   //covers 80-89
+   }
+   if(document.getElementById("6-Passenger Vessels").checked) {
+      types.push(60);   //covers 60-69
+   }
+   if(document.getElementById("0-Unspecified Ships").checked) {
+      types.push(0);
+   }
+   if(document.getElementById("55-Law Enforcement").checked) {
+      types.push(55);
+   }
+   if(document.getElementById("35-Military").checked) {
+      types.push(35);
+   }
+   if(document.getElementById("31-Towing").checked) {
+      types.push(31);
+   }
+   if(document.getElementById("32-Big Tow").checked) {
+      types.push(32);
+   }
+   if(document.getElementById("52-Tug").checked) {
+      types.push(52);
+   }
+   if(document.getElementById("33-Dredge").checked) {
+      types.push(33);
+   }
+   if(document.getElementById("50-Pilot").checked) {
+      types.push(50);
+   }
+   if(document.getElementById("37-Pleasure Craft").checked) {
+      types.push(37);
+   }
+   if(document.getElementById("30-Fishing").checked) {
+      types.push(30);
+   }
+   if(document.getElementById("51-Search & Rescue").checked) {
+      types.push(51);
+   }
+   if(document.getElementById("All Other").checked) {
+      types.push(999);
+   }
+
 	return types;
 }
-
-var UNSPECIFIED = "Unspecified Ships";//shipicons/lightgray1_90.png
-var NAVAIDS = "Navigation Aids";//shipicons/pink0.pnG
-var FISHING = "Fishing";//Shipicons/brown1_90.png
-var TUG =  "Tug, Pilot, etc";//shipicons/cyan1_90.png
-var HIGHSPEED = "High Speed Craft";//shipicons/yellow1_90.png
-var PASSENGER = "Passenger Vessel"; //shipicons/blue1_90.png
-var CARGO = "Cargo Vessels"; //shipicons/lightgreen1_90.png"
-var TANKER = "Tanker - Hazard D (Recognizable)";//shipicons/red1_90.png
-var YACHT = "Yachts and Others";//shipicons/magenta1_90.png
-var MOVING = "Ships Underway";//shipicons/white1_90.png
-var STOPPED = "Anchored/Moored";//"shipicons/white0.png
 
 function getIconType(vesseltypeint)
 {
    return "shipicons/red1_90.png";
 }
 
-function getIconLocation(ship_type)
+function getIconLocation(vesseltypeint)
 {
-	if(ship_type == UNSPECIFIED){
-		return "shipicons/lightgray1_90.png";
-	}else if(ship_type == TANKER){
-		return "shipicons/red1_90.png";
-	}else if(ship_type == NAVAIDS){
-		return "shipicons/pink0.png";
-	}else if(ship_type == FISHING){
-		return "shipicons/brown1_90.png";
-	}else if(ship_type == TUG){
-		return "shipicons/cyan1_90.png";
-	}else if(ship_type == HIGHSPEED){
-		return "shipicons/yellow1_90.png";
-	}else if(ship_type == PASSENGER){
-		return "shipicons/blue1_90.png";
-	}else if(ship_type == CARGO){
+   if (vesseltypeint == 70) {
 		return "shipicons/lightgreen1_90.png";
-	}else if(ship_type == YACHT){
+   }
+   else if (vesseltypeint == 80) {
+		return "shipicons/lightgreen1_90.png";
+   }
+   else if (vesseltypeint == 60) {
+		return "shipicons/lightgreen1_90.png";
+   }
+   else if (vesseltypeint == 0) {
+		return "shipicons/pink0.png";
+   }
+   else if (vesseltypeint == 55) {
+		return "shipicons/blue1_90.png";
+   }
+   else if (vesseltypeint == 35) {
+		return "shipicons/blue1_90.png";
+   }
+   else if (vesseltypeint == 31) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 32) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 52) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 33) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 50) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 37) {
 		return "shipicons/magenta1_90.png";
-	}else if(ship_type == MOVING){
+   }
+   else if (vesseltypeint == 30) {
+		return "shipicons/cyan1_90.png";
+   }
+   else if (vesseltypeint == 51) {
+		return "shipicons/red1_90.png";
+   }
+   else if (vesseltypeint == 999) {
+		return "shipicons/lightgray1_90.png";
+   }
+   else {
+		return "shipicons/white0.png";
+   }
+		return "shipicons/yellow1_90.png";
 		return "shipicons/white1_90.png";
-	}else if(ship_type == STOPPED){
-		return "shipicons/white0.png";
-	}else{
-		return "shipicons/white0.png";
-	}
 }
 
 function closeAllInfowindows()
@@ -469,7 +443,7 @@ function addDrawingManager(map)
 			zIndex: 1 
 		}
 	});
-	drawingManager.setMap(map);	
+	drawingManager.setMap(map);
 }
 
 
