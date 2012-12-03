@@ -86,50 +86,8 @@ LoadModule proxy_http_module modules/mod_proxy_http.so
   # Obtain the "ossim-3rd-party-vs2010" libaries : http://code.google.com/p/icode-mda/downloads/detail?name=3rd-party.zip&can=2&q=
    ** Unpack folder into "c:\ossim" directory
    ** Add the "./3rd-party-vs10-2010-express/vs2010/bin/win32" directory to your PATH
-  # Check out OSSIM svn tag 1.8.12-1 : https://svn.osgeo.org/ossim/tags/ossim-1.8.12-1
+  # Check out OSSIM  : https://svn.osgeo.org/ossim/tags/ossim-1.8.12-1
    ** Place folder in c:\ossim (See %OSSIM_DEV_HOME%)
-   ** Modify: libwms/src/wms.cpp
-    *** Had to surrond the curl.h include as c extern
-{{{
- extern "C" {
-   #include <curl/curl.h>
- }
-}}}
-   ** Modify: ossimPredator/src/ossimPredatorVideo.cpp
-    *** Had to replace old av_open_input_file in the "open" function
-{{{
- //int err = av_open_input_file(&theFormatCtx, videoFile.c_str(), NULL, 0, NULL);
-   int err = avformat_open_input(&theFormatCtx, videoFile.c_str(), NULL, NULL);
-}}}
-   ** Modify oms/coms/src/oms/DataInfo.cpp
-    *** Fixed ambiguous call
-{{{
-//Change this line to this
-//std::string klvnumber = ossimString::toString(idx);
-std::string klvnumber = std::string(ossimString(idx).string());
-
-//Change to this
-std::string oms::DataInfo::convertAcqDateToXmlDate(const std::string& value) const
-{
-   if (value.size() == 8) // assume 4 character year 2 month and 2 day format
-   {
-      return std::string(ossimString(value.begin(), value.begin() + 4).string() + "-"
-              + ossimString(value.begin() + 4, value.begin() + 6).string() + "-"
-              + ossimString(value.begin() + 6, value.begin() + 8).string());
-   }
-   if (value.size() == 14) // assume 4 character year 2 month and 2 day 2 hour 2 minute 2 seconds
-   {
-      return std::string(ossimString(value.begin(), value.begin() + 4).string() + "-"
-              + ossimString(value.begin() + 4, value.begin() + 6).string() + "-"
-              + ossimString(value.begin() + 6, value.begin() + 8).string() + "T"
-              + ossimString(value.begin() + 8, value.begin() + 10).string() + ":"
-              + ossimString(value.begin() + 10, value.begin() + 12).string() + ":"
-              + ossimString(value.begin() + 12, value.begin() + 14).string() + "Z");
-   }
-   return "";
-}
-
-}}}
    ** Modify: oms/coms/include/oms/Video.h
     *** Add include statement
 {{{
