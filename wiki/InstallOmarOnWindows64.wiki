@@ -9,7 +9,7 @@ These instructions where tested on Windows 7 VS2010 (64bit). Using:
   **Grails v2.0.3
   **Groovy v1.8.6
   **Apache Ant 1.8.3
-  **Java JDK 1.7.0_03
+  **Java JDK 1.7.0_09 64bit
   **PostGreSql 9.1.3-1
   **PostGIS  v2.0
   **SWIG v2.0.6
