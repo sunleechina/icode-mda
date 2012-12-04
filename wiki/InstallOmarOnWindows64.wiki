@@ -133,7 +133,7 @@ SWIGINTERN std::string ossimKeywordlist_toString(ossimKeywordlist *self){
 		return std::string(ossimString(self->toString()).string());
 	}
 }}}
-  # Run “%VS100COMNTOOLS%\vsvars32.bat”
+  # Run “C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat”
   # Run “ant compile-c++”
   # Run “ant dist”
   # Run “ant install”
