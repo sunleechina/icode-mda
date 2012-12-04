@@ -15,7 +15,7 @@ These instructions where tested on Windows 7 VS2010 (64bit). Using:
   **SWIG v2.0.6
   **FFmpeg 2012-05-03 (Win Build)
   **CMake v2.8.8
-  **Curl v7.18.0
+  **Curl v7.28.0
   **MS4W v3.0.4
 
 = Details =
@@ -67,8 +67,9 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  # Install Cmake : http://www.cmake.org/cmake/resources/software.html
   ** Use the Win32 Installer
  # Install Curl : http://curl.haxx.se/download.html
-  ** Choose the Win32 - MSVC
+  ** Download Source Archive
   ** Unpack folder into the "C:\ossim" directory
+  ** Build using visual Studios x64 bit libs
  # Install MS4W (Apachie) : http://www.maptools.org/ms4w/index.phtml?page=downloads.html
   ** Download and run the installer (Use port 8080)
   ** Add the following to the end of the "httpd.conf" file
