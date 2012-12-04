@@ -22,7 +22,7 @@ These instructions where tested on Windows 7 VS2010 (64bit). Using:
 
  # Define the following Windows environment variables. Make sure that specified locations match your environment.
 {{{
-OSSIM_DEV_HOME = "C:\ossim\ossim-1.8.12-1"
+OSSIM_DEV_HOME = "C:\ossim\ossim-trunk"
 OSSIM_HOME = "%OSSIM_DEV_HOME%/ossim"
 OSSIM_INSTALL_PREFIX = "C:\ossim\build4Omar\Release"
 OSSIM_DEPENDENCIES = "c:/opt/radiantblue"
@@ -97,25 +97,12 @@ avcodec.lib
 avutil.lib
 swscale.lib
 }}}
-   ** Modify: oms/coms/include/oms/Video.h
-    *** Add include statement
-{{{
-#include <ossim/base/ossimReferenced.h>
-}}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
    ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
    ** ossim-package-cmake-config-vs10-nmake-v2.bat : http://code.google.com/p/icode-mda/downloads/detail?name=ossim-package-cmake-config-vs10-nmake-v2.bat&can=2&q=
   # Double click "Build_ossim_vs10.bat" to build VS solution.
-  # Open the VisualStudios solutions file 
-   **add the following ffmpeg dev include directory to the ossimPredator, OMS and OSSIM projects list of include directories
-    ** %ffmpeg-dev%/include
-    ** %ffmpeg-dev%/include/libavformat
-    ** %ffmpeg-dev%/include/libavdevice
-    ** %ffmpeg-dev%/include/libavcodec
-    ** %ffmpeg-dev%/include/libavutil
-   **Disable the OSSIM_PREDATOR_VIDEO_ENABLED Preprocessor on the OMS project
-  # Build Release version of the OSSIM Libs
+  # Build Release/Debug version of the OSSIM Libs
  # Check out OMAR source tree
 {{{
 cd %OMAR_DEV_HOME%
