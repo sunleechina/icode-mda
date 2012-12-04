@@ -97,6 +97,17 @@ avcodec.lib
 avutil.lib
 swscale.lib
 }}}
+   ** Make sure the following libraries are in your wms project
+{{{
+ws2_32.lib
+winmm.lib
+wldap32.lib
+}}}
+   ** If you are still having problems building the wms project, add the following to the Preprocessor Definitions
+{{{
+BUILDING_LIBCURL
+HTTP_ONLY
+}}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
    ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
