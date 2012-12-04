@@ -5,7 +5,7 @@
 OMAR is a web based system for archival, retrieval, processing, and distribution of geospatial assets. Satellite and aerial images, vector sets, unmanned aerial vehicle (UAV) video sets, as well as user generated tags and reference items can be easily searched and manipulated with the system. Searching can be performed on the basis of location, time, or any combination of the stored metadata. OMAR is unique in its ability to dynamically process raw materials and create value added products on the fly. Imagery is orthorectified (geometrically corrected), precision terrain corrected, and histogram stretched on demand. OMAR combines, fuses, or chips areas of interest according to the users needs. Geospatial assets can then be manipulated, viewed, and processed to provide a wide range of value added products.
 
 These instructions where tested on Windows 7 VS2010 (64bit). Using:
-  **OSSIM ver 1.8.12-1 (svn tag)
+  **OMAR/OSSIM Revision #: 21960
   **Grails v2.0.3
   **Groovy v1.8.6
   **Apache Ant 1.8.3
@@ -88,6 +88,14 @@ LoadModule proxy_http_module modules/mod_proxy_http.so
    ** Add the "./3rd-party-vs10-2010-express/vs2010/bin/win32" directory to your PATH
   # Check out OSSIM  : https://svn.osgeo.org/ossim/tags/ossim-1.8.12-1
    ** Place folder in c:\ossim (See %OSSIM_DEV_HOME%)
+   ** Make sure the ossimPredator Project defines the following additional Dependencies found in your ffmpeg dev folder
+{{{
+avformat.lib
+avdevice.lib
+avcodec.lib
+avutil.lib
+swscale.lib
+}}}
    ** Modify: oms/coms/include/oms/Video.h
     *** Add include statement
 {{{
