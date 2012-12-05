@@ -93,15 +93,34 @@ function getCurrentAISFromDB()
                         var html = '<div id="content">'+
                            '<div id="siteNotice">'+
                            '</div>'+
-                           '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>'+
-                           '<div id="bodyContent">'+
-                           'Vesseltypeint: ' + vesseltypeint + '<br>'+
-                           'Navstatus: ' + navstatus + '<br>'+
-                           'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
-                           'Draught: ' + draught  + '<br>'+
-                           'Destination: ' + destination + '<br>'+
-                           'ETA: ' + eta + '<br>'+
-                           'Datetime: ' + datetime + '<br>'+
+                           '<h2 id="firstHeading" class="firstHeading">' + name + '</h2>' +
+                           '<hr>' +
+                           '<div id="bodyContent">' +
+                           '<table>' +
+                           '<tr>' +
+                           '<td>' +
+                           '<b>Flag:</b> ' + flag + '<br>' +
+                           '<b>Ship Type:</b> ' + ship_type + '<br>' +
+                           '<b>Status:</b> ' + status + '<br>' +
+                           '<b>Speed/Course:</b> ' + speed + ' / ' + course + '<br>' +
+                           '<b>Length x Breadth:</b> ' + length + ' X ' + breadth + '<br>' +
+                           '<b>Draught:</b> ' + draught + '<br>' +
+                           '<b>Destination:</b> ' + destination + '<br>' +
+                           '<b>ETA:</b> ' + eta + '<br>' +
+                           '<b>Received:</b> ' + received + '<br>' +
+                           '</td>' +
+                           '<td width="120px" valign="top">' +
+                           '<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '">' +
+                           '<img width="120px" border="0" src="http://photos.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo + '">' + 
+                           '</a>' +
+                           //'<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=">' + 
+                           //'<img width="120px" border="0" src="marinetrafficImage.php?mmsi=' + mmsi + '&imo=' + imo + '">' +
+                           //'</a>' +
+                           '<br>' +
+                           '</td>' +
+                           '</tr>' + 
+                           '</table>' +
+
                            '</div>'+
                            '</div>';
 
