@@ -72,21 +72,36 @@ function getCurrentAISFromDB(arg1, arg2)
 				var destination = ais_tips[i].getAttribute("destination");
 				var eta = ais_tips[i].getAttribute("eta");
 				var received = ais_tips[i].getAttribute("received");
-
 				var html = '<div id="content">'+
 				'<div id="siteNotice">'+
 				'</div>'+
-				'<h2 id="firstHeading" class="firstHeading">' + name + '</h2>'+
-				'<div id="bodyContent">'+
-				'Flag: ' + flag + '<br>' +
-				'Ship Type: ' + ship_type + '<br>'+
-				'Status: ' + status + '<br>'+
-				'Speed/Course: ' + speed + ' / ' + course + '<br>'+
-				'Length x Breadth: ' + length + ' X ' + breadth + '<br>'+
-				'Draught: ' + draught  + '<br>'+
-				'Destination: ' + destination + '<br>'+
-				'ETA: ' + eta + '<br>'+
-				'Received: ' + received + '<br>'+
+				'<h2 id="firstHeading" class="firstHeading">' + name + '</h2>' +
+                '<hr>' +
+				'<div id="bodyContent">' +
+                '<table>' +
+                '<tr>' +
+                '<td>' +
+				'<b>Flag:</b> ' + flag + '<br>' +
+				'<b>Ship Type:</b> ' + ship_type + '<br>' +
+				'<b>Status:</b> ' + status + '<br>' +
+				'<b>Speed/Course:</b> ' + speed + ' / ' + course + '<br>' +
+				'<b>Length x Breadth:</b> ' + length + ' X ' + breadth + '<br>' +
+				'<b>Draught:</b> ' + draught + '<br>' +
+				'<b>Destination:</b> ' + destination + '<br>' +
+				'<b>ETA:</b> ' + eta + '<br>' +
+				'<b>Received:</b> ' + received + '<br>' +
+                '</td>' +
+                '<td width="120px" valign="top">' +
+                '<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '">' +
+                '<img width="120px" border="0" src="http://photos.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo + '">' + 
+                '</a>' +
+                //'<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=">' + 
+                //'<img width="120px" border="0" src="marinetrafficImage.php?mmsi=' + mmsi + '&imo=' + imo + '">' +
+                //'</a>' +
+                '<br>' +
+                '</td>' +
+                '</tr>' + 
+                '</table>' +
 				'</div>'+
 				'</div>';
 				//tips.push(new aisTip(name, mmsi, imo, lat, lon, flag, ship_type, status, speed, course, length, breadth, draught, destination, eta, received));
@@ -161,16 +176,27 @@ function addMarkersAndInfoWindows(map, tips)
 		'<div id="siteNotice">'+
 		'</div>'+
 		'<h2 id="firstHeading" class="firstHeading">' + tips[i].name + '</h2>'+
-		'<div id="bodyContent">'+
-		'Flag: ' + tips[i].flag + '<br>' +
-		'Ship Type: ' + tips[i].ship_type + '<br>'+
-		'Status: ' + tips[i].status + '<br>'+
-		'Speed/Course: ' + tips[i].speed + ' / ' + tips[i].course + '<br>'+
-		'Length x Breadth: ' + tips[i].length + ' X ' + tips[i].breadth + '<br>'+
-		'Draught: ' + tips[i].draught  + '<br>'+
-		'Destination: ' + tips[i].destination + '<br>'+
-		'ETA: ' + tips[i].eta + '<br>'+
-		'Received: ' + tips[i].received + '<br>'+
+		'<div id="bodyContent">' +
+        '<table>' +
+        '<tr>' +
+        '<td>' +
+		'<b>Flag:</b> ' + tips[i].flag + '<br>' +
+		'<b>Ship Type:</b> ' + tips[i].ship_type + '<br>' +
+		'<b>Status:</b> ' + tips[i].status + '<br>' +
+		'<b>Speed/Course:</b> ' + tips[i].speed + ' / ' + tips[i].course + '<br>' +
+		'<b>Length x Breadth:</b> ' + tips[i].length + ' X ' + tips[i].breadth + '<br>' +
+		'<b>Draught:</b> ' + tips[i].draught + '<br>' +
+		'<b>Destination:</b> ' + tips[i].destination + '<br>' +
+		'<b>ETA:</b> ' + tips[i].eta + '<br>' +
+		'<b>Received:</b> ' + tips[i].received + '<br>' +
+        '</td>' +
+        '<td>' +
+        '<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '">' +
+        '<img width="120px" border="0" src="http://photos.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo + '">' +
+        '</a>' +
+        '</td>' +
+        '</tr>' +
+        '</table>' +
 		'</div>'+
 		'</div>';
 
