@@ -218,3 +218,7 @@ overloaded function"
 {{{
 delete $HOME/.grails/ivy-cache
 }}}
+ # OMAR is not working and I don't get any error Messages
+{{{
+//Check c:/tmp/logs/omar.log
+}}}
