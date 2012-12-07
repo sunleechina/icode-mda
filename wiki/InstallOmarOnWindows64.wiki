@@ -222,3 +222,7 @@ delete $HOME/.grails/ivy-cache
 {{{
 //Check c:/tmp/logs/omar.log
 }}}
+ # OMAR is still not coming up.  Is there anything else I can try?
+{{{
+Try deleting your .grails folder in your home directory completely and then re-run.
+}}}
