@@ -108,7 +108,7 @@ wldap32.lib
 BUILDING_LIBCURL
 HTTP_ONLY
 }}}
-  # Setup OSSIM preferences. Edit the $OSSIM_PREFS_FILE by adding the following:
+  # Setup OSSIM preferences. Edit the $OSSIM_PREFS_FILE by adding the following (Note example below is using debug libs) :
 {{{
 elevation_manager.elevation_source2.type: dted_directory
 elevation_manager.elevation_source2.connection_string: /Volumes/Iomega_HDD/data/elevation/dted/1k
@@ -123,12 +123,20 @@ epsg_database_file4: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_harn_state_plane_
 
 wkt_database_file: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_wkt_pcs.csv
 
-plugin.file1: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossim_plugin.so plugin.file2: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimkakadu_plugin.so
-//plugin.file3: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimmrsid_plugin.so
-plugin.file4: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimpng_plugin.so
-plugin.file5: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimgdal_plugin.so
-plugin.file6: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimregistration_plugin.so
-plugin.file7: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimcontrib_plugin.so plugin.file8: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimlibraw_plugin.so
+//plugin.file1: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossim_plugin.so 
+plugin.file1: $(OSSIM_INSTALL_PREFIX)/ossim_plugind.dll
+//plugin.file2: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimkakadu_plugin.so
+plugin.file2: $(OSSIM_INSTALL_PREFIX)/ossimkakadu_plugind.dll
+//plugin.file4: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimpng_plugin.so
+plugin.file4: $(OSSIM_INSTALL_PREFIX)/ossimpng_plugind.dll
+//plugin.file5: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimgdal_plugin.so
+plugin.file5: $(OSSIM_INSTALL_PREFIX)/ossimgdal_plugind.dll
+//plugin.file6: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimregistration_plugin.so
+plugin.file6: $(OSSIM_INSTALL_PREFIX)/ossimregistration_plugind.dll
+//plugin.file7: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimcontrib_plugin.so 
+plugin.file7: $(OSSIM_INSTALL_PREFIX)/ossimcontrib_plugind.dll
+//plugin.file8: $(OSSIM_INSTALL_PREFIX)/ossimlibraw_plugind.dll
+plugin.file8: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimlibraw_plugin.so
 //plugin.file9: $(OSSIM_INSTALL_PREFIX)/lib/csm/libcsmbuckeye_plugin.so
 //plugin.file10: $(OSSIM_INSTALL_PREFIX)/lib/ossim-$(OSSIM_VERSION)/plugins/libossimcsm_plugin.so
 
