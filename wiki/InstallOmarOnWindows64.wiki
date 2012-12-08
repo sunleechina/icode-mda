@@ -135,8 +135,8 @@ plugin.file5: $(OSSIM_INSTALL_PREFIX)/ossimgdal_plugind.dll
 plugin.file6: $(OSSIM_INSTALL_PREFIX)/ossimregistration_plugind.dll
 //plugin.file7: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimcontrib_plugin.so 
 plugin.file7: $(OSSIM_INSTALL_PREFIX)/ossimcontrib_plugind.dll
-//plugin.file8: $(OSSIM_INSTALL_PREFIX)/ossimlibraw_plugind.dll
-plugin.file8: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimlibraw_plugin.so
+plugin.file8: $(OSSIM_INSTALL_PREFIX)/ossimlibraw_plugind.dll
+//plugin.file8: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimlibraw_plugin.so
 //plugin.file9: $(OSSIM_INSTALL_PREFIX)/lib/csm/libcsmbuckeye_plugin.so
 //plugin.file10: $(OSSIM_INSTALL_PREFIX)/lib/ossim-$(OSSIM_VERSION)/plugins/libossimcsm_plugin.so
 
