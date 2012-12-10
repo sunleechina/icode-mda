@@ -153,7 +153,7 @@ geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm9
  # Check out OMAR source tree
 {{{
 cd %OMAR_DEV_HOME%
-svn co https://svn.osgeo.org/ossim/omar omar
+svn co http://svn.osgeo.org/ossim/branches/ossim-1.8.14/omar omar
 }}}
  # Build and Install JOMS
   # open the %OSSIM_DEV_HOME%/oms/joms directory
