@@ -41,7 +41,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   ** Add %ANT_HOME%/bin directory to your PATH environment variable
  # Install Grails : http://grails.org/Download 
   ** Place the extracted folder in the %OSSIM_DEPENDENCIES% directory
-  ** Define the environment variable GRAILS_HOME = %OSSIM_DEPENDENCIES%/grails-1.3.8
+  ** Define the environment variable GRAILS_HOME = %OSSIM_DEPENDENCIES%/grails-2.0.4
   ** Define the environment variable GRAILS_VERSION = 2.0.4
   ** Add %GRAILS_HOME%/bin directory to your PATH environment variable
  # Install Groovy : http://groovy.codehaus.org/Download?nc 
