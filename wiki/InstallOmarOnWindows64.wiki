@@ -7,7 +7,7 @@ OMAR is a web based system for archival, retrieval, processing, and distribution
 These instructions where tested on Windows 7 VS2010 (64bit). Using:
   **OMAR/OSSIM Revision #: 21960
   **Grails v2.0.4
-  **Groovy v1.8.6
+  **Groovy v2.0.4
   **Apache Ant 1.8.3
   **Java JDK 1.7.0_09 64bit
   **PostGreSql 9.1.3-1
@@ -46,7 +46,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
   ** Add %GRAILS_HOME%/bin directory to your PATH environment variable
  # Install Groovy : http://groovy.codehaus.org/Download?nc 
   ** Define the environment variable GROOVY_HOME = "Groovy Installed Directory"
-  ** Define the environment variable GROOVY_VERSION = 1.8.6
+  ** Define the environment variable GROOVY_VERSION = 2.0.4
  # Install PostgreSQl / PostGIS: http://www.postgresql.org/download/windows/
   ** Use default Port 5432
   ** Run Stack Builder to load additional software
