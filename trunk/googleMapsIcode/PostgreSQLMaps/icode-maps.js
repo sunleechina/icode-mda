@@ -9,7 +9,7 @@ function initialize()
 
 	var myOptions = {
 
-			zoom: 2,
+			zoom: 5,
 			center: centerCoord,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			mapTypeControlOptions: {
@@ -27,7 +27,11 @@ function initialize()
 	//markerClusterer.setMinimumClusterSize(20);
 
 	//getCurrentAISFromDB(0,0);
-	getCurrentAISFromDB();
+   google.maps.event.addListener(map, 'idle', function(){
+        //alert(this.getBounds());
+        getCurrentAISFromDB(map.getBounds());
+   });
+
 
 //	var markerCluster = new MarkerClusterer(map, markerArray);
 //	alert(markerArray.length);
@@ -43,22 +47,39 @@ function initialize()
 	//addHeatmap(map);
 }
 
-/* Get AIS data from XML, which is from database */
-function getCurrentAISFromDB()
+/* Get AIS data from XML, which is from database, with bounds */
+function getCurrentAISFromDB(bounds)
 {
 	markerClusterer = new MarkerClusterer(map);
-	markerClusterer.setMinimumClusterSize(20);
+	markerClusterer.setMinimumClusterSize(50);
+
+   var sw = bounds.getSouthWest();
+   var ne = bounds.getNorthEast();
+   var minLat = sw.lat();
+   var maxLat = ne.lat();
+   var minLon = sw.lng();
+   var maxLon = ne.lng();
 
    var typesSelected =  getTypesSelected();
-   for(var i = 0; i<typesSelected.length; i++) {
+//   for(var i = 0; i<typesSelected.length; i++) {
+   for(var i = 0; i<1; i++) {
       var infoWindow = new google.maps.InfoWindow;
-      var phpWithArg = "icode_example_db_query.php?limit=5000&type=" + typesSelected[i] + "";
+      var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
+      var phpWithArg = "icode_db_query.php?" + boundStr + "&limit=10000";//&type=" + typesSelected[i] + "";
 		downloadUrl(phpWithArg, 
                   function(data) {
                      var xml = data.responseXML;
                      if(xml == null){ return; }
                      var ais_tips = xml.documentElement.getElementsByTagName("ais");
                      for (var i = 0; i < ais_tips.length; i++) {
+                        var target_location_id = ais_tips[i].getAttribute("target_location_id");
+                        var report_date = ais_tips[i].getAttribute("report_date");
+                        var message_source_id = ais_tips[i].getAttribute("message_source_id");
+                        var message_type = ais_tips[i].getAttribute("message_type");
+                        var lat = ais_tips[i].getAttribute("lat");
+                        var lon = ais_tips[i].getAttribute("lon");
+                        var point = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+                        /*
                         var key_column = ais_tips[i].getAttribute("key_column");
                         var messagetype = ais_tips[i].getAttribute("messagetype");
                         var mmsi = ais_tips[i].getAttribute("mmsi");
@@ -89,46 +110,37 @@ function getCurrentAISFromDB()
                         var eta = ais_tips[i].getAttribute("eta");
                         var posfixtype = ais_tips[i].getAttribute("posfixtype");
                         var streamid = ais_tips[i].getAttribute("streamid");
+                        */
 
                         var html = '<div id="content">'+
                            '<div id="siteNotice">'+
                            '</div>'+
-                           '<h2 id="firstHeading" class="firstHeading">' + name + '</h2>' +
-                           '<hr>' +
+                           //'<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
+                           '<h2 id="firstHeading" class="firstHeading">test</h2>' +
                            '<div id="bodyContent">' +
-                           '<table>' +
-                           '<tr>' +
-                           '<td>' +
-                           '<b>Flag:</b> ' + flag + '<br>' +
-                           '<b>Ship Type:</b> ' + ship_type + '<br>' +
-                           '<b>Status:</b> ' + status + '<br>' +
-                           '<b>Speed/Course:</b> ' + speed + ' / ' + course + '<br>' +
-                           '<b>Length x Breadth:</b> ' + length + ' X ' + breadth + '<br>' +
-                           '<b>Draught:</b> ' + draught + '<br>' +
-                           '<b>Destination:</b> ' + destination + '<br>' +
-                           '<b>ETA:</b> ' + eta + '<br>' +
-                           '<b>Received:</b> ' + received + '<br>' +
-                           '</td>' +
-                           '<td width="120px" valign="top">' +
-                           '<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '">' +
-                           '<img width="120px" border="0" src="http://photos.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo + '">' + 
-                           '</a>' +
-                           //'<a target="new" style="TEXT-DECORATION: NONE" href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=">' + 
-                           //'<img width="120px" border="0" src="marinetrafficImage.php?mmsi=' + mmsi + '&imo=' + imo + '">' +
-                           //'</a>' +
-                           '<br>' +
-                           '</td>' +
-                           '</tr>' + 
-                           '</table>' +
-
+                           'target_location_id: ' + target_location_id + '<br>'+
+                           'report_date: ' + report_date + '<br>'+
+                           'message_source_id: ' + message_source_id + '<br>'+
+                           'message_type: ' + message_type + '<br>'+
+                           'lat: ' + lat + '<br>'+
+                           'lon: ' + lon + '<br>'+
+                           /*
+                           'Vesseltypeint: ' + vesseltypeint + '<br>'+
+                           'Navstatus: ' + navstatus + '<br>'+
+                           'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
+                           'Draught: ' + draught  + '<br>'+
+                           'Destination: ' + destination + '<br>'+
+                           'ETA: ' + eta + '<br>'+
+                           'Datetime: ' + datetime + '<br>'+
+                           */
                            '</div>'+
                            '</div>';
 
-                        var iconLocation = getIconLocation(typesSelected[i]);
+                        var iconLocation = "shipicons/white0.png";//getIconLocation(typesSelected[i]);
                         var marker = new google.maps.Marker({
                            //map: map,
                            position: point,
-                            icon: iconLocation
+                           icon: iconLocation
                         });
 
                         bindInfoWindow(marker, map, infoWindow, html);
@@ -181,8 +193,7 @@ function refreshLayers() {
 	clearMap();
 	getCurrentAISFromDB();	//getCurrentAISFromDB(map.getBounds().getSouthWest(), map.getBounds().getNorthEast());
 	//addTracks(map,tips);
-
-} 
+}
 
 function refreshPositions() {
 	refreshLayers();
