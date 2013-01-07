@@ -10,7 +10,7 @@ These instructions where tested on Windows 7 VS2010 (64bit). Using:
   **Groovy v2.0.4
   **Apache Ant 1.8.3
   **Java JDK 1.7.0_09 64bit
-  **PostGreSql 8.3
+  **PostGreSql v8.3
   **PostGIS  v1.5
   **SWIG v2.0.6
   **FFmpeg 2012-05-03 (Win Build)
