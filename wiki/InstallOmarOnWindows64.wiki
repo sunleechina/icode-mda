@@ -234,3 +234,7 @@ delete $HOME/.grails/ivy-cache
 {{{
 Try deleting your .grails folder in your home directory completely and then re-run.
 }}}
+ # CMake is not working. Its complaining about missing stuff.
+{{{
+Use cmake_gui and select the Grouped and Advanced view options.  Go under the application it is complaining about and check values for wrong or missing information.
+}}}
