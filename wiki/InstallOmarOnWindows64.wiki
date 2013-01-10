@@ -50,7 +50,7 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  # Install PostgreSQl / PostGIS: http://www.postgresql.org/download/windows/
   ** Use default Port 5432
   ** Run Stack Builder to load additional software
-  ** Install PostGIS 2.0 (located under Spatial Extensions)
+  ** Install PostGIS 1.5 (located under Spatial Extensions)
   ** Define the environment variable POSTGIS_HOME = "GIS Installed directory"
   ** Define the environment variable PG_HOME = "PostGres Installed dir"
  # Install SWIG : http://www.swig.org/download.html
