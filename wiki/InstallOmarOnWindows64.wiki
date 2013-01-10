@@ -146,8 +146,8 @@ geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm9
 }}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
-   ** [  http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q= Build_ossim_vs10.bat]
-   ** [ http://icode-mda.googlecode.com/files/ossim-package-cmake-config-vs10-64bit-nmake-v1.bat ossim-package-cmake-config-vs10-nmake-v2.bat] 
+   ** [http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q= Build_ossim_vs10.bat]
+   ** [http://icode-mda.googlecode.com/files/ossim-package-cmake-config-vs10-64bit-nmake-v1.bat ossim-package-cmake-config-vs10-64bit-nmake-v1.bat] 
   # Double click "Build_ossim_vs10.bat" to build VS solution.
   # Build Release/Debug version of the OSSIM Libs
  # Check out OMAR source tree
