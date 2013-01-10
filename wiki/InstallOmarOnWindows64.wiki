@@ -56,11 +56,11 @@ PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
  # Install SWIG : http://www.swig.org/download.html
   ** Define the environment variable SWIG_HOME = "Unpacked Directory"
   ** Add %SWIG_HOME% directory to your PATH environment variable
- # Install FFmpeg 2012-05-03 Build : http://ffmpeg.zeranoe.com/builds/
-  ** Download the Shared and Dev 32-bit Builds
+ # Install FFmpeg 2012-11-25 Build : http://ffmpeg.zeranoe.com/builds/
+  ** Download the Shared and Dev 64-bit Builds
   ** Unpack both folder in the c:\ossim directory
   ** Add the bin directory of the shared distribution to your PATH
-  ** Define %ffmpeg-dev% env variable to your dev folder
+  ** Define %ffmpeg-dev% env variable to your ffmpeg dev folder
   ** Add the following header files to the %ffmpeg-dev%/include directory
    ** stdint.h  : http://code.google.com/p/msinttypes/downloads/list
    ** inttypes.h : http://code.google.com/p/msinttypes/downloads/list
