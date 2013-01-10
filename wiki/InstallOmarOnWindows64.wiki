@@ -146,9 +146,9 @@ geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm9
 }}}
   # Creat build directory: c:\ossim\build4Omar
   # Copy the following files into the Build directory. Make sure defined variables match your enviroment
-   ** [http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q= Build_ossim_vs10.bat]
+   ** [http://icode-mda.googlecode.com/files/Build_ossim_vs10_64.bat Build_ossim_vs10_64.bat]
    ** [http://icode-mda.googlecode.com/files/ossim-package-cmake-config-vs10-64bit-nmake-v1.bat ossim-package-cmake-config-vs10-64bit-nmake-v1.bat] 
-  # Double click "Build_ossim_vs10.bat" to build VS solution.
+  # Double click "Build_ossim_vs10_64.bat" to build VS solution.
   # Build Release/Debug version of the OSSIM Libs
  # Check out OMAR source tree
 {{{
@@ -158,7 +158,8 @@ svn co http://svn.osgeo.org/ossim/branches/ossim-1.8.14/omar omar
  # Build and Install JOMS
   # open the %OSSIM_DEV_HOME%/oms/joms directory
   # cp local.properties.template local.properties
-  # Replace build.xml file with this build.xml : http://code.google.com/p/icode-mda/downloads/detail?name=build.xml&can=2&q=
+  # Replace build.xml file with this [http://icode-mda.googlecode.com/files/build.template.xml build.template.xml]
+  # Rename build.template.xml to build.xml
   # Run “ant clean”
   # Run “ant initialize-environment”
   # Run “ant generate-wrappers”
