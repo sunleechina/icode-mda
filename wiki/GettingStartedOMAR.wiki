@@ -8,9 +8,8 @@ OMAR is a web based system for archival, retrieval, processing, and distribution
 To get started with OMAR development, you will first have to get the development environment setup. To do this, checkout the Installation Instructions:
   * [OMAR_Installation OMAR Installation Instructions for fedora 14 x64]
   * [OMAR_WarDeployment_Fedora16 OMAR WAR deployment for fedora 16 x64 ]
-  * [InstallOmarOnWindowsNotes OMAR Installation Instructions for windows7 *(Not verified to work correctly yet)* ]
   * [Omar_Installation_fedora17 OMAR installation Instructions for fedora 17 x64 ]
-  * [InstallOmarOnWindows64 OMAR Installation Instructons for Windows7 64bit (Working)]
+  * [InstallOmarOnWindows64 OMAR Installation Instructons for Windows7 64bit]
 
 Once you have OMAR installed, you're ready to start developing. We've made a few guides to developing that are listed below:
   # [OMAR_CreateSamplePlugin Creating a sample plugin]
