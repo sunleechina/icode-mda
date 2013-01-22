@@ -6,7 +6,9 @@ Install Instructions for Windows - for PostgreSQL database through ODBC connecti
   - requires administrative account or administrative priviledges
   - This installs Apache, PHP, and MySQL in one package
 - Install PostgreSQL driver for ODBC (http://www.postgresql.org/ftp/odbc/versions/msi/)
-- Copy all files in this directory into your www directory
+  - this allows a single application to access multiple different databases through ODBC
+- Copy all files in this directory into a directory in your www directory
+  - quick way to go to the www directory is to left click the Wamp system icon and clicking on www directory
 - Open pgAdmin III to create and edit PostgreSQL AIS database/table
-  - use original table fields format...
+  - use the new database schema format where all dynamic location data is stored in target_location table
 - Open a web browser and go to http://localhost/index.html
