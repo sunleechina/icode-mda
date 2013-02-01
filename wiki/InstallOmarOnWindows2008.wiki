@@ -65,7 +65,7 @@ OSSIM_PREFS_FILE="%OSSIM_INSTALL_PREFIX%/ossim_preferences"
    # Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
     ** Run the ddl.sql script on your database
     ** Run the geoms.sql script on your database
-     *** This script will fail because new version of postGIS don't have GIST_GEOMETRY_OPS anymore.   PostGIS 2.2 and above include a patch file, but since we are using v2.1, download and run this file: [legacy_gist.sql]
+     *** This script will fail because new version of postGIS don't have GIST_GEOMETRY_OPS anymore.   PostGIS 2.2 and above include a patch file, but since we are using v2.1, download and run this file: [http://icode-mda.googlecode.com/files/legacy_gist.sql legacy_gist.sql]
     ** Run the omarData.sql on your database
    # Install Tomcat http://tomcat.apache.org/whichversion.html
    # Install OSSIM LIBS
