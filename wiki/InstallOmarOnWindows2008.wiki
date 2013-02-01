@@ -6,10 +6,10 @@ Deployment is the term used for the process of installing a web application (eit
 
 These instructions where tested on Windows 2008 Server 64bit system with:
 
- **Tomcat 7.0.35 64bit
+ **Tomcat v7.0.35 64bit
  **Java 6 update 38 32-bit
- **Postgres 9.2.2-1 32bit
- **PostGIS 2.0.2 32bit
+ **Postgres v9.2.2-1 32bit
+ **PostGIS v2.0.1 32bit
 
 
 = Details =
@@ -36,6 +36,12 @@ pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.
     **Install Java
      **Set environment variable JAVA_HOME
      **Add %JAVA_HOME%/bin to your PATH
+    **Install postgres
+     ** Use default Port 5432
+     ** Run Stack Builder to load additional software
+     ** Install PostGIS(located under Spatial Extensions)
+     ** Define the environment variable POSTGIS_HOME = "GIS Installed directory" (should be under your postgres share/contrib folder
+     ** Define the environment variable PG_HOME = "PostGres Installed dir"
    # Define the following in your $HOME/.bash_profile file. Make sure that specified locations match your environment.
 {{{
 export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
