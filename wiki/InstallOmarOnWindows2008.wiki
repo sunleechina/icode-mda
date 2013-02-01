@@ -1,226 +1,167 @@
-#summary Installation of OMAR (OSSIM Mapping Archive) on Windows 7 VS2010
+#summary Deploying OMAR war file on Windows 2008 Server
 
 = Introduction =
 
-OMAR is a web based system for archival, retrieval, processing, and distribution of geospatial assets. Satellite and aerial images, vector sets, unmanned aerial vehicle (UAV) video sets, as well as user generated tags and reference items can be easily searched and manipulated with the system. Searching can be performed on the basis of location, time, or any combination of the stored metadata. OMAR is unique in its ability to dynamically process raw materials and create value added products on the fly. Imagery is orthorectified (geometrically corrected), precision terrain corrected, and histogram stretched on demand. OMAR combines, fuses, or chips areas of interest according to the users needs. Geospatial assets can then be manipulated, viewed, and processed to provide a wide range of value added products.
+Deployment is the term used for the process of installing a web application (either a 3rd party WAR or your own custom web application) into the Tomcat server. The following are instructions on deploying your OMAR War file. 
 
-These instructions where tested on Windows 7 VS2010 express (32bit). Using:
-  **OSSIM ver 1.8.12-1 (svn tag)
-  **Grails v2.0.3
-  **Groovy v1.8.6
-  **Apache Ant 1.8.3
-  **Java JDK 1.7.0_03
-  **PostGreSql 9.1.3-1
-  **PostGIS  v2.0
-  **SWIG v2.0.6
-  **FFmpeg 2012-05-03 (Win Build)
-  **CMake v2.8.8
-  **Curl v7.18.0
-  **MS4W v3.0.4
+These instructions where tested on Windows 2008 Server 64bit system with:
+
+ **Tomcat 7.0.35 64bit
+ **Java 6 update 38 32-bit
+ **Postgres 9.2.2-1 32bit
+ **PostGIS 2.0.2 32bit
+
 
 = Details =
-
- # Define the following Windows environment variables. Make sure that specified locations match your environment.
+ # Installation
+  # *Development computer* : Computer where OMAR was built
+   # Configuration: Make sure your $OMAR_HOME/grails-app/conf/DataSource.groovy Production configuration is setup for you target computer (Username, Password, etc) or see External Configuration section below
+   # Create WAR File: From a working OMAR development project do the following (You can also download a working WAR file from here: [http://code.google.com/p/icode-mda/downloads/detail?name=omar.war&can=2&q= omar.war]):
 {{{
-OSSIM_DEV_HOME = "C:\ossim\ossim-1.8.12-1"
-OSSIM_HOME = "%OSSIM_DEV_HOME%/ossim"
-OSSIM_INSTALL_PREFIX = "C:\ossim\build4Omar\Release"
-OSSIM_DEPENDENCIES = "c:/opt/radiantblue"
-OSSIM_PREFS_FILE = "%OSSIM_INSTALL_PREFIX%/ossim_preferences"
-
-OMAR_HOME="c:/opt/radiantblue/omar/apps/omar"
-OMAR_DEV_HOME="c:/opt/radiantblue/omar"
-
-JAVA_HOME = "Your Java Home Directory"
-
-PATH="%JAVA_HOME%/bin;%ANT_HOME%/bin;%GRAILS_HOME%/bin;%OSSIM_INSTALL_PREFIX%"
-
+cd $OMAR_HOME
+grails prod war omar.war
 }}}
- # Install Apache Ant : http://ant.apache.org/bindownload.cgi
-  ** Define the environment variable ANT_HOME="Your Ant Installation directory"
-  ** Add %ANT_HOME%/bin directory to your PATH environment variable
- # Install Grails : http://grails.org/Download 
-  ** Place the extracted folder in the %OSSIM_DEPENDENCIES% directory
-  ** Define the environment variable GRAILS_HOME = %OSSIM_DEPENDENCIES%/grails-1.3.8
-  ** Define the environment variable GRAILS_VERSION = 1.3.8
-  ** Add %GRAILS_HOME%/bin directory to your PATH environment variable
- # Install Groovy : http://groovy.codehaus.org/Download?nc 
-  ** Define the environment variable GROOVY_HOME = "Groovy Installed Directory"
-  ** Define the environment variable GROOVY_VERSION = 1.8.6
- # Install PostgreSQl / PostGIS: http://www.postgresql.org/download/windows/
-  ** Use default Port 5432
-  ** Run Stack Builder to load additional software
-  ** Install PostGIS 2.0 (located under Spatial Extensions)
-  ** Define the environment variable POSTGIS_HOME = "GIS Installed directory"
-  ** Define the environment variable PG_HOME = "PostGres Installed dir"
- # Install SWIG : http://www.swig.org/download.html
-  ** Define the environment variable SWIG_HOME = "Unpacked Directory"
-  ** Add %SWIG_HOME% directory to your PATH environment variable
- # Install FFmpeg 2012-05-03 Build : http://ffmpeg.zeranoe.com/builds/
-  ** Download the Shared and Dev 32-bit Builds
-  ** Unpack both folder in the c:\ossim directory
-  ** Add the bin directory of the shared distribution to your PATH
-  ** Define %ffmpeg-dev% env variable to your dev folder
-  ** Add the following header files to the %ffmpeg-dev%/include directory
-   ** stdint.h  : http://code.google.com/p/msinttypes/downloads/list
-   ** inttypes.h : http://code.google.com/p/msinttypes/downloads/list
- # Install Cmake : http://www.cmake.org/cmake/resources/software.html
-  ** Use the Win32 Installer
- # Install Curl : http://curl.haxx.se/download.html
-  ** Choose the Win32 - MSVC
-  ** Unpack folder into the "C:\ossim" directory
- # Install MS4W (Apachie) : http://www.maptools.org/ms4w/index.phtml?page=downloads.html
-  ** Download and run the installer (Use port 8080)
-  ** Add the following to the end of the "httpd.conf" file
+   # Make a data dump of your database. On a command window enter the following:
+   {{{
+pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.sql omardb-1.8.14-prod 
+   }}}
+   # Take the following to the Target computer
+    ** $OMAR_HOME/ddl.sql
+    ** $OMAR_HOME/geoms.sql
+    ** $OMAR_HOME/omar.war
+    ** omarData.sql
+    ** OSSIM build dependencies (see: http://code.google.com/p/icode-mda/wiki/OMAR_Installation)
+  # *Target Computer* : Computer where OMAR will be deployed to
+   # Install Dependencies.
+    **Install Java
+     **Set environment variable JAVA_HOME
+     **Add %JAVA_HOME%/bin to your PATH
+   # Define the following in your $HOME/.bash_profile file. Make sure that specified locations match your environment.
 {{{
-ProxyPass /omar http://localhost:8080/omar
-ProxyPassReverse /omar http://localhost:8080/omar
+export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
+export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
+export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
+export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
+export OSSIM_PREFS_FILE=$OSSIM_INSTALL_PREFIX/ossim_preferences
 }}}
-  ** Make sure the following modules are enabled in the "httpd.conf" file
+   # Setup PostgreSQL
+    ** Log in as postgres 
 {{{
-LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_connect_module modules/mod_proxy_connect.so
-LoadModule proxy_http_module modules/mod_proxy_http.so 
+  su
+  su - postgres
 }}}
- # Install OSSIM
-  # Obtain the "ossim-3rd-party-vs2010" libaries : http://code.google.com/p/icode-mda/downloads/detail?name=3rd-party.zip&can=2&q=
-   ** Unpack folder into "c:\ossim" directory
-   ** Add the "./3rd-party-vs10-2010-express/vs2010/bin/win32" directory to your PATH
-  # Check out OSSIM svn tag 1.8.12-1 : https://svn.osgeo.org/ossim/tags/ossim-1.8.12-1
-   ** Place folder in c:\ossim (See %OSSIM_DEV_HOME%)
-   ** Modify: libwms/src/wms.cpp
-    *** Had to surrond the curl.h include as c extern
+    ** Creates a new PostgreSQL database cluster (or database system). A database cluster is a collection of databases that are managed by a single server instance.
 {{{
- extern "C" {
-   #include <curl/curl.h>
- }
+initdb /var/lib/pgsql/data
 }}}
-   ** Modify: ossimPredator/src/ossimPredatorVideo.cpp
-    *** Had to replace old av_open_input_file in the "open" function
+    ** Setup to start at boot time
 {{{
- //int err = av_open_input_file(&theFormatCtx, videoFile.c_str(), NULL, 0, NULL);
-   int err = avformat_open_input(&theFormatCtx, videoFile.c_str(), NULL, NULL);
+su - 
+systemctl enable postgresql.service
+systemctl restart postgresql.service
 }}}
-   ** Modify oms/coms/src/oms/DataInfo.cpp
-    *** Fixed ambiguous call
+   # Setup Apache HTTPD to start at boot time
 {{{
-//Change this line to this
-//std::string klvnumber = ossimString::toString(idx);
-std::string klvnumber = std::string(ossimString(idx).string());
+su - 
+systemctl enable httpd.service
+systemctl restart httpd.service
+}}}
+   # Setup Mapserver by copying it to our server cgi directory
+{{{
+sudo cp /usr/sbin/mapserv /var/www/cgi-bin/
+}}}
+   # Create OMAR CACHE directory
+{{{
+su - 
+mkdir /data
+chmod 777 /data
+exit
+mkdir /data/omar
+mkdir /data/omar/omar-cache
+}}}
+   # Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
+{{{
+//Create PostGIS template database
+su
+su - postgres
+createdb -E UTF8 -T template0 postgis_template
+createlang -d postgis_template plpgsql
+psql -d postgis_template -f  /usr/share/pgsql/contrib/postgis-64.sql
+psql -d postgis_template -f  /usr/share/pgsql/contrib/spatial_ref_sys.sql
+psql -d postgis_template -c "GRANT ALL ON geometry_columns TO PUBLIC;"
+psql -d postgis_template -c "GRANT ALL ON geography_columns TO PUBLIC;"
+psql -d postgis_template -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+psql -d postgis_template -c "VACUUM FULL;"
+psql -d postgis_template -c "VACUUM FREEZE;"
+psql -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='postgis_template';"
+psql -d postgres -c "UPDATE pg_database SET datallowconn='false' WHERE datname='postgis_template';"
+}}}
+{{{
+//Create Database
+su -
+su - postgres
+psql -Upostgres
+create database omardb-1.8.14-prod with template=postgis_template;
+}}}
+    ** Run the ddl.sql script on your database
+    ** Run the geoms.sql script on your database
+    ** Run the omarData.sql on your database
+   # Install Tomcat http://tomcat.apache.org/whichversion.html
+   # Install OSSIM LIBS
+   ** Make sure all OSSIM depencencies are located at $OSSIM_INSTALL_PREFIX 
+    *** Add $OSSIM_INSTALL_PREFIX/bin to your PATH environment variable
+    *** Add $OSSIM_INSTALL_PREFIX/lib to your LD_LIBRARY_PATH environment variable
+ # Launch OMAR application
+  # Copy your WAR file to the tomcat "webapps" folder 
+  # Start Tomcat
+  # Point your web browser to : http://localhost:8080/omar
 
-//Change to this
-std::string oms::DataInfo::convertAcqDateToXmlDate(const std::string& value) const
-{
-   if (value.size() == 8) // assume 4 character year 2 month and 2 day format
-   {
-      return std::string(ossimString(value.begin(), value.begin() + 4).string() + "-"
-              + ossimString(value.begin() + 4, value.begin() + 6).string() + "-"
-              + ossimString(value.begin() + 6, value.begin() + 8).string());
-   }
-   if (value.size() == 14) // assume 4 character year 2 month and 2 day 2 hour 2 minute 2 seconds
-   {
-      return std::string(ossimString(value.begin(), value.begin() + 4).string() + "-"
-              + ossimString(value.begin() + 4, value.begin() + 6).string() + "-"
-              + ossimString(value.begin() + 6, value.begin() + 8).string() + "T"
-              + ossimString(value.begin() + 8, value.begin() + 10).string() + ":"
-              + ossimString(value.begin() + 10, value.begin() + 12).string() + ":"
-              + ossimString(value.begin() + 12, value.begin() + 14).string() + "Z");
-   }
-   return "";
+=External Configuration=
+The default configuration files in grails-app/conf is fine in the majority of cases, but there may be circumstances where you want to maintain the configuration in a file outside the main application structure. For example if you are deploying to a WAR some administrators prefer the configuration of the application to be externalized to avoid having to re-package the WAR due to a change of configuration. To do this the configuration must be externalized:
+  
+ # Create an external Configuration file. The following is an example of a file that overrides the database username and password
+{{{
+//  File: /opt/config/omarConfig.groovy
+environments {
+    production {
+	dataSource.username = "postgres"
+        dataSource.password = "123abcd"
+        dataSource.url = jdbc:postgresql_postGIS://localhost:5432/omardb-1.8.14-prod
+    }
 }
-
 }}}
-   ** Modify: oms/coms/include/oms/Video.h
-    *** Add include statement
+ # Create an environmental variable named "OMAR_CONFIG" pointing the the external configuration file created above.
 {{{
-#include <ossim/base/ossimReferenced.h>
+   export OMAR_CONFIG = /opt/config/omarConfig.groovy
 }}}
-  # Creat build directory: c:\ossim\build4Omar
-  # Copy the following files into the Build directory. Make sure defined variables match your enviroment
-   ** Build_ossim_vs10.bat : http://code.google.com/p/icode-mda/downloads/detail?name=Build_ossim_vs10.bat&can=2&q=
-   ** ossim-package-cmake-config-vs10-nmake-v2.bat : http://code.google.com/p/icode-mda/downloads/detail?name=ossim-package-cmake-config-vs10-nmake-v2.bat&can=2&q=
-  # Double click "Build_ossim_vs10.bat" to build VS solution.
-  # Open the VisualStudios solutions file 
-   **add the following ffmpeg dev include directory to the ossimPredator, OMS and OSSIM projects list of include directories
-    ** %ffmpeg-dev%/include
-    ** %ffmpeg-dev%/include/libavformat
-    ** %ffmpeg-dev%/include/libavdevice
-    ** %ffmpeg-dev%/include/libavcodec
-    ** %ffmpeg-dev%/include/libavutil
-   **Disable the OSSIM_PREDATOR_VIDEO_ENABLED Preprocessor on the OMS project
-  # Build Release version of the OSSIM Libs
- # Check out OMAR source tree
-{{{
-cd %OMAR_DEV_HOME%
-svn co https://svn.osgeo.org/ossim/omar omar
-}}}
- # Build and Install JOMS
-  # open the %OSSIM_DEV_HOME%/oms/joms directory
-  # Replace build.xml file with this build.xml : http://code.google.com/p/icode-mda/downloads/detail?name=build.xml&can=2&q=
-  # Run “ant clean”
-  # Run “ant initialize-environment”
-  # Run “ant generate-wrappers”
-  # Run “ant compile-java”
-  # Run “ant compile-groovy”
-  # Edit  %OSSIM_DEV_HOME%/oms/joms/swig/oms_wrap.cxx Around line # 1249: Find the ossimKeyWordlist_toString function and replace it with this: 
-{{{
-SWIGINTERN std::string ossimKeywordlist_toString(ossimKeywordlist *self){
-		return std::string(ossimString(self->toString()).string());
-	}
-}}}
-  # Run “%VS100COMNTOOLS%\vsvars32.bat”
-  # Run “ant compile-c++”
-  # Run “ant dist”
-  # Run “ant install”
- # Install JAI. Add all JAI jars to $OMAR_HOME/lib
- # Setup OMAR Databases for Production
-{{{
-cd $OMAR_HOME
-grails prod drop-postgis-database
-grails prod create-postgis-database
-grails prod schema-export ./ddl.sql
-
-grails prod run-sql-file ddl.sql
-
-//Edit geoms.sql and get rid of the GIST_GEOMETRY_OPS from  the Create Index command
-grails prod run-sql-file geoms.sql
-grails prod  run-script ./scripts/defaults.groovy
-}}}
- # Run OMAR from the command line
-{{{
-cd $OMAR_HOME
-grails prod run-app
-}}}
- # Run OMAR from Netbeans
-{{{
-1. Download the Netbeans
-2. Install Grails/Groovy Plugin
-3. Load OMAR project at $OMAR_HOME
-4. Run
-}}}
- # Use Omar
-{{{
-1. Open browser to http://localhost:8080/omar
-}}} 
- # Default logins are:
-{{{
-    User: admin Pw: admin
-    User: user  Pw: user
-}}}
-
+ 
 
 =Trouble Shooting=
+
  # I'm getting the following error message:
 {{{
-"'std::basic_string<_Elem,_Traits,_Ax>::basic_string' : ambiguous call to 
-overloaded function"
+"java.lang.NoClassDefFoundError: org.hibernatespatial.postgis.PostgisDialect"
 }}}
-  See the following thread
- {{{
- http://osgeo-org.1560.n6.nabble.com/Problem-Building-OSSIM-OMS-on-VS-2010-SOLVED-td4947635.html
-}}}
- # grails commands are getting stuck. They don't print anything beyond "configuring classpath" message .
-  * Cleaning .ivy cache
+  Your WAR is missing postgis plugin.  This tends to happen now and again and should be fixed with the integration to Grails 2.0.
+  To fix it do the following:
 {{{
-delete $HOME/.grails/ivy-cache
+cd $OMAR_DEV_HOME/plugins/postgis
+grails clean
+grails package-plugin
+cd $OMAR_HOME
+grails clean
+grails prod war omar.war
+}}}
+ # OMAR is not working and I don't get any error Messages
+{{{
+//Check 
+/tmp/logs/omar.log
+}}}
+ # I'm getting the following error message:
+{{{
+"java.lang.UnsatisfiedLinkError: no joms in java.library.path"
+}}}
+ Go to  $OSSIM_INSTALL_PREFIX/lib and check the permissions of "libjoms.so".  If it is not executable do the following
+ {{{
+ sudo chmod +x libjoms.so
 }}}
