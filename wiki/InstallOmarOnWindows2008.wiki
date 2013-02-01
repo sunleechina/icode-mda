@@ -42,13 +42,25 @@ pg_dump -U postgres --column-inserts --data-only --disable-triggers -f omarData.
      ** Install PostGIS(located under Spatial Extensions)
      ** Define the environment variable POSTGIS_HOME = "GIS Installed directory" (should be under your postgres share/contrib folder
      ** Define the environment variable PG_HOME = "PostGres Installed dir"
-   # Define the following in your $HOME/.bash_profile file. Make sure that specified locations match your environment.
+    ** Install MS4W (Apachie) : http://www.maptools.org/ms4w/index.phtml?page=downloads.html
+     ** Download and run the installer (Use port 8080)
+     ** Add the following to the end of the "httpd.conf" file, located under your ms4w installation -> Apache\conf
 {{{
-export OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
-export PATH=$OSSIM_INSTALL_PREFIX/bin:$PATH
-export LD_LIBRARY_PATH=$OSSIM_INSTALL_PREFIX/lib:$LD_LIBRARY_PATH
-export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
-export OSSIM_PREFS_FILE=$OSSIM_INSTALL_PREFIX/ossim_preferences
+ProxyPass /omar http://localhost:8080/omar
+ProxyPassReverse /omar http://localhost:8080/omar
+}}}
+     ** Make sure the following modules are enabled in the "httpd.conf" file
+{{{
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule proxy_http_module modules/mod_proxy_http.so 
+}}}
+   # Define the following in your system environment variable.
+{{{
+OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
+PATH=%OSSIM_INSTALL_PREFIX%/bin:%PATH%
+LD_LIBRARY_PATH=%OSSIM_INSTALL_PREFIX%/lib:%LD_LIBRARY_PATH%
+OSSIM_PREFS_FILE=%OSSIM_INSTALL_PREFIX%/ossim_preferences
 }}}
    # Setup PostgreSQL
     ** Log in as postgres 
