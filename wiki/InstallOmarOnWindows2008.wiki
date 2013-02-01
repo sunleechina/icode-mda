@@ -57,32 +57,10 @@ LoadModule proxy_http_module modules/mod_proxy_http.so
 }}}
    # Define the following in your system environment variable.
 {{{
-OSSIM_INSTALL_PREFIX=/opt/radiantblue/ossim
-PATH=%OSSIM_INSTALL_PREFIX%/bin:%PATH%
-LD_LIBRARY_PATH=%OSSIM_INSTALL_PREFIX%/lib:%LD_LIBRARY_PATH%
-OSSIM_PREFS_FILE=%OSSIM_INSTALL_PREFIX%/ossim_preferences
-}}}
-   # Setup PostgreSQL
-    ** Log in as postgres 
-{{{
-  su
-  su - postgres
-}}}
-    ** Creates a new PostgreSQL database cluster (or database system). A database cluster is a collection of databases that are managed by a single server instance.
-{{{
-initdb /var/lib/pgsql/data
-}}}
-    ** Setup to start at boot time
-{{{
-su - 
-systemctl enable postgresql.service
-systemctl restart postgresql.service
-}}}
-   # Setup Apache HTTPD to start at boot time
-{{{
-su - 
-systemctl enable httpd.service
-systemctl restart httpd.service
+OSSIM_INSTALL_PREFIX="/opt/radiantblue/ossim"
+PATH="%OSSIM_INSTALL_PREFIX%/bin:%PATH%"
+LD_LIBRARY_PATH="%OSSIM_INSTALL_PREFIX%/lib:%LD_LIBRARY_PATH%"
+OSSIM_PREFS_FILE="%OSSIM_INSTALL_PREFIX%/ossim_preferences"
 }}}
    # Setup Mapserver by copying it to our server cgi directory
 {{{
