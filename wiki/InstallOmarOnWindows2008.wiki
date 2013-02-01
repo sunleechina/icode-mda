@@ -62,45 +62,10 @@ PATH="%OSSIM_INSTALL_PREFIX%/bin:%PATH%"
 LD_LIBRARY_PATH="%OSSIM_INSTALL_PREFIX%/lib:%LD_LIBRARY_PATH%"
 OSSIM_PREFS_FILE="%OSSIM_INSTALL_PREFIX%/ossim_preferences"
 }}}
-   # Setup Mapserver by copying it to our server cgi directory
-{{{
-sudo cp /usr/sbin/mapserv /var/www/cgi-bin/
-}}}
-   # Create OMAR CACHE directory
-{{{
-su - 
-mkdir /data
-chmod 777 /data
-exit
-mkdir /data/omar
-mkdir /data/omar/omar-cache
-}}}
    # Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
-{{{
-//Create PostGIS template database
-su
-su - postgres
-createdb -E UTF8 -T template0 postgis_template
-createlang -d postgis_template plpgsql
-psql -d postgis_template -f  /usr/share/pgsql/contrib/postgis-64.sql
-psql -d postgis_template -f  /usr/share/pgsql/contrib/spatial_ref_sys.sql
-psql -d postgis_template -c "GRANT ALL ON geometry_columns TO PUBLIC;"
-psql -d postgis_template -c "GRANT ALL ON geography_columns TO PUBLIC;"
-psql -d postgis_template -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
-psql -d postgis_template -c "VACUUM FULL;"
-psql -d postgis_template -c "VACUUM FREEZE;"
-psql -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='postgis_template';"
-psql -d postgres -c "UPDATE pg_database SET datallowconn='false' WHERE datname='postgis_template';"
-}}}
-{{{
-//Create Database
-su -
-su - postgres
-psql -Upostgres
-create database omardb-1.8.14-prod with template=postgis_template;
-}}}
     ** Run the ddl.sql script on your database
     ** Run the geoms.sql script on your database
+     *** This script will fail because new version of postGIS don't have GIST_GEOMETRY_OPS anymore.   PostGIS 2.2 and above include a patch file, but since we are using v2.1, download and run this file: 
     ** Run the omarData.sql on your database
    # Install Tomcat http://tomcat.apache.org/whichversion.html
    # Install OSSIM LIBS
