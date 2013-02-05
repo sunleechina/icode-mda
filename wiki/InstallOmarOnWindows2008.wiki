@@ -62,6 +62,42 @@ PATH="%OSSIM_INSTALL_PREFIX%/bin:%PATH%"
 LD_LIBRARY_PATH="%OSSIM_INSTALL_PREFIX%/lib:%LD_LIBRARY_PATH%"
 OSSIM_PREFS_FILE="%OSSIM_INSTALL_PREFIX%/ossim_preferences"
 }}}
+   # Setup OSSIM preferences. Edit the $OSSIM_PREFS_FILE by adding the following:
+{{{
+elevation_manager.elevation_source2.type: dted_directory
+elevation_manager.elevation_source2.connection_string: /Volumes/Iomega_HDD/data/elevation/dted/1k
+elevation_manager.elevation_source2.min_open_cells: 500
+elevation_manager.elevation_source2.max_open_cells: 1000
+elevation_manager.elevation_source2.memory_map_cells: true
+
+epsg_database_file1: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_epsg_projections-v7_4.csv
+epsg_database_file2: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_harn_state_plane_epsg.csv
+epsg_database_file3: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_state_plane_spcs.csv
+epsg_database_file4: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_harn_state_plane_esri.csv
+
+wkt_database_file: $(OSSIM_DEV_HOME)/ossim/share/ossim/ossim_wkt_pcs.csv
+
+//plugin.file1: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossim_plugin.so 
+plugin.file1: $(OSSIM_INSTALL_PREFIX)/ossim_plugin.dll
+//plugin.file2: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimkakadu_plugin.so
+plugin.file2: $(OSSIM_INSTALL_PREFIX)/ossimkakadu_plugin.dll
+//plugin.file4: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimpng_plugin.so
+plugin.file4: $(OSSIM_INSTALL_PREFIX)/ossimpng_plugin.dll
+//plugin.file5: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimgdal_plugin.so
+plugin.file5: $(OSSIM_INSTALL_PREFIX)/ossimgdal_plugin.dll
+//plugin.file6: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimregistration_plugin.so
+plugin.file6: $(OSSIM_INSTALL_PREFIX)/ossimregistration_plugin.dll
+//plugin.file7: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimcontrib_plugin.so 
+plugin.file7: $(OSSIM_INSTALL_PREFIX)/ossimcontrib_plugin.dll
+plugin.file8: $(OSSIM_INSTALL_PREFIX)/ossimlibraw_plugin.dll
+//plugin.file8: $(OSSIM_INSTALL_PREFIX)/lib/ossim/plugins/libossimlibraw_plugin.so
+//plugin.file9: $(OSSIM_INSTALL_PREFIX)/lib/csm/libcsmbuckeye_plugin.so
+//plugin.file10: $(OSSIM_INSTALL_PREFIX)/lib/ossim-$(OSSIM_VERSION)/plugins/libossimcsm_plugin.so
+
+//csm_plugin_path: $(OSSIM_INSTALL_PREFIX)/lib/csm
+
+geoid_egm_96_grid: $(OSSIM_DEV_HOME)/ossim_package_support/geoids/geoid1996/egm96.grd
+}}}
    # Create a GIS database that was specified on your DataSource.groovy file (IE:  omardb-1.8.14-prod). If using pgAdmin, specify the "template_postgis" Template under the Definition tab.
     **Run the ddl.sql script on your database
     **Run the geoms.sql script on your database
