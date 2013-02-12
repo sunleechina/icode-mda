@@ -6,7 +6,7 @@ class Ais
 
   static hasMany = [locations: Location, changes: Change]
 
-  //Integer messageType;
+  Integer messageType;
   String uId;
   Integer mmsi;
   NavigationStatus navStatus;
@@ -44,7 +44,7 @@ class Ais
     callsign( nullable: false )
     length( nullable: false )
     width( nullable: false )
-    //messageType( nullable: true )
+    messageType( nullable: true )
     navStatus( nullable: true )
     rateOfTurn( nullable: true )
     speedOverGround( nullable: true )
@@ -66,7 +66,14 @@ class Ais
 
   String toString( )
   {
-    return "${vesselName}}"
+      def locs = this.locations
+      def ret = "${vesselName} - points: "
+
+      locs.each() {
+          ret += "${it.geometryObject.toText()}, "
+      } 
+      
+      return ret
   }
 
   static mapping = {
