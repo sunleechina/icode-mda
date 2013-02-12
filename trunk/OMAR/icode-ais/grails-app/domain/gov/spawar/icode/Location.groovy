@@ -8,7 +8,6 @@ class Location
   static belongsTo = [Ais, RadarSurfTrack, RadarAirTrack, Vms]
   //static belongsTo = [ais:Ais]
 
-
   Point geometryObject;
   //Double latitude=0;
   //Double longitude=0;

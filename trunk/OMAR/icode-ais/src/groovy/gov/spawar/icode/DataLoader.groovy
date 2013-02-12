@@ -329,8 +329,10 @@ class DataLoader
                 def prefix = new CallSignPrefix();
 
                 String countryName = words[2]
+                String countryCode = words[1]
                 def country = Country.findByName( countryName );
-                if ( !country )
+                
+                if ( !country && !Country.findByCountryCode( countryCode ) )
                 {
                     country = new Country()
                     country.countryCode = words[1]
@@ -338,6 +340,12 @@ class DataLoader
 
                     country.save()
 
+                    prefix.with {
+                        prefix.prefix = words[0]
+                    }
+
+                    country.addToCallSignPrefixes( prefix )
+                    
                     if ( !country.save( flush: true ) )
                     {
                         println( "Error: Save Country errors: ${country.errors}" );
@@ -345,11 +353,7 @@ class DataLoader
 
                 }
 
-                prefix.with {
-                    prefix.prefix = words[0]
-                }
-
-                country.addToCallSignPrefixes( prefix )
+                
 
             }//not null line
             if ( count % 1000 == 0 )
