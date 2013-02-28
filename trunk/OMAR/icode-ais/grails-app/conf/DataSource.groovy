@@ -15,19 +15,19 @@ environments {
   development {
     dataSource {
       dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-      url = "jdbc:postgresql_postGIS:geodata-dev"
+      url = "jdbc:postgresql_postGIS:omardb-1.8.16-dev"
     }
   }
   test {
     dataSource {
       dbCreate = "update"
-      url = "jdbc:postgresql_postGIS:geodatadb-test"
+      url = "jdbc:postgresql_postGIS:omardb-1.8.16-dev"
     }
   }
   production {
     dataSource {
       dbCreate = "update"
-      url = "jdbc:postgresql_postGIS:geodatadb-prod"
+      url = "jdbc:postgresql_postGIS:omardb-1.8.16-dev"
     }
   }
 }

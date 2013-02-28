@@ -1,6 +1,5 @@
 package gov.spawar.icode
 
-import gov.spawar.icode.Ais
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
 import com.vividsolutions.jts.geom.PrecisionModel
@@ -51,7 +50,8 @@ class AisIngestController {
                     length: tokens[12] as Double,
                     width: tokens[13] as Double,
                     eta: ( new Date() + 30 ),
-                    dateCreated: new Date(timeStamp)
+                    dateCreated: new Date(timeStamp),
+                    lastUpdated: new Date(timeStamp)
                     //destination: tokens[19]
                     //mid //MaritimeIdDigit
                 )

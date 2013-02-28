@@ -43,7 +43,10 @@ Brief description of the plugin.
   <repositories>
     <repository name='grailsCentral' url='http://grails.org/plugins' />
     <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://snapshots.repository.codehaus.org' url='http://snapshots.repository.codehaus.org/' />
+    <repository name='http://repository.codehaus.org' url='http://repository.codehaus.org/' />
     <repository name='http://download.java.net/maven/2/' url='http://download.java.net/maven/2/' />
+    <repository name='http://repository.jboss.com/maven2/' url='http://repository.jboss.com/maven2/' />
     <repository name='http://repo.opengeo.org' url='http://repo.opengeo.org/' />
     <repository name='http://download.osgeo.org/webdav/geotools' url='http://download.osgeo.org/webdav/geotools/' />
     <repository name='http://www.hibernatespatial.org/repository' url='http://www.hibernatespatial.org/repository/' />
