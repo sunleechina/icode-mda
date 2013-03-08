@@ -7,24 +7,26 @@ class PostToDDFJob {
     static grailsApplication
 
     static triggers = {
-      simple repeatInterval:  5000l
+        simple name: 'PostToDDFJob', startDelay: 1000, repeatInterval: 1000
     }
 
     def execute() {
         if (grailsApplication.config.ddf.ais.post.on.asBoolean()){
             use(TimeCategory){
-                def payload = postToDDFService.getNewAis(1.minute);
+                def payload = postToDDFService.getNewAis(1.second);
                 def metacards = postToDDFService.generateMetaCardData(payload)
                 if (!metacards.empty){
                     log.debug("Posting "+ metacards.size()+ " metacard(s) to: " + grailsApplication.config.ddf.ais.post.url)
-                    def responseAndError = postToDDFService.postMetaCardsToDDF(metacards, grailsApplication.config.ddf.ais.post.url)
-                    if (responseAndError.last() != null){
-                        log.error(responseAndError.last().toString())
-                    }else{
-                        log.debug(responseAndError.first().toString())
+                    metacards.each { metacard ->
+                        def responseAndError = postToDDFService.postMetaCardsToDDF(metacard, grailsApplication.config.ddf.ais.post.url)
+                        if (responseAndError.last() != null){
+                            log.error(responseAndError.last().toString())
+                        }else{
+                            log.debug(responseAndError.first().toString())
+                        }
                     }
                 } else {
-                    log.debug("No metacards found skipping post to: " + grailsApplication.config.ddf.ais.post.url)
+                    log.warn("No metacards found skipping post to: " + grailsApplication.config.ddf.ais.post.url)
                 }
             }
         }
