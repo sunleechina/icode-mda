@@ -26,5 +26,5 @@ grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
 
 ddf.ais.post.on=true
-ddf.ais.post.url= "http://someserver/path"
+ddf.ais.post.url= "http://localhost:8181/services/catalog"
 
