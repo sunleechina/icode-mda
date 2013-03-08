@@ -3,8 +3,12 @@ package gov.spawar.icode
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
 import com.vividsolutions.jts.geom.PrecisionModel
+import org.codice.common.ais.Decoder
+import org.codice.common.ais.message.Message
+
 import java.text.SimpleDateFormat
 import grails.converters.JSON
+
 
 class AisIngestController {
     
@@ -13,57 +17,66 @@ class AisIngestController {
     }
 
     def create = { 
-        
+
         def body = request.reader.text
+        Decoder decoder = new Decoder()
+        List messages = decoder.parseString(body)
 
         def geometryFactory = new GeometryFactory( new PrecisionModel(), 4326 )
 
         def count = 0
 
-        body.toCsvReader().eachLine {  tokens ->
 
-            SimpleDateFormat formatter;  //07-MAY-07 11.41.56 AM
-            formatter = new SimpleDateFormat( "yy-MMM-dd hh.mm.ss a" );
+        messages.each { message ->
 
-            //Search for AIS based on MMSI
-            def mmsiID = tokens[0]?.toInteger()
-            def ais = Ais.findByMmsi( mmsiID );
+            def mmsi = message.getMmsi().toInteger()
+            def ais = Ais.findByMmsi( mmsi );
+            def vesselName = message.metaClass.respondsTo(message, "getVesselName") ? message.getVesselName() : mmsi
+            def iMO = mmsi
+            def callsign = message.metaClass.respondsTo(message, "getCallSign") ? message.getCallSign() : mmsi
+            def length = message.metaClass.respondsTo(message, "getLength") ? message.getLength() : 0
+            def width = message.metaClass.respondsTo(message, "getWidth") ? message.getWidth() : 0
+            def rateOfTurn = message.metaClass.respondsTo(message, "getRot") ? message.getRot() : 0
+            def speedOverGround = message.metaClass.respondsTo(message, "getSog") ? message.getSog() : 0
+            def posAccuracy = message.metaClass.respondsTo(message, "getPositionAccuracy") ? message.getPositionAccuracy() : false
+            def courseOverGround = message.metaClass.respondsTo(message, "getCog") ? message.getCog() : 0
+            def trueHeading = message.metaClass.respondsTo(message, "getTrueHeading") ? message.getTrueHeading() : 0
+            def destination = message.metaClass.respondsTo(message, "getDestination") ? message.getDestination() : "Not Known"
 
-            long timeStamp = tokens[8] as Long
-            timeStamp = timeStamp * 1000
-            
             if ( !ais )
             {
-
                 ais = new Ais(
-                    mmsi: tokens[0] as Integer,
+                    mmsi: mmsi as Integer,
                     //navStatus: tokens[1] as Integer,
-                    rateOfTurn: tokens[2] as Float,
-                    speedOverGround: tokens[3] as Float,
-                    posAccuracy: tokens[21] as Double,
-                    courseOverGround: tokens[6] as Double,
-                    trueHeading: tokens[7] as Double,
-                    IMO: tokens[9] as Integer,
-                    callsign: tokens[20],
-                    vesselName: tokens[10],
+                    rateOfTurn: rateOfTurn as Float,
+                    speedOverGround: speedOverGround as Float,
+                    posAccuracy: (posAccuracy ? 1.0: 0.0) as Double,
+                    courseOverGround: courseOverGround as Double,
+                    trueHeading: trueHeading as Double,
+                    IMO: iMO as Integer,
+                    callsign: callsign,
+                    vesselName: vesselName,
                     //vesselType: tokens[11] as Integer,            //XXX Need to replace this with type logic
-                    length: tokens[12] as Double,
-                    width: tokens[13] as Double,
+                    length: length as Double,
+                    width: width as Double,
                     eta: ( new Date() + 30 ),
-                    dateCreated: new Date(timeStamp),
-                    lastUpdated: new Date(timeStamp)
-                    //destination: tokens[19]
-                    //mid //MaritimeIdDigit
+                    dateCreated: new Date(),
+                    lastUpdated: new Date()
                 )
-				
+
+
                 //Find NavStatus
-                int navCode = tokens[1] as Integer
-                def nav = NavigationStatus.findByCode(navCode) ;
-                if(nav)  ais.navStatus = nav;
+                if (message.metaClass.respondsTo(message, "getNavStatus")){
+                    int navCode = message.getNavStatus() as Integer
+                    def nav = NavigationStatus.findByCode(navCode) ;
+                    if(nav)  ais.navStatus = nav;
+                }
 
 
                 //Save new AIS
-                ais.save()
+
+
+
 
                 //  if ( !ais.save( flush: true ) )
                 //  {
@@ -71,22 +84,31 @@ class AisIngestController {
                 //  }
             }
 
-            
+            ais.lastUpdated = new Date()
+            if (ais.vesselName == ais.mmsi && vesselName != ais.mmsi) {
+                ais.vesselName = message.getVesselName()
+                ais.callsign = message.getCallSign()
+            }
+            ais.save()
 
-            def longitude = tokens[5] as Double
-            def latitude = tokens[4] as Double
-            def point = geometryFactory.createPoint( new Coordinate( longitude, latitude ))
-            def location = new Location(
-                longitude: longitude,
-                latitude: latitude,
-                date: new Date( timeStamp ),
-                geometryObject: point
-            )
-            
-            ais.addToLocations( location )
+            if (message.metaClass.respondsTo(message, "getLon")) {
+                def longitude = message.getLon() as Double
+                def latitude = message.getLat() as Double
+                def point = geometryFactory.createPoint( new Coordinate( longitude, latitude ))
+                def location = new Location(
+                        ais: ais,
+                        longitude: longitude,
+                        latitude: latitude,
+                        date: new Date(),
+                        geometryObject: point
+                )
 
-            render "AIS data for ${ais.vesselName} - ${point.toText()} added.\n"
-            //ais.save()
+                ais.addToLocations( location )
+            }
+
+
+            log.info "Saved AIS record for ${message.getMmsi()}"
+            render "AIS data for ${ais.vesselName} added.\n"
         }
     }
 }
