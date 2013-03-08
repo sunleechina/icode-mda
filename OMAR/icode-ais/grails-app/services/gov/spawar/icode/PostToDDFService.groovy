@@ -1,5 +1,6 @@
 package gov.spawar.icode
 
+import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.springframework.http.HttpStatus
 
@@ -15,23 +16,48 @@ class PostToDDFService {
         return aises
     }
 
+//
+//    {
+//        "properties": {
+//            "title": "Kit Airport",
+//            "metadata-content-type-version": "myVersion",
+//            "metadata-content-type": "myType",
+//            "metadata": "Kit Airport"
+//        },
+//        "type": "Feature",
+//        "geometry": {
+//            "type": "Point",
+//            "coordinates": [
+//                    -110.996915,
+//                    32.442337
+//            ]
+//        }
+//    }
     def generateMetaCardData(List<Ais> aises) {
-        //TODO: get correct metacard format
         def metacards = []
         aises.each{ ais ->
             def metacard = [:]
-            metacard.put("CONTENT_TYPE", "some-content-type")
-            metacard.put("CREATED", ais.dateCreated)
-            metacard.put("EFFECTIVE", ais.lastUpdated)
-            metacard.put("EXPIRATION", "expiry date")
-            metacard.put("GEOGRAPHY", ais.locations?.last())
-            metacard.put("ID", "some-id")
-            metacard.put("MODIFIED", ais.lastUpdated)
-            metacard.put("RESOURCE_SIZE", "some-size")
-            metacard.put("RESOURCE_URI", "some-resource-uri")
-            metacard.put("TARGET_NAMESPACE", "some-target-namespace")
-            metacard.put("THUMBNAIL", "some-image")
-            metacard.put("TITLE", ais.vesselName)
+            def properties = [:]
+            def geometry = [:]
+
+//            properties.put("created", ais.dateCreated)
+//            properties.put("effective", ais.lastUpdated)
+            properties.put("id", ais.mmsi)
+//            properties.put("modified", ais.lastUpdated)
+            properties.put("title", ais.vesselName)
+            properties.put("metadata", "<xml>${ais.mmsi} ${ais.vesselName} ${ais.getCallsign()}</xml>")
+            metacard.put("properties", properties)
+
+            metacard.put("type", "Feature")
+
+            geometry.put("type", "Point")
+            if(ais.locations && !ais.locations.empty){
+                def coordinates = []
+                coordinates.add(ais.locations.last().geometryObject.coordinates.first().x)
+                coordinates.add(ais.locations.last().geometryObject.coordinates.first().y)
+                geometry.put("coordinates", coordinates)
+                metacard.put("geometry", geometry)
+            }
             metacards << metacard
         }
         return metacards
@@ -40,20 +66,20 @@ class PostToDDFService {
     def simplePost(url, data){
         return new grails.plugins.rest.client.RestBuilder().post(url){
             contentType "application/json"
-            json data
+            json data as JSON
         }
     }
 
-    def postMetaCardsToDDF(metacards, url) {
+    def postMetaCardsToDDF(metacard, url) {
         def error = null
         def message
 
+        
+        def response = simplePost(url, metacard)
 
-        def response = simplePost(url, metacards)
-
-        if(response.getStatusCode() != HttpStatus.OK)
+        if(response.getStatusCode() != HttpStatus.CREATED)
         {
-            error =  response.getStatusText()
+            error =  response.getText()
             message = error
         }
         else{
