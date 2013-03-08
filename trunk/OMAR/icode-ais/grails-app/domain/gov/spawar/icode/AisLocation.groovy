@@ -1,22 +1,22 @@
 package gov.spawar.icode
 
 class AisLocation {
-
-    Integer aisLocationsId;
-    Integer locationId;
-    String messageSourceId="";
-    MessageType messageType;
+//    Ais ais
+//    Location location
+    static belongsTo = [ais:Ais, location:Location]
+//    String messageSourceId="";
+//    MessageType messageType;
     //int version;
 
-    static constraints = {
-        //message_type( nullable:  true)
-        messageSourceId( nullable: true )
-        messageType( nullable: true)
-    }
+//    static constraints = {
+//        //message_type( nullable:  true)
+//        messageSourceId( nullable: true )
+//        messageType( nullable: true)
+//    }
 
-    static mapping = {
-      version false
-
-    }
+//    static mapping = {
+//      version false
+//      id composite: ["ais_id", "location_id"]
+//    }
 
 }
