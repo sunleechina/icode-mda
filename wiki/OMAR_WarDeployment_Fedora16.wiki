@@ -121,7 +121,7 @@ environments {
     production {
 	dataSource.username = "postgres"
         dataSource.password = "123abcd"
-        dataSource.url = jdbc:postgresql_postGIS://localhost:5432/omardb-1.8.14-prod
+        dataSource.url = "jdbc:postgresql_postGIS://localhost:5432/omardb-1.8.14-prod"
     }
 }
 }}}
