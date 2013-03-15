@@ -23,3 +23,4 @@ java.lang.ClassNotFoundException: com.sun.imageio.plugins.common.BogusColorSpace
 		<path name="com/sun/imageio/spi"/>
                 <path name="com/sun/imageio/plugins/common"/>
 }}}
+ # Restart your server.
