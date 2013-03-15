@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Deployment is the term used for the process of installing a web application (either a 3rd party WAR or your own custom web application) into the Tomcat server. The following are instructions on deploying your OMAR War file. 
+Deployment is the term used for the process of installing a web application (either a 3rd party WAR or your own custom web application) into the JBoss server. The following are instructions on deploying your OMAR War file. 
 
 Using JBOSS 7.1.1
 
