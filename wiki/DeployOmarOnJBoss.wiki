@@ -1,0 +1,25 @@
+#summary Deploying OMAR on JBOSS
+#labels Grails,Jboss,War,Deployment
+
+= Introduction =
+
+Deployment is the term used for the process of installing a web application (either a 3rd party WAR or your own custom web application) into the Tomcat server. The following are instructions on deploying your OMAR War file. 
+
+Using JBOSS 7.1.1
+
+
+= Details =
+
+ # Please follow the same instructions for deploying OMAR on tomcat located at the following page: [OMAR_WarDeployment_Fedora16 WarDeployment]
+ # Set the environment variable JBOSS_HOME to point to your JBoss installation folder.
+ # After deploying your WAR file you will get a message similar to the following
+{{{
+java.lang.ClassNotFoundException: com.sun.imageio.plugins.common.BogusColorSpace
+}}}
+ # Fix this error by edditing the JBOSS_HOME/modules/sun/jdk/main/module.xml file. 
+  # Add the following to the module path list
+{{{
+
+		<path name="com/sun/imageio/spi"/>
+                <path name="com/sun/imageio/plugins/common"/>
+}}}
