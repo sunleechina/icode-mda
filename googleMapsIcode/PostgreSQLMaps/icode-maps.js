@@ -67,23 +67,10 @@ function getCurrentAISFromDB(bounds)
       var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
       var phpWithArg = "icode_db_query.php?" + boundStr + "&limit=10000";//&type=" + typesSelected[i] + "";
 
-      //Display query statement in a bubble (cheat)
-      var iconLocation = "shipicons/light_red_25.png";//getIconLocation(typesSelected[i]);
-      var myLatlng = new google.maps.LatLng(-80, 0);
-      var marker = new google.maps.Marker({
-         map: map,
-         position: myLatlng,
-         icon: iconLocation,
-         title: 'Query PHP statement'
-      });
-      var contentString = '<div id="content"><p>' + phpWithArg + '</div>';
-      var infowindow = new google.maps.InfoWindow({
-         content: contentString
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-         infowindow.open(map,marker);
-      });
-      //end query marker
+      //Debug query output
+      // In Google Chrome, hit F12 and go to the Console tab to see the output statements for debugging
+      console.debug(phpWithArg);
+      //end debug query
 
 		downloadUrl(phpWithArg, 
                   function(data) {
