@@ -66,6 +66,25 @@ function getCurrentAISFromDB(bounds)
       var infoWindow = new google.maps.InfoWindow;
       var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
       var phpWithArg = "icode_db_query.php?" + boundStr + "&limit=10000";//&type=" + typesSelected[i] + "";
+
+      //Display query statement in a bubble (cheat)
+      var iconLocation = "shipicons/light_red_25.png";//getIconLocation(typesSelected[i]);
+      var myLatlng = new google.maps.LatLng(-80, 0);
+      var marker = new google.maps.Marker({
+         map: map,
+         position: myLatlng,
+         icon: iconLocation,
+         title: 'Query PHP statement'
+      });
+      var contentString = '<div id="content"><p>' + phpWithArg + '</div>';
+      var infowindow = new google.maps.InfoWindow({
+         content: contentString
+      });
+      google.maps.event.addListener(marker, 'click', function() {
+         infowindow.open(map,marker);
+      });
+      //end query marker
+
 		downloadUrl(phpWithArg, 
                   function(data) {
                      var xml = data.responseXML;
