@@ -1,57 +1,65 @@
+/**
+ * @name ICODE-MDA Maps
+ * @author Sparta Cheung, Bryan Bagnall
+ * @fileoverview
+ * Uses the Google Maps API to display AIS points at their reported locations
+ */
+
+/* -------------------------------------------------------------------------------- */
+/**
+ *  Cluster objects 
+ */
+var CLUSTER = 0;  //toggle this for CLUSTERing
 var map;
 var markerClusterer;
-var markerArray = [];
+var mcOptions = {gridSize: 50, minimumClusterSize: 50, averageCenter: false};
+var markerArray;
 
-/* Initialize */
-function initialize()
-{
+/* -------------------------------------------------------------------------------- */
+/** Initialize 
+ */
+function initialize() {
+   //Set up map properties
 	var centerCoord = new google.maps.LatLng(0,0);
 
 	var myOptions = {
-
 			zoom: 5,
 			center: centerCoord,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			mapTypeControlOptions: {
-				mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN],
-				//mapTypeIds: ['OSM', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN],
-				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR//DROPDOWN_MENU
+				mapTypeIds: [google.maps.MapTypeId.ROADMAP, 
+                         google.maps.MapTypeId.SATELLITE, 
+                         google.maps.MapTypeId.HYBRID, 
+                         google.maps.MapTypeId.TERRAIN],
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR //drop-down menu
 			}
 	};
 
-
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
+   if (CLUSTER) {
+   	markerClusterer = new MarkerClusterer(map, [], mcOptions);
+   }
 
-	//markerClusterer = new MarkerClusterer(map);
-	//markerClusterer.setMinimumClusterSize(20);
+   //Clear array
+   markerArray = [];
 
-	//getCurrentAISFromDB(0,0);
-   google.maps.event.addListener(map, 'idle', function(){
+   //Add listener to event for redrawing
+   google.maps.event.addListener(map, 'idle', function() {
         //alert(this.getBounds());
         getCurrentAISFromDB(map.getBounds());
    });
-
-
-//	var markerCluster = new MarkerClusterer(map, markerArray);
-//	alert(markerArray.length);
-	//addWmsLayers(map);
-	//var custom_commands = [];
-	//loadWMS(map,"http://mapserver-slp.mendelu.cz/cgi-bin/mapserv?map=/var/local/slp/krtinyWMS.map&", custom_commands);
-	//setMapCenterToCenterOfMass(map,tips);
-
-	//addTracks(map,tips);
-
-	//addDrawingManager(map);	
-	//addWeatherLayer(map);
-	//addHeatmap(map);
 }
 
-/* Get AIS data from XML, which is from database, with bounds */
-function getCurrentAISFromDB(bounds)
-{
-	markerClusterer = new MarkerClusterer(map);
-	markerClusterer.setMinimumClusterSize(50);
+/* -------------------------------------------------------------------------------- */
+/** 
+ * Get AIS data from XML, which is from database, with bounds 
+ */
+function getCurrentAISFromDB(bounds) {
+   console.debug("Refreshing target points...");
+
+   //Delete previous markers
+   clearMarkerArray();
 
    var sw = bounds.getSouthWest();
    var ne = bounds.getNorthEast();
@@ -60,31 +68,48 @@ function getCurrentAISFromDB(bounds)
    var minLon = sw.lng();
    var maxLon = ne.lng();
 
-   var typesSelected =  getTypesSelected();
-//   for(var i = 0; i<typesSelected.length; i++) {
-   for(var i = 0; i<1; i++) {
+   //var typesSelected =  getTypesSelected();
+   //for(var i = 0; i<typesSelected.length; i++) {
       var infoWindow = new google.maps.InfoWindow;
-      var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
-      var phpWithArg = "icode_db_query.php?" + boundStr + "&limit=10000";//&type=" + typesSelected[i] + "";
+      var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + 
+                     "&minlon=" + minLon + "&maxlon=" + maxLon;
+      var phpWithArg = "icode_db_query.php?" + boundStr + 
+                       //"&type=" + typesSelected[i] + "&limit=500";
+                       //"&limit=2000";
+                       "";
 
       //Debug query output
-      // In Google Chrome, hit F12 and go to the Console tab to see the output statements for debugging
+      // In Google Chrome, hit F12 and go to the Console tab to see the 
+      //   output statements for debugging
       console.debug(phpWithArg);
       //end debug query
 
 		downloadUrl(phpWithArg, 
                   function(data) {
                      var xml = data.responseXML;
-                     if(xml == null){ return; }
+                     if(xml == null) {
+                        console.debug("No response; error in php?");
+                        return; 
+                     }
+
+                     var statement = xml.documentElement.getElementsByTagName("query");
+                     console.debug(statement[0].getAttribute("statement"));
+
                      var ais_tips = xml.documentElement.getElementsByTagName("ais");
+                     console.debug("Results returned = " + ais_tips.length);
+
                      for (var i = 0; i < ais_tips.length; i++) {
-                        var target_location_id = ais_tips[i].getAttribute("target_location_id");
                         var report_date = ais_tips[i].getAttribute("report_date");
+                        var mmsi = ais_tips[i].getAttribute("mmsi");
                         var message_source_id = ais_tips[i].getAttribute("message_source_id");
-                        var message_type = ais_tips[i].getAttribute("message_type");
+                        var message_type = ais_tips[i].getAttribute("messagetype");
                         var lat = ais_tips[i].getAttribute("lat");
                         var lon = ais_tips[i].getAttribute("lon");
+                        var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
+                        var navstatus= ais_tips[i].getAttribute("navstatus");
+                        var report_date = ais_tips[i].getAttribute("report_date");
                         var point = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+
                         /*
                         var key_column = ais_tips[i].getAttribute("key_column");
                         var messagetype = ais_tips[i].getAttribute("messagetype");
@@ -122,44 +147,59 @@ function getCurrentAISFromDB(bounds)
                            '<div id="siteNotice">'+
                            '</div>'+
                            //'<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
-                           '<h2 id="firstHeading" class="firstHeading">test</h2>' +
+                           '<h2 id="firstHeading" class="firstHeading">' + mmsi + '</h2>' +
                            '<div id="bodyContent">' +
-                           'target_location_id: ' + target_location_id + '<br>'+
-                           'report_date: ' + report_date + '<br>'+
-                           'message_source_id: ' + message_source_id + '<br>'+
-                           'message_type: ' + message_type + '<br>'+
-                           'lat: ' + lat + '<br>'+
-                           'lon: ' + lon + '<br>'+
-                           /*
-                           'Vesseltypeint: ' + vesseltypeint + '<br>'+
-                           'Navstatus: ' + navstatus + '<br>'+
-                           'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
+                           'Report Date: ' + report_date + '<br>'+
+                           'Message Source ID: ' + message_source_id + '<br>'+
+                           'Message Type: ' + message_type + '<br>'+
+                           'Lat: ' + lat + '<br>'+
+                           'Lon: ' + lon + '<br>'+
+                           'Vessel Type (integer): ' + vesseltypeint + '<br>'+
+                           'Navigation Status: ' + navstatus + '<br>'+
+                           /*'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
                            'Draught: ' + draught  + '<br>'+
                            'Destination: ' + destination + '<br>'+
                            'ETA: ' + eta + '<br>'+
-                           'Datetime: ' + datetime + '<br>'+
                            */
                            '</div>'+
                            '</div>';
 
-                        var iconLocation = "shipicons/white0.png";//getIconLocation(typesSelected[i]);
-                        var marker = new google.maps.Marker({
-                           //map: map,
-                           position: point,
-                           icon: iconLocation
-                        });
+                        //var iconLocation = "shipicons/white0.png"; //for generic output
+                        //var iconLocation = getIconLocation(typesSelected[i]);
+                        var iconLocation = getIconLocation(vesseltypeint);
 
-                        bindInfoWindow(marker, map, infoWindow, html);
-                        markerArray.push(marker);
-                        //markerClusterer.addMarker(marker);
+                        if (CLUSTER) {
+                           var marker = new google.maps.Marker({
+                              position: point,
+                              icon: iconLocation
+                           });
+                           bindInfoWindow(marker, map, infoWindow, html);
+                           markerArray.push(marker);
+                        }
+                        else {
+                           var marker = new google.maps.Marker({
+                              map: map,
+                              position: point,
+                              icon: iconLocation
+                           });
+                           bindInfoWindow(marker, map, infoWindow, html);
+                        }
                      }
-                     markerClusterer.addMarkers(markerArray);
-                     //   addHeatmap(map);
-                  }            
+
+                     if (CLUSTER) {
+                        markerClusterer.addMarkers(markerArray);
+                        console.debug("Number of markers = " + 
+                              markerClusterer.getTotalMarkers());
+                        console.debug("Number of clusters = " + 
+                              markerClusterer.getTotalClusters());
+                     }
+                     //addHeatmap(map);
+                  }
             );
-   }
+   //}
 }
 
+/* -------------------------------------------------------------------------------- */
 function bindInfoWindow(marker, map, infoWindow, html) {
 	google.maps.event.addListener(marker, 'click', function() {
 		infoWindow.setContent(html);
@@ -169,6 +209,7 @@ function bindInfoWindow(marker, map, infoWindow, html) {
 	});
 }
 
+/* -------------------------------------------------------------------------------- */
 function downloadUrl(url, callback) {
 	var request = window.ActiveXObject ?
 			new ActiveXObject('Microsoft.XMLHTTP') :
@@ -185,112 +226,115 @@ function downloadUrl(url, callback) {
 			request.send(null);
 }
 
+/* -------------------------------------------------------------------------------- */
 function doNothing() {
 }
 
-function clearMap() {
-
+/* -------------------------------------------------------------------------------- */
+function clearMap(map) {
+	clearOverlays();
+	clearMarkerArray();
 }
 
+/* -------------------------------------------------------------------------------- */
 function refreshLayers() {
 	clearOverlays();
-	deleteOverlays();
-	markerClusterer.clearMarkers();
-	clearMap();
-	getCurrentAISFromDB();	//getCurrentAISFromDB(map.getBounds().getSouthWest(), map.getBounds().getNorthEast());
+	clearMarkerArray();
+   getCurrentAISFromDB(map.getBounds());
+   //getCurrentAISFromDB(map.getBounds().getSouthWest(), map.getBounds().getNorthEast());
 	//addTracks(map,tips);
 }
 
+/* -------------------------------------------------------------------------------- */
 function refreshPositions() {
 	refreshLayers();
 }
 
-function getTypesSelected()
-{
+/* -------------------------------------------------------------------------------- */
+function getTypesSelected() {
 	var types = [];
 
-   if(document.getElementById("7-Cargo Vessels").checked) {
-      types.push(70);   //covers 70-79
-   }
-   if(document.getElementById("8-Tankers").checked) {
-      types.push(80);   //covers 80-89
-   }
-   if(document.getElementById("6-Passenger Vessels").checked) {
-      types.push(60);   //covers 60-69
-   }
-   if(document.getElementById("0-Unspecified Ships").checked) {
-      types.push(0);
-   }
-   if(document.getElementById("55-Law Enforcement").checked) {
-      types.push(55);
-   }
-   if(document.getElementById("35-Military").checked) {
-      types.push(35);
-   }
-   if(document.getElementById("31-Towing").checked) {
-      types.push(31);
-   }
-   if(document.getElementById("32-Big Tow").checked) {
-      types.push(32);
-   }
-   if(document.getElementById("52-Tug").checked) {
-      types.push(52);
-   }
-   if(document.getElementById("33-Dredge").checked) {
-      types.push(33);
-   }
-   if(document.getElementById("50-Pilot").checked) {
-      types.push(50);
-   }
-   if(document.getElementById("37-Pleasure Craft").checked) {
-      types.push(37);
-   }
-   if(document.getElementById("30-Fishing").checked) {
-      types.push(30);
-   }
-   if(document.getElementById("51-Search & Rescue").checked) {
-      types.push(51);
-   }
-   if(document.getElementById("All Other").checked) {
+   if(document.getElementById("All Ships").checked) {
       types.push(999);
    }
+   else
+   {
+      if(document.getElementById("0-Unspecified Ships").checked) {
+         types.push(0);
+      }
+      if(document.getElementById("30-Fishing").checked) {
+         types.push(30);
+      }
+      if(document.getElementById("31-Towing").checked) {
+         types.push(31);
+      }
+      if(document.getElementById("32-Big Tow").checked) {
+         types.push(32);
+      }
+      if(document.getElementById("33-Dredge").checked) {
+         types.push(33);
+      }
+      if(document.getElementById("35-Military").checked) {
+         types.push(35);
+      }
+      if(document.getElementById("37-Pleasure Craft").checked) {
+         types.push(37);
+      }
+      if(document.getElementById("50-Pilot").checked) {
+         types.push(50);
+      }
+      if(document.getElementById("51-Search & Rescue").checked) {
+         types.push(51);
+      }
+      if(document.getElementById("52-Tug").checked) {
+         types.push(52);
+      }
+      if(document.getElementById("55-Law Enforcement").checked) {
+         types.push(55);
+      }
+      if(document.getElementById("6x-Passenger Vessels").checked) {
+         types.push(60);   //covers 60-69
+      }
+      if(document.getElementById("7x-Cargo Vessels").checked) {
+         types.push(70);   //covers 70-79
+      }
+      if(document.getElementById("8x-Tankers").checked) {
+         types.push(80);   //covers 80-89
+      }
+   }
 
-	return types;
+   return types;
 }
 
-function getIconType(vesseltypeint)
-{
-   return "shipicons/red1_90.png";
-}
-
-function getIconLocation(vesseltypeint)
-{
+/* -------------------------------------------------------------------------------- */
+/*
+function getIconLocation(vesseltypeint) {
    if (vesseltypeint == 70) {
-		return "shipicons/lightgreen1_90.png";
+      return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 80) {
-		return "shipicons/lightgreen1_90.png";
+      return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 60) {
-		return "shipicons/lightgreen1_90.png";
+      return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 0) {
-		return "shipicons/pink0.png";
+      return "shipicons/pink0.png";
    }
    else if (vesseltypeint == 55) {
-		return "shipicons/blue1_90.png";
+      return "shipicons/blue1_90.png";
    }
    else if (vesseltypeint == 35) {
-		return "shipicons/blue1_90.png";
+      return "shipicons/blue1_90.png";
    }
    else if (vesseltypeint == 31) {
-		return "shipicons/brown1_90.png";
+      return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 32) {
-		return "shipicons/brown1_90.png";
+      return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 52) {
-		return "shipicons/brown1_90.png";
+      return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 33) {
 		return "shipicons/brown1_90.png";
@@ -313,12 +357,66 @@ function getIconLocation(vesseltypeint)
    else {
 		return "shipicons/white0.png";
    }
-		return "shipicons/yellow1_90.png";
-		return "shipicons/white1_90.png";
+		//return "shipicons/yellow1_90.png";
+		//return "shipicons/white1_90.png";
+}
+*/
+
+function getIconLocation(vesseltypeint) {
+   if (vesseltypeint >= 70 && vesseltypeint <= 79) {
+      return "shipicons/lightgreen1_90.png";
+   }
+   else if (vesseltypeint >= 80 && vesseltypeint <= 89) {
+      return "shipicons/lightgreen1_90.png";
+   }
+   else if (vesseltypeint == 60) {
+      return "shipicons/lightgreen1_90.png";
+   }
+   else if (vesseltypeint == 0) {
+      return "shipicons/pink0.png";
+   }
+   else if (vesseltypeint == 55) {
+      return "shipicons/blue1_90.png";
+   }
+   else if (vesseltypeint == 35) {
+      return "shipicons/blue1_90.png";
+   }
+   else if (vesseltypeint == 31) {
+      return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 32) {
+      return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 52) {
+      return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 33) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 50) {
+		return "shipicons/brown1_90.png";
+   }
+   else if (vesseltypeint == 37) {
+		return "shipicons/magenta1_90.png";
+   }
+   else if (vesseltypeint == 30) {
+		return "shipicons/cyan1_90.png";
+   }
+   else if (vesseltypeint == 51) {
+		return "shipicons/red1_90.png";
+   }
+   else if (vesseltypeint == 999) {
+		return "shipicons/lightgray1_90.png";
+   }
+   else {
+		return "shipicons/white0.png";
+   }
+		//return "shipicons/yellow1_90.png";
+		//return "shipicons/white1_90.png";
 }
 
-function closeAllInfowindows()
-{
+/* -------------------------------------------------------------------------------- */
+function closeAllInfowindows() {
 	if (markerArray) {
 		for (i in markerArray) {
          if (markerArray[i].infoWindow) {
@@ -328,12 +426,13 @@ function closeAllInfowindows()
 	}	
 }
 
-function tipDisplay(marker, info_window)
-{
+/* -------------------------------------------------------------------------------- */
+function tipDisplay(marker, info_window) {
 	this.marker = marker;
 	this.info_window = info_window;
 }
 
+/* -------------------------------------------------------------------------------- */
 //Removes the overlays from the map, but keeps them in the array
 function clearOverlays() {
 	if (markerArray) {
@@ -343,6 +442,7 @@ function clearOverlays() {
 	}
 }
 
+/* -------------------------------------------------------------------------------- */
 //Shows any overlays currently in the array
 function showOverlays() {
 	if (markerArray) {
@@ -352,18 +452,24 @@ function showOverlays() {
 	}
 }
 
-//Deletes all markers in the array by removing references to them
-function deleteOverlays() {
+/* -------------------------------------------------------------------------------- */
+//
+function clearMarkerArray() {
 	if (markerArray) {
+      if (CLUSTER) {
+         markerClusterer.removeMarkers(markerArray);
+      }
 		for (i in markerArray) {
 			markerArray[i].setMap(null);
+         markerArray[i] = null;
 		}
 		markerArray.length = 0;
+      markerArray = [];
 	}
 }
 
-function addTracks(map, tips)
-{ 
+/* -------------------------------------------------------------------------------- */
+function addTracks(map, tips) { 
 	var track = new Array();
 	for(var i=0; i<tips.length; i++)
 	{
@@ -381,22 +487,22 @@ function addTracks(map, tips)
 	polyline.setMap(map);
 }
 
+/* -------------------------------------------------------------------------------- */
 function changePorts()
 {}
 
+/* -------------------------------------------------------------------------------- */
 function changeStations()
 {}
 
+/* -------------------------------------------------------------------------------- */
 function changeLights()
 {}
 
-function changePhotos()
-{}
-
+/* -------------------------------------------------------------------------------- */
 //adds an example heat map
 //this could be for example a probability of pirate attack map
-function addHeatmap(map)
-{
+function addHeatmap(map) {
    /*
 	var heatMapLayer = new google.maps.FusionTablesLayer({
 		query: {
@@ -423,12 +529,11 @@ function addHeatmap(map)
    });
 
    heatmap.setMap(map);
-
 }
 
 
-function addWeatherLayer(map)
-{
+/* -------------------------------------------------------------------------------- */
+function addWeatherLayer(map) {
 	var weatherLayer = new google.maps.weather.WeatherLayer({
 		temperatureUnits: google.maps.weather.TemperatureUnit.FAHRENHEIT
 	});
@@ -438,10 +543,10 @@ function addWeatherLayer(map)
 	cloudLayer.setMap(map);	
 }
 
-//adds a drawing manager to the map for adding custom shapes and placemarks
+/* -------------------------------------------------------------------------------- */
+//Adds a drawing manager to the map for adding custom shapes and placemarks
 //to your map
-function addDrawingManager(map)
-{
+function addDrawingManager(map) {
 	var drawingManager = new google.maps.drawing.DrawingManager({
 		drawingMode: null,
 		drawingControl: true,
@@ -482,8 +587,8 @@ function addDrawingManager(map)
 	drawingManager.setMap(map);
 }
 
-
-function setMapCenterToCenterOfMass(map, tips){
+/* -------------------------------------------------------------------------------- */
+function setMapCenterToCenterOfMass(map, tips) {
 	lat_mean=0;
 	lon_mean=0;
 	N=tips.length;
@@ -496,9 +601,8 @@ function setMapCenterToCenterOfMass(map, tips){
 	map.setCenter(centerCoord);
 }
 
-
-function addWmsLayers(map)
-{
+/* -------------------------------------------------------------------------------- */
+function addWmsLayers(map) {
 	//http://www.sumbera.com/lab/GoogleV3/tiledWMSoverlayGoogleV3.htm
 	//Define OSM as base layer in addition to the default Google layers
 
@@ -569,7 +673,5 @@ function addWmsLayers(map)
 	//add WMS layer
 
 	map.overlayMapTypes.push(SLPLayer);
-
-
 }
 
