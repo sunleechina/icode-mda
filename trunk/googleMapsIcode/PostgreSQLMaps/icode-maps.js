@@ -7,22 +7,34 @@
 
 /* -------------------------------------------------------------------------------- */
 /**
- *  Cluster objects 
+ *  Global objects 
  */
-var CLUSTER = 0;  //toggle this for CLUSTERing
 var map;
-var markerClusterer;
-var mcOptions = {gridSize: 50, minimumClusterSize: 50, averageCenter: false};
 var markerArray;
+//Cluster objects
+var CLUSTER = false;  //toggle this for CLUSTERing
+var markerClusterer;
+var mcOptions = {
+               gridSize: 50, 
+               minimumClusterSize: 50, 
+               averageCenter: false
+            };
+//Track line options
+var polylineOptions = {
+               strokeColor: '#00FF25',
+               strokeOpacity: 0.7,
+               strokeWeight: 3
+            };
+
 
 /* -------------------------------------------------------------------------------- */
-/** Initialize 
+/** Initialize, called on main page load
  */
 function initialize() {
    //Set up map properties
 	var centerCoord = new google.maps.LatLng(0,0);
 
-	var myOptions = {
+	var mapOptions = {
 			zoom: 5,
 			center: centerCoord,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -35,7 +47,7 @@ function initialize() {
 			}
 	};
 
-	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
    if (CLUSTER) {
    	markerClusterer = new MarkerClusterer(map, [], mcOptions);
@@ -59,6 +71,7 @@ function getCurrentAISFromDB(bounds) {
    console.debug("Refreshing target points...");
 
    //Delete previous markers
+   //TODO: update to clear only markers that are now out of bounds
    clearMarkerArray();
 
    var sw = bounds.getSouthWest();
@@ -68,172 +81,193 @@ function getCurrentAISFromDB(bounds) {
    var minLon = sw.lng();
    var maxLon = ne.lng();
 
-   //var typesSelected =  getTypesSelected();
-   //for(var i = 0; i<typesSelected.length; i++) {
-      var infoWindow = new google.maps.InfoWindow;
-      var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + 
-                     "&minlon=" + minLon + "&maxlon=" + maxLon;
-      var phpWithArg = "icode_db_query.php?" + boundStr + 
-                       //"&type=" + typesSelected[i] + "&limit=500";
-                       //"&limit=2000";
-                       "";
+   var infoWindow = new google.maps.InfoWindow();
+   var polyline = new google.maps.Polyline();
 
-      //Debug query output
-      // In Google Chrome, hit F12 and go to the Console tab to see the 
-      //   output statements for debugging
-      console.debug(phpWithArg);
-      //end debug query
+   var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + 
+      "&minlon=" + minLon + "&maxlon=" + maxLon;
+   var phpWithArg = "query_current_vessels.php?" + boundStr + 
+      "";
+      //"&type=" + typesSelected[i] + "&limit=500";
+      //"&limit=2000";
 
-		downloadUrl(phpWithArg, 
-                  function(data) {
-                     var xml = data.responseXML;
-                     if(xml == null) {
-                        console.debug("No response; error in php?");
-                        return; 
-                     }
+   //Debug query output
+   // In Google Chrome, hit F12 and go to the Console tab to see the 
+   //   output statements for debugging
+   console.debug(phpWithArg);
+   //end debug query
 
-                     var statement = xml.documentElement.getElementsByTagName("query");
-                     console.debug(statement[0].getAttribute("statement"));
+   downloadUrl(phpWithArg, 
+         function(data) {
+            var xml = data.responseXML;
+            if(xml == null) {
+               console.debug("No response; error in php?");
+               return; 
+            }
 
-                     var ais_tips = xml.documentElement.getElementsByTagName("ais");
-                     console.debug("Results returned = " + ais_tips.length);
+            var statement = xml.documentElement.getElementsByTagName("query");
+            console.debug(statement[0].getAttribute("statement"));
 
-                     for (var i = 0; i < ais_tips.length; i++) {
-                        var report_date = ais_tips[i].getAttribute("report_date");
-                        var mmsi = ais_tips[i].getAttribute("mmsi");
-                        var message_source_id = ais_tips[i].getAttribute("message_source_id");
-                        var message_type = ais_tips[i].getAttribute("messagetype");
-                        var lat = ais_tips[i].getAttribute("lat");
-                        var lon = ais_tips[i].getAttribute("lon");
-                        var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
-                        var navstatus= ais_tips[i].getAttribute("navstatus");
-                        var report_date = ais_tips[i].getAttribute("report_date");
-                        var point = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+            var ais_tips = xml.documentElement.getElementsByTagName("ais");
+            console.debug("Results returned = " + ais_tips.length);
 
-                        /*
-                        var key_column = ais_tips[i].getAttribute("key_column");
-                        var messagetype = ais_tips[i].getAttribute("messagetype");
-                        var mmsi = ais_tips[i].getAttribute("mmsi");
-                        var navstatus = ais_tips[i].getAttribute("navstatus");
-                        var rot = ais_tips[i].getAttribute("rot");
-                        var sog = ais_tips[i].getAttribute("sog");
-                        var lon = ais_tips[i].getAttribute("lon");
-                        var lat = ais_tips[i].getAttribute("lat");
-                        var point = new google.maps.LatLng(
-                           parseFloat(ais_tips[i].getAttribute("lat")),
-                           parseFloat(ais_tips[i].getAttribute("lon")));
-                        var cog = ais_tips[i].getAttribute("cog");
-                        var true_heading = ais_tips[i].getAttribute("true_heading");
-                        var datetime = ais_tips[i].getAttribute("datetime");
-                        var imo = ais_tips[i].getAttribute("imo");
-                        var vesselname = ais_tips[i].getAttribute("vesselname");
-                        var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
-                        var length = ais_tips[i].getAttribute("length");
-                        var shipwidth = ais_tips[i].getAttribute("shipwidth");
-                        var bow = ais_tips[i].getAttribute("bow");
-                        var stern = ais_tips[i].getAttribute("stern");
-                        var port = ais_tips[i].getAttribute("port");
-                        var starboard = ais_tips[i].getAttribute("starboard");
-                        var draught = ais_tips[i].getAttribute("draught");
-                        var destination = ais_tips[i].getAttribute("destination");
-                        var callsign = ais_tips[i].getAttribute("callsign");
-                        var posaccuracy = ais_tips[i].getAttribute("posaccuracy");
-                        var eta = ais_tips[i].getAttribute("eta");
-                        var posfixtype = ais_tips[i].getAttribute("posfixtype");
-                        var streamid = ais_tips[i].getAttribute("streamid");
-                        */
+            for (var i = 0; i < ais_tips.length; i++) {
+               var key_column = ais_tips[i].getAttribute("key_column");
+               var messagetype = ais_tips[i].getAttribute("messagetype");
+               var mmsi = ais_tips[i].getAttribute("mmsi");
+               var navstatus = ais_tips[i].getAttribute("navstatus");
+               var rot = ais_tips[i].getAttribute("rot");
+               var sog = ais_tips[i].getAttribute("sog");
+               var lon = ais_tips[i].getAttribute("lon");
+               var lat = ais_tips[i].getAttribute("lat");
+               var point = new google.maps.LatLng(
+                     parseFloat(ais_tips[i].getAttribute("lat")),
+                     parseFloat(ais_tips[i].getAttribute("lon")));
+               var cog = ais_tips[i].getAttribute("cog");
+               var true_heading = ais_tips[i].getAttribute("true_heading");
+               var datetime = ais_tips[i].getAttribute("datetime");
+               var imo = ais_tips[i].getAttribute("imo");
+               var vesselname = ais_tips[i].getAttribute("vesselname");
+               var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
+               var length = ais_tips[i].getAttribute("length");
+               var shipwidth = ais_tips[i].getAttribute("shipwidth");
+               var bow = ais_tips[i].getAttribute("bow");
+               var stern = ais_tips[i].getAttribute("stern");
+               var port = ais_tips[i].getAttribute("port");
+               var starboard = ais_tips[i].getAttribute("starboard");
+               var draught = ais_tips[i].getAttribute("draught");
+               var destination = ais_tips[i].getAttribute("destination");
+               var callsign = ais_tips[i].getAttribute("callsign");
+               var posaccuracy = ais_tips[i].getAttribute("posaccuracy");
+               var eta = ais_tips[i].getAttribute("eta");
+               var posfixtype = ais_tips[i].getAttribute("posfixtype");
+               var streamid = ais_tips[i].getAttribute("streamid");
 
-                        var html = '<div id="content">'+
-                           '<div id="siteNotice">'+
-                           '</div>'+
-                           //'<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
-                           '<h2 id="firstHeading" class="firstHeading">' + mmsi + '</h2>' +
-                           '<div id="bodyContent">' +
-                           'Report Date: ' + report_date + '<br>'+
-                           'Message Source ID: ' + message_source_id + '<br>'+
-                           'Message Type: ' + message_type + '<br>'+
-                           'Lat: ' + lat + '<br>'+
-                           'Lon: ' + lon + '<br>'+
-                           'Vessel Type (integer): ' + vesseltypeint + '<br>'+
-                           'Navigation Status: ' + navstatus + '<br>'+
-                           /*'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
-                           'Draught: ' + draught  + '<br>'+
-                           'Destination: ' + destination + '<br>'+
-                           'ETA: ' + eta + '<br>'+
-                           */
-                           '</div>'+
-                           '</div>';
+               var html = '<div id="content">'+
+                  '<div id="siteNotice">'+
+                  '</div>'+
+                  '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
+                  '<div id="bodyContent">' +
+                  'MMSI: ' + mmsi + '<br>' +
+                  'Report Date: ' + datetime + '<br>' +
+                  'Message Type: ' + messagetype + '<br>' +
+                  'Lat: ' + lat + '<br>' +
+                  'Lon: ' + lon + '<br>' +
+                  'Vessel Type (integer): ' + vesseltypeint + '<br>' +
+                  'Navigation Status: ' + navstatus + '<br>' +
+                  'Source: ' + streamid + '<br>'+
+                  'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
+                  'Draught: ' + draught  + '<br>'+
+                  'Destination: ' + destination + '<br>'+
+                  'ETA: ' + eta + '<br>'+
+                  '</div>'+
+                  '</div>';
 
-                        //var iconLocation = "shipicons/white0.png"; //for generic output
-                        //var iconLocation = getIconLocation(typesSelected[i]);
-                        var iconLocation = getIconLocation(vesseltypeint);
+               var iconLocation = getIconLocation(vesseltypeint);
 
-                        if (CLUSTER) {
-                           var marker = new google.maps.Marker({
-                              position: point,
-                              icon: iconLocation
-                           });
-                           bindInfoWindow(marker, map, infoWindow, html);
-                           markerArray.push(marker);
-                        }
-                        else {
-                           var marker = new google.maps.Marker({
-                              map: map,
-                              position: point,
-                              icon: iconLocation
-                           });
-                           bindInfoWindow(marker, map, infoWindow, html);
-                        }
-                     }
+               var marker = new google.maps.Marker({
+                  position: point,
+                  icon: iconLocation
+               });
+               markerInfo(marker, infoWindow, html, polyline, mmsi);
+               markerArray.push(marker);
+            }
 
-                     if (CLUSTER) {
-                        markerClusterer.addMarkers(markerArray);
-                        console.debug("Number of markers = " + 
-                              markerClusterer.getTotalMarkers());
-                        console.debug("Number of clusters = " + 
-                              markerClusterer.getTotalClusters());
-                     }
-                     //addHeatmap(map);
-                  }
-            );
-   //}
+            if (CLUSTER) {
+               markerClusterer.addMarkers(markerArray);
+               console.debug("Number of markers = " + markerClusterer.getTotalMarkers());
+               console.debug("Number of clusters = " + markerClusterer.getTotalClusters());
+            }
+            else {
+               //Display the markers individually
+               showOverlays();
+               //addHeatmap(map);
+            }
+            console.debug("Total number of markers = " + markerArray.length);
+         }
+   );
 }
 
 /* -------------------------------------------------------------------------------- */
-function bindInfoWindow(marker, map, infoWindow, html) {
+/**
+ * Function to attach information associated with marker, or call track 
+ * fetcher to get track line
+ */
+function markerInfo(marker, infoWindow, html, polyline, mmsi) {
+
 	google.maps.event.addListener(marker, 'click', function() {
 		infoWindow.setContent(html);
 		infoWindow.open(map, marker);
-      //setTimeout(function () { infoWindow.close(); }, 1000);
-      setTimeout(function () { closeAllInfowindows(); }, 1000);
+      //setTimeout(function () { infoWindow.close(); }, 2000);
+	});
+
+	google.maps.event.addListener(marker, 'mouseout', function() {
+      setTimeout(function () { infoWindow.close(); }, 2000);
+	});
+
+	google.maps.event.addListener(marker, 'mouseover', function() {
+      getTrack(polyline, mmsi);
 	});
 }
 
 /* -------------------------------------------------------------------------------- */
+/**
+ * Function to download results from PHP script
+ */
 function downloadUrl(url, callback) {
 	var request = window.ActiveXObject ?
 			new ActiveXObject('Microsoft.XMLHTTP') :
 				new XMLHttpRequest;
 
-			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					request.onreadystatechange = doNothing;
-					callback(request, request.status);
-				}
-			};
+   request.onreadystatechange = function() {
+      if (request.readyState == 4) {
+         request.onreadystatechange = doNothing;
+         callback(request, request.status);
+      }
+   };
 
-			request.open('GET', url, true);
-			request.send(null);
+   request.open('GET', url, true);
+   request.send(null);
 }
 
 /* -------------------------------------------------------------------------------- */
-function doNothing() {
-}
+/**
+ * Function to get track from track query PHP script
+ */
+function getTrack(polyline, mmsi) {
+   var phpWithArg = "query_track.php?mmsi=" + mmsi;
+   downloadUrl(phpWithArg, 
+         function(data) {
+            var xml = data.responseXML;
+            if(xml == null) {
+               console.debug("No response from track query; error in php?");
+               return; 
+            }
 
-/* -------------------------------------------------------------------------------- */
-function clearMap(map) {
-	clearOverlays();
-	clearMarkerArray();
+            var statement = xml.documentElement.getElementsByTagName("query");
+            console.debug(statement[0].getAttribute("statement"));
+
+            var ais_tips = xml.documentElement.getElementsByTagName("ais");
+            console.debug("Results returned on track = " + ais_tips.length);
+
+            var track = new Array();
+
+            for (var i = 0; i < ais_tips.length; i++) {                       
+               var mmsi = ais_tips[i].getAttribute("mmsi");
+               var lon = ais_tips[i].getAttribute("lon");
+               var lat = ais_tips[i].getAttribute("lat");
+               var datetime = ais_tips[i].getAttribute("datetime");
+
+               track[i] = new google.maps.LatLng(lat, lon);
+            }
+
+            console.debug("track size = " + track.length);
+
+            polyline.setOptions(polylineOptions);
+            polyline.setPath(track);
+            polyline.setMap(map);
+         }
+   );
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -241,8 +275,6 @@ function refreshLayers() {
 	clearOverlays();
 	clearMarkerArray();
    getCurrentAISFromDB(map.getBounds());
-   //getCurrentAISFromDB(map.getBounds().getSouthWest(), map.getBounds().getNorthEast());
-	//addTracks(map,tips);
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -307,61 +339,6 @@ function getTypesSelected() {
 }
 
 /* -------------------------------------------------------------------------------- */
-/*
-function getIconLocation(vesseltypeint) {
-   if (vesseltypeint == 70) {
-      return "shipicons/lightgreen1_90.png";
-   }
-   else if (vesseltypeint == 80) {
-      return "shipicons/lightgreen1_90.png";
-   }
-   else if (vesseltypeint == 60) {
-      return "shipicons/lightgreen1_90.png";
-   }
-   else if (vesseltypeint == 0) {
-      return "shipicons/pink0.png";
-   }
-   else if (vesseltypeint == 55) {
-      return "shipicons/blue1_90.png";
-   }
-   else if (vesseltypeint == 35) {
-      return "shipicons/blue1_90.png";
-   }
-   else if (vesseltypeint == 31) {
-      return "shipicons/brown1_90.png";
-   }
-   else if (vesseltypeint == 32) {
-      return "shipicons/brown1_90.png";
-   }
-   else if (vesseltypeint == 52) {
-      return "shipicons/brown1_90.png";
-   }
-   else if (vesseltypeint == 33) {
-		return "shipicons/brown1_90.png";
-   }
-   else if (vesseltypeint == 50) {
-		return "shipicons/brown1_90.png";
-   }
-   else if (vesseltypeint == 37) {
-		return "shipicons/magenta1_90.png";
-   }
-   else if (vesseltypeint == 30) {
-		return "shipicons/cyan1_90.png";
-   }
-   else if (vesseltypeint == 51) {
-		return "shipicons/red1_90.png";
-   }
-   else if (vesseltypeint == 999) {
-		return "shipicons/lightgray1_90.png";
-   }
-   else {
-		return "shipicons/white0.png";
-   }
-		//return "shipicons/yellow1_90.png";
-		//return "shipicons/white1_90.png";
-}
-*/
-
 function getIconLocation(vesseltypeint) {
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
       return "shipicons/lightgreen1_90.png";
@@ -416,6 +393,32 @@ function getIconLocation(vesseltypeint) {
 }
 
 /* -------------------------------------------------------------------------------- */
+//Shows any overlays currently in the array
+function showOverlays() {
+	if (markerArray) {
+		for (i in markerArray) {
+			markerArray[i].setMap(map);
+		}
+	}
+}
+
+/* -------------------------------------------------------------------------------- */
+function tipDisplay(marker, info_window) {
+	this.marker = marker;
+	this.info_window = info_window;
+}
+
+/* -------------------------------------------------------------------------------- */
+function doNothing() {
+}
+
+/* -------------------------------------------------------------------------------- */
+function clearMap(map) {
+	clearOverlays();
+	clearMarkerArray();
+}
+
+/* -------------------------------------------------------------------------------- */
 function closeAllInfowindows() {
 	if (markerArray) {
 		for (i in markerArray) {
@@ -424,12 +427,6 @@ function closeAllInfowindows() {
          }
 		}
 	}	
-}
-
-/* -------------------------------------------------------------------------------- */
-function tipDisplay(marker, info_window) {
-	this.marker = marker;
-	this.info_window = info_window;
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -443,22 +440,13 @@ function clearOverlays() {
 }
 
 /* -------------------------------------------------------------------------------- */
-//Shows any overlays currently in the array
-function showOverlays() {
-	if (markerArray) {
-		for (i in markerArray) {
-			markerArray[i].setMap(map);
-		}
-	}
-}
-
-/* -------------------------------------------------------------------------------- */
 //
 function clearMarkerArray() {
 	if (markerArray) {
       if (CLUSTER) {
          markerClusterer.removeMarkers(markerArray);
       }
+
 		for (i in markerArray) {
 			markerArray[i].setMap(null);
          markerArray[i] = null;
@@ -466,25 +454,6 @@ function clearMarkerArray() {
 		markerArray.length = 0;
       markerArray = [];
 	}
-}
-
-/* -------------------------------------------------------------------------------- */
-function addTracks(map, tips) { 
-	var track = new Array();
-	for(var i=0; i<tips.length; i++)
-	{
-		track[i] = new google.maps.LatLng(tips[i].lat, tips[i].lon);
-	}
-	var polyOptions = 
-	{
-			path: track,
-			strokeColor: '#00ff25',
-			strokeOpacity: 0.7,
-			strokeWeight: 3
-	};
-
-	var polyline = new google.maps.Polyline(polyOptions);	
-	polyline.setMap(map);
 }
 
 /* -------------------------------------------------------------------------------- */
