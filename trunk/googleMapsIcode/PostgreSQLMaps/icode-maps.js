@@ -28,19 +28,6 @@ var tracklineIcons = {
                fillOpacity: 1
             };
 
-var trackHeadIcon = {
-               path: 'M -2,0 0,-2 2,0 0,2 z',
-               strokeColor: '#F00',
-               fillColor: '#F00',
-               fillOpacity: 1
-            };
-
-var trackTailIcon = {
-               path: 'M -1,0 A 1,1 0 0 0 -3,0 1,1 0 0 0 -1,0M 1,0 A 1,1 0 0 0 3,0 1,1 0 0 0 1,0M -3,3 Q 0,5 3,3',
-               strokeColor: '#00F',
-               rotation: 0
-            };
-
 var polylineOptions = {
                strokeColor: '#00FF25',
                strokeOpacity: 0.7,
@@ -91,17 +78,26 @@ function initialize() {
 
    //Add listener to event for redrawing
    google.maps.event.addListener(map, 'idle', function() {
-        //alert(this.getBounds());
-        getCurrentAISFromDB(map.getBounds());
+      sleep(3000);
+      document.getElementById("query_input").value = "QUERY RUNNING...";
+      getCurrentAISFromDB(map.getBounds(), null);
    });
+}
+
+function enteredQuery() {
+   if (event.which == 13) {
+      var entered_query = document.getElementById("query_input").value;
+      getCurrentAISFromDB(map.getBounds(), entered_query);
+   }
 }
 
 /* -------------------------------------------------------------------------------- */
 /** 
  * Get AIS data from XML, which is from database, with bounds 
  */
-function getCurrentAISFromDB(bounds) {
+function getCurrentAISFromDB(bounds, customQuery) {
    console.debug("Refreshing target points...");
+   document.getElementById('stats_nav').innerHTML = '';
 
    //Delete previous markers
    //TODO: update to clear only markers that are now out of bounds
@@ -118,12 +114,14 @@ function getCurrentAISFromDB(bounds) {
 
    var infoWindow = new google.maps.InfoWindow();
 
-   var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + 
-      "&minlon=" + minLon + "&maxlon=" + maxLon;
-   var phpWithArg = "query_current_vessels.php?" + boundStr + 
-      "";
-      //"&type=" + typesSelected[i] + "&limit=500";
-      //"&limit=2000";
+   var phpWithArg;
+   if (!customQuery) {
+      var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
+      phpWithArg = "query_current_vessels.php?" + boundStr + "";
+   }
+   else {
+      phpWithArg = "query_current_vessels.php?query=" + customQuery;
+   }
 
    //Debug query output
    // In Google Chrome, hit F12 and go to the Console tab to see the 
@@ -139,8 +137,11 @@ function getCurrentAISFromDB(bounds) {
                return; 
             }
 
+            //Get the statement which embedded in the PHP returned XML output
             var statement = xml.documentElement.getElementsByTagName("query");
             console.debug(statement[0].getAttribute("statement"));
+            //Show the query and put it in the form
+            document.getElementById("query_input").value = statement[0].getAttribute("statement");            
 
             var ais_tips = xml.documentElement.getElementsByTagName("ais");
             console.debug("Results returned = " + ais_tips.length);
@@ -228,6 +229,56 @@ function getCurrentAISFromDB(bounds) {
                //addHeatmap(map);
             }
             console.debug("Total number of markers = " + markerArray.length);
+
+            var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
+            var resultCount= xml.documentElement.getElementsByTagName("resultcount")[0].getAttribute("count");
+            document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
+         }
+   );
+}
+
+/* -------------------------------------------------------------------------------- */
+/**
+ * Function to get track from track query PHP script
+ */
+function getTrack(mmsi) {
+   document.getElementById('stats_nav').innerHTML = '';
+   var phpWithArg = "query_track.php?mmsi=" + mmsi;
+   downloadUrl(phpWithArg, 
+         function(data) {
+            var xml = data.responseXML;
+            if(xml == null) {
+               console.debug("No response from track query; error in php?");
+               return; 
+            }
+
+            var statement = xml.documentElement.getElementsByTagName("query");
+            console.debug(statement[0].getAttribute("statement"));
+            document.getElementById("query_input").value = statement[0].getAttribute("statement");            
+
+            var ais_tips = xml.documentElement.getElementsByTagName("ais");
+            console.debug("Results returned on track = " + ais_tips.length);
+
+            var track = new Array();
+
+            for (var i = 0; i < ais_tips.length; i++) {                       
+               var mmsi = ais_tips[i].getAttribute("mmsi");
+               var lon = ais_tips[i].getAttribute("lon");
+               var lat = ais_tips[i].getAttribute("lat");
+               var datetime = ais_tips[i].getAttribute("datetime");
+
+               track[i] = new google.maps.LatLng(lat, lon);
+            }
+
+            console.debug("track size = " + track.length);
+
+            trackline.setOptions(polylineOptions);
+            trackline.setPath(track);
+            trackline.setMap(map);
+
+            var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
+            var resultCount= xml.documentElement.getElementsByTagName("resultcount")[0].getAttribute("count");
+            document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
          }
    );
 }
@@ -276,54 +327,14 @@ function downloadUrl(url, callback) {
 }
 
 /* -------------------------------------------------------------------------------- */
-/**
- * Function to get track from track query PHP script
- */
-function getTrack(mmsi) {
-   var phpWithArg = "query_track.php?mmsi=" + mmsi;
-   downloadUrl(phpWithArg, 
-         function(data) {
-            var xml = data.responseXML;
-            if(xml == null) {
-               console.debug("No response from track query; error in php?");
-               return; 
-            }
-
-            var statement = xml.documentElement.getElementsByTagName("query");
-            console.debug(statement[0].getAttribute("statement"));
-
-            var ais_tips = xml.documentElement.getElementsByTagName("ais");
-            console.debug("Results returned on track = " + ais_tips.length);
-
-            var track = new Array();
-
-            for (var i = 0; i < ais_tips.length; i++) {                       
-               var mmsi = ais_tips[i].getAttribute("mmsi");
-               var lon = ais_tips[i].getAttribute("lon");
-               var lat = ais_tips[i].getAttribute("lat");
-               var datetime = ais_tips[i].getAttribute("datetime");
-
-               track[i] = new google.maps.LatLng(lat, lon);
-            }
-
-            console.debug("track size = " + track.length);
-
-            trackline.setOptions(polylineOptions);
-            trackline.setPath(track);
-            trackline.setMap(map);
-         }
-   );
-}
-
-/* -------------------------------------------------------------------------------- */
 function refreshLayers() {
 	clearOverlays();
 	clearMarkerArray();
-   getCurrentAISFromDB(map.getBounds());
+   getCurrentAISFromDB(map.getBounds(),null);
 }
 
 /* -------------------------------------------------------------------------------- */
-function refreshPositions() {
+function typeSelectUpdated() {
 	refreshLayers();
 }
 
@@ -387,13 +398,13 @@ function getTypesSelected() {
 function getIconColor(vesseltypeint) {
    var color;
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
-      color = '#04B404'; 
+      color = '#64FE2E'; 
    }
    else if (vesseltypeint >= 80 && vesseltypeint <= 89) {
-      color = '#04B404'; 
+      color = '#64FE2E'; 
    }
    else if (vesseltypeint == 60) {
-      color = '#04B404'; 
+      color = '#64FE2E'; 
    }
    else if (vesseltypeint == 0) {
       color = '#F78181'; 
@@ -730,3 +741,23 @@ function addWmsLayers(map) {
 	map.overlayMapTypes.push(SLPLayer);
 }
 
+/* -------------------------------------------------------------------------------- */
+function microtime (get_as_float) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Paulo Freitas
+  // *     example 1: timeStamp = microtime(true);
+  // *     results 1: timeStamp > 1000000000 && timeStamp < 2000000000
+  var now = new Date().getTime() / 1000;
+  var s = parseInt(now, 10);
+
+  return (get_as_float) ? now : (Math.round((now - s) * 1000) / 1000) + ' ' + s;
+}
+
+/* -------------------------------------------------------------------------------- */
+function sleep(dur) {
+ var d = new Date().getTime() + dur;
+  while(new Date().getTime() <= d ) {
+    //Do nothing
+  }
+
+}
