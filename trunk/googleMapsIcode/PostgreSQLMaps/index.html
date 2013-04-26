@@ -9,30 +9,60 @@
         }
         body {
            height:       100%; 
+           width:        100%;
            margin:       0px;
            padding:      0px;
            overflow:     hidden;
-           font:         12px/1.7 Verdana,'Lucida Grande', Arial, "Trebuchet MS", Helvetica, sans-serif;
+           font:         12px/1.7 Verdana,'Lucida Grande', Arial, 
+                         "Trebuchet MS", Helvetica, sans-serif;
+        }
+        #panel_top {
+           background:   #333333;
+           height:       60px;
+           color:        #ffffff;
+           position:     relative;
+           top:          0;
+           margin:       0;
+        }
+        #logo {
+           position:     absolute;
+           border:       1px solid transparent;
+           top:          -14px;
+           left:         0px;
+           height:       58px;
+           width:        200px;
+           margin:       0;
+           padding:      0;
+           vertical-align:top;
+           text-align:   center;
+           font-size:    18px;
         }
         #container {
-           width:        99%;
-           height:       98%;
            overflow:     hidden;
            position:     absolute;
-           padding:      10px;
+           padding:      0px;
+           border-width: 1px;
+           border-style: solid;
+           width:        100%;
+           height:       calc(100% - 60px);
+           margin:       0 0 0 0;
         }
         #panel_left {
            float:        left;
            position:     relative;
-           margin:       5px;
+           margin:       0;
+           padding:      2px;
            width:        200px;
            min-width:    200px;
+           top:          0;
         }
         #map_canvas { 
            border-width: 1px; 
            border-style: solid;
            position:     relative;
-           height:       100%;
+           height:       calc(100% - 20px);
+           width:        calc(100% - 200px - 2px - 10px);
+           top:          10px;
            overflow:     hidden;
            background-color: rgb(229, 227, 223); 
         }
@@ -51,10 +81,14 @@
 
   <body onload="initialize()">
 
+     <div id="panel_top">
+        <div id="logo">
+           <h2>ICODE-MDA</h2>
+        </div>
+     </div>
      <div id="container">
         <!-- BEGIN LEFT PANEL -->  
         <div id="panel_left">
-           <center><h2>ICODE-MDA</h2></center>
            <hr>
 
            <input id="0-Unspecified Ships" name="0-Unspecified Ships" checked="checked" type="checkbox" onclick="refreshPositions();"> 
