@@ -1,4 +1,10 @@
 <?php
+//Start execution time tracker
+$mtime = microtime(); 
+$mtime = explode(" ",$mtime); 
+$mtime = $mtime[1] + $mtime[0]; 
+$starttime = $mtime; 
+
 
 function parseToXML($htmlStr) { 
    $xmlStr=str_replace('<','&lt;',$htmlStr); 
@@ -30,8 +36,9 @@ if (!$connection) {
     exit("Connection Failed: " . $conn);
 }
 
-//Query statement
-$query = "SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM current_vessels WHERE imo != -1";
+//Query statement - default statement unless user inputs custom statement
+$query = "SELECT * FROM current_vessels WHERE vesseltypeint != -1";
+//$query = "SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM current_vessels WHERE imo != -1";
 
 if(count($_GET) > 0) { //count the number of arguments
     /*
@@ -51,12 +58,17 @@ if(count($_GET) > 0) { //count the number of arguments
     */
     if(!empty($_GET["minlat"]) && !empty($_GET["minlon"]) &&
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
-//          $query = $query . " AND ST_Within(ST_SetSRID(ST_Point(lon,lat), 4326), ST_MakeEnvelope(" . $_GET["minlat"] . ", " . $_GET["minlon"] . ", " .  $_GET["maxlat"] . ", " . $_GET["maxlon"] . ", 4326))";
-          $query = $query . " AND lat > " . $_GET["minlat"] . " and lon > " . $_GET["minlon"] . " and lat < " .  $_GET["maxlat"] . " and lon < " . $_GET["maxlon"];
-       }
+          $query = $query . " AND lat > " . round($_GET["minlat"],3) . " and lon > " . round($_GET["minlon"],3) . " and lat < " .  round($_GET["maxlat"],3) . " and lon < " . round($_GET["maxlon"],3);
+    }
     if(!empty($_GET["limit"])) {
        $limit = $_GET["limit"];
        $query = $query . " limit " . $limit;
+    }
+
+    //custom query, erase everything else and use this query
+    if(!empty($_GET["query"])) {
+       //TODO: add security checks, e.g. against "DROP TABLE *" commands
+       $query = $_GET["query"];
     }
 }
 else {
@@ -81,7 +93,9 @@ echo '<?xml version="1.0" encoding="iso-8859-1"?>';
 echo '<xml:result>';
 echo '<query statement="' . htmlspecialchars($query, ENT_NOQUOTES) .'" />';
 // Iterate through the rows, printing XML nodes for each
+$count_vessels = 0;
 while (odbc_fetch_row($result)){
+   $count_vessels = $count_vessels + 1;
    // ADD TO XML DOCUMENT NODE
    echo '<ais ';
    echo 'messagetype="' . odbc_result($result,"messagetype") . '" ';
@@ -113,8 +127,20 @@ while (odbc_fetch_row($result)){
    echo '/>';
 }
 
-// End XML file
+echo '<xml:resultCount>';
+echo '<resultcount count="' . $count_vessels . '" />';
+echo '</xml:resultCount>';
+
+echo '<xml:timetaken>';
+$mtime = microtime(); 
+$mtime = explode(" ",$mtime); 
+$mtime = $mtime[1] + $mtime[0]; 
+$endtime = $mtime; 
+$totaltime = ($endtime - $starttime); 
+echo '<execution time="' . $totaltime . '" />';
+echo '</xml:timetaken>';
 echo '</xml:result>';
 
+// End XML file
 ?>
 
