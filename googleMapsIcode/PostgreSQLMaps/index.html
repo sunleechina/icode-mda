@@ -37,6 +37,17 @@
            text-align:   center;
            font-size:    18px;
         }
+        #top_nav {
+           position:     absolute;
+           height:       60px;
+           width:        calc(100% - 350px);
+           line-height:  58px;
+           top:          4px;
+           left:         250px;
+           vertical-align:middle;
+           text-align:   left;
+           border:       1px solid transparent;
+        }
         #container {
            overflow:     hidden;
            position:     absolute;
@@ -60,9 +71,9 @@
            border-width: 1px; 
            border-style: solid;
            position:     relative;
-           height:       calc(100% - 20px);
+           height:       calc(100% - 15px);
            width:        calc(100% - 200px - 2px - 10px);
-           top:          10px;
+           top:          5px;
            overflow:     hidden;
            background-color: rgb(229, 227, 223); 
         }
@@ -72,6 +83,10 @@
         #firstHeading {
            font-size:    12px;
         }
+        a:link {
+           text-decoration: none;
+        }
+        input, textarea, select{font-family:inherit;}
      </style>
 
      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry,drawing,weather,visualization&sensor=false"> </script>
@@ -83,7 +98,12 @@
 
      <div id="panel_top">
         <div id="logo">
-           <h2>ICODE-MDA</h2>
+           <h2><a href="."><font color="#ffffff">ICODE-MDA</font></a></h2>
+        </div>
+        <div id="top_nav">
+           <div>
+              <form name="query_form"><input type="text" name="query_input" style="width:100%" value="QUERY"></form>
+           </div>
         </div>
      </div>
      <div id="container">
