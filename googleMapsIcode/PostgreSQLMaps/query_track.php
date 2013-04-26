@@ -37,21 +37,27 @@ if (!$connection) {
 }
 
 //Query statement
-//$query = "SELECT mmsi, lon, lat, datetime FROM (SELECT * FROM ter_20130401 UNION SELECT * FROM ter_20130402) A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
-$query = "SELECT mmsi, lon, lat, datetime FROM ter_20130401 A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
+$query = "SELECT mmsi, lon, lat, datetime FROM (SELECT * FROM ter_20130401 UNION SELECT * FROM ter_20130402 UNION SELECT * FROM ter_20130403 UNION SELECT * FROM ter_20130404) A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
+//$query = "SELECT mmsi, lon, lat, datetime FROM (SELECT * FROM ter_20130401 UNION SELECT * FROM ter_20130402 UNION SELECT * FROM ter_20130403 UNION SELECT * FROM ter_20130404 UNION SELECT * FROM ter_20130405 UNION SELECT * FROM ter_20130406 UNION SELECT * FROM ter_20130407 UNION SELECT * FROM ter_20130408 UNION SELECT * FROM ter_20130409 UNION SELECT * FROM ter_20130410) A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
+//$query = "SELECT mmsi, lon, lat, datetime FROM ter_20130401 A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
 
 if(count($_GET) > 0) { //count the number of arguments
     if(!empty($_GET["mmsi"])) {
       $query = $query . $_GET["mmsi"];
     }
+
+    //Bound limits not used for track queries
+    /*
     if(!empty($_GET["minlat"]) && !empty($_GET["minlon"]) &&
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
-//          $query = $query . " AND ST_Within(ST_SetSRID(ST_Point(lon,lat), 4326), ST_MakeEnvelope(" . $_GET["minlat"] . ", " . $_GET["minlon"] . ", " .  $_GET["maxlat"] . ", " . $_GET["maxlon"] . ", 4326))";
           $query = $query . " AND lat > " . $_GET["minlat"] . " and lon > " . $_GET["minlon"] . " and lat < " .  $_GET["maxlat"] . " and lon < " . $_GET["maxlon"];
-    }
+       }
+     */
 
+    //Order track by descending time
     $query = $query . " ORDER BY datetime DESC";
 
+    //Add a limit if chosen
     if(!empty($_GET["limit"])) {
        $limit = $_GET["limit"];
        $query = $query . " LIMIT " . $limit;
