@@ -11,35 +11,66 @@
  */
 var map;
 var markerArray;
+var trackline;
 //Cluster objects
-var CLUSTER = false;  //toggle this for CLUSTERing
+var CLUSTER = true;  //toggle this for CLUSTERing
 var markerClusterer;
 var mcOptions = {
-               gridSize: 50, 
+               gridSize: 60, 
                minimumClusterSize: 50, 
                averageCenter: false
             };
 //Track line options
+var tracklineIcons = {
+               path: 'M -2,0 0,-2 2,0 0,2 z',
+               strokeColor: '#F00',
+               fillColor: '#F00',
+               fillOpacity: 1
+            };
+
+var trackHeadIcon = {
+               path: 'M -2,0 0,-2 2,0 0,2 z',
+               strokeColor: '#F00',
+               fillColor: '#F00',
+               fillOpacity: 1
+            };
+
+var trackTailIcon = {
+               path: 'M -1,0 A 1,1 0 0 0 -3,0 1,1 0 0 0 -1,0M 1,0 A 1,1 0 0 0 3,0 1,1 0 0 0 1,0M -3,3 Q 0,5 3,3',
+               strokeColor: '#00F',
+               rotation: 0
+            };
+
 var polylineOptions = {
                strokeColor: '#00FF25',
                strokeOpacity: 0.7,
-               strokeWeight: 3
+               strokeWeight: 3,
+/*
+               icons: [{
+                  icon: trackHeadIcon,
+                  offset: '0%'
+                  }, {
+                  icon: trackTailIcon,
+                  offset: '100%'
+                  }
+               ]
+*/
             };
 
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
- */
+*/
 function initialize() {
    //Set up map properties
-	var centerCoord = new google.maps.LatLng(0,0);
+   var centerCoord = new google.maps.LatLng(0,0);
 
-	var mapOptions = {
-			zoom: 5,
-			center: centerCoord,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			mapTypeControlOptions: {
-				mapTypeIds: [google.maps.MapTypeId.ROADMAP, 
+   var mapOptions = {
+      zoom: 5,
+      center: centerCoord,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControlOptions: {
+         mapTypeIds: [google.maps.MapTypeId.ROADMAP, 
                          google.maps.MapTypeId.SATELLITE, 
                          google.maps.MapTypeId.HYBRID, 
                          google.maps.MapTypeId.TERRAIN],
@@ -55,6 +86,8 @@ function initialize() {
 
    //Clear array
    markerArray = [];
+   trackline = new google.maps.Polyline();
+   tracklineMarkers = [];
 
    //Add listener to event for redrawing
    google.maps.event.addListener(map, 'idle', function() {
@@ -73,6 +106,8 @@ function getCurrentAISFromDB(bounds) {
    //Delete previous markers
    //TODO: update to clear only markers that are now out of bounds
    clearMarkerArray();
+   trackline.setMap(null);
+   tracklineMarkers = [];
 
    var sw = bounds.getSouthWest();
    var ne = bounds.getNorthEast();
@@ -82,7 +117,6 @@ function getCurrentAISFromDB(bounds) {
    var maxLon = ne.lng();
 
    var infoWindow = new google.maps.InfoWindow();
-   var polyline = new google.maps.Polyline();
 
    var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + 
       "&minlon=" + minLon + "&maxlon=" + maxLon;
@@ -148,7 +182,9 @@ function getCurrentAISFromDB(bounds) {
                   '</div>'+
                   '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
                   '<div id="bodyContent">' +
+                  '<img height=100px src="http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo + '"><br>' +
                   'MMSI: ' + mmsi + '<br>' +
+                  'IMO: ' + imo + '<br>' +
                   'Report Date: ' + datetime + '<br>' +
                   'Message Type: ' + messagetype + '<br>' +
                   'Lat: ' + lat + '<br>' +
@@ -163,13 +199,21 @@ function getCurrentAISFromDB(bounds) {
                   '</div>'+
                   '</div>';
 
-               var iconLocation = getIconLocation(vesseltypeint);
+               //TODO: get icon color instead of location
+               //var iconLocation = getIconLocation(vesseltypeint);
+               var iconColor = getIconColor(vesseltypeint);
 
                var marker = new google.maps.Marker({
                   position: point,
-                  icon: iconLocation
+                  icon: {
+                     path:        'M 0,8 4,8 0,-8 -4,8 z',
+                     strokeColor: iconColor,
+                     fillColor:   iconColor,
+                     fillOpacity: 0.6,
+                     rotation:    true_heading
+                  }
                });
-               markerInfo(marker, infoWindow, html, polyline, mmsi);
+               markerInfo(marker, infoWindow, html, mmsi);
                markerArray.push(marker);
             }
 
@@ -193,7 +237,7 @@ function getCurrentAISFromDB(bounds) {
  * Function to attach information associated with marker, or call track 
  * fetcher to get track line
  */
-function markerInfo(marker, infoWindow, html, polyline, mmsi) {
+function markerInfo(marker, infoWindow, html, mmsi) {
 
 	google.maps.event.addListener(marker, 'click', function() {
 		infoWindow.setContent(html);
@@ -203,10 +247,11 @@ function markerInfo(marker, infoWindow, html, polyline, mmsi) {
 
 	google.maps.event.addListener(marker, 'mouseout', function() {
       setTimeout(function () { infoWindow.close(); }, 2000);
-	});
+      //setTimeout(function () { trackline.setMap(null); }, 1000);
+   });
 
 	google.maps.event.addListener(marker, 'mouseover', function() {
-      getTrack(polyline, mmsi);
+      getTrack(mmsi);
 	});
 }
 
@@ -234,7 +279,7 @@ function downloadUrl(url, callback) {
 /**
  * Function to get track from track query PHP script
  */
-function getTrack(polyline, mmsi) {
+function getTrack(mmsi) {
    var phpWithArg = "query_track.php?mmsi=" + mmsi;
    downloadUrl(phpWithArg, 
          function(data) {
@@ -263,9 +308,9 @@ function getTrack(polyline, mmsi) {
 
             console.debug("track size = " + track.length);
 
-            polyline.setOptions(polylineOptions);
-            polyline.setPath(track);
-            polyline.setMap(map);
+            trackline.setOptions(polylineOptions);
+            trackline.setPath(track);
+            trackline.setMap(map);
          }
    );
 }
@@ -339,6 +384,60 @@ function getTypesSelected() {
 }
 
 /* -------------------------------------------------------------------------------- */
+function getIconColor(vesseltypeint) {
+   var color;
+   if (vesseltypeint >= 70 && vesseltypeint <= 79) {
+      color = '#04B404'; 
+   }
+   else if (vesseltypeint >= 80 && vesseltypeint <= 89) {
+      color = '#04B404'; 
+   }
+   else if (vesseltypeint == 60) {
+      color = '#04B404'; 
+   }
+   else if (vesseltypeint == 0) {
+      color = '#F78181'; 
+   }
+   else if (vesseltypeint == 55) {
+      color = '#F0101D'; 
+   }
+   else if (vesseltypeint == 35) {
+      color = '#F0101D'; 
+   }
+   else if (vesseltypeint == 31) {
+      color = '#3B170B'; 
+   }
+   else if (vesseltypeint == 32) {
+      color = '#3B170B'; 
+   }
+   else if (vesseltypeint == 52) {
+      color = '#3B170B'; 
+   }
+   else if (vesseltypeint == 33) {
+      color = '#3B170B'; 
+   }
+   else if (vesseltypeint == 50) {
+      color = '#3B170B'; 
+   }
+   else if (vesseltypeint == 37) {
+      color = '#8904B1'; 
+   }
+   else if (vesseltypeint == 30) {
+      color = '#01DFD7'; 
+   }
+   else if (vesseltypeint == 51) {
+      color = '#FF0000'; 
+   }
+   else if (vesseltypeint == 999) {
+      color = '#A4A4A4'; 
+   }
+   else {
+      color = '#FFFFFF';
+   }
+   return color;
+}
+
+/* -------------------------------------------------------------------------------- */
 function getIconLocation(vesseltypeint) {
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
       return "shipicons/lightgreen1_90.png";
@@ -388,8 +487,6 @@ function getIconLocation(vesseltypeint) {
    else {
 		return "shipicons/white0.png";
    }
-		//return "shipicons/yellow1_90.png";
-		//return "shipicons/white1_90.png";
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -416,17 +513,6 @@ function doNothing() {
 function clearMap(map) {
 	clearOverlays();
 	clearMarkerArray();
-}
-
-/* -------------------------------------------------------------------------------- */
-function closeAllInfowindows() {
-	if (markerArray) {
-		for (i in markerArray) {
-         if (markerArray[i].infoWindow) {
-			   markerArray[i].infoWindow.close();
-         }
-		}
-	}	
 }
 
 /* -------------------------------------------------------------------------------- */
