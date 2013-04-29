@@ -36,7 +36,12 @@ var tracklineOptions = {
                strokeOpacity: 0.7,
                strokeWeight:  3,
             };
-
+//Weather layer objects
+var weatherLayer;
+var cloudLayer;
+//Heatmap objects
+var HEATMAP = true;
+var heatmapLayer;
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -90,7 +95,9 @@ function enteredQuery() {
 function clearTrack() {
    trackline.setMap(null);
    for (var i=0; i < tracklineIcons.length; i++) {
-      tracklineIcons.pop().setMap(null);
+      var trackIcon = tracklineIcons.pop()
+      trackIcon.setMap(null);
+      trackIcon = null;
    }
    tracklineIcons = [];
 }
@@ -231,6 +238,7 @@ function getCurrentAISFromDB(bounds, customQuery) {
                showOverlays();
                //addHeatmap(map);
             }
+
             console.debug("Total number of markers = " + markerArray.length);
 
             var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
@@ -346,8 +354,53 @@ function refreshLayers() {
 
 /* -------------------------------------------------------------------------------- */
 function typeSelectUpdated() {
+   var types = getTypesSelected();
+
+   var entered_query = document.getElementById("query_input").value;
+
+   if (types[0] != 999) {
+      entered_query = entered_query + " AND vesseltypeint in (";
+   
+      for (var i=0; i < types.length; i++) {
+         entered_query = entered_query + types[i];
+         if (i != types.length-1) {
+            entered_query = entered_query + ",";
+         }
+      }
+      entered_query = entered_query + ")";
+   }
+
+   var navTypes = getNavTypesSelected();
+   if (navTypes.length != 0) {
+      if (navTypes[0] == 1) {
+         entered_query = entered_query + " AND navstatus = 1";
+      }
+      else {
+         entered_query = entered_query + " AND navstatus != 1";
+      }
+   }
+
+   getCurrentAISFromDB(map.getBounds(), entered_query);
+
 	refreshLayers();
 }
+
+/* -------------------------------------------------------------------------------- */
+function getNavTypesSelected() {
+	var navTypes = [];
+
+   if (document.getElementById("Underway").checked != document.getElementById("Anchored").checked) {
+      if (document.getElementById("Anchored").checked) {
+         navTypes.push(1);
+      }
+      else {
+         navTypes.push(-1);
+      }
+   }
+
+   return navTypes;
+}
+
 
 /* -------------------------------------------------------------------------------- */
 function getTypesSelected() {
@@ -393,13 +446,45 @@ function getTypesSelected() {
       }
       if(document.getElementById("6x-Passenger Vessels").checked) {
          types.push(60);   //covers 60-69
+         types.push(61);
+         types.push(62);
+         types.push(63);
+         types.push(64);
+         types.push(65);
+         types.push(66);
+         types.push(67);
+         types.push(68);
+         types.push(69);
       }
       if(document.getElementById("7x-Cargo Vessels").checked) {
          types.push(70);   //covers 70-79
+         types.push(71);
+         types.push(72);
+         types.push(73);
+         types.push(74);
+         types.push(75);
+         types.push(76);
+         types.push(77);
+         types.push(78);
+         types.push(79);
       }
       if(document.getElementById("8x-Tankers").checked) {
          types.push(80);   //covers 80-89
+         types.push(81);
+         types.push(82);
+         types.push(83);
+         types.push(84);
+         types.push(85);
+         types.push(86);
+         types.push(87);
+         types.push(88);
+         types.push(89);
       }
+   }
+
+   //Default to all ships if no types selected
+   if (types.length == 0) {
+      types.push(999);
    }
 
    return types;
@@ -558,46 +643,53 @@ function changeLights()
 {}
 
 /* -------------------------------------------------------------------------------- */
+function toggleHeatmapLayer() {
+   if (document.getElementById("HeatmapLayer").checked) {
+      markerClusterer.removeMarkers(markerArray);
+      addHeatmap();
+   }
+   else {
+      heatmapLayer.setMap(null);
+      markerClusterer.addMarkers(markerArray);
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
 //adds an example heat map
 //this could be for example a probability of pirate attack map
 function addHeatmap() {
-   /*
-	var heatMapLayer = new google.maps.FusionTablesLayer({
-		query: {
-			select: 'location',
-			from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-		},
-		heatmap: {
-			enabled: true
-		}
-	});
-
-	heatMapLayer.setMap(map);	
-   */
-
    var heatmapData = new Array();
 
-   for(var i=0; i<markerArray.length; i++)
-   {
+   for(var i=0; i<markerArray.length; i++) {
       heatmapData[i] = markerArray[i].getPosition();
    }
 
-   var heatmap = new google.maps.visualization.HeatmapLayer({
+   heatmapLayer = new google.maps.visualization.HeatmapLayer({
      data: heatmapData
    });
 
-   heatmap.setMap(map);
+   heatmapLayer.setMap(map);
 }
 
+/* -------------------------------------------------------------------------------- */
+function toggleWeatherLayer() {
+   if (document.getElementById("WeatherLayer").checked) {
+      addWeatherLayer();
+   }
+   else {
+      weatherLayer.setMap(null);
+      cloudLayer.setMap(null);
+   }
+}
 
 /* -------------------------------------------------------------------------------- */
 function addWeatherLayer() {
-	var weatherLayer = new google.maps.weather.WeatherLayer({
+	weatherLayer = new google.maps.weather.WeatherLayer({
 		temperatureUnits: google.maps.weather.TemperatureUnit.FAHRENHEIT
 	});
 	weatherLayer.setMap(map);
 
-	var cloudLayer = new google.maps.weather.CloudLayer();
+	cloudLayer = new google.maps.weather.CloudLayer();
 	cloudLayer.setMap(map);	
 }
 
