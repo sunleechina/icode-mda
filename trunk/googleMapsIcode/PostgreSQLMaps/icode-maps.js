@@ -241,24 +241,24 @@ function getCurrentAISFromDB(bounds, customQuery) {
                   '<div id="bodyContent" style="overflow: hidden">' +
                   //'<div id="content-left">' +
                   '<div id="content-left">' +
-                  '<img height=100px src="' + imgURL + '"><br>' + 
-
+                  '<img width=180px src="' + imgURL + '"><br>' + 
                   '</div>' +
 
                   '<div id="content-right">' +
-                  'MMSI: ' + mmsi + '<br>' +
-                  'IMO: ' + imo + '<br>' +
-                  'Report Date: ' + datetime + '<br>' +
-                  'Message Type: ' + messagetype + '<br>' +
-                  'Lat: ' + lat + '<br>' +
-                  'Lon: ' + lon + '<br>' +
-                  'Vessel Type (integer): ' + vesseltypeint + '<br>' +
-                  'Navigation Status: ' + navstatus + '<br>' +
-                  'Source: ' + streamid + '<br>'+
-                  'Length x Width: ' + length + ' x ' + shipwidth + '<br>'+
-                  'Draught: ' + draught  + '<br>'+
-                  'Destination: ' + destination + '<br>'+
-                  'ETA: ' + eta + '<br>'+
+                  '<b>MMSI</b>: ' + mmsi + '<br>' +
+                  '<b>IMO</b>: ' + imo + '<br>' +
+                  //'<b>Report Date</b>: ' + datetime + '<br>' +
+                  '<b>Report Date</b>: <br>' + toHumanTime(datetime) + '<br>' +
+                  '<b>Message Type</b>: ' + messagetype + '<br>' +
+                  '<b>Lat</b>: ' + lat + '<br>' +
+                  '<b>Lon</b>: ' + lon + '<br>' +
+                  '<b>Vessel Type</b>: ' + vesseltypeint + '<br>' +
+                  '<b>Navigation Status</b>: ' + navstatus + '<br>' +
+                  '<b>Length x Width</b>: ' + length + ' x ' + shipwidth + '<br>'+
+                  '<b>Draught</b>: ' + draught  + '<br>'+
+                  '<b>Destination</b>: ' + destination + '<br>'+
+                  '<b>ETA</b>: ' + eta + '<br>'+
+                  '<b>Source</b>: ' + streamid + '<br>'+
                   '</div>'+
 
                   '</div>'+
@@ -321,14 +321,16 @@ function markerInfo(marker, infoWindow, html, mmsi, vesselname) {
       infoWindow.setContent(html);
       infoWindow.open(map, marker);
 
-      markerMouseoutTimeout = window.setTimeout(
-         function closeInfoWindow() { 
-            infoWindow.close(); 
-         }, 
-         3000);   //milliseconds
-
-      google.maps.event.addListenerOnce(marker, 'mouseover', function() {
+      google.maps.event.addListener(marker, 'mouseover', function() {
          window.clearTimeout(markerMouseoutTimeout);
+      });
+
+      google.maps.event.addListener(marker, 'mouseout', function() {
+         markerMouseoutTimeout = window.setTimeout(
+            function closeInfoWindow() { 
+               infoWindow.close(); 
+            }, 
+            3000);   //milliseconds
       });
    });
 
@@ -972,5 +974,11 @@ function sleep(dur) {
   while(new Date().getTime() <= d ) {
     //Do nothing
   }
+}
 
+/* -------------------------------------------------------------------------------- */
+function toHumanTime(unixtime) {
+   var date = new Date(unixtime * 1000);
+   var humanTime = date.toLocaleString();
+   return humanTime;
 }
