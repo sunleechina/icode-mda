@@ -26,7 +26,7 @@
                     
                     <!--Load the Google Maps API-->
                     <script type="text/javascript"
-                        src="http://maps.googleapis.com/maps/api/js?&sensor=true">
+                         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAg0iA-LLwe-K_QW3ticr-_3UemHecVMZ8&sensor=true">
                     </script>
                     
                     <!--Javascript functions-->
