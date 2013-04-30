@@ -90,6 +90,19 @@
         }
         #content {
            font-size:    10px;
+           display: inline-block;
+           min-width:    300px;
+           overflow:     hidden;
+        }
+        #content-left {
+           float:        left;
+           display: inline-block;
+           overflow:     hidden;
+        }
+        #content-right {
+           float:        right;
+           width:        160px;
+           overflow:     hidden;
         }
         #firstHeading {
            font-size:    12px;
@@ -174,6 +187,7 @@
            <span id="MoreOptions">
               <input id="WeatherLayer" name="WeatherLayer" type="checkbox" onclick="toggleWeatherLayer();"> <img align="top" width="20px" src="shipicons/weather_icon.png" style=""> Weather Layer<br>
               <input id="HeatmapLayer" name="HeatmapLayer" type="checkbox" onclick="toggleHeatmapLayer();"> <img align="top" width="20px" src="shipicons/heatmap.png" style=""> Heatmap Layer<br>
+              <input id="ClusterLayer" name="ClusterLayer" type="checkbox" checked="checked" onclick="toggleClusterLayer();"> <img align="top" width="20px" src="shipicons/cluster.png" style=""> Cluster Layer<br>
            </span>
            </p>
         </div>
