@@ -13,12 +13,15 @@ var map;
 var markerArray;
 var trackline;
 var tracklineIcons;
+//Marker timing objects
+var markerMouseoutTimeout;
+var trackMouseoverTimeout;
 //Cluster objects
 var CLUSTER = true;  //toggle this for CLUSTERing
 var markerClusterer;
 var mcOptions = {
                gridSize: 60, 
-               minimumClusterSize: 50, 
+               minimumClusterSize: 30, 
                averageCenter: false
             };
 //Track line options
@@ -42,6 +45,17 @@ var cloudLayer;
 //Heatmap objects
 var HEATMAP = true;
 var heatmapLayer;
+//Other WMS layers
+var openlayersWMS;
+var wmsOptions = {
+      alt: "OpenLayers",
+      getTileUrl: WMSGetTileUrl,
+      isPng: false,
+      maxZoom: 17,
+      minZoom: 1,
+      name: "OpenLayers",
+      tileSize: new google.maps.Size(256, 256)
+   };
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -59,12 +73,23 @@ function initialize() {
          mapTypeIds: [google.maps.MapTypeId.ROADMAP, 
                          google.maps.MapTypeId.SATELLITE, 
                          google.maps.MapTypeId.HYBRID, 
-                         google.maps.MapTypeId.TERRAIN],
-				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR //drop-down menu
+                         google.maps.MapTypeId.TERRAIN,
+                         'OpenLayers'
+                         ],
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR //or drop-down menu
 			}
 	};
 
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+   //TODO: TEST WMS layers
+   addWmsLayers();
+   //map.setMapTypeId('OpenLayers');
+   //TEST
+   
+   //Set default map layer
+   map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+
 
    if (CLUSTER) {
    	markerClusterer = new MarkerClusterer(map, [], mcOptions);
@@ -78,8 +103,24 @@ function initialize() {
    addDrawingManager();
 
    //Add listener to event for redrawing
+   /*
    google.maps.event.addListener(map, 'idle', function() {
+      clearTrack();
       getCurrentAISFromDB(map.getBounds(), null);
+   });
+   */
+
+   google.maps.event.addListener(map, 'idle', function() {
+      var idleTimeout = window.setTimeout(
+         function() {
+            clearTrack();
+            getCurrentAISFromDB(map.getBounds(), null);
+         }, 
+         2000);   //milliseconds to pause after bounds change
+
+      google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+         window.clearTimeout(idleTimeout);
+      });
    });
 }
 
@@ -110,12 +151,6 @@ function getCurrentAISFromDB(bounds, customQuery) {
    console.debug("Refreshing target points...");
    document.getElementById("query_input").value = "QUERY RUNNING...";
    document.getElementById('stats_nav').innerHTML = '';
-
-   //Delete previous markers
-   //TODO: update to clear only markers that are now out of bounds
-   //clearMarkerArray();
-   clearOutBoundMarkers();
-   clearTrack();
 
    var sw = bounds.getSouthWest();
    var ne = bounds.getNorthEast();
@@ -155,6 +190,13 @@ function getCurrentAISFromDB(bounds, customQuery) {
             //Show the query and put it in the form
             document.getElementById("query_input").value = statement[0].getAttribute("statement");            
 
+            //Delete previous markers
+            //TODO: update to clear only markers that are now out of bounds
+            //clearMarkerArray();
+            clearOutBoundMarkers();
+            clearTrack();
+
+            //Prepare to grab PHP results as XML
             var ais_tips = xml.documentElement.getElementsByTagName("ais");
             console.debug("Results returned = " + ais_tips.length);
 
@@ -190,12 +232,20 @@ function getCurrentAISFromDB(bounds, customQuery) {
                var posfixtype = ais_tips[i].getAttribute("posfixtype");
                var streamid = ais_tips[i].getAttribute("streamid");
 
+               imgURL = 'http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo;
+
                var html = '<div id="content">'+
                   '<div id="siteNotice">'+
                   '</div>'+
                   '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
-                  '<div id="bodyContent">' +
-                  '<img height=100px src="http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo + '"><br>' +
+                  '<div id="bodyContent" style="overflow: hidden">' +
+                  //'<div id="content-left">' +
+                  '<div id="content-left">' +
+                  '<img height=100px src="' + imgURL + '"><br>' + 
+
+                  '</div>' +
+
+                  '<div id="content-right">' +
                   'MMSI: ' + mmsi + '<br>' +
                   'IMO: ' + imo + '<br>' +
                   'Report Date: ' + datetime + '<br>' +
@@ -209,6 +259,8 @@ function getCurrentAISFromDB(bounds, customQuery) {
                   'Draught: ' + draught  + '<br>'+
                   'Destination: ' + destination + '<br>'+
                   'ETA: ' + eta + '<br>'+
+                  '</div>'+
+
                   '</div>'+
                   '</div>';
 
@@ -224,19 +276,28 @@ function getCurrentAISFromDB(bounds, customQuery) {
                      rotation:    true_heading
                   }
                });
-               markerInfo(marker, infoWindow, html, mmsi);
+               markerInfo(marker, infoWindow, html, mmsi, vesselname);
                markerArray.push(marker);
             }
 
+            //Display the appropriate layer according to the sidebar checkboxes
             if (CLUSTER) {
-               markerClusterer.addMarkers(markerArray);
+               if (document.getElementById("HeatmapLayer").checked) {
+                  addHeatmap();
+               }
+               else {
+                  markerClusterer.addMarkers(markerArray);
+               }
                console.debug("Number of markers = " + markerClusterer.getTotalMarkers());
                console.debug("Number of clusters = " + markerClusterer.getTotalClusters());
             }
             else {
-               //Display the markers individually
-               showOverlays();
-               //addHeatmap(map);
+               if (document.getElementById("HeatmapLayer").checked) {
+                  addHeatmap();
+               }
+               else {
+                  showOverlays();   //Display the markers individually
+               }
             }
 
             console.debug("Total number of markers = " + markerArray.length);
@@ -246,6 +307,44 @@ function getCurrentAISFromDB(bounds, customQuery) {
             document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
          }
    );
+}
+
+/* -------------------------------------------------------------------------------- */
+/**
+ * Function to attach information associated with marker, or call track 
+ * fetcher to get track line
+ */
+function markerInfo(marker, infoWindow, html, mmsi, vesselname) {
+   //Listener for click on marker to display infoWindow
+	google.maps.event.addListener(marker, 'click', function () {
+      window.clearTimeout(markerMouseoutTimeout);
+      infoWindow.setContent(html);
+      infoWindow.open(map, marker);
+
+      markerMouseoutTimeout = window.setTimeout(
+         function closeInfoWindow() { 
+            infoWindow.close(); 
+         }, 
+         3000);   //milliseconds
+
+      google.maps.event.addListenerOnce(marker, 'mouseover', function() {
+         window.clearTimeout(markerMouseoutTimeout);
+      });
+   });
+
+   //Listener for mouseover marker to display tracks
+   google.maps.event.addListener(marker, 'mouseover', function() {
+      marker.setTitle(vesselname.trim());
+      trackMouseoverTimeout = window.setTimeout(
+         function displayTracks() {
+            getTrack(mmsi)
+         },
+         1000);   //milliseconds
+
+      google.maps.event.addListenerOnce(marker, 'mouseout', function() {
+         window.clearTimeout(trackMouseoverTimeout);
+      });
+   });
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -301,28 +400,6 @@ function getTrack(mmsi) {
             document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
          }
    );
-}
-
-/* -------------------------------------------------------------------------------- */
-/**
- * Function to attach information associated with marker, or call track 
- * fetcher to get track line
- */
-function markerInfo(marker, infoWindow, html, mmsi) {
-
-	google.maps.event.addListener(marker, 'click', function() {
-		infoWindow.setContent(html);
-		infoWindow.open(map, marker);
-      //setTimeout(function () { infoWindow.close(); }, 2000);
-	});
-
-	google.maps.event.addListener(marker, 'mouseout', function() {
-      setTimeout(function () { infoWindow.close(); }, 2000);
-   });
-
-	google.maps.event.addListener(marker, 'mouseover', function() {
-      getTrack(mmsi);
-	});
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -643,6 +720,20 @@ function changeLights()
 {}
 
 /* -------------------------------------------------------------------------------- */
+function toggleClusterLayer() {
+   if (document.getElementById("ClusterLayer").checked) {
+      clearOverlays();
+      CLUSTER = true;
+      markerClusterer.addMarkers(markerArray);
+   }
+   else {
+      CLUSTER = false;
+      markerClusterer.removeMarkers(markerArray);
+      showOverlays();   //Display the markers individually
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
 function toggleHeatmapLayer() {
    if (document.getElementById("HeatmapLayer").checked) {
       markerClusterer.removeMarkers(markerArray);
@@ -753,22 +844,61 @@ function setMapCenterToCenterOfMass(map, tips) {
 
 /* -------------------------------------------------------------------------------- */
 function addWmsLayers() {
-	//http://www.sumbera.com/lab/GoogleV3/tiledWMSoverlayGoogleV3.htm
-	//Define OSM as base layer in addition to the default Google layers
+   openlayersWMS = new google.maps.ImageMapType(wmsOptions);
+   map.mapTypes.set('OpenLayers', openlayersWMS);
+}
 
-	var osmMapType = new google.maps.ImageMapType({
-		getTileUrl: function (coord, zoom) {
-			return "http://tile.openstreetmap.org/" +
-			zoom + "/" + coord.x + "/" + coord.y + ".png";
-		},
-		tileSize: new google.maps.Size(256, 256),
-		isPng: true,
-		alt: "OpenStreetMap",
-		name: "OSM",
-		maxZoom: 19
-	});
+/* -------------------------------------------------------------------------------- */
+function WMSGetTileUrl(tile, zoom) {
+   var projection = window.map.getProjection();
+   var zpow = Math.pow(2, zoom);
+   var ul = new google.maps.Point(tile.x * 256.0 / zpow, (tile.y + 1) * 256.0 / zpow);
+   var lr = new google.maps.Point((tile.x + 1) * 256.0 / zpow, (tile.y) * 256.0 / zpow);
+   var ulw = projection.fromPointToLatLng(ul);
+   var lrw = projection.fromPointToLatLng(lr);
+   //The user will enter the address to the public WMS layer here.  The data must be in WGS84
+   var baseURL = "http://demo.cubewerx.com/cubewerx/cubeserv.cgi?";
+   var version = "1.3.0";
+   var request = "GetMap";
+   var format = "image%2Fjpeg"; //type of image returned  or image/jpeg
+   //The layer ID.  Can be found when using the layers properties tool in ArcMap or from the WMS settings 
+   var layers = "Foundation.GTOPO30";
+   //projection to display. This is the projection of google map. Don't change unless you know what you are doing.  
+   //Different from other WMS servers that the projection information is called by crs, instead of srs
+   var crs = "EPSG:4326"; 
+   //With the 1.3.0 version the coordinates are read in LatLon, as opposed to LonLat in previous versions
+   var bbox = ulw.lat() + "," + ulw.lng() + "," + lrw.lat() + "," + lrw.lng();
+   var service = "WMS";
+   //the size of the tile, must be 256x256
+   var width = "256";
+   var height = "256";
+   //Some WMS come with named styles.  The user can set to default.
+   var styles = "default";
+   //Establish the baseURL.  Several elements, including &EXCEPTIONS=INIMAGE and &Service are unique to openLayers addresses.
+   var url = baseURL + "Layers=" + layers + "&version=" + version + "&EXCEPTIONS=INIMAGE" + "&Service=" + service + "&request=" + request + "&Styles=" + styles + "&format=" + format + "&CRS=" + crs + "&BBOX=" + bbox + "&width=" + width + "&height=" + height;
+   return url;
+}
 
-	//Define custom WMS tiled layer
+
+/* -------------------------------------------------------------------------------- */
+/*
+   function addWmsLayers() {
+//http://www.sumbera.com/lab/GoogleV3/tiledWMSoverlayGoogleV3.htm
+//Define OSM as base layer in addition to the default Google layers
+
+var osmMapType = new google.maps.ImageMapType({
+getTileUrl: function (coord, zoom) {
+return "http://tile.openstreetmap.org/" +
+zoom + "/" + coord.x + "/" + coord.y + ".png";
+},
+tileSize: new google.maps.Size(256, 256),
+isPng: true,
+alt: "OpenStreetMap",
+name: "OSM",
+maxZoom: 19
+});
+
+//Define custom WMS tiled layer
 	var SLPLayer = new google.maps.ImageMapType({
 		getTileUrl: function (coord, zoom) {
 			var proj = map.getProjection();
@@ -784,10 +914,10 @@ function addWmsLayers() {
 
 
 			//create the Bounding box string
-			var bbox =     (top.lng() + deltaX) + "," +
-			(bot.lat() + deltaY) + "," +
-			(bot.lng() + deltaX) + "," +
-			(top.lat() + deltaY);
+			var bbox = (top.lng() + deltaX) + "," +
+                    (bot.lat() + deltaY) + "," +
+                    (bot.lng() + deltaX) + "," +
+                    (top.lat() + deltaY);
 
 
 			//http://onearth.jpl.nasa.gov/wms.cgi?request=GetCapabilities
@@ -822,6 +952,7 @@ function addWmsLayers() {
 
 	map.overlayMapTypes.push(SLPLayer);
 }
+*/
 
 /* -------------------------------------------------------------------------------- */
 function microtime (get_as_float) {
