@@ -56,6 +56,8 @@ var wmsOptions = {
       name: "OpenLayers",
       tileSize: new google.maps.Size(256, 256)
    };
+//Shape drawing objects
+var selectedShape;
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -159,7 +161,13 @@ function getCurrentAISFromDB(bounds, customQuery) {
    var minLon = sw.lng();
    var maxLon = ne.lng();
 
-   var infoWindow = new google.maps.InfoWindow();
+   //var infoWindow = new google.maps.InfoWindow();
+   var infoBubble = new InfoBubble({
+      disableAnimation: true,
+      disableAutoPan: true,
+      arrowStyle:     2,
+      padding:        10
+   });
 
    var phpWithArg;
    if (!customQuery) {
@@ -237,7 +245,7 @@ function getCurrentAISFromDB(bounds, customQuery) {
                var html = '<div id="content">'+
                   '<div id="siteNotice">'+
                   '</div>'+
-                  '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h2>' +
+                  '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h1>' +
                   '<div id="bodyContent" style="overflow: hidden">' +
                   //'<div id="content-left">' +
                   '<div id="content-left">' +
@@ -276,7 +284,9 @@ function getCurrentAISFromDB(bounds, customQuery) {
                      rotation:    true_heading
                   }
                });
-               markerInfo(marker, infoWindow, html, mmsi, vesselname);
+
+               //markerInfoWindow(marker, infoWindow, html, mmsi, vesselname);
+               markerInfoBubble(marker, infoBubble, html, mmsi, vesselname);
                markerArray.push(marker);
             }
 
@@ -314,7 +324,55 @@ function getCurrentAISFromDB(bounds, customQuery) {
  * Function to attach information associated with marker, or call track 
  * fetcher to get track line
  */
-function markerInfo(marker, infoWindow, html, mmsi, vesselname) {
+function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
+   //Listener for click on marker to display infoBubble
+	google.maps.event.addListener(marker, 'click', function () {
+      infoBubble.setContent(html);
+      infoBubble.open(map, marker);
+
+      /*
+      google.maps.event.addListener(marker, 'mouseover', function() {
+         window.clearTimeout(markerMouseoutTimeout);
+      });
+
+      google.maps.event.addListener(marker, 'mouseout', function() {
+         markerMouseoutTimeout = window.setTimeout(
+            function closeInfoWindow() { 
+               infoBubble.removeTab(1);
+               infoBubble.removeTab(0);
+               infoBubble.close(); 
+            }, 
+            3000);   //milliseconds
+      });
+      */
+
+      google.maps.event.addListener(infoBubble, 'mouseover', function() {
+         alert("mouse over infobubble");
+         window.clearTimeout(trackMouseoverTimeout);
+      });
+   });
+
+   //Listener for mouseover marker to display tracks
+   google.maps.event.addListener(marker, 'mouseover', function() {
+      marker.setTitle(vesselname.trim());
+      trackMouseoverTimeout = window.setTimeout(
+         function displayTracks() {
+            getTrack(mmsi)
+         },
+         1000);   //milliseconds
+
+      google.maps.event.addListenerOnce(marker, 'mouseout', function() {
+         window.clearTimeout(trackMouseoverTimeout);
+      });
+   });
+}
+
+/* -------------------------------------------------------------------------------- */
+/**
+ * Function to attach information associated with marker, or call track 
+ * fetcher to get track line
+ */
+function markerInfoWindow(marker, infoWindow, html, mmsi, vesselname) {
    //Listener for click on marker to display infoWindow
 	google.maps.event.addListener(marker, 'click', function () {
       window.clearTimeout(markerMouseoutTimeout);
@@ -804,38 +862,81 @@ function addDrawingManager() {
 		},
 		circleOptions: {
 			fillColor: '#ffff00',
-			fillOpacity: 0.2,
-			strokeWeight: 0,
-			clickable: false,
+			fillOpacity: 0.3,
+			strokeWeight: 2,
+			strokeColor: '#ffff00',
+         strokeOpacity: 0.8,
+			clickable: true,
 			editable: false,
 			zIndex: 1
 		},
 		polygonOptions: {
 			fillColor: '#ffff00',
-			fillOpacity: 0.2,
-			strokeWeight: 0,
-			clickable: false,
+			fillOpacity: 0.3,
+			strokeWeight: 2,
+			strokeColor: '#ffff00',
+         strokeOpacity: 0.8,
+			clickable: true,
 			editable: false,
 			zIndex: 1 
 		},
-		rectangleOptions: {
+      rectangleOptions: {
 			fillColor: '#ffff00',
-			fillOpacity: 0.2,
-			strokeWeight: 0,
-			clickable: false,
+			fillOpacity: 0.3,
+			strokeWeight: 2,
+			strokeColor: '#ffff00',
+         strokeOpacity: 0.8,
+			clickable: true,
 			editable: false,
 			zIndex: 1 
 		}
 	});
 	drawingManager.setMap(map);
+
+   google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
+      //if (event.type != google.maps.drawing.OverlayType.MARKER) {
+         // Switch back to non-drawing mode after drawing a shape.
+         //drawingManager.setDrawingMode(null);
+
+         //console.debug("shape draw complete");
+
+         var newShape = event.overlay;
+         newShape.type = event.type;
+         //delete shape if user right clicks on the shape
+         google.maps.event.addListener(newShape, 'rightclick', function (e) {
+            //alert("Object deleted");
+            newShape.setMap(null);
+         });
+         //make shape editable if user left clicks on the shape
+         google.maps.event.addListener(newShape, 'click', function (e) {
+            setSelection(newShape);
+         });
+         google.maps.event.addListener(map, 'click', clearSelection);
+      //}
+   });
+}
+
+/* -------------------------------------------------------------------------------- */
+function clearSelection() {
+   if (selectedShape) {
+      selectedShape.setEditable(false);
+      selectedShape = null;
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+function setSelection(shape) {
+   clearSelection();
+   selectedShape = shape;
+   shape.setEditable(true);
 }
 
 /* -------------------------------------------------------------------------------- */
 function setMapCenterToCenterOfMass(map, tips) {
-	lat_mean=0;
-	lon_mean=0;
-	N=tips.length;
-	for(var i=0;i<N;i++)
+   lat_mean=0;
+   lon_mean=0;
+   N=tips.length;
+   for(var i=0;i<N;i++)
 	{
 		lat_mean = lat_mean+tips[i].lat/N;
 		lon_mean = lon_mean+tips[i].lon/N;
