@@ -52,9 +52,9 @@
            position:     absolute;
            height:       40px;
            width:        130px;
-           line-height:  20px;
            top:          12px;
            right:        0px;
+           line-height:  20px;
            vertical-align:middle;
            text-align:   left;
            border:       1px solid transparent;
@@ -63,8 +63,7 @@
            overflow:     hidden;
            position:     absolute;
            padding:      0px;
-           border-width: 1px;
-           border-style: solid;
+           border:       1px solid;
            width:        100%;
            height:       calc(100% - 60px);
            margin:       0 0 0 0;
@@ -72,21 +71,37 @@
         #panel_left {
            float:        left;
            position:     relative;
+           border:       1px solid tranparent;
            margin:       0;
            padding:      2px;
-           width:        200px;
-           min-width:    200px;
+           width:        250px;
+           min-width:    250px;
+           height:       calc(100% - 15px);
            top:          0;
+           left:         0;
         }
         #map_canvas { 
-           border-width: 1px; 
-           border-style: solid;
+           border:       1px solid; 
            position:     relative;
            height:       calc(100% - 15px);
-           width:        calc(100% - 200px - 2px - 10px);
+           width:        calc(100% - 250px - 4px - 10px);
            top:          5px;
            overflow:     hidden;
            background-color: rgb(229, 227, 223); 
+           left:         0;
+           }
+        #showpanel {
+           position:     absolute;
+           top:          6px;
+           left:         0px;
+           height:       calc(100% - 15px);
+           width:        12px;
+           padding:      0px;
+           border:       1px solid white transparent;
+           background:   #333333;
+           color:        white;
+           font-weight:  bold;
+           visibility:   hidden;
         }
         #content {
            font-size:    10px;
@@ -101,8 +116,26 @@
            float:        right;
            width:        160px;
         }
+        #status-msg {
+           position:     absolute;
+           top:          68px;
+           left:         calc(100%/3);
+           width:        500px;
+           height:       20px;
+           line-height:  20px;
+           vertical-align:middle;
+           display: block;
+           padding:      0 100 0 100;
+           border:       0px solid transparent;
+           background:   yellow;
+           opacity:      1;
+           text-align:   center;
+           font-size:    14px;
+           color:        #000000;
+           font-weight:  bold;
+        }
         #firstHeading {
-           font-size:    12px;
+           font-size:    14px;
         }
         a:link {
            text-decoration: none;
@@ -114,7 +147,14 @@
      <script type="text/javascript" src='icode-maps.js' ></script>
      <script type="text/javascript" src='markerclusterer.js' ></script>
      <script type="text/javascript" src='infobubble.js' ></script>
-     
+
+     <script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>     
+     <script type="text/javascript" src='fade.js' ></script>
+     <script type="text/javascript" src='slidemenu.js'></script>
+
+     <script type="text/javascript" src="geoxml3.js"></script>
+     <script type="text/javascript" src="ProjectedOverlay.js"></script>
+
   </head>
 
   <body onload="initialize()">
@@ -125,7 +165,7 @@
         </div>
         <div id="top_nav">
            <div>
-              <form name="query_form"><input id="query_input" type="text" name="query_input" style="width:100%" onkeypress="enteredQuery()" value="QUERY RUNNING..."><input ></form>
+              <form name="query_form"><input id="query_input" type="text" name="query_input" style="width:100%" onkeypress="enteredQuery()" value="QUERY RUNNING..."><input hidden="true"></form>
            </div>
         </div>
         <div id="stats_nav">
@@ -199,7 +239,15 @@
         </div> 
         <!-- END MAP AREA -->
 
+        <div id="showpanel">
+           ><br>><br>>
+        </div>
      </div>
+
+     <div id="status-msg">
+        Radar and AIS posits now showing together!
+     </div>
+     
   </body>
   </html>
 

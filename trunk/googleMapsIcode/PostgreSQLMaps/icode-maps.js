@@ -21,7 +21,7 @@ var CLUSTER = true;  //toggle this for CLUSTERing
 var markerClusterer;
 var mcOptions = {
                gridSize: 60, 
-               minimumClusterSize: 30, 
+               minimumClusterSize: 50, 
                averageCenter: false
             };
 //Track line options
@@ -64,13 +64,15 @@ var selectedShape;
 */
 function initialize() {
    //Set up map properties
-   var centerCoord = new google.maps.LatLng(0,0);
-   //var centerCoord = new google.maps.LatLng(32.72,-117.2319);
+   //var centerCoord = new google.maps.LatLng(0,0);
+   //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
+   var centerCoord = new google.maps.LatLng(6.0719,1.3728);   //Lome, Togo
 
    var mapOptions = {
-      zoom: 5,
-      center: centerCoord,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      //zoom:              5,
+      zoom:              11,
+      center:            centerCoord,
+      mapTypeId:         google.maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
          mapTypeIds: [google.maps.MapTypeId.ROADMAP, 
                          google.maps.MapTypeId.SATELLITE, 
@@ -124,6 +126,10 @@ function initialize() {
          window.clearTimeout(idleTimeout);
       });
    });
+
+   google.maps.event.addListener(map, "idle", function(){
+      google.maps.event.trigger(map, 'resize'); 
+   });
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -173,16 +179,15 @@ function getCurrentAISFromDB(bounds, customQuery) {
    if (!customQuery) {
       var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
       phpWithArg = "query_current_vessels.php?" + boundStr + "";
+      //phpWithArg = "query_current_vessels-radar.php?" + boundStr + "";
    }
    else {
       phpWithArg = "query_current_vessels.php?query=" + customQuery;
+      //phpWithArg = "query_current_vessels-radar.php?query=" + customQuery;
    }
 
    //Debug query output
-   // In Google Chrome, hit F12 and go to the Console tab to see the 
-   //   output statements for debugging
    console.debug(phpWithArg);
-   //end debug query
 
    downloadUrl(phpWithArg, 
          function(data) {
@@ -249,7 +254,9 @@ function getCurrentAISFromDB(bounds, customQuery) {
                   '<div id="bodyContent" style="overflow: hidden">' +
                   //'<div id="content-left">' +
                   '<div id="content-left">' +
-                  '<img width=180px src="' + imgURL + '"><br>' + 
+                  '<a href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '"> '+
+                  '<img width=180px src="' + imgURL + '">' + 
+                  '</a><br>' + 
                   '</div>' +
 
                   '<div id="content-right">' +
@@ -354,7 +361,12 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
 
    //Listener for mouseover marker to display tracks
    google.maps.event.addListener(marker, 'mouseover', function() {
-      marker.setTitle(vesselname.trim());
+      if (vesselname.length != 0 && vesselname != null) {
+         marker.setTitle(vesselname.trim());
+      }
+      else {
+         marker.setTitle(mmsi);
+      }
       trackMouseoverTimeout = window.setTimeout(
          function displayTracks() {
             getTrack(mmsi)
@@ -417,6 +429,9 @@ function getTrack(mmsi) {
    document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
    document.getElementById('stats_nav').innerHTML = '';
    var phpWithArg = "query_track.php?mmsi=" + mmsi;
+   //Debug query output
+   console.debug(phpWithArg);
+
    downloadUrl(phpWithArg, 
          function(data) {
             var xml = data.responseXML;
@@ -857,6 +872,7 @@ function addDrawingManager() {
 			               google.maps.drawing.OverlayType.MARKER,
 			               google.maps.drawing.OverlayType.CIRCLE,
 			               google.maps.drawing.OverlayType.POLYGON,
+			               google.maps.drawing.OverlayType.POLYLINE,
 			               google.maps.drawing.OverlayType.RECTANGLE
 			               ]
 		},
@@ -880,6 +896,16 @@ function addDrawingManager() {
 			editable: false,
 			zIndex: 1 
 		},
+		polylineOptions: {
+			fillColor: '#ffff00',
+			fillOpacity: 0.3,
+			strokeWeight: 3,
+			strokeColor: '#ffff00',
+         strokeOpacity: 0.8,
+			clickable: true,
+			editable: false,
+			zIndex: 1 
+		},
       rectangleOptions: {
 			fillColor: '#ffff00',
 			fillOpacity: 0.3,
@@ -896,17 +922,15 @@ function addDrawingManager() {
    google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
       //if (event.type != google.maps.drawing.OverlayType.MARKER) {
          // Switch back to non-drawing mode after drawing a shape.
-         //drawingManager.setDrawingMode(null);
-
-         //console.debug("shape draw complete");
+         drawingManager.setDrawingMode(null);
 
          var newShape = event.overlay;
          newShape.type = event.type;
          //delete shape if user right clicks on the shape
          google.maps.event.addListener(newShape, 'rightclick', function (e) {
-            //alert("Object deleted");
             newShape.setMap(null);
          });
+
          //make shape editable if user left clicks on the shape
          google.maps.event.addListener(newShape, 'click', function (e) {
             setSelection(newShape);
