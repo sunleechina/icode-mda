@@ -13,6 +13,9 @@ var map;
 var markerArray;
 var trackline;
 var tracklineIcons;
+//Viewing bounds objects
+var queryBounds;
+var expandFactor = 0.01;
 //Marker timing objects
 var markerMouseoutTimeout;
 var trackMouseoverTimeout;
@@ -58,6 +61,8 @@ var wmsOptions = {
    };
 //Shape drawing objects
 var selectedShape;
+//KML objects
+var KML = false;
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -86,35 +91,20 @@ function initialize() {
 
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
-   //TODO: TEST WMS layers
-   addWmsLayers();
-   //map.setMapTypeId('OpenLayers');
-   //TEST
-   
    //Set default map layer
    map.setMapTypeId(google.maps.MapTypeId.HYBRID);
 
-
-   if (CLUSTER) {
-   	markerClusterer = new MarkerClusterer(map, [], mcOptions);
-   }
-
-   //Clear array
+   //Clear marker array
    markerArray = [];
    trackline = new google.maps.Polyline();
    tracklineIcons = [];
 
+   //Add drawing toolbar
    addDrawingManager();
 
-   //Add listener to event for redrawing
-   /*
+   //Map dragged then idle listener
    google.maps.event.addListener(map, 'idle', function() {
-      clearTrack();
-      getCurrentAISFromDB(map.getBounds(), null);
-   });
-   */
-
-   google.maps.event.addListener(map, 'idle', function() {
+      google.maps.event.trigger(map, 'resize'); 
       var idleTimeout = window.setTimeout(
          function() {
             clearTrack();
@@ -127,47 +117,20 @@ function initialize() {
       });
    });
 
-   google.maps.event.addListener(map, "idle", function(){
-      google.maps.event.trigger(map, 'resize'); 
-   });
-
-//TODO: Attempting to unzip KMZ files --------------------------
-//   zip.workerScriptsPath = "lib/";
-
-//   var myParser = new geoXML3.parser({map: map});
-//    myParser.parse('sandiego.kml');
-//    myParser.parse('ghana.kml');
-//    myParser.parse('ghana.kmz');
-//    myParser.parse('ghanasmall.kmz');
-//    myParser.parse('tsxtestzip.kmz');
-//    myParser.parse('ghanatestzip.kmz');
-//    myParser.parse('tsx.kml');
-//    myParser.parse('usa-ca-sf.kmz');
-
-/*
-   var extractCallback = function(id, sz) {
-      return function (entry, entryContent) {
-         var entryName = entry.name;
-         console.debug(entryName);
-         console.debug(typeof entryContent);
-      };
-   };
-
-   var doneReadingKMZ = function(zip) {
-      try {
-         var randomId = "id-"+ Math.floor((Math.random() * 1000000000));         
-         for (var i=0; i < zip.entries.length; i++) {
-            var entry = zip.entries[i];
-            //alert('Entry ' + i + ": " + entry.uncompressedSize + ' bytes.');
-            entry.extract(extractCallback(randomId, entry.uncompressedSize));
-         }
-      }
-      catch (exc1) {
-         $("#status").append("exception: " + exc1.message + "<br/>source: " + exc1.source + "<br/>");
-      }
+   //TODO: TEST WMS layers
+   addWmsLayers();
+   //map.setMapTypeId('OpenLayers');
+   //TEST
+   
+   //Cluster overlay layer
+   if (CLUSTER) {
+   	markerClusterer = new MarkerClusterer(map, [], mcOptions);
    }
-   var kmzFile = new ZipFile('ghana.kmz', doneReadingKMZ, 1);
-*/
+
+   //KML overlay layer
+   if (KML) {
+      showKML();
+   }
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -199,12 +162,22 @@ function getCurrentAISFromDB(bounds, customQuery) {
    document.getElementById('stats_nav').innerHTML = '';
    document.getElementById('busy_indicator').style.visibility = 'visible';
 
+   //Set buffer around map bounds to expand queried area slightly outside viewable area
+   var latLonBuffer = expandFactor * map.getZoom();
+   console.debug(latLonBuffer);
+
    var sw = bounds.getSouthWest();
    var ne = bounds.getNorthEast();
-   var minLat = sw.lat();
-   var maxLat = ne.lat();
-   var minLon = sw.lng();
-   var maxLon = ne.lng();
+
+   var viewMinLat = sw.lat();
+   var viewMaxLat = ne.lat();
+   var viewMinLon = sw.lng();
+   var viewMaxLon = ne.lng();
+
+   var minLat = sw.lat() - latLonBuffer;
+   var maxLat = ne.lat() + latLonBuffer;
+   var minLon = sw.lng() - latLonBuffer;
+   var maxLon = ne.lng() + latLonBuffer;
 
    //var infoWindow = new google.maps.InfoWindow();
    var infoBubble = new InfoBubble({
@@ -470,6 +443,7 @@ function getTrack(mmsi) {
 
    document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
    document.getElementById('stats_nav').innerHTML = '';
+   document.getElementById('busy_indicator').style.visibility = 'visible';
    var phpWithArg = "query_track.php?mmsi=" + mmsi;
    //Debug query output
    console.debug(phpWithArg);
@@ -514,6 +488,7 @@ function getTrack(mmsi) {
 
             var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
             var resultCount= xml.documentElement.getElementsByTagName("resultcount")[0].getAttribute("count");
+            document.getElementById('busy_indicator').style.visibility = 'hidden';
             document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
          }
    );
@@ -835,6 +810,58 @@ function changeStations()
 /* -------------------------------------------------------------------------------- */
 function changeLights()
 {}
+
+/* -------------------------------------------------------------------------------- */
+function toggleKMLLayer() {
+   if (document.getElementById("KMLLayer").checked) {
+      KML = true;
+      showKML();
+   }
+   else {
+      KML = false;
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+function showKML() {
+//TODO: Attempting to unzip KMZ files --------------------------
+//   zip.workerScriptsPath = "lib/";
+
+   var myParser = new geoXML3.parser({map: map});
+//    myParser.parse('kml/sandiego.kml');
+//    myParser.parse('kml/ghana.kml');
+//    myParser.parse('kml/ghana.kmz');
+//    myParser.parse('kml/ghanasmall.kmz');
+//    myParser.parse('kml/tsxtestzip.kmz');
+//    myParser.parse('kml/ghanatestzip.kmz');
+    myParser.parse('kml/tsx.kml');
+//    myParser.parse('kml/usa-ca-sf.kmz');
+
+/*
+   var extractCallback = function(id, sz) {
+      return function (entry, entryContent) {
+         var entryName = entry.name;
+         console.debug(entryName);
+         console.debug(typeof entryContent);
+      };
+   };
+
+   var doneReadingKMZ = function(zip) {
+      try {
+         var randomId = "id-"+ Math.floor((Math.random() * 1000000000));         
+         for (var i=0; i < zip.entries.length; i++) {
+            var entry = zip.entries[i];
+            //alert('Entry ' + i + ": " + entry.uncompressedSize + ' bytes.');
+            entry.extract(extractCallback(randomId, entry.uncompressedSize));
+         }
+      }
+      catch (exc1) {
+         $("#status").append("exception: " + exc1.message + "<br/>source: " + exc1.source + "<br/>");
+      }
+   }
+   var kmzFile = new ZipFile('ghana.kmz', doneReadingKMZ, 1);
+*/
+}
 
 /* -------------------------------------------------------------------------------- */
 function toggleClusterLayer() {
