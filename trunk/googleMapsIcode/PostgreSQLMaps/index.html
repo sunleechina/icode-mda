@@ -3,157 +3,28 @@
   <head>
      <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-     <style type="text/css">
-        html { 
-           height:       100%;
-        }
-        body {
-           height:       100%; 
-           width:        100%;
-           margin:       0px;
-           padding:      0px;
-           overflow:     hidden;
-           font:         12px/1.7 Verdana,'Lucida Grande', Arial, 
-                         "Trebuchet MS", Helvetica, sans-serif;
-        }
-        #panel_top {
-           background:   #333333;
-           height:       60px;
-           color:        #ffffff;
-           position:     relative;
-           top:          0;
-           margin:       0;
-        }
-        #logo {
-           position:     absolute;
-           border:       1px solid transparent;
-           top:          -14px;
-           left:         0px;
-           height:       58px;
-           width:        200px;
-           margin:       0;
-           padding:      0;
-           vertical-align:top;
-           text-align:   center;
-           font-size:    18px;
-        }
-        #top_nav {
-           position:     absolute;
-           height:       60px;
-           width:        calc(100% - 400px);
-           line-height:  58px;
-           top:          4px;
-           left:         250px;
-           vertical-align:middle;
-           text-align:   left;
-           border:       1px solid transparent;
-        }
-        #stats_nav {
-           position:     absolute;
-           height:       40px;
-           width:        130px;
-           top:          12px;
-           right:        0px;
-           line-height:  20px;
-           vertical-align:middle;
-           text-align:   left;
-           border:       1px solid transparent;
-        }
-        #container {
-           overflow:     hidden;
-           position:     absolute;
-           padding:      0px;
-           border:       1px solid;
-           width:        100%;
-           height:       calc(100% - 60px);
-           margin:       0 0 0 0;
-        }
-        #panel_left {
-           float:        left;
-           position:     relative;
-           border:       1px solid tranparent;
-           margin:       0;
-           padding:      2px;
-           width:        250px;
-           min-width:    250px;
-           height:       calc(100% - 15px);
-           top:          0;
-           left:         0;
-        }
-        #map_canvas { 
-           border:       1px solid; 
-           position:     relative;
-           height:       calc(100% - 15px);
-           width:        calc(100% - 250px - 4px - 10px);
-           top:          5px;
-           overflow:     hidden;
-           background-color: rgb(229, 227, 223); 
-           left:         0;
-           }
-        #showpanel {
-           position:     absolute;
-           top:          6px;
-           left:         0px;
-           height:       calc(100% - 15px);
-           width:        12px;
-           padding:      0px;
-           border:       1px solid white transparent;
-           background:   #333333;
-           color:        white;
-           font-weight:  bold;
-           visibility:   hidden;
-        }
-        #content {
-           font-size:    10px;
-           min-width:    350px;
-           padding:      0;
-        }
-        #content-left {
-           float:        left;
-           display: inline-block;
-        }
-        #content-right {
-           float:        right;
-           width:        160px;
-        }
-        #status-msg {
-           position:     absolute;
-           top:          68px;
-           left:         calc(100%/3);
-           width:        500px;
-           height:       20px;
-           line-height:  20px;
-           vertical-align:middle;
-           display: block;
-           padding:      0 100 0 100;
-           border:       0px solid transparent;
-           background:   yellow;
-           opacity:      1;
-           text-align:   center;
-           font-size:    14px;
-           color:        #000000;
-           font-weight:  bold;
-        }
-        #firstHeading {
-           font-size:    14px;
-        }
-        a:link {
-           text-decoration: none;
-        }
-        input, textarea, select{font-family:inherit;}
-     </style>
+     <link rel="stylesheet" type="text/css" href="scripts/style.css">
 
      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry,drawing,weather,visualization&sensor=false"> </script>
-     <script type="text/javascript" src='icode-maps.js' ></script>
-     <script type="text/javascript" src='markerclusterer.js' ></script>
-     <script type="text/javascript" src='infobubble.js' ></script>
+     <script type="text/javascript" src='scripts/icode-maps.js' ></script>
+     <script type="text/javascript" src='scripts/markerclusterer.js' ></script>
+     <script type="text/javascript" src='scripts/infobubble.js' ></script>
 
-     <script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>     
-     <script type="text/javascript" src='fade.js' ></script>
-     <script type="text/javascript" src='slidemenu.js'></script>
+     <script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+     <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>     
+     <script type="text/javascript" src='scripts/fade.js' ></script>
+     <script type="text/javascript" src='scripts/slidemenu.js'></script>
 
-     <script type="text/javascript" src="geoxml3.js"></script>
-     <script type="text/javascript" src="ProjectedOverlay.js"></script>
+     <script type="text/javascript" src="scripts/geoxml3.js"></script>
+     <script type="text/javascript" src="scripts/ProjectedOverlay.js"></script>
+
+     <script type="text/javascript" src="scripts/jQueryRotate.2.2.js"></script>
+     <script type="text/javascript" src="scripts/jquery.activity-indicator-1.0.0.js"></script>
+     <script>
+        $(function() {
+           $('#busy_indicator').activity({segments: 8, steps: 3, opacity: 0.3, width: 4, space: 0, length: 5, color: '#fff', speed: 2.0});
+        });
+     </script>
 
   </head>
 
@@ -170,6 +41,7 @@
         </div>
         <div id="stats_nav">
            <!-- result count and query time to be shown here -->
+
         </div>
      </div>
      <div id="container">
@@ -178,54 +50,54 @@
            <hr>
 
            <input id="All Ships" name="All Ships" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/lightgray1_90.png"> All Ships<br>
+           <img align="top" src="icons/lightgray1_90.png"> All Ships<br>
            <input id="0-Unspecified Ships" name="0-Unspecified Ships" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/pink0.png" >0-Unspecified Ships<br>
+           <img align="top" src="icons/pink0.png" >0-Unspecified Ships<br>
            <input id="30-Fishing" name="30-Fishing" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/cyan1_90.png"> 30-Fishing<br>
+           <img align="top" src="icons/cyan1_90.png"> 30-Fishing<br>
            <input id="31-Towing" name="31-Towing" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/brown1_90.png"> 31-Towing<br>
+           <img align="top" src="icons/brown1_90.png"> 31-Towing<br>
            <input id="32-Big Tow" name="32-Big Tow" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/brown1_90.png"> 32-Big Tow<br>
+           <img align="top" src="icons/brown1_90.png"> 32-Big Tow<br>
            <input id="35-Military" name="35-Military" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/blue1_90.png"> 35-Military<br>
+           <img align="top" src="icons/blue1_90.png"> 35-Military<br>
            <input id="37-Pleasure Craft" name="37-Pleasure Craft" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/magenta1_90.png"> 37-Pleasure Craft<br>
+           <img align="top" src="icons/magenta1_90.png"> 37-Pleasure Craft<br>
            <input id="51-Search & Rescue" name="51-Search & Rescue" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/red1_90.png"> 51-Search & Rescue<br>
+           <img align="top" src="icons/red1_90.png"> 51-Search & Rescue<br>
            <input id="52-Tug" name="52-Tug" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/brown1_90.png"> 52-Tug<br>
+           <img align="top" src="icons/brown1_90.png"> 52-Tug<br>
            <input id="33-Dredge" name="33-Dredge" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/brown1_90.png"> 33-Dredge<br>
+           <img align="top" src="icons/brown1_90.png"> 33-Dredge<br>
            <input id="50-Pilot" name="50-Pilot" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/brown1_90.png"> 50-Pilot<br>
+           <img align="top" src="icons/brown1_90.png"> 50-Pilot<br>
            <input id="55-Law Enforcement" name="55-Law Enforcement" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/blue1_90.png"> 55-Law Enforcement<br>
+           <img align="top" src="icons/blue1_90.png"> 55-Law Enforcement<br>
            <input id="6x-Passenger Vessels" name="6x-Passenger Vessels" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/lightgreen1_90.png"> 6x-Passenger Vessels<br>
+           <img align="top" src="icons/lightgreen1_90.png"> 6x-Passenger Vessels<br>
            <input id="7x-Cargo Vessels" name="7x-Cargo Vessels" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/lightgreen1_90.png"> 7x-Cargo Vessels<br>
+           <img align="top" src="icons/lightgreen1_90.png"> 7x-Cargo Vessels<br>
            <input id="8x-Tankers" name="8x-Tankers" checked="checked"  type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/lightgreen1_90.png"> 8x-Tankers<br>
+           <img align="top" src="icons/lightgreen1_90.png"> 8x-Tankers<br>
 
            <hr>
            <input id="Underway" name="Underway" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/white1_90.png"> Ships Underway<br>
+           <img align="top" src="icons/white1_90.png"> Ships Underway<br>
            <input id="Anchored" name="Anchored" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="shipicons/white0.png"> Anchored/Moored
+           <img align="top" src="icons/white0.png"> Anchored/Moored
 
            <hr>
            <span id="MoreOptions">
-              <input id="CheckPorts" name="CheckPorts" type="checkbox" onclick="changePorts();"> <img align="top" src="shipicons/anchor.png" style=""> Ports <br>
-              <input id="CheckStations" name="CheckStations" type="checkbox" onclick="changeStations();"> <img align="top" src="shipicons/antenna_green.png" style=""> Stations<br>
-              <input id="CheckLights" name="CheckLights" type="checkbox" onclick="changeLights();"> <img align="top" height="20" src="shipicons/light_red_25.png" style=""> Lights &amp; AtoN<br>
+              <input id="CheckPorts" name="CheckPorts" type="checkbox" onclick="changePorts();"> <img align="top" src="icons/anchor.png" style=""> Ports <br>
+              <input id="CheckStations" name="CheckStations" type="checkbox" onclick="changeStations();"> <img align="top" src="icons/antenna_green.png" style=""> Stations<br>
+              <input id="CheckLights" name="CheckLights" type="checkbox" onclick="changeLights();"> <img align="top" height="20" src="icons/light_red_25.png" style=""> Lights &amp; AtoN<br>
            </span>
 
            <hr>
            <span id="MoreOptions">
-              <input id="WeatherLayer" name="WeatherLayer" type="checkbox" onclick="toggleWeatherLayer();"> <img align="top" width="20px" src="shipicons/weather_icon.png" style=""> Weather Layer<br>
-              <input id="HeatmapLayer" name="HeatmapLayer" type="checkbox" onclick="toggleHeatmapLayer();"> <img align="top" width="20px" src="shipicons/heatmap.png" style=""> Heatmap Layer<br>
-              <input id="ClusterLayer" name="ClusterLayer" type="checkbox" checked="checked" onclick="toggleClusterLayer();"> <img align="top" width="20px" src="shipicons/cluster.png" style=""> Cluster Layer<br>
+              <input id="WeatherLayer" name="WeatherLayer" type="checkbox" onclick="toggleWeatherLayer();"> <img align="top" width="20px" src="icons/weather_icon.png" style=""> Weather Layer<br>
+              <input id="HeatmapLayer" name="HeatmapLayer" type="checkbox" onclick="toggleHeatmapLayer();"> <img align="top" width="20px" src="icons/heatmap.png" style=""> Heatmap Layer<br>
+              <input id="ClusterLayer" name="ClusterLayer" type="checkbox" checked="checked" onclick="toggleClusterLayer();"> <img align="top" width="20px" src="icons/cluster.png" style=""> Cluster Layer<br>
            </span>
            </p>
         </div>
@@ -243,6 +115,8 @@
            ><br>><br>>
         </div>
      </div>
+     
+     <div id="busy_indicator"><div style="width: 32px; height: 32px;"></div></div>
 
      <div id="status-msg">
         Radar and AIS posits now showing together!
