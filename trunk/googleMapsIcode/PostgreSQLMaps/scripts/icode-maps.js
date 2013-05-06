@@ -15,7 +15,7 @@ var trackline;
 var tracklineIcons;
 //Viewing bounds objects
 var queryBounds;
-var expandFactor = 0.01;
+var expandFactor = 0.05;
 //Marker timing objects
 var markerMouseoutTimeout;
 var trackMouseoverTimeout;
@@ -107,7 +107,6 @@ function initialize() {
       google.maps.event.trigger(map, 'resize'); 
       var idleTimeout = window.setTimeout(
          function() {
-            clearTrack();
             getCurrentAISFromDB(map.getBounds(), null);
          }, 
          2000);   //milliseconds to pause after bounds change
@@ -157,27 +156,45 @@ function clearTrack() {
  * Get AIS data from XML, which is from database, with bounds 
  */
 function getCurrentAISFromDB(bounds, customQuery) {
-   console.debug("Refreshing target points...");
-   document.getElementById("query_input").value = "QUERY RUNNING...";
-   document.getElementById('stats_nav').innerHTML = '';
-   document.getElementById('busy_indicator').style.visibility = 'visible';
-
    //Set buffer around map bounds to expand queried area slightly outside viewable area
    var latLonBuffer = expandFactor * map.getZoom();
-   console.debug(latLonBuffer);
 
-   var sw = bounds.getSouthWest();
    var ne = bounds.getNorthEast();
+   var sw = bounds.getSouthWest();
 
    var viewMinLat = sw.lat();
    var viewMaxLat = ne.lat();
    var viewMinLon = sw.lng();
    var viewMaxLon = ne.lng();
 
-   var minLat = sw.lat() - latLonBuffer;
-   var maxLat = ne.lat() + latLonBuffer;
-   var minLon = sw.lng() - latLonBuffer;
-   var maxLon = ne.lng() + latLonBuffer;
+   var minLat = viewMinLat - latLonBuffer;
+   var maxLat = viewMaxLat + latLonBuffer;
+   var minLon = viewMinLon - latLonBuffer;
+   var maxLon = viewMaxLon + latLonBuffer;
+
+   //Set up queryBounds, which is extended initial or changed view bounds
+   if (queryBounds == null) {
+      //Initialize queryBounds if first time running
+      queryBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(minLat, minLon), 
+            new google.maps.LatLng(maxLat, maxLon));
+   }
+   else {
+      if (queryBounds.contains(ne) && queryBounds.contains(sw)) {
+         console.debug('Moved to within query bounds, not requerying.');
+         return;
+      }
+      else {
+         queryBounds = new google.maps.LatLngBounds(
+               new google.maps.LatLng(minLat, minLon), 
+               new google.maps.LatLng(maxLat, maxLon));
+      }
+   }
+
+   console.debug("Refreshing target points...");
+   document.getElementById("query_input").value = "QUERY RUNNING...";
+   document.getElementById('stats_nav').innerHTML = '';
+   document.getElementById('busy_indicator').style.visibility = 'visible';
 
    //var infoWindow = new google.maps.InfoWindow();
    var infoBubble = new InfoBubble({

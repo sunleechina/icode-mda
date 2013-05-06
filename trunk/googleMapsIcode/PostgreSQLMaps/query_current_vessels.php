@@ -37,7 +37,7 @@ if (!$connection) {
 }
 
 //Query statement - default statement unless user inputs custom statement
-$query = "SELECT * FROM (select * from radar_vessels UNION select * from current_vessels where vesseltypeint != -1) A WHERE ";
+$query = "SELECT * FROM (select * from radar_vessels UNION select * from current_vessels where vesseltypeint != -1) A WHERE";
 //$query = "SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM current_vessels WHERE imo != -1";
 
 if(count($_GET) > 0) { //count the number of arguments
