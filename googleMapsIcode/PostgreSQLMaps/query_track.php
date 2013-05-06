@@ -37,9 +37,16 @@ if (!$connection) {
 }
 
 //Query statement
-$query = "SELECT mmsi, lon, lat, datetime FROM (SELECT * FROM ter_20130401 UNION SELECT * FROM ter_20130402 UNION SELECT * FROM ter_20130403 UNION SELECT * FROM ter_20130404) A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
+//$query = "SELECT mmsi, lon, lat, datetime FROM (SELECT * FROM ter_20130401 UNION SELECT * FROM ter_20130402) A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
 //$query = "SELECT mmsi, lon, lat, datetime FROM (SELECT * FROM ter_20130401 UNION SELECT * FROM ter_20130402 UNION SELECT * FROM ter_20130403 UNION SELECT * FROM ter_20130404 UNION SELECT * FROM ter_20130405 UNION SELECT * FROM ter_20130406 UNION SELECT * FROM ter_20130407 UNION SELECT * FROM ter_20130408 UNION SELECT * FROM ter_20130409 UNION SELECT * FROM ter_20130410) A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
-//$query = "SELECT mmsi, lon, lat, datetime FROM ter_20130401 A WHERE messagetype != 5 AND messagetype != 24 AND mmsi = ";
+if(!empty($_GET["mmsi"])) {
+   if ($_GET["mmsi"] < 100) {
+      $query = "SELECT mmsi, lon, lat, datetime FROM radar_20130425 A WHERE mmsi = ";
+   }
+   else {
+      $query = "SELECT mmsi, lon, lat, datetime FROM ter_20130425 A WHERE lon != -999 and mmsi = ";
+   }
+}
 
 if(count($_GET) > 0) { //count the number of arguments
     if(!empty($_GET["mmsi"])) {

@@ -430,6 +430,18 @@ Cluster.prototype.getMarkerClusterer = function () {
  */
 Cluster.prototype.getBounds = function () {
   var i;
+  //TEST
+  /*
+  var lat = marker.getPosition().lat();
+  var lng = marker.getPosition().lng();
+  lat = Math.ceil(lat/(this.gridSize_/11.5))*(this.gridSize_/11.5);
+  lng = Math.ceil(lng/(this.gridSize_/11.5))*(this.gridSize_/11.5);
+  var newcenter = new google.maps.LatLng(lat,lng);
+  var bounds = new google.maps.LatLngBounds(newcenter, newcenter);
+  bounds = this.markerClusterer_.getExtendedBounds(bounds);
+  alert(bounds.toString());
+  console.debug(bounds.toString());
+  */
   var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
   var markers = this.getMarkers();
   for (i = 0; i < markers.length; i++) {
@@ -468,6 +480,15 @@ Cluster.prototype.addMarker = function (marker) {
   }
 
   if (!this.center_) {
+     //TEST
+     /*
+     var lat = marker.getPosition().lat();
+     var lng = marker.getPosition().lng();
+     lat = Math.ceil(lat/(this.gridSize_/11.5))*(this.gridSize_/11.5);
+     lng = Math.ceil(lng/(this.gridSize_/11.5))*(this.gridSize_/11.5);
+     this.center_ = new google.maps.LatLng(lat,lng);
+     */
+     //TEST
     this.center_ = marker.getPosition();
     this.calculateBounds_();
   } else {
@@ -1324,6 +1345,32 @@ MarkerClusterer.prototype.getExtendedBounds = function (bounds) {
   var ne = projection.fromDivPixelToLatLng(trPix);
   var sw = projection.fromDivPixelToLatLng(blPix);
 
+  //TEST
+  //Draw the bounds
+  /*
+  maxlat = ne.lat();
+  minlat = sw.lat();
+  maxlng = ne.lng();
+  minlng = sw.lng();
+  var pathcoords = [
+     new google.maps.LatLng(maxlat, maxlng),
+     new google.maps.LatLng(minlat, maxlng),
+     new google.maps.LatLng(minlat, minlng),
+     new google.maps.LatLng(maxlat, minlng),
+     new google.maps.LatLng(maxlat, maxlng)
+  ];
+  var pathbounds = new google.maps.Polygon({
+     map: this.getMap(),
+     paths: pathcoords,
+     strokeColor: "#FF0000",
+     strokeOpacity: 0.8,
+     strokeWeight: 2,
+     fillColor: "#FF0000",
+     fillOpacity: 0
+  });
+  */
+  //TEST
+ 
   // Extend the bounds to contain the new bounds.
   bounds.extend(ne);
   bounds.extend(sw);

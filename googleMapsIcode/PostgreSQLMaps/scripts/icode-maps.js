@@ -130,6 +130,44 @@ function initialize() {
    google.maps.event.addListener(map, "idle", function(){
       google.maps.event.trigger(map, 'resize'); 
    });
+
+//TODO: Attempting to unzip KMZ files --------------------------
+//   zip.workerScriptsPath = "lib/";
+
+//   var myParser = new geoXML3.parser({map: map});
+//    myParser.parse('sandiego.kml');
+//    myParser.parse('ghana.kml');
+//    myParser.parse('ghana.kmz');
+//    myParser.parse('ghanasmall.kmz');
+//    myParser.parse('tsxtestzip.kmz');
+//    myParser.parse('ghanatestzip.kmz');
+//    myParser.parse('tsx.kml');
+//    myParser.parse('usa-ca-sf.kmz');
+
+/*
+   var extractCallback = function(id, sz) {
+      return function (entry, entryContent) {
+         var entryName = entry.name;
+         console.debug(entryName);
+         console.debug(typeof entryContent);
+      };
+   };
+
+   var doneReadingKMZ = function(zip) {
+      try {
+         var randomId = "id-"+ Math.floor((Math.random() * 1000000000));         
+         for (var i=0; i < zip.entries.length; i++) {
+            var entry = zip.entries[i];
+            //alert('Entry ' + i + ": " + entry.uncompressedSize + ' bytes.');
+            entry.extract(extractCallback(randomId, entry.uncompressedSize));
+         }
+      }
+      catch (exc1) {
+         $("#status").append("exception: " + exc1.message + "<br/>source: " + exc1.source + "<br/>");
+      }
+   }
+   var kmzFile = new ZipFile('ghana.kmz', doneReadingKMZ, 1);
+*/
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -159,6 +197,7 @@ function getCurrentAISFromDB(bounds, customQuery) {
    console.debug("Refreshing target points...");
    document.getElementById("query_input").value = "QUERY RUNNING...";
    document.getElementById('stats_nav').innerHTML = '';
+   document.getElementById('busy_indicator').style.visibility = 'visible';
 
    var sw = bounds.getSouthWest();
    var ne = bounds.getNorthEast();
@@ -194,6 +233,8 @@ function getCurrentAISFromDB(bounds, customQuery) {
             var xml = data.responseXML;
             if(xml == null) {
                console.debug("No response; error in php?");
+               document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+               document.getElementById('busy_indicator').style.visibility = 'hidden';
                return; 
             }
 
@@ -321,6 +362,7 @@ function getCurrentAISFromDB(bounds, customQuery) {
 
             var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
             var resultCount= xml.documentElement.getElementsByTagName("resultcount")[0].getAttribute("count");
+            document.getElementById('busy_indicator').style.visibility = 'hidden';
             document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
          }
    );

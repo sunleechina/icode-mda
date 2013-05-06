@@ -35,7 +35,7 @@ $(document).ready(function(){
       $('#container').css('width', $mapwidth+500);
    }
 
-   setTimeout(function() { togglePanel(); }, 3000);
+   //setTimeout(function() { togglePanel(); }, 3000);
 });
 
 
