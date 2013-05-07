@@ -37,7 +37,7 @@ if (!$connection) {
 }
 
 //Query statement - default statement unless user inputs custom statement
-$query = "SELECT * FROM (select * from radar_vessels UNION select * from current_vessels where vesseltypeint != -1) A WHERE";
+$query = "SELECT * FROM (SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) Q WHERE";
 //$query = "SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM current_vessels WHERE imo != -1";
 
 if(count($_GET) > 0) { //count the number of arguments
@@ -60,6 +60,10 @@ if(count($_GET) > 0) { //count the number of arguments
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
           //$query = $query . " AND lat > " . round($_GET["minlat"],3) . " and lon > " . round($_GET["minlon"],3) . " and lat < " .  round($_GET["maxlat"],3) . " and lon < " . round($_GET["maxlon"],3);
           $query = $query . " lat BETWEEN " . round($_GET["minlat"],3) . " AND " . round($_GET["maxlat"],3) . " AND lon BETWEEN " .  round($_GET["minlon"],3) . " AND " . round($_GET["maxlon"],3);
+    }
+    if(!empty($_GET["keyword"])) {
+       $keyword = $_GET["keyword"];
+       $query = $query . " AND (mmsi::varchar like ('%" . $keyword . "%') OR ". "imo::varchar like ('%" . $keyword . "%') OR vesselname::varchar ilike ('%" . $keyword . "%') OR destination::varchar ilike ('%" . $keyword . "%') OR callsign::varchar ilike ('%" . $keyword . "%') OR streamid::varchar ilike ('%" . $keyword . "%'))";
     }
     if(!empty($_GET["limit"])) {
        $limit = $_GET["limit"];

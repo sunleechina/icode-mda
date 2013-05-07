@@ -18,6 +18,8 @@
            position:     relative;
            top:          0;
            margin:       0;
+           z-index:      2;
+           box-shadow:   0px 3px 5px #888888;
         }
         #logo {
            position:     absolute;
@@ -32,6 +34,7 @@
            vertical-align:middle;
            text-align:   center;
            font-size:    18px;
+           text-shadow:  gray 2px 2px 1px;
         }
         #top_nav {
            position:     absolute;
@@ -61,6 +64,7 @@
            top:          16px;
            right:        90px;
            border:       0px red solid;
+           z-index:      2;
            visibility:   visible;
         }
         #container {
@@ -75,14 +79,16 @@
         #panel_left {
            float:        left;
            position:     relative;
-           border:       0px solid tranparent;
+           border:       0px solid red;
            margin:       0;
            padding:      2px;
            width:        250px;
            min-width:    250px;
-           height:       calc(100% - 15px);
+           height:       calc(100%-15px);
            top:          0;
            left:         0;
+           z-index:      1;
+           box-shadow:   4px 0px 5px #888888;
         }
         #map_canvas { 
            border:       0px solid transparent; 
@@ -106,6 +112,8 @@
            color:        white;
            font-weight:  bold;
            visibility:   hidden;
+           z-index:      3;
+           box-shadow:   4px 0px 5px #888888;
         }
         #content {
            font-size:    10px;
@@ -120,6 +128,19 @@
            float:        right;
            width:        160px;
         }
+        #shipdetails {
+           float:        left;
+           position:     relative;
+           border:       1px solid gray;
+           margin:       0px;
+           padding:      2px;
+           width:        244px;
+           height:       250px;
+           bottom:       0px;
+           left:         0;
+           z-index:      3;
+           font-size:    10px;
+        }
         #status-msg {
            position:     absolute;
            top:          68px;
@@ -128,7 +149,7 @@
            height:       20px;
            line-height:  20px;
            vertical-align:middle;
-           display: block;
+           display:      block;
            padding:      0 100 0 100;
            border:       0px solid transparent;
            background:   yellow;
@@ -137,6 +158,23 @@
            font-size:    14px;
            color:        #000000;
            font-weight:  bold;
+           box-shadow:   4px 4px 5px #888888;
+        }
+        #latlong {
+           position:     absolute;
+           bottom:       20px;
+           right:        5px;
+           line-height:  12px;
+           vertical-align:middle;
+           display:      block;
+           padding:      2px;
+           border:       0px solid transparent;
+           background:   transparent;
+           opacity:      1;
+           text-align:   left;
+           font-size:    10px;
+           color:        white;
+           text-shadow:  black 2px 2px 3px;
         }
         #firstHeading {
            font-size:    14px;
