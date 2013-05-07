@@ -92,7 +92,7 @@ function initialize() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
    //Set default map layer
-   map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+   map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
 
    //Clear marker array
    markerArray = [];
@@ -116,6 +116,11 @@ function initialize() {
       });
    });
 
+   google.maps.event.addListener(map,'mousemove',function(event) {
+      document.getElementById('latlong').innerHTML = 
+            Math.round(event.latLng.lat()*10000000)/10000000 + ', ' + Math.round(event.latLng.lng()*10000000)/10000000
+   });
+
    //TODO: TEST WMS layers
    addWmsLayers();
    //map.setMapTypeId('OpenLayers');
@@ -136,7 +141,23 @@ function initialize() {
 function enteredQuery() {
    if (event.which == 13) {
       var entered_query = document.getElementById("query_input").value;
-      getCurrentAISFromDB(map.getBounds(), entered_query);
+
+      //Trim white space
+      $.trim(entered_query);
+
+if (typeof String.prototype.startsWith != 'function') {
+  // see below for better implementation!
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+  };
+}
+
+      if (entered_query.startsWith('SELECT')) {
+         getCurrentAISFromDB(map.getBounds(), entered_query);
+      }
+      else {
+         getCurrentAISFromDB(map.getBounds(), entered_query);
+      }
    }
 }
 
@@ -156,6 +177,35 @@ function clearTrack() {
  * Get AIS data from XML, which is from database, with bounds 
  */
 function getCurrentAISFromDB(bounds, customQuery) {
+/*
+var rectangle = new google.maps.Rectangle({
+    strokeColor: '#ffffff',
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    fillColor: '#FFFFFF',
+    fillOpacity: 1,
+    map: map,
+    bounds: new google.maps.LatLngBounds(
+      new google.maps.LatLng(5.9,1.15),
+      new google.maps.LatLng(6.1,1.17))
+  });
+
+var iconColor = getIconColor(989, null);
+var myLatLng = new google.maps.LatLng(6.0, 1.16);
+console.debug(iconColor);
+var mark = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    icon: {
+       path:        'M 0,8 4,8 0,-8 -4,8 z',
+       strokeColor: '#000000',
+       fillColor:   iconColor,
+       fillOpacity: 0.6,
+       rotation:    90
+    }
+});
+*/
+
    //Set buffer around map bounds to expand queried area slightly outside viewable area
    var latLonBuffer = expandFactor * map.getZoom();
 
@@ -180,7 +230,9 @@ function getCurrentAISFromDB(bounds, customQuery) {
             new google.maps.LatLng(maxLat, maxLon));
    }
    else {
-      if (queryBounds.contains(ne) && queryBounds.contains(sw)) {
+      if (customQuery == null && queryBounds.contains(ne) && queryBounds.contains(sw)) {
+         //TODO: update result count to match what is actually within current view
+
          console.debug('Moved to within query bounds, not requerying.');
          return;
       }
@@ -208,11 +260,15 @@ function getCurrentAISFromDB(bounds, customQuery) {
    if (!customQuery) {
       var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
       phpWithArg = "query_current_vessels.php?" + boundStr + "";
-      //phpWithArg = "query_current_vessels-radar.php?" + boundStr + "";
    }
    else {
-      phpWithArg = "query_current_vessels.php?query=" + customQuery;
-      //phpWithArg = "query_current_vessels-radar.php?query=" + customQuery;
+      if (customQuery.length < 16) {
+         var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
+         phpWithArg = "query_current_vessels.php?" + boundStr + "&keyword=" + customQuery;
+      }
+      else {
+         phpWithArg = "query_current_vessels.php?query=" + customQuery;
+      }
    }
 
    //Debug query output
@@ -310,7 +366,7 @@ function getCurrentAISFromDB(bounds, customQuery) {
                   '</div>'+
                   '</div>';
 
-               var iconColor = getIconColor(vesseltypeint);
+               var iconColor = getIconColor(vesseltypeint, streamid);
 
                var marker = new google.maps.Marker({
                   position: point,
@@ -393,12 +449,19 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
 
    //Listener for mouseover marker to display tracks
    google.maps.event.addListener(marker, 'mouseover', function() {
+      //Hover display name
       if (vesselname.length != 0 && vesselname != null) {
          marker.setTitle(vesselname.trim());
       }
       else {
          marker.setTitle(mmsi);
       }
+
+      //Display ship details in sidebar
+      var $html = $(html);
+      document.getElementById('shipdetails').innerHTML = $html.find('#content-right').html();
+
+      //Delay, then get and display track
       trackMouseoverTimeout = window.setTimeout(
          function displayTracks() {
             getTrack(mmsi)
@@ -416,6 +479,7 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
  * Function to attach information associated with marker, or call track 
  * fetcher to get track line
  */
+/*
 function markerInfoWindow(marker, infoWindow, html, mmsi, vesselname) {
    //Listener for click on marker to display infoWindow
 	google.maps.event.addListener(marker, 'click', function () {
@@ -438,7 +502,10 @@ function markerInfoWindow(marker, infoWindow, html, mmsi, vesselname) {
 
    //Listener for mouseover marker to display tracks
    google.maps.event.addListener(marker, 'mouseover', function() {
+      //Hover display name
       marker.setTitle(vesselname.trim());
+
+      //Delay, then get and display track
       trackMouseoverTimeout = window.setTimeout(
          function displayTracks() {
             getTrack(mmsi)
@@ -450,6 +517,7 @@ function markerInfoWindow(marker, infoWindow, html, mmsi, vesselname) {
       });
    });
 }
+*/
 
 /* -------------------------------------------------------------------------------- */
 /**
@@ -470,6 +538,8 @@ function getTrack(mmsi) {
             var xml = data.responseXML;
             if(xml == null) {
                console.debug("No response from track query; error in php?");
+               document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+               document.getElementById('busy_indicator').style.visibility = 'hidden';
                return; 
             }
 
@@ -493,7 +563,7 @@ function getTrack(mmsi) {
                var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
                tracklineIcon.setPosition(track[i]);
                tracklineIcon.setMap(map);
-               tracklineIcon.setTitle('MMSI: ' + mmsi + ' Datetime: ' + datetime + ' Lat: ' + lat + ' Lon: ' + lon);
+               tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon);
                tracklineIcons.push(tracklineIcon);
             }
 
@@ -568,7 +638,7 @@ function typeSelectUpdated() {
 
    getCurrentAISFromDB(map.getBounds(), entered_query);
 
-	refreshLayers();
+	//refreshLayers();
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -677,50 +747,54 @@ function getTypesSelected() {
 }
 
 /* -------------------------------------------------------------------------------- */
-function getIconColor(vesseltypeint) {
+function getIconColor(vesseltypeint, streamid) {
    var color;
+   if (streamid == 'shore-radar') {
+      color = '#4000FF';
+      return color;
+   }
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
-      color = '#64FE2E'; 
+      color = '#04B404'; 
       //return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint >= 80 && vesseltypeint <= 89) {
-      color = '#64FE2E'; 
+      color = '#04B404'; 
       //return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 60) {
-      color = '#64FE2E'; 
+      color = '#04B404'; 
       //return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 0) {
-      color = '#F78181'; 
+      color = '#F78181';
       //return "shipicons/pink0.png";
    }
    else if (vesseltypeint == 55) {
-      color = '#F0101D'; 
+      color = '#0000FF'; 
       //return "shipicons/blue1_90.png";
    }
    else if (vesseltypeint == 35) {
-      color = '#F0101D'; 
+      color = '#0000FF'; 
       //return "shipicons/blue1_90.png";
    }
    else if (vesseltypeint == 31) {
-      color = '#3B170B'; 
+      color = '#DF7401'; 
       //return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 32) {
-      color = '#3B170B'; 
+      color = '#DF7401'; 
       //return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 52) {
-      color = '#3B170B'; 
+      color = '#DF7401'; 
       //return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 33) {
-      color = '#3B170B'; 
+      color = '#DF7401'; 
 		//return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 50) {
-      color = '#3B170B'; 
+      color = '#DF7401'; 
 		//return "shipicons/brown1_90.png";
    }
    else if (vesseltypeint == 37) {
@@ -836,6 +910,9 @@ function toggleKMLLayer() {
    }
    else {
       KML = false;
+      //TODO: hide KML layer not working yet
+      var kmlparser = new geoXML3.parser({map: map});
+      kmlparser.hideDocument(kmlparser.docs);
    }
 }
 
@@ -844,14 +921,14 @@ function showKML() {
 //TODO: Attempting to unzip KMZ files --------------------------
 //   zip.workerScriptsPath = "lib/";
 
-   var myParser = new geoXML3.parser({map: map});
+   var kmlparser = new geoXML3.parser({map: map});
 //    myParser.parse('kml/sandiego.kml');
 //    myParser.parse('kml/ghana.kml');
 //    myParser.parse('kml/ghana.kmz');
 //    myParser.parse('kml/ghanasmall.kmz');
 //    myParser.parse('kml/tsxtestzip.kmz');
 //    myParser.parse('kml/ghanatestzip.kmz');
-    myParser.parse('kml/tsx.kml');
+   kmlparser.parse('kml/tsx.kml');
 //    myParser.parse('kml/usa-ca-sf.kmz');
 
 /*

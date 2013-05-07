@@ -36,7 +36,7 @@
         </div>
         <div id="top_nav">
            <div>
-              <form name="query_form"><input id="query_input" type="text" name="query_input" style="width:100%" onkeypress="enteredQuery()" value="QUERY RUNNING..."><input hidden="true"></form>
+              <form name="query_form"><input id="query_input" type="text" name="query_input" style="width:100%" onkeypress="enteredQuery()" onClick="this.select();" value="QUERY RUNNING..."><input hidden="true"></form>
            </div>
         </div>
         <div id="stats_nav">
@@ -52,33 +52,33 @@
            <input class="checkbox" id="All Ships" name="All Ships" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
            <img align="top" src="icons/lightgray1_90.png"> All Ships<br>
            <input class="checkbox" id="0-Unspecified Ships" name="0-Unspecified Ships" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/pink0.png" >0-Unspecified Ships<br>
+           <img align="top" src="icons/pink0.png" >0 - Unspecified Ships<br>
            <input class="checkbox" id="30-Fishing" name="30-Fishing" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/cyan1_90.png"> 30-Fishing<br>
+           <img align="top" src="icons/cyan1_90.png"> 30 - Fishing<br>
            <input class="checkbox" id="31-Towing" name="31-Towing" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/brown1_90.png"> 31-Towing<br>
+           <img align="top" src="icons/brown1_90.png"> 31 - Towing<br>
            <input class="checkbox" id="32-Big Tow" name="32-Big Tow" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/brown1_90.png"> 32-Big Tow<br>
+           <img align="top" src="icons/brown1_90.png"> 32 - Big Tow<br>
            <input class="checkbox" id="35-Military" name="35-Military" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/blue1_90.png"> 35-Military<br>
+           <img align="top" src="icons/blue1_90.png"> 35 - Military<br>
            <input class="checkbox" id="37-Pleasure Craft" name="37-Pleasure Craft" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/magenta1_90.png"> 37-Pleasure Craft<br>
+           <img align="top" src="icons/magenta1_90.png"> 37 - Pleasure Craft<br>
            <input class="checkbox" id="51-Search & Rescue" name="51-Search & Rescue" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/red1_90.png"> 51-Search & Rescue<br>
+           <img align="top" src="icons/red1_90.png"> 51 - Search & Rescue<br>
            <input class="checkbox" id="52-Tug" name="52-Tug" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/brown1_90.png"> 52-Tug<br>
+           <img align="top" src="icons/brown1_90.png"> 52 - Tug<br>
            <input class="checkbox" id="33-Dredge" name="33-Dredge" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/brown1_90.png"> 33-Dredge<br>
+           <img align="top" src="icons/brown1_90.png"> 33 - Dredge<br>
            <input class="checkbox" id="50-Pilot" name="50-Pilot" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/brown1_90.png"> 50-Pilot<br>
+           <img align="top" src="icons/brown1_90.png"> 50 - Pilot<br>
            <input class="checkbox" id="55-Law Enforcement" name="55-Law Enforcement" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/blue1_90.png"> 55-Law Enforcement<br>
+           <img align="top" src="icons/blue1_90.png"> 55 - Law Enforcement<br>
            <input class="checkbox" id="6x-Passenger Vessels" name="6x-Passenger Vessels" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/lightgreen1_90.png"> 6x-Passenger Vessels<br>
+           <img align="top" src="icons/lightgreen1_90.png"> 6x - Passenger Vessels<br>
            <input class="checkbox" id="7x-Cargo Vessels" name="7x-Cargo Vessels" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/lightgreen1_90.png"> 7x-Cargo Vessels<br>
+           <img align="top" src="icons/lightgreen1_90.png"> 7x - Cargo Vessels<br>
            <input class="checkbox" id="8x-Tankers" name="8x-Tankers" checked="checked"  type="checkbox" onclick="typeSelectUpdated();"> 
-           <img align="top" src="icons/lightgreen1_90.png"> 8x-Tankers<br>
+           <img align="top" src="icons/lightgreen1_90.png"> 8x - Tankers<br>
 
            <hr>
            <input class="checkbox" id="Underway" name="Underway" checked="checked" type="checkbox" onclick="typeSelectUpdated();"> 
@@ -104,6 +104,9 @@
               <input class="checkbox" id="KMLLayer" name="KMLLayer" type="checkbox" onclick="toggleKMLLayer();"> <img align="top" width="20px" src="icons/kml.png" style=""> KML Layer<br>
            </span>
            </p>
+
+           <div id="shipdetails">
+           </div>
         </div>
         <!-- END LEFT PANEL -->  
 
@@ -122,8 +125,11 @@
      
      <div id="busy_indicator"><div style="width: 32px; height: 32px;"></div></div>
 
+     <div id="latlong">
+     </div>
+
      <div id="status-msg">
-        Radar and AIS posits now showing together!
+        Showing RADAR and AIS data for 2013-04-15
      </div>
      
   </body>

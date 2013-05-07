@@ -72,11 +72,11 @@ geoXML3.parser = function (options) {
   var hideDocument = function (doc) {
     // Hide the map objects associated with a document 
     var i;
-    for (i = 0; i < doc.markers.length; i++) {
+    for (i = 0; i < doc[0].markers.length; i++) {
       this.markers[i].set_visible(false);
     }
-    for (i = 0; i < doc.overlays.length; i++) {
-      doc.overlays[i].setOpacity(0);
+    for (i = 0; i < doc[0].overlays.length; i++) {
+      doc[0].overlays[i].setOpacity(0);
     }
   };
   
