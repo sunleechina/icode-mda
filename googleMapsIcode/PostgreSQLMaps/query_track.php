@@ -6,14 +6,6 @@ $mtime = $mtime[1] + $mtime[0];
 $starttime = $mtime; 
 
 
-// Prevent caching.
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
-
-// The JSON standard MIME header.
-header('Content-type: application/json');
-
-
 //-----------------------------------------------------------------------------
 //Database execution
 //Keep database connection information secure
@@ -89,6 +81,14 @@ $mtime = explode(" ",$mtime);
 $mtime = $mtime[1] + $mtime[0]; 
 $endtime = $mtime; 
 $totaltime = ($endtime - $starttime); 
+
+
+// Prevent caching.
+header('Cache-Control: no-cache, must-revalidate');
+header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
+
+// The JSON standard MIME header.
+header('Content-type: application/json');
 
 //echo json_encode(array(query => $query));
 // Iterate through the rows, printing XML nodes for each

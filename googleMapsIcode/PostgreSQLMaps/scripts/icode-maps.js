@@ -276,65 +276,54 @@ var mark = new google.maps.Marker({
    }
 
    //Debug query output
-   console.debug(phpWithArg);
+   console.debug('getCurrentAISFromDB(): ' + phpWithArg);
 
-   downloadUrl(phpWithArg, 
-         function(data) {
-            var xml = data.responseXML;
-            if(xml == null) {
-               console.debug("No response; error in php?");
-               document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
-               document.getElementById('busy_indicator').style.visibility = 'hidden';
-               return; 
-            }
+   $.getJSON(
+         phpWithArg, // The server URL 
+         { }
+      ) //end .getJSON()
+      .done(function (response) {
+         console.debug('getCurrentAISFromDB(): ' + response.query);
+         //Show the query and put it in the form
+         document.getElementById("query_input").value = response.query
 
-            //Get the statement which embedded in the PHP returned XML output
-            var statement = xml.documentElement.getElementsByTagName("query");
-            console.debug(statement[0].getAttribute("statement"));
-            //Show the query and put it in the form
-            document.getElementById("query_input").value = statement[0].getAttribute("statement");            
+         //Delete previous markers
+         //TODO: update to clear only markers that are now out of bounds
+         //clearMarkerArray();
+         clearOutBoundMarkers();
+         clearTrack();
 
-            //Delete previous markers
-            //TODO: update to clear only markers that are now out of bounds
-            //clearMarkerArray();
-            clearOutBoundMarkers();
-            clearTrack();
-
-            //Prepare to grab PHP results as XML
-            var ais_tips = xml.documentElement.getElementsByTagName("ais");
-            console.debug("Results returned = " + ais_tips.length);
-
-            for (var i = 0; i < ais_tips.length; i++) {
-               var key_column = ais_tips[i].getAttribute("key_column");
-               var messagetype = ais_tips[i].getAttribute("messagetype");
-               var mmsi = ais_tips[i].getAttribute("mmsi");
-               var navstatus = ais_tips[i].getAttribute("navstatus");
-               var rot = ais_tips[i].getAttribute("rot");
-               var sog = ais_tips[i].getAttribute("sog");
-               var lon = ais_tips[i].getAttribute("lon");
-               var lat = ais_tips[i].getAttribute("lat");
+         //Prepare to grab PHP results as JSON objects
+         $.each(response.vessels, function(key,vessel) {
+               var messagetype = vessel.messagetype;
+               var mmsi = vessel.mmsi;
+               var navstatus = vessel.navstatus;
+               var rot = vessel.rot;
+               var sog = vessel.sog;
+               var lon = vessel.lon;
+               var lat = vessel.lat;
                var point = new google.maps.LatLng(
-                     parseFloat(ais_tips[i].getAttribute("lat")),
-                     parseFloat(ais_tips[i].getAttribute("lon")));
-               var cog = ais_tips[i].getAttribute("cog");
-               var true_heading = ais_tips[i].getAttribute("true_heading");
-               var datetime = ais_tips[i].getAttribute("datetime");
-               var imo = ais_tips[i].getAttribute("imo");
-               var vesselname = ais_tips[i].getAttribute("vesselname");
-               var vesseltypeint = ais_tips[i].getAttribute("vesseltypeint");
-               var length = ais_tips[i].getAttribute("length");
-               var shipwidth = ais_tips[i].getAttribute("shipwidth");
-               var bow = ais_tips[i].getAttribute("bow");
-               var stern = ais_tips[i].getAttribute("stern");
-               var port = ais_tips[i].getAttribute("port");
-               var starboard = ais_tips[i].getAttribute("starboard");
-               var draught = ais_tips[i].getAttribute("draught");
-               var destination = ais_tips[i].getAttribute("destination");
-               var callsign = ais_tips[i].getAttribute("callsign");
-               var posaccuracy = ais_tips[i].getAttribute("posaccuracy");
-               var eta = ais_tips[i].getAttribute("eta");
-               var posfixtype = ais_tips[i].getAttribute("posfixtype");
-               var streamid = ais_tips[i].getAttribute("streamid");
+                     parseFloat(vessel.lat),
+                     parseFloat(vessel.lon));
+               var cog = vessel.cog;
+               var true_heading = vessel.true_heading;
+               var datetime = vessel.datetime;
+               var imo = vessel.imo;
+               var vesselname = vessel.vesselname;
+               var vesseltypeint = vessel.vesseltypeint;
+               var length = vessel.length;
+               var shipwidth = vessel.shipwidth;
+               var bow = vessel.bow;
+               var stern = vessel.stern;
+               var port = vessel.port;
+               var starboard = vessel.starboard;
+               var draught = vessel.draught;
+               var destination = vessel.destination;
+               var callsign = vessel.callsign;
+               var posaccuracy = vessel.posaccuracy;
+               var eta = vessel.eta;
+               var posfixtype = vessel.posfixtype;
+               var streamid = vessel.streamid;
 
                imgURL = 'http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo;
                
@@ -394,36 +383,40 @@ var mark = new google.maps.Marker({
                //markerInfoWindow(marker, infoWindow, html, mmsi, vesselname);
                markerInfoBubble(marker, infoBubble, html, mmsi, vesselname);
                markerArray.push(marker);
-            }
-
-            //Display the appropriate layer according to the sidebar checkboxes
-            if (CLUSTER) {
-               if (document.getElementById("HeatmapLayer").checked) {
-                  addHeatmap();
-               }
-               else {
-                  markerClusterer.addMarkers(markerArray);
-               }
-               console.debug("Number of markers = " + markerClusterer.getTotalMarkers());
-               console.debug("Number of clusters = " + markerClusterer.getTotalClusters());
+         });
+         //Display the appropriate layer according to the sidebar checkboxes
+         if (CLUSTER) {
+            if (document.getElementById("HeatmapLayer").checked) {
+               addHeatmap();
             }
             else {
-               if (document.getElementById("HeatmapLayer").checked) {
-                  addHeatmap();
-               }
-               else {
-                  showOverlays();   //Display the markers individually
-               }
+               markerClusterer.addMarkers(markerArray);
             }
-
-            console.debug("Total number of markers = " + markerArray.length);
-
-            var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
-            var resultCount= xml.documentElement.getElementsByTagName("resultcount")[0].getAttribute("count");
-            document.getElementById('busy_indicator').style.visibility = 'hidden';
-            document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
+            console.debug('getCurrentAISFromDB(): ' + "Number of markers = " + markerClusterer.getTotalMarkers());
+            console.debug('getCurrentAISFromDB(): ' + "Number of clusters = " + markerClusterer.getTotalClusters());
          }
-   );
+         else {
+            if (document.getElementById("HeatmapLayer").checked) {
+               addHeatmap();
+            }
+            else {
+               showOverlays();   //Display the markers individually
+            }
+         }
+
+         console.debug('getCurrentAISFromDB(): ' + "Total number of markers = " + markerArray.length);
+
+         document.getElementById('busy_indicator').style.visibility = 'hidden';
+         document.getElementById('stats_nav').innerHTML = 
+            response.resultcount + " results<br>" + 
+            Math.round(response.exectime*1000)/1000 + " secs";         
+      }) //end .done()
+      .fail(function() { 
+         console.debug('getCurrentAISFromDB(): ' +  'No response from track query; error in php?'); 
+         document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+         document.getElementById('busy_indicator').style.visibility = 'hidden';
+         return; 
+      }); //end .fail()
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -546,31 +539,20 @@ function getTrack(mmsi) {
    document.getElementById('busy_indicator').style.visibility = 'visible';
    var phpWithArg = "query_track.php?mmsi=" + mmsi;
    //Debug query output
-   console.debug(phpWithArg);
+   console.debug('GETTRACK(): ' + phpWithArg);
 
-//JSON ----------------------------------------------
    $.getJSON(
          phpWithArg, // The server URL 
          { }
       ) //end .getJSON()
       .done(function (response) {
-         console.debug("Results returned on track = " + response.resultcount);
-         console.log('query = ' + response.query);
-         //console.log('exectime: ' + response.exectime);
-         console.log('track size = ' + response.resultcount);
-         //console.log('vessels: ' + response.vessels);
+         console.debug('GETTRACK(): ' + response.query);
+         console.debug('GETTRACK(): ' + 'track size = ' + response.resultcount);
 
          var track = new Array();
          tracklineIcons = new Array(response.resultcount);
 
          $.each(response.vessels, function(key,vessel) {
-            //console.log(' ' + key);
-            //console.log(' ' + value);
-            //console.log(' MMSI: ' + value.mmsi);
-            //console.log(' lat: ' + value.lat);
-            //console.log(' lon: ' + value.lon);
-            //console.log(' datetime: ' + value.datetime);
-
             var mmsi = vessel.mmsi;
             var lat = vessel.lat
             var lon = vessel.lon;
@@ -591,83 +573,12 @@ function getTrack(mmsi) {
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
       }) //end .done()
-      //.done(function() { console.log( "second success" ); })
       .fail(function() { 
-         console.log( "No response from track query; error in php?" ); 
+         console.debug('GETTRACK(): ' +  'No response from track query; error in php?'); 
          document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 
       }); //end .fail()
-//END JSON ----------------------------------------------
-
-   /*
-   downloadUrl(phpWithArg, 
-         function(data) {
-            var xml = data.responseXML;
-            if(xml == null) {
-               console.debug("No response from track query; error in php?");
-               document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
-               document.getElementById('busy_indicator').style.visibility = 'hidden';
-               return; 
-            }
-
-            var statement = xml.documentElement.getElementsByTagName("query");
-            console.debug(statement[0].getAttribute("statement"));
-            document.getElementById("query_input").value = statement[0].getAttribute("statement");            
-
-            var ais_tips = xml.documentElement.getElementsByTagName("ais");
-            console.debug("Results returned on track = " + ais_tips.length);
-
-            var track = new Array();
-            tracklineIcons = new Array(ais_tips.length);
-
-            for (var i = 0; i < ais_tips.length; i++) {                       
-               var mmsi = ais_tips[i].getAttribute("mmsi");
-               var lon = ais_tips[i].getAttribute("lon");
-               var lat = ais_tips[i].getAttribute("lat");
-               var datetime = ais_tips[i].getAttribute("datetime");
-
-               track[i] = new google.maps.LatLng(lat, lon);
-               var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
-               tracklineIcon.setPosition(track[i]);
-               tracklineIcon.setMap(map);
-               tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon);
-               tracklineIcons.push(tracklineIcon);
-            }
-
-            console.debug("track size = " + track.length);
-
-            trackline.setOptions(tracklineOptions);
-            trackline.setPath(track);
-            trackline.setMap(map);
-
-            var execTime = xml.documentElement.getElementsByTagName("execution")[0].getAttribute("time");
-            var resultCount= xml.documentElement.getElementsByTagName("resultcount")[0].getAttribute("count");
-            document.getElementById('busy_indicator').style.visibility = 'hidden';
-            document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
-         }
-   );
-   */
-}
-
-/* -------------------------------------------------------------------------------- */
-/**
- * Function to download results from PHP script
- */
-function downloadUrl(url, callback) {
-	var request = window.ActiveXObject ?
-			new ActiveXObject('Microsoft.XMLHTTP') :
-				new XMLHttpRequest;
-
-   request.onreadystatechange = function() {
-      if (request.readyState == 4) {
-         request.onreadystatechange = doNothing;
-         callback(request, request.status);
-      }
-   };
-
-   request.open('GET', url, true);
-   request.send(null);
 }
 
 /* -------------------------------------------------------------------------------- */
