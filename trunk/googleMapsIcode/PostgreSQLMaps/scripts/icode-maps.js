@@ -77,6 +77,9 @@ function initialize() {
       //zoom:              5,
       zoom:              11,
       center:            centerCoord,
+      scaleControl:      true,
+      streetViewControl: false,
+      overviewMapControl:true,
       mapTypeId:         google.maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
          mapTypeIds: [google.maps.MapTypeId.ROADMAP, 
@@ -85,7 +88,7 @@ function initialize() {
                          google.maps.MapTypeId.TERRAIN,
                          'OpenLayers'
                          ],
-				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR //or drop-down menu
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, //or drop-down menu
 			}
 	};
 
@@ -116,6 +119,7 @@ function initialize() {
       });
    });
 
+   //Latlog indicator for current mouse position
    google.maps.event.addListener(map,'mousemove',function(event) {
       document.getElementById('latlong').innerHTML = 
             Math.round(event.latLng.lat()*10000000)/10000000 + ', ' + Math.round(event.latLng.lng()*10000000)/10000000
@@ -262,7 +266,7 @@ var mark = new google.maps.Marker({
       phpWithArg = "query_current_vessels.php?" + boundStr + "";
    }
    else {
-      if (customQuery.length < 16) {
+      if (customQuery.length < 20) {
          var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
          phpWithArg = "query_current_vessels.php?" + boundStr + "&keyword=" + customQuery;
       }
@@ -333,11 +337,19 @@ var mark = new google.maps.Marker({
                var streamid = ais_tips[i].getAttribute("streamid");
 
                imgURL = 'http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo;
+               
+               var title;
+               if (vesselname != null && vesselname != '') {
+                  title = vesselname;
+               }
+               else {
+                  title = 'MMSI or RADAR ID: ' + mmsi;
+               }
 
                var html = '<div id="content">'+
                   '<div id="siteNotice">'+
                   '</div>'+
-                  '<h2 id="firstHeading" class="firstHeading">' + vesselname + '</h1>' +
+                  '<h2 id="firstHeading" class="firstHeading">' + title + '</h1>' +
                   '<div id="bodyContent" style="overflow: hidden">' +
                   //'<div id="content-left">' +
                   '<div id="content-left">' +
@@ -458,8 +470,10 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
       }
 
       //Display ship details in sidebar
-      var $html = $(html);
-      document.getElementById('shipdetails').innerHTML = $html.find('#content-right').html();
+      //var $html = $(html);
+      //document.getElementById('shipdetails').innerHTML = $html.find('#content-right').html();
+      document.getElementById('shipdetails').innerHTML = html;
+      document.getElementById('shipdetails').style.visibility = 'visible';
 
       //Delay, then get and display track
       trackMouseoverTimeout = window.setTimeout(
@@ -470,6 +484,7 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
 
       google.maps.event.addListenerOnce(marker, 'mouseout', function() {
          window.clearTimeout(trackMouseoverTimeout);
+         document.getElementById('shipdetails').style.visibility = 'hidden';
       });
    });
 }
@@ -533,6 +548,59 @@ function getTrack(mmsi) {
    //Debug query output
    console.debug(phpWithArg);
 
+//JSON ----------------------------------------------
+   $.getJSON(
+         phpWithArg, // The server URL 
+         { }
+      ) //end .getJSON()
+      .done(function (response) {
+         console.debug("Results returned on track = " + response.resultcount);
+         console.log('query = ' + response.query);
+         //console.log('exectime: ' + response.exectime);
+         console.log('track size = ' + response.resultcount);
+         //console.log('vessels: ' + response.vessels);
+
+         var track = new Array();
+         tracklineIcons = new Array(response.resultcount);
+
+         $.each(response.vessels, function(key,vessel) {
+            //console.log(' ' + key);
+            //console.log(' ' + value);
+            //console.log(' MMSI: ' + value.mmsi);
+            //console.log(' lat: ' + value.lat);
+            //console.log(' lon: ' + value.lon);
+            //console.log(' datetime: ' + value.datetime);
+
+            var mmsi = vessel.mmsi;
+            var lat = vessel.lat
+            var lon = vessel.lon;
+            var datetime = vessel.datetime;
+
+            track[key] = new google.maps.LatLng(lat, lon);
+            var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
+            tracklineIcon.setPosition(track[key]);
+            tracklineIcon.setMap(map);
+            tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon);
+            tracklineIcons.push(tracklineIcon);
+         });
+
+         trackline.setOptions(tracklineOptions);
+         trackline.setPath(track);
+         trackline.setMap(map);
+
+         document.getElementById('busy_indicator').style.visibility = 'hidden';
+         document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
+      }) //end .done()
+      //.done(function() { console.log( "second success" ); })
+      .fail(function() { 
+         console.log( "No response from track query; error in php?" ); 
+         document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+         document.getElementById('busy_indicator').style.visibility = 'hidden';
+         return; 
+      }); //end .fail()
+//END JSON ----------------------------------------------
+
+   /*
    downloadUrl(phpWithArg, 
          function(data) {
             var xml = data.responseXML;
@@ -579,6 +647,7 @@ function getTrack(mmsi) {
             document.getElementById('stats_nav').innerHTML = resultCount + " results<br>" + Math.round(execTime*1000)/1000 + " secs";
          }
    );
+   */
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -901,6 +970,14 @@ function changeStations()
 /* -------------------------------------------------------------------------------- */
 function changeLights()
 {}
+
+/* -------------------------------------------------------------------------------- */
+function toggleRadarLayer() {
+   if (document.getElementById("RadarLayer").checked) {
+   }
+   else {
+   }
+}
 
 /* -------------------------------------------------------------------------------- */
 function toggleKMLLayer() {
