@@ -130,16 +130,18 @@
         }
         #shipdetails {
            float:        left;
-           position:     relative;
+           position:     absolute;
            border:       1px solid gray;
            margin:       0px;
            padding:      2px;
-           width:        244px;
-           height:       250px;
-           bottom:       0px;
-           left:         0;
+           width:        370px;
+           height:       300px;
+           bottom:       38px;
+           right:        5px;;
            z-index:      3;
            font-size:    10px;
+           background:   rgba(255,255,255,0.7);
+           visibility:   hidden;
         }
         #status-msg {
            position:     absolute;

@@ -10,7 +10,7 @@
      <script type="text/javascript" src='scripts/markerclusterer.js' ></script>
      <script type="text/javascript" src='scripts/infobubble.js' ></script>
 
-     <script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+     <script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
      <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>     
      <script type="text/javascript" src='scripts/fade.js' ></script>
      <script type="text/javascript" src='scripts/slidemenu.js'></script>
@@ -99,14 +99,14 @@
               <input class="checkbox" id="HeatmapLayer" name="HeatmapLayer" type="checkbox" onclick="toggleHeatmapLayer();"> <img align="top" width="20px" src="icons/heatmap.png" style=""> Heatmap Layer<br>
               <input class="checkbox" id="ClusterLayer" name="ClusterLayer" type="checkbox" checked="checked" onclick="toggleClusterLayer();"> <img align="top" width="20px" src="icons/cluster.png" style=""> Cluster Layer<br>
            </span>
-           <hr>
            <span id="MoreOptions">
               <input class="checkbox" id="KMLLayer" name="KMLLayer" type="checkbox" onclick="toggleKMLLayer();"> <img align="top" width="20px" src="icons/kml.png" style=""> KML Layer<br>
            </span>
+           <span id="MoreOptions">
+              <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" onclick="toggleRadarLayer();"> <img align="top" width="20px" src="icons/radar.png" style=""> Radar Contacts<br>
+           </span>
            </p>
 
-           <div id="shipdetails">
-           </div>
         </div>
         <!-- END LEFT PANEL -->  
 
@@ -125,11 +125,14 @@
      
      <div id="busy_indicator"><div style="width: 32px; height: 32px;"></div></div>
 
+     <div id="shipdetails">
+     </div>
+
      <div id="latlong">
      </div>
 
      <div id="status-msg">
-        Showing RADAR and AIS data for 2013-04-15
+        NEW! Try keyword search, i.e. "Lome", "radar", "queen", etc
      </div>
      
   </body>
