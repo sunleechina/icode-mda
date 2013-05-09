@@ -28,18 +28,32 @@ if (!$connection) {
     exit("Connection Failed: " . $conn);
 }
 
-//Query statement - default statement unless user inputs custom statement
-$query = "SELECT * FROM (SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) Q WHERE";
-/*
 if(count($_GET) > 0) { 
-    if (!empty($_GET["keyword"])) {
-
-    }
+//    if (!empty($_GET["sources"])) {
+       $sources = (int)$_GET["sources"];
+       if ($sources == 0) {
+          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
+       }
+       else if ($sources == 1) {
+          $fromSources = "(SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
+       }
+       else if ($sources == 2) {
+          $fromSources = "(SELECT * FROM radar_vessels) LATESTPOSITIONS";
+       }
+       else {
+          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
+       }
+//    }
 }
-*/
+
+//Query statement - default statement unless user inputs custom statement
+$query = "SELECT * FROM " . $fromSources;
+
 
 //Count the number of arguments
-if(count($_GET) > 0) { 
+if(count($_GET) > 0) {
+   $query = $query . " WHERE";
+
     if (!empty($_GET["minlat"]) && !empty($_GET["minlon"]) &&
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
           //$query = $query . " AND lat > " . round($_GET["minlat"],3) . " and lon > " . round($_GET["minlon"],3) . 
