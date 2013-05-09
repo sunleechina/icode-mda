@@ -63,6 +63,8 @@ var wmsOptions = {
 var selectedShape;
 //KML objects
 var KML = false;
+//Sources objects
+var sourcesInt=0;
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -110,7 +112,7 @@ function initialize() {
       google.maps.event.trigger(map, 'resize'); 
       var idleTimeout = window.setTimeout(
          function() {
-            getCurrentAISFromDB(map.getBounds(), null);
+            getCurrentAISFromDB(map.getBounds(), null, null);
          }, 
          2000);   //milliseconds to pause after bounds change
 
@@ -157,10 +159,10 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
       if (entered_query.startsWith('SELECT')) {
-         getCurrentAISFromDB(map.getBounds(), entered_query);
+         getCurrentAISFromDB(map.getBounds(), entered_query, null);
       }
       else {
-         getCurrentAISFromDB(map.getBounds(), entered_query);
+         getCurrentAISFromDB(map.getBounds(), entered_query, null);
       }
    }
 }
@@ -180,7 +182,7 @@ function clearTrack() {
 /** 
  * Get AIS data from XML, which is from database, with bounds 
  */
-function getCurrentAISFromDB(bounds, customQuery) {
+function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
 /*
 var rectangle = new google.maps.Rectangle({
     strokeColor: '#ffffff',
@@ -234,7 +236,7 @@ var mark = new google.maps.Marker({
             new google.maps.LatLng(maxLat, maxLon));
    }
    else {
-      if (customQuery == null && queryBounds.contains(ne) && queryBounds.contains(sw)) {
+      if (customQuery == null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
          //TODO: update result count to match what is actually within current view
 
          console.debug('Moved to within query bounds, not requerying.');
@@ -261,16 +263,21 @@ var mark = new google.maps.Marker({
    });
 
    var phpWithArg;
+   var sources = "sources=" + sourcesInt; //0-all, 1-aisonly, 2-radaronly, etc
+   var boundStr = "&minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
+
    if (!customQuery) {
-      var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
-      phpWithArg = "query_current_vessels.php?" + boundStr + "";
+      //No custom query, do default query
+      phpWithArg = "query_current_vessels.php?" + sources + boundStr;
    }
    else {
+      //TODO: need a more robust condition for keyword search
       if (customQuery.length < 20) {
-         var boundStr = "minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
-         phpWithArg = "query_current_vessels.php?" + boundStr + "&keyword=" + customQuery;
+         //customQuery is really a keyword search
+         phpWithArg = "query_current_vessels.php?" + sources + boundStr + "&keyword=" + customQuery;
       }
       else {
+         //Custom SQL query statement
          phpWithArg = "query_current_vessels.php?query=" + customQuery;
       }
    }
@@ -278,6 +285,7 @@ var mark = new google.maps.Marker({
    //Debug query output
    console.debug('getCurrentAISFromDB(): ' + phpWithArg);
 
+   //Call PHP and get results as markers
    $.getJSON(
          phpWithArg, // The server URL 
          { }
@@ -585,7 +593,7 @@ function getTrack(mmsi) {
 function refreshLayers() {
 	clearOverlays();
 	clearMarkerArray();
-   getCurrentAISFromDB(map.getBounds(),null);
+   getCurrentAISFromDB(map.getBounds(), null, true);
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -616,7 +624,7 @@ function typeSelectUpdated() {
       }
    }
 
-   getCurrentAISFromDB(map.getBounds(), entered_query);
+   getCurrentAISFromDB(map.getBounds(), entered_query, true);
 
 	//refreshLayers();
 }
@@ -730,7 +738,7 @@ function getTypesSelected() {
 function getIconColor(vesseltypeint, streamid) {
    var color;
    if (streamid == 'shore-radar') {
-      color = '#4000FF';
+      color = '#FFFF00';
       return color;
    }
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
@@ -885,8 +893,12 @@ function changeLights()
 /* -------------------------------------------------------------------------------- */
 function toggleRadarLayer() {
    if (document.getElementById("RadarLayer").checked) {
+      sourcesInt = 0;
+      getCurrentAISFromDB(map.getBounds(), null, true);
    }
    else {
+      sourcesInt = 1;
+      getCurrentAISFromDB(map.getBounds(), null, true);
    }
 }
 

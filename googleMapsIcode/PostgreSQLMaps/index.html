@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+     <title>ICODE-MDA Maps</title>
      <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
      <link rel="stylesheet" type="text/css" href="scripts/style.css">
@@ -10,8 +11,8 @@
      <script type="text/javascript" src='scripts/markerclusterer.js' ></script>
      <script type="text/javascript" src='scripts/infobubble.js' ></script>
 
-     <script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-     <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>     
+     <script type="text/javascript" language="Javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+     <script>window.jQuery || document.write('<script src="scripts/jquery.min.js"><\/script>')</script>     
      <script type="text/javascript" src='scripts/fade.js' ></script>
      <script type="text/javascript" src='scripts/slidemenu.js'></script>
 
@@ -103,7 +104,7 @@
               <input class="checkbox" id="KMLLayer" name="KMLLayer" type="checkbox" onclick="toggleKMLLayer();"> <img align="top" width="20px" src="icons/kml.png" style=""> KML Layer<br>
            </span>
            <span id="MoreOptions">
-              <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" onclick="toggleRadarLayer();"> <img align="top" width="20px" src="icons/radar.png" style=""> Radar Contacts<br>
+              <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" checked="checked" onclick="toggleRadarLayer();"> <img align="top" width="20px" src="icons/radar.png" style=""> Radar Contacts<br>
            </span>
            </p>
 
@@ -136,5 +137,5 @@
      </div>
      
   </body>
-  </html>
+</html>
 
