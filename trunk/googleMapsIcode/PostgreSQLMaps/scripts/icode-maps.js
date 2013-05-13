@@ -11,8 +11,10 @@
  */
 var map;
 var markerArray;
-var trackline;
-var tracklineIcons;
+//var trackline;
+var trackArray;
+//var trackIcons;
+
 //Viewing bounds objects
 var queryBounds;
 var expandFactor = 0.05;
@@ -36,12 +38,13 @@ var tracklineIconsOptions = {
                //fillColor:     '#F00',
                fillOpacity:   1
             };
-
+/*
 var tracklineOptions = {
                strokeColor:   '#00FF25',
                strokeOpacity: 0.7,
                strokeWeight:  3,
             };
+*/
 //Weather layer objects
 var weatherLayer;
 var cloudLayer;
@@ -64,7 +67,19 @@ var selectedShape;
 //KML objects
 var KML = false;
 //Sources objects
-var sourcesInt=0;
+var sourcesInt=3;
+//Distance measurement
+var latLng;
+var prevlatLng;
+var distIcon;
+var prevdistIcon;
+var distPath;
+var distIconsOptions = {
+               path:          'M -4,0 0,-4 4,0 0,4 z',
+               strokeColor:   '#04B4AE',
+               fillColor:     '#04B4AE',
+               fillOpacity:   1
+            };
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -101,8 +116,7 @@ function initialize() {
 
    //Clear marker array
    markerArray = [];
-   trackline = new google.maps.Polyline();
-   tracklineIcons = [];
+   //trackIcons = [];
 
    //Add drawing toolbar
    addDrawingManager();
@@ -126,6 +140,9 @@ function initialize() {
       document.getElementById('latlong').innerHTML = 
             Math.round(event.latLng.lat()*10000000)/10000000 + ', ' + Math.round(event.latLng.lng()*10000000)/10000000
    });
+
+   //Distance tool
+   addDistanceTool();
 
    //TODO: TEST WMS layers
    addWmsLayers();
@@ -168,14 +185,17 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 /* -------------------------------------------------------------------------------- */
-function clearTrack() {
-   trackline.setMap(null);
-   for (var i=0; i < tracklineIcons.length; i++) {
-      var trackIcon = tracklineIcons.pop()
-      trackIcon.setMap(null);
-      trackIcon = null;
+function clearTrack(trackline, trackIcons) {
+   if (trackline != null && trackIcons != null) {
+      trackline.setMap(null);
+      trackline = null;
+      for (var i=0; i < trackIcons.length; i++) {
+         var trackIcon = trackIcons.pop()
+            trackIcon.setMap(null);
+         trackIcon = null;
+      }
+      trackIcons = [];
    }
-   tracklineIcons = [];
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -293,20 +313,21 @@ var mark = new google.maps.Marker({
       .done(function (response) {
          console.debug('getCurrentAISFromDB(): ' + response.query);
          //Show the query and put it in the form
-         document.getElementById("query_input").value = response.query
+         document.getElementById("query_input").value = response.query;
 
          //Delete previous markers
          //TODO: update to clear only markers that are now out of bounds
          //clearMarkerArray();
          clearOutBoundMarkers();
-         clearTrack();
+         //TODO: clear all tracks
+         //clearAllTracks();
 
          //Prepare to grab PHP results as JSON objects
          $.each(response.vessels, function(key,vessel) {
                var messagetype = vessel.messagetype;
                var mmsi = vessel.mmsi;
                var navstatus = vessel.navstatus;
-               var rot = vessel.rot;
+                  var rot = vessel.rot;
                var sog = vessel.sog;
                var lon = vessel.lon;
                var lat = vessel.lat;
@@ -333,7 +354,12 @@ var mark = new google.maps.Marker({
                var posfixtype = vessel.posfixtype;
                var streamid = vessel.streamid;
 
-               imgURL = 'http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo;
+               if (imo != null) {
+                  imgURL = 'http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi + '&imo=' + imo;
+               }
+               else {
+                  imgURL = 'http://photos2.marinetraffic.com/ais/showphoto.aspx?mmsi=' + mmsi;
+               }
                
                var title;
                if (vesselname != null && vesselname != '') {
@@ -389,7 +415,7 @@ var mark = new google.maps.Marker({
                });
 
                //markerInfoWindow(marker, infoWindow, html, mmsi, vesselname);
-               markerInfoBubble(marker, infoBubble, html, mmsi, vesselname);
+               markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid);
                markerArray.push(marker);
          });
          //Display the appropriate layer according to the sidebar checkboxes
@@ -432,7 +458,7 @@ var mark = new google.maps.Marker({
  * Function to attach information associated with marker, or call track 
  * fetcher to get track line
  */
-function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
+function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid) {
    //Listener for click on marker to display infoBubble
 	google.maps.event.addListener(marker, 'click', function () {
       infoBubble.setContent(html);
@@ -479,7 +505,7 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname) {
       //Delay, then get and display track
       trackMouseoverTimeout = window.setTimeout(
          function displayTracks() {
-            getTrack(mmsi)
+            getTrack(mmsi, vesseltypeint, streamid);
          },
          1000);   //milliseconds
 
@@ -539,26 +565,29 @@ function markerInfoWindow(marker, infoWindow, html, mmsi, vesselname) {
 /**
  * Function to get track from track query PHP script
  */
-function getTrack(mmsi) {
-   clearTrack();
+function getTrack(mmsi, vesseltypeint, streamid) {
+//   clearTrack();
 
    document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
    document.getElementById('stats_nav').innerHTML = '';
    document.getElementById('busy_indicator').style.visibility = 'visible';
-   var phpWithArg = "query_track.php?mmsi=" + mmsi;
+   var phpWithArg = "query_track.php?streamid=" + streamid + "&mmsi=" + mmsi;
    //Debug query output
    console.debug('GETTRACK(): ' + phpWithArg);
+
+   var trackline = new google.maps.Polyline();
 
    $.getJSON(
          phpWithArg, // The server URL 
          { }
       ) //end .getJSON()
       .done(function (response) {
+         document.getElementById("query_input").value = response.query;
          console.debug('GETTRACK(): ' + response.query);
          console.debug('GETTRACK(): ' + 'track size = ' + response.resultcount);
 
          var track = new Array();
-         tracklineIcons = new Array(response.resultcount);
+         var trackIcons = new Array(response.resultcount);
 
          $.each(response.vessels, function(key,vessel) {
             var mmsi = vessel.mmsi;
@@ -571,12 +600,27 @@ function getTrack(mmsi) {
             tracklineIcon.setPosition(track[key]);
             tracklineIcon.setMap(map);
             tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon);
-            tracklineIcons.push(tracklineIcon);
+
+            google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
+               clearTrack(trackline, trackIcons);
+            });
+
+            trackIcons.push(tracklineIcon);
          });
+
+         var tracklineOptions = {
+            strokeColor:   getIconColor(vesseltypeint, streamid), 
+            strokeOpacity: 0.7,
+            strokeWeight:  3,
+         };
 
          trackline.setOptions(tracklineOptions);
          trackline.setPath(track);
          trackline.setMap(map);
+
+         google.maps.event.addListener(trackline, 'rightclick', function() {
+            clearTrack(trackline, trackIcons);
+         });
 
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
@@ -738,9 +782,14 @@ function getTypesSelected() {
 function getIconColor(vesseltypeint, streamid) {
    var color;
    if (streamid == 'shore-radar') {
-      color = '#FFFF00';
+      color = '#FE2E2E';
       return color;
    }
+   else if (streamid == 'Laisic_AIS_Track') {
+      color = '0000FF';
+      return color;
+   }
+         
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
       color = '#04B404'; 
       //return "shipicons/lightgreen1_90.png";
@@ -893,7 +942,7 @@ function changeLights()
 /* -------------------------------------------------------------------------------- */
 function toggleRadarLayer() {
    if (document.getElementById("RadarLayer").checked) {
-      sourcesInt = 0;
+      sourcesInt = 3;
       getCurrentAISFromDB(map.getBounds(), null, true);
    }
    else {
@@ -1130,6 +1179,66 @@ function setMapCenterToCenterOfMass(map, tips) {
 	}
 	var centerCoord = new google.maps.LatLng(lat_mean, lon_mean);
 	map.setCenter(centerCoord);
+}
+
+/* -------------------------------------------------------------------------------- */
+function addDistanceTool() {
+   google.maps.event.addListener(map,'rightclick',function(event) {
+      prevlatLng = latLng;
+      latLng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+      //Delete previous marker
+      if (prevdistIcon != null) {
+         prevdistIcon.setMap(null);
+      }
+      prevdistIcon = distIcon;
+      distIcon = new google.maps.Marker({position: latLng, map: map, icon: distIconsOptions});
+
+      //Get the distance on second click
+      if (prevlatLng != null) {
+         var dist = google.maps.geometry.spherical.computeDistanceBetween(prevlatLng, latLng);
+         if (distPath != null) {
+            distPath.setMap(null);
+         }
+         distPath = new google.maps.Polyline({
+            map:           map,
+            path:          [prevlatLng, latLng],
+            strokeColor:   "#04B4AE",
+            strokeOpacity: 1.0,
+            strokeWeight:  2,
+         });
+         console.debug('Distance between two clicks: ' + Math.round(dist*100)/100 + ' meters');
+
+         google.maps.event.addListener(distPath,'click',function() {
+            deleteDistTool();
+         });
+         google.maps.event.addListener(distIcon,'click',function() {
+            deleteDistTool();
+         });
+         google.maps.event.addListener(prevdistIcon,'click',function() {
+            deleteDistTool();
+         });
+         google.maps.event.addListener(distPath,'rightclick',function() {
+            deleteDistTool();
+         });
+         google.maps.event.addListener(distIcon,'rightclick',function() {
+            deleteDistTool();
+         });
+         google.maps.event.addListener(prevdistIcon,'rightclick',function() {
+            deleteDistTool();
+         });
+
+         function deleteDistTool() {
+            distPath.setMap(null);
+            distPath = null;
+            distIcon.setMap(null);
+            prevdistIcon.setMap(null);
+            distIcon = null;
+            prevdistIcon = null;
+            prevlatLng = null;
+            latLng = null;
+         }
+      }
+   });
 }
 
 /* -------------------------------------------------------------------------------- */

@@ -40,7 +40,15 @@ if(count($_GET) > 0) {
        else if ($sources == 2) {
           $fromSources = "(SELECT * FROM radar_vessels) LATESTPOSITIONS";
        }
+       else if ($sources == 3) {
+          //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels_backup_20130425 UNION SELECT * FROM thin_vessels) LATESTPOSITIONS";
+          //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels_backup_20130425) LATESTPOSITIONS";
+          //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM current_vessels_20130425) LATESTPOSITIONS";
+          //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels) LATESTPOSITIONS";
+          $fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels UNION SELECT * FROM current_vessels_20130425) LATESTPOSITIONS";
+       }
        else {
+          //Default case
           $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
        }
 //    }
