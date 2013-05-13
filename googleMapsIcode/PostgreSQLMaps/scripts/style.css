@@ -84,7 +84,7 @@
            padding:      2px;
            width:        250px;
            min-width:    250px;
-           height:       calc(100%-15px);
+           height:       100%;
            top:          0;
            left:         0;
            z-index:      1;
@@ -147,7 +147,7 @@
            position:     absolute;
            top:          68px;
            left:         calc(100%/3);
-           width:        500px;
+           width:        700px;
            height:       20px;
            line-height:  20px;
            vertical-align:middle;

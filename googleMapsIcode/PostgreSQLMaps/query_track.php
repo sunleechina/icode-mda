@@ -29,12 +29,19 @@ if (!$connection) {
 }
 
 //Query statement
+
 if(!empty($_GET["mmsi"])) {
    if ($_GET["mmsi"] < 100) {
-      $query = "SELECT mmsi, lon, lat, datetime FROM radar_20130415 A WHERE mmsi = ";
+      $query = "SELECT mmsi, lon, lat, datetime FROM radar_20130425 A WHERE mmsi = ";
    }
    else {
-      $query = "SELECT mmsi, lon, lat, datetime FROM ter_20130415 A WHERE lon != -999 and mmsi = ";
+      if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track") {
+            //$query = "SELECT mmsi, lon, lat, datetime FROM aistrack_20130425_backup A WHERE lon != -999 and mmsi = ";
+            $query = "SELECT mmsi, lon, lat, datetime FROM aistrack_20130425 A WHERE lon != -999 and mmsi = ";
+      }
+      else {
+         $query = "SELECT mmsi, lon, lat, datetime FROM ter_20130425 A WHERE lon != -999 and mmsi = ";
+      }
    }
 }
 
