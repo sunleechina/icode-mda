@@ -227,6 +227,8 @@ overloaded function"
 {{{
 delete $HOME/.grails/ivy-cache
 }}}
+ # grails commands are still getting stuck when I try to run "create-postgis-database".
+  * One of the remote repositories might be down. Build the DB by hand using the notes in [https://code.google.com/p/icode-mda/wiki/OMAR_WarDeployment_Fedora16 WarDeployment]
  # OMAR is not working and I don't get any error Messages
 {{{
 //Check c:/tmp/logs/omar.log
@@ -238,4 +240,9 @@ Try deleting your .grails folder in your home directory completely and then re-r
  # CMake is not working. Its complaining about missing stuff.
 {{{
 Use cmake_gui and select the Grouped and Advanced view options.  Go under the application it is complaining about and check values for wrong or missing information.
+}}}
+ # OMAR is not generating OVR or HIST files for my image.
+  * Try generating them manually using the OSSIM exe (Found in your OSSIM Build.  This should give you a better idea of what is wrong.
+{{{
+ ossim-img2rr -r --create-histogram <filename>
 }}}
