@@ -88,11 +88,11 @@ function initialize() {
    //Set up map properties
    //var centerCoord = new google.maps.LatLng(0,0);
    //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
-   var centerCoord = new google.maps.LatLng(6.0719,1.3728);   //Lome, Togo
+   var centerCoord = new google.maps.LatLng(6.06,1.30);   //Lome, Togo
 
    var mapOptions = {
       //zoom:              5,
-      zoom:              11,
+      zoom:              13,
       center:            centerCoord,
       scaleControl:      true,
       streetViewControl: false,
@@ -168,13 +168,14 @@ function enteredQuery() {
       //Trim white space
       $.trim(entered_query);
 
-if (typeof String.prototype.startsWith != 'function') {
-  // see below for better implementation!
-  String.prototype.startsWith = function (str){
-    return this.indexOf(str) == 0;
-  };
-}
+      //Create "startsWith" function
+      if (typeof String.prototype.startsWith != 'function') {
+         String.prototype.startsWith = function (str){
+            return this.indexOf(str) == 0;
+         };
+      }
 
+      //Use startsWith function to find the "SELECT" statement
       if (entered_query.startsWith('SELECT')) {
          getCurrentAISFromDB(map.getBounds(), entered_query, null);
       }
@@ -284,7 +285,7 @@ var mark = new google.maps.Marker({
 
    var phpWithArg;
    var sources = "sources=" + sourcesInt; //0-all, 1-aisonly, 2-radaronly, etc
-   var boundStr = "&minlat=" + minLat + "&maxlat=" + maxLat + "&minlon=" + minLon + "&maxlon=" + maxLon;
+   var boundStr = "&minlat=" + Math.round(minLat*1000)/1000 + "&maxlat=" + Math.round(maxLat*1000)/1000 + "&minlon=" + Math.round(minLon*1000)/1000 + "&maxlon=" + Math.round(maxLon*1000)/1000;
 
    if (!customQuery) {
       //No custom query, do default query
@@ -376,7 +377,7 @@ var mark = new google.maps.Marker({
                   '<div id="bodyContent" style="overflow: hidden">' +
                   //'<div id="content-left">' +
                   '<div id="content-left">' +
-                  '<a href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '"> '+
+                  '<a href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '"  target="_blank"> '+
                   '<img width=180px src="' + imgURL + '">' + 
                   '</a><br>' + 
                   '</div>' +
@@ -791,15 +792,15 @@ function getIconColor(vesseltypeint, streamid) {
    }
          
    if (vesseltypeint >= 70 && vesseltypeint <= 79) {
-      color = '#04B404'; 
+      color = '#01DF01'; 
       //return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint >= 80 && vesseltypeint <= 89) {
-      color = '#04B404'; 
+      color = '#01DF01'; 
       //return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 60) {
-      color = '#04B404'; 
+      color = '#01DF01'; 
       //return "shipicons/lightgreen1_90.png";
    }
    else if (vesseltypeint == 0) {
@@ -1196,6 +1197,8 @@ function addDistanceTool() {
       //Get the distance on second click
       if (prevlatLng != null) {
          var dist = google.maps.geometry.spherical.computeDistanceBetween(prevlatLng, latLng);
+         distIcon.setTitle('' + Math.round(dist*100)/100 + 'm');
+         prevdistIcon.setTitle('' + Math.round(dist*100)/100 + 'm');
          if (distPath != null) {
             distPath.setMap(null);
          }

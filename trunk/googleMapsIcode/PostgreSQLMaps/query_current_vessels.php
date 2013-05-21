@@ -28,14 +28,17 @@ if (!$connection) {
     exit("Connection Failed: " . $conn);
 }
 
+
+//Select the correct sources or tables ----------------------------------------------------------
 if(count($_GET) > 0) { 
 //    if (!empty($_GET["sources"])) {
        $sources = (int)$_GET["sources"];
        if ($sources == 0) {
-          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
+          //$fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) VESSELS";
+          $fromSources = "(SELECT * FROM current_vessels_20130428 where vesseltypeint != -1) VESSELS";
        }
        else if ($sources == 1) {
-          $fromSources = "(SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
+          $fromSources = "(SELECT * FROM current_vessels WHERE vesseltypeint != -1) VESSELS";
        }
        else if ($sources == 2) {
           $fromSources = "(SELECT * FROM radar_vessels) LATESTPOSITIONS";
@@ -45,11 +48,17 @@ if(count($_GET) > 0) {
           //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels_backup_20130425) LATESTPOSITIONS";
           //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM current_vessels_20130425) LATESTPOSITIONS";
           //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels) LATESTPOSITIONS";
-          $fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels UNION SELECT * FROM current_vessels_20130425) LATESTPOSITIONS";
+          //$fromSources = "(SELECT * FROM radar_vessels_20130425 UNION SELECT * FROM aistrack_vessels UNION SELECT * FROM current_vessels_20130425) LATESTPOSITIONS";
+          //$fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM aistrack_vessels_backup_20130425 UNION SELECT * FROM current_vessels_20130425) VESSELS";
+          //$fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM aistrack_vessels_backup_20130425 UNION SELECT * FROM current_vessels_20130425) LATESTPOSITIONS";
+          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels) VESSELS";
+       }
+       else if ($sources == 4) {
+          $fromSources = "(SELECT * FROM current_vessels_20130428 where vesseltypeint != -1) VESSELS";
        }
        else {
           //Default case
-          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
+          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) VESSELS";
        }
 //    }
 }
@@ -58,7 +67,7 @@ if(count($_GET) > 0) {
 $query = "SELECT * FROM " . $fromSources;
 
 
-//Count the number of arguments
+//Parse PHP arguments as specific query attributes ----------------------------------------------
 if(count($_GET) > 0) {
    $query = $query . " WHERE";
 
@@ -66,8 +75,8 @@ if(count($_GET) > 0) {
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
           //$query = $query . " AND lat > " . round($_GET["minlat"],3) . " and lon > " . round($_GET["minlon"],3) . 
           //         " and lat < " .  round($_GET["maxlat"],3) . " and lon < " . round($_GET["maxlon"],3);
-          $query = $query . " lat BETWEEN " . round($_GET["minlat"],3) . " AND " . round($_GET["maxlat"],3) . 
-                   " AND lon BETWEEN " .  round($_GET["minlon"],3) . " AND " . round($_GET["maxlon"],3);
+          $query = $query . " lat BETWEEN " . $_GET["minlat"] . " AND " . $_GET["maxlat"] . 
+                   " AND lon BETWEEN " .  $_GET["minlon"] . " AND " . $_GET["maxlon"];
     }
     if (!empty($_GET["keyword"])) {
        $keyword = $_GET["keyword"];
@@ -94,10 +103,15 @@ else {
     $query = $query . " limit " . $limit;
 }
 
+
+//Perform actual query in database --------------------------------------------------------------
+//Front page query:
+//"SELECT * FROM (SELECT * FROM radar_vessels UNION SELECT * FROM aistrack_vessels_backup_20130425 UNION SELECT * FROM current_vessels_20130425) VESSELS WHERE lat BETWEEN 5.333 AND 6.787 AND lon BETWEEN 0.528 AND 2.072"
+
+//Perform actual query in database --------------------------------------------------------------
 $result = @odbc_exec($connection, $query) or die('Query error: '.htmlspecialchars(odbc_errormsg()));;
+
 //-----------------------------------------------------------------------------
-
-
 //End execution time
 $mtime = microtime(); 
 $mtime = explode(" ",$mtime); 
