@@ -229,6 +229,8 @@ delete $HOME/.grails/ivy-cache
 }}}
  # grails commands are still getting stuck when I try to run "create-postgis-database".
   * One of the remote repositories might be down. Build the DB by hand using the notes in [https://code.google.com/p/icode-mda/wiki/OMAR_WarDeployment_Fedora16 WarDeployment]
+ # When trying to run the geoms.sql file on my database, I get errors about undefined "GIST" command.
+  * GIST is no longer supported in later version of postgis.  To run your script currently first run the following script in your DB:  [https://icode-mda.googlecode.com/files/legacy_gist.sql_Fedora16 legacy_gist.sql]
  # OMAR is not working and I don't get any error Messages
 {{{
 //Check c:/tmp/logs/omar.log
