@@ -66,6 +66,10 @@ var wmsOptions = {
 var selectedShape;
 //KML objects
 var KML = false;
+//Port objects
+var Ports = false;
+var portIcons = [];
+var portCircles = [];
 //Sources objects
 var sourcesInt=3;
 //Distance measurement
@@ -92,7 +96,7 @@ function initialize() {
 
    var mapOptions = {
       //zoom:              5,
-      zoom:              13,
+      zoom:              12,
       center:            centerCoord,
       scaleControl:      true,
       streetViewControl: false,
@@ -157,6 +161,10 @@ function initialize() {
    //KML overlay layer
    if (KML) {
       showKML();
+   }
+
+   if (Ports) {
+      showPorts();
    }
 }
 
@@ -1005,6 +1013,129 @@ function showKML() {
    }
    var kmzFile = new ZipFile('ghana.kmz', doneReadingKMZ, 1);
 */
+}
+
+/* -------------------------------------------------------------------------------- */
+function togglePortLayer() {
+   if (document.getElementById("PortLayer").checked) {
+      Port = true;
+      showPorts();
+   }
+   else {
+      Port = false;
+      hidePorts();
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+function showPorts() {
+   document.getElementById("query_input").value = "QUERY RUNNING FOR PORTS...";
+   document.getElementById('stats_nav').innerHTML = '';
+   document.getElementById('busy_indicator').style.visibility = 'visible';
+
+   var bounds = map.getBounds();
+   var ne = bounds.getNorthEast();
+   var sw = bounds.getSouthWest();
+   var minLat = sw.lat();
+   var maxLat = ne.lat();
+   var minLon = sw.lng();
+   var maxLon = ne.lng();
+   var boundStr = "&minlat=" + Math.round(minLat*1000)/1000 + "&maxlat=" + Math.round(maxLat*1000)/1000 + "&minlon=" + Math.round(minLon*1000)/1000 + "&maxlon=" + Math.round(maxLon*1000)/1000
+
+   var phpWithArg = "query_ports.php?" + boundStr;
+   //Debug query output
+   console.debug('SHOWPORTS(): ' + phpWithArg);
+
+   $.getJSON(
+         phpWithArg, // The server URL 
+         { }
+      ) //end .getJSON()
+      .done(function (response) {
+         document.getElementById("query_input").value = response.query;
+         console.debug('SHOWPORTS(): ' + response.query);
+         console.debug('SHOWPORTS(): ' + 'number of ports = ' + response.resultcount);
+
+         $.each(response.ports, function(key,port) {
+            var port_name = port.port_name;
+            var country_name = port.country_name;
+            var lat = port.lat;
+            var lon = port.lon;
+
+            port_location = new google.maps.LatLng(lat, lon);
+            var portIcon = new google.maps.Marker({icon: 'icons/anchor_port.png'});
+            portIcon.setPosition(port_location);
+            portIcon.setMap(map);
+            portIcon.setTitle('Port Name: ' + port_name + '\nCountry: ' + country_name + '\nLat: ' + lat + '\nLon: ' + lon);
+
+            portCircle = new google.maps.Circle({
+               center:  port_location,
+                        radius: 25000,
+                        strokeColor: "#FF0000",
+                        strokeOpacity: 0.5,
+                        strokeWeight: 2,
+                        fillColor: "#FF0000",
+                        fillOpacity: 0.15,
+                        map: map
+            });
+
+            portIcons.push(portIcon);
+            portCircles.push(portCircle);
+         });
+
+         document.getElementById('busy_indicator').style.visibility = 'hidden';
+         document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
+      }) //end .done()
+      .fail(function() { 
+         console.debug('SHOWPORTS(): ' +  'No response from track query; error in php?'); 
+         document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+         document.getElementById('busy_indicator').style.visibility = 'hidden';
+         return; 
+      }); //end .fail()
+
+      /*
+var cloudLayer = new google.maps.weather.CloudLayer();
+cloudLayer.setMap(map);
+*/
+   
+      /*
+var styles = [
+  {
+    stylers: [
+      { hue: "#084B8A" },
+      { saturation: -2 }
+    ]
+  },{
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [
+      { lightness: 100 },
+      { visibility: "simplified" }
+    ]
+  },{
+    featureType: "road",
+    elementType: "labels",
+    stylers: [
+      { visibility: "off" }
+    ]
+  }
+];
+
+map.setOptions({styles: styles});
+*/
+}
+
+/* -------------------------------------------------------------------------------- */
+function hidePorts() {
+   var portIcon;
+   var portCircle;
+   for (i=0; i< portIcons.length; i++) {
+      portIcon = portIcons[i];
+      portIcon.setMap(null);
+      portCircle = portCircles[i];
+      portCircle.setMap(null);
+   }
+   portIcons = [];
+   portCircles = [];
 }
 
 /* -------------------------------------------------------------------------------- */
