@@ -130,7 +130,14 @@ function initialize() {
       google.maps.event.trigger(map, 'resize'); 
       var idleTimeout = window.setTimeout(
          function() {
+            //Update vessels displayed
             getCurrentAISFromDB(map.getBounds(), null, null);
+            
+            //Update ports displayed
+            if (Ports) {
+               hidePorts();
+               showPorts();
+            }
          }, 
          2000);   //milliseconds to pause after bounds change
 
@@ -212,35 +219,6 @@ function clearTrack(trackline, trackIcons) {
  * Get AIS data from XML, which is from database, with bounds 
  */
 function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
-/*
-var rectangle = new google.maps.Rectangle({
-    strokeColor: '#ffffff',
-    strokeOpacity: 1,
-    strokeWeight: 2,
-    fillColor: '#FFFFFF',
-    fillOpacity: 1,
-    map: map,
-    bounds: new google.maps.LatLngBounds(
-      new google.maps.LatLng(5.9,1.15),
-      new google.maps.LatLng(6.1,1.17))
-  });
-
-var iconColor = getIconColor(989, null);
-var myLatLng = new google.maps.LatLng(6.0, 1.16);
-console.debug(iconColor);
-var mark = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    icon: {
-       path:        'M 0,8 4,8 0,-8 -4,8 z',
-       strokeColor: '#000000',
-       fillColor:   iconColor,
-       fillOpacity: 0.6,
-       rotation:    90
-    }
-});
-*/
-
    //Set buffer around map bounds to expand queried area slightly outside viewable area
    var latLonBuffer = expandFactor * map.getZoom();
 
@@ -524,51 +502,6 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
       });
    });
 }
-
-/* -------------------------------------------------------------------------------- */
-/**
- * Function to attach information associated with marker, or call track 
- * fetcher to get track line
- */
-/*
-function markerInfoWindow(marker, infoWindow, html, mmsi, vesselname) {
-   //Listener for click on marker to display infoWindow
-	google.maps.event.addListener(marker, 'click', function () {
-      window.clearTimeout(markerMouseoutTimeout);
-      infoWindow.setContent(html);
-      infoWindow.open(map, marker);
-
-      google.maps.event.addListener(marker, 'mouseover', function() {
-         window.clearTimeout(markerMouseoutTimeout);
-      });
-
-      google.maps.event.addListener(marker, 'mouseout', function() {
-         markerMouseoutTimeout = window.setTimeout(
-            function closeInfoWindow() { 
-               infoWindow.close(); 
-            }, 
-            3000);   //milliseconds
-      });
-   });
-
-   //Listener for mouseover marker to display tracks
-   google.maps.event.addListener(marker, 'mouseover', function() {
-      //Hover display name
-      marker.setTitle(vesselname.trim());
-
-      //Delay, then get and display track
-      trackMouseoverTimeout = window.setTimeout(
-         function displayTracks() {
-            getTrack(mmsi)
-         },
-         1000);   //milliseconds
-
-      google.maps.event.addListenerOnce(marker, 'mouseout', function() {
-         window.clearTimeout(trackMouseoverTimeout);
-      });
-   });
-}
-*/
 
 /* -------------------------------------------------------------------------------- */
 /**
@@ -883,10 +816,6 @@ function tipDisplay(marker, info_window) {
 }
 
 /* -------------------------------------------------------------------------------- */
-function doNothing() {
-}
-
-/* -------------------------------------------------------------------------------- */
 function clearMap() {
 	clearOverlays();
 	clearMarkerArray();
@@ -935,18 +864,6 @@ function clearOutBoundMarkers() {
       markerArray = [];
 	}
 }
-
-/* -------------------------------------------------------------------------------- */
-function changePorts()
-{}
-
-/* -------------------------------------------------------------------------------- */
-function changeStations()
-{}
-
-/* -------------------------------------------------------------------------------- */
-function changeLights()
-{}
 
 /* -------------------------------------------------------------------------------- */
 function toggleRadarLayer() {
@@ -1018,11 +935,11 @@ function showKML() {
 /* -------------------------------------------------------------------------------- */
 function togglePortLayer() {
    if (document.getElementById("PortLayer").checked) {
-      Port = true;
+      Ports = true;
       showPorts();
    }
    else {
-      Port = false;
+      Ports = false;
       hidePorts();
    }
 }
@@ -1091,37 +1008,6 @@ function showPorts() {
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 
       }); //end .fail()
-
-      /*
-var cloudLayer = new google.maps.weather.CloudLayer();
-cloudLayer.setMap(map);
-*/
-   
-      /*
-var styles = [
-  {
-    stylers: [
-      { hue: "#084B8A" },
-      { saturation: -2 }
-    ]
-  },{
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [
-      { lightness: 100 },
-      { visibility: "simplified" }
-    ]
-  },{
-    featureType: "road",
-    elementType: "labels",
-    stylers: [
-      { visibility: "off" }
-    ]
-  }
-];
-
-map.setOptions({styles: styles});
-*/
 }
 
 /* -------------------------------------------------------------------------------- */
