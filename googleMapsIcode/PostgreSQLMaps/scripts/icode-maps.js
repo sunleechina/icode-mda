@@ -167,11 +167,13 @@ function initialize() {
    }
 
    //KML overlay layer
-   if (KML) {
+   if (document.getElementById("KMLLayer").checked) {
+      KML = true;
       showKML();
    }
 
-   if (Ports) {
+   if (document.getElementById("PortLayer").checked) {
+      Ports = true;
       showPorts();
    }
 }
@@ -862,7 +864,7 @@ function clearOutBoundMarkers() {
          markerArray[i] = null;
 		}
 		markerArray.length = 0;
-      markerArray = [];
+         markerArray = [];
 	}
 }
 
@@ -885,10 +887,18 @@ function toggleKMLLayer() {
       showKML();
    }
    else {
+      //Delete the KML layer
       KML = false;
-      //TODO: hide KML layer not working yet
-      //kmlparser.hideDocument('kml/tsx.kml');
-      kmlparser.hideDocument(kmlparser.docs);
+      //kmlparser.hideDocument(kmlparser.docs);
+      if (kmlparser.docs) {
+         for (var i in kmlparser.docs[0].markers) {
+            kmlparser.docs[0].markers[i].setMap(null);
+         }
+         kmlparser.docs[0].markers = [];
+         kmlparser.docs[0].overlays[0].setMap(null);
+         kmlparser.docs[0].overlays[0] = null;
+         kmlparser.docs[0] = null;
+      }
    }
 }
 
@@ -902,14 +912,15 @@ function showKML() {
       //createMarker:      addMyMarker, //custom create marker caller
       singleInfoWindow:  true,
    });
-//    myParser.parse('kml/sandiego.kml');
-//    myParser.parse('kml/ghana.kml');
-//    myParser.parse('kml/ghana.kmz');
-//    myParser.parse('kml/ghanasmall.kmz');
-//    myParser.parse('kml/tsxtestzip.kmz');
-//    myParser.parse('kml/ghanatestzip.kmz');
-   kmlparser.parse('kml/tsx.kml');
-//    myParser.parse('kml/usa-ca-sf.kmz');
+//    kmlparser.parse('kml/sandiego.kml');
+    kmlparser.parse('kml/ghana.kml');
+
+//    kmlparser.parse('kml/ghana.kmz');
+//    kmlparser.parse('kml/ghanasmall.kmz');
+//    kmlparser.parse('kml/tsxtestzip.kmz');
+//    kmlparser.parse('kml/ghanatestzip.kmz');
+//   kmlparser.parse('kml/tsx.kml');
+//    kmlparser.parse('kml/usa-ca-sf.kmz');
 
    /*
    function addMyMarker(placemark) {

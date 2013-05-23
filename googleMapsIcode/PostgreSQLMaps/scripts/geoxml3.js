@@ -281,7 +281,8 @@ geoXML3.parser = function (options) {
 
             if (!doc.internals.parserOnly) {
                // geoXML3 is not being used only as a real-time parser, so keep the parsed documents around
-               docs.concat(doc.internals.docSet);
+               //docs.concat(doc.internals.docSet);
+               docs.push(doc);
             }
          }
       }
@@ -419,7 +420,6 @@ geoXML3.parser = function (options) {
 
       options: parserOptions,
          docs:    docs,
-
          parse:         parse,
          hideDocument:  hideDocument,
          showDocument:  showDocument,
