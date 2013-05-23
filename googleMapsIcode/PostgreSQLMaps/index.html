@@ -21,6 +21,7 @@
 
      <script type="text/javascript" src="scripts/jQueryRotate.2.2.js"></script>
      <script type="text/javascript" src="scripts/jquery.activity-indicator-1.0.0.js"></script>
+
      <script>
         $(function() {
            $('#busy_indicator').activity({segments: 8, steps: 3, opacity: 0.3, width: 4, space: 0, length: 5, color: '#fff', speed: 2.0});
@@ -52,7 +53,7 @@
 
            <div id="layer_types">
               <hr>
-              <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" checked="checked" onclick="toggleRadarLayer();"> <img align="top" width="20px" src="icons/radar.png" style="padding-bottom: 4px; vertical-align: middle;"> RADAR Contacts<br>
+              <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" checked="checked" onclick="toggleRadarLayer();"> <img align="top" src="icons/pink0.png" style="padding-bottom: 4px; vertical-align: middle;"> RADAR Contacts<br>
               <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> LAISIC Fused Tracks (soon)<br>
               <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" checked="checked" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> LAISIC AIS Tracks<br>
               <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" checked="checked" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> LAISIC RADAR Tracks<br>
@@ -60,6 +61,7 @@
               <input class="checkbox" id="HeatmapLayer" name="HeatmapLayer" type="checkbox" onclick="toggleHeatmapLayer();"> <img align="top" width="20px" src="icons/heatmap.png" style="padding-bottom: 4px; vertical-align: middle;"> Heatmap Layer<br>
               <input class="checkbox" id="WeatherLayer" name="WeatherLayer" type="checkbox" onclick="toggleWeatherLayer();"> <img align="top" width="20px" src="icons/weather_icon.png" style="padding-bottom: 4px; vertical-align: middle;"> Weather Layer<br>
               <input class="checkbox" id="KMLLayer" name="KMLLayer" type="checkbox" onclick="toggleKMLLayer();"> <img align="top" width="20px" src="icons/kml.png" style="padding-bottom: 4px; vertical-align: middle;"> KML Layer<br>
+              <input class="checkbox" id="PortLayer" name="PortLayer" type="checkbox" onclick="togglePortLayer();"> <img align="top" height="20px" src="icons/anchor_port.png" style="padding-bottom: 4px; vertical-align: middle;"> Port Layer<br>
               </p>
            </div>
 
@@ -139,7 +141,7 @@
 
      <div id="status-msg">
         <!-- NEW! Try keyword search, i.e. "Lome", "radar", "queen", etc -->
-        Currently showing RADAR, LAISIC AIS track, and raw full AIS for 2013-04-25
+        Currently showing RADAR and raw full AIS for 2013-05-21
      </div>
 
   </body>

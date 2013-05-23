@@ -66,6 +66,7 @@ var wmsOptions = {
 var selectedShape;
 //KML objects
 var KML = false;
+var kmlparser;
 //Port objects
 var Ports = false;
 var portIcons = [];
@@ -886,17 +887,21 @@ function toggleKMLLayer() {
    else {
       KML = false;
       //TODO: hide KML layer not working yet
-      var kmlparser = new geoXML3.parser({map: map});
+      //kmlparser.hideDocument('kml/tsx.kml');
       kmlparser.hideDocument(kmlparser.docs);
    }
 }
 
 /* -------------------------------------------------------------------------------- */
 function showKML() {
-//TODO: Attempting to unzip KMZ files --------------------------
+   //TODO: Attempting to unzip KMZ files --------------------------
 //   zip.workerScriptsPath = "lib/";
 
-   var kmlparser = new geoXML3.parser({map: map});
+   kmlparser = new geoXML3.parser({
+      map:               map,
+      //createMarker:      addMyMarker, //custom create marker caller
+      singleInfoWindow:  true,
+   });
 //    myParser.parse('kml/sandiego.kml');
 //    myParser.parse('kml/ghana.kml');
 //    myParser.parse('kml/ghana.kmz');
@@ -905,6 +910,12 @@ function showKML() {
 //    myParser.parse('kml/ghanatestzip.kmz');
    kmlparser.parse('kml/tsx.kml');
 //    myParser.parse('kml/usa-ca-sf.kmz');
+
+   /*
+   function addMyMarker(placemark) {
+      kmlparser.createMarker(placemark);
+   };
+   */
 
 /*
    var extractCallback = function(id, sz) {
