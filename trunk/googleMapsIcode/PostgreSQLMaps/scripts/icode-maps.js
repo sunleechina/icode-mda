@@ -67,6 +67,7 @@ var selectedShape;
 //KML objects
 var KML = false;
 var kmlparser;
+var tempKMLcount = 0;
 //Port objects
 var Ports = false;
 var portIcons = [];
@@ -176,6 +177,7 @@ function initialize() {
       Ports = true;
       showPorts();
    }
+
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -883,6 +885,7 @@ function toggleRadarLayer() {
 /* -------------------------------------------------------------------------------- */
 function toggleKMLLayer() {
    if (document.getElementById("KMLLayer").checked) {
+   tempKMLcount++;
       KML = true;
       showKML();
    }
@@ -899,6 +902,9 @@ function toggleKMLLayer() {
          kmlparser.docs[0].overlays[0] = null;
          kmlparser.docs[0] = null;
       }
+      //Delete the opacity slider control
+      //TODO: make sure to pop the correct object
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].pop();
    }
 }
 
@@ -913,20 +919,16 @@ function showKML() {
       singleInfoWindow:  true,
    });
 //    kmlparser.parse('kml/sandiego.kml');
-    kmlparser.parse('kml/ghana.kml');
-
 //    kmlparser.parse('kml/ghana.kmz');
 //    kmlparser.parse('kml/ghanasmall.kmz');
 //    kmlparser.parse('kml/tsxtestzip.kmz');
 //    kmlparser.parse('kml/ghanatestzip.kmz');
-//   kmlparser.parse('kml/tsx.kml');
 //    kmlparser.parse('kml/usa-ca-sf.kmz');
 
-   /*
-   function addMyMarker(placemark) {
-      kmlparser.createMarker(placemark);
-   };
-   */
+   if (tempKMLcount % 2)
+      kmlparser.parse('kml/tsx.kml');
+   else
+      kmlparser.parse('kml/ghana.kml');
 
 /*
    var extractCallback = function(id, sz) {

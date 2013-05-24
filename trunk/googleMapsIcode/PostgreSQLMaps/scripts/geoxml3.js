@@ -273,7 +273,7 @@ geoXML3.parser = function (options) {
 
             // Options that get invoked after parsing completes
             if (!!doc.internals.bounds) {
-               parserOptions.map.fitBounds(doc.internals.bounds); 
+               parserOptions.map.fitBounds(doc.internals.bounds);
             }
             if (parserOptions.afterParse) {
                parserOptions.afterParse(doc.internals.docSet);
@@ -286,6 +286,8 @@ geoXML3.parser = function (options) {
             }
          }
       }
+      
+      createOpacityControl(map, 50);
    };
 
    //============================================================================
@@ -344,7 +346,7 @@ geoXML3.parser = function (options) {
              strokeColor: '#FF0000',
              fillColor:   '#000000',
              fillOpacity: 1,
-             scale:       3,
+             scale:       4,
           },
           //shadow:   placemark.style.shadow 
           flat:     true,
@@ -414,12 +416,91 @@ geoXML3.parser = function (options) {
       return 
    };
 
+
+// Opacity slider control --------------------------------------------------------------
+// Source: https://github.com/gavinharriss/google-maps-v3-opacity-control
+/*******************************************************************************
+  Copyright (c) 2010-2012. Gavin Harriss
+  Site: http://www.gavinharriss.com/
+  Originally developed for: http://www.topomap.co.nz/
+
+  Licences: Creative Commons Attribution 3.0 New Zealand License
+  http://creativecommons.org/licenses/by/3.0/nz/
+ ******************************************************************************/
+   var OPACITY_MAX_PIXELS = 57;
+   function createOpacityControl(map, opacity) {
+      var sliderImageUrl = "icons/opacity-slider3d7.png";
+
+      // Create main div to hold the control.
+      var opacityDiv = document.createElement('DIV');
+      opacityDiv.setAttribute("style", "margin:5px;overflow-x:hidden;overflow-y:hidden;background:url(" + sliderImageUrl + ") no-repeat;width:71px;height:21px;cursor:pointer;");
+      opacityDiv.setAttribute("title","Change transparency of image overlay")
+
+      // Create knob
+      var opacityKnobDiv = document.createElement('DIV');
+      opacityKnobDiv.setAttribute("style", "padding:0;margin:0;overflow-x:hidden;overflow-y:hidden;background:url(" + sliderImageUrl + ") no-repeat -71px 0;width:14px;height:21px;");
+      opacityDiv.appendChild(opacityKnobDiv);
+
+      var opacityCtrlKnob = new ExtDraggableObject(opacityKnobDiv, {
+         restrictY: true,
+         container: opacityDiv
+      });
+
+      google.maps.event.addListener(opacityCtrlKnob, "dragend", function () {
+         setOpacity(opacityCtrlKnob.valueX());
+      });
+
+      google.maps.event.addDomListener(opacityDiv, "click", function (e) {
+         var left = findPosLeft(this);
+         var x = e.pageX - left - 5; // - 5 as we're using a margin of 5px on the div
+         opacityCtrlKnob.setValueX(x);
+         setOpacity(x);
+      });
+
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(opacityDiv);
+
+      // Set initial value
+      var initialValue = OPACITY_MAX_PIXELS / (100 / opacity);
+      opacityCtrlKnob.setValueX(initialValue);
+      setOpacity(initialValue);
+   }
+
+   function setOpacity(pixelX) {
+      var overlay = docs[0].overlays[0];
+      // Range = 0 to OPACITY_MAX_PIXELS
+      var value = (100 / OPACITY_MAX_PIXELS) * pixelX;
+      if (value < 0) value = 0;
+      if (value == 0) {
+         overlay.setOpacity(value);
+         if (overlay.visible == true) {
+            overlay.hide();
+         }
+      }
+      else {
+         overlay.setOpacity(value);
+         if (overlay.visible == false) {
+            overlay.show();
+         }
+      }
+   }
+
+   function findPosLeft(obj) {
+      var curleft = 0;
+      if (obj.offsetParent) {
+         do {
+            curleft += obj.offsetLeft;
+         } while (obj = obj.offsetParent);
+         return curleft;
+      }
+      return undefined;
+   }
+
    //============================================================================
    return {
       // Expose some properties and methods
 
       options: parserOptions,
-         docs:    docs,
+      docs:    docs,
          parse:         parse,
          hideDocument:  hideDocument,
          showDocument:  showDocument,
