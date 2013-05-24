@@ -10,6 +10,8 @@
  ******************************************************************************/
 var closest = null;
 var closest_index = null;
+var mapLabel;
+
 function createTrackTimeControl(map, initial, track, trackIcons) {
    var sliderImageUrl = "icons/trackTime-slider.png";
 
@@ -28,13 +30,30 @@ function createTrackTimeControl(map, initial, track, trackIcons) {
        container: trackTimeDiv
    });
 
+
+   //Create the text label once for this track
+   mapLabel = new MapLabel({
+          text: 'dummy',
+          //position: new google.maps.LatLng(5.9,1.30),
+          map: map,
+          fontSize: 14,
+          align: 'left'
+      });
+
+
+   //Add listeners
    google.maps.event.addListener(trackTimeCtrlKnob, "drag", function () {
       setTrackTime(trackTimeCtrlKnob.valueX(), track, trackIcons);
       //Update the closest icon
       setClosestMarker(track, trackIcons);
+
+      //Handle the case where user clicks then drags mouse off slider
+      google.maps.event.addListener(map, "mouseup", function (e) {
+         clearClosestMarker(track, trackIcons);
+      });
    });
 
-   google.maps.event.addDomListener(trackTimeDiv, "click", function (e) {
+   google.maps.event.addDomListener(trackTimeDiv, "mousedown", function (e) {
       var left = findPosLeft(this);
       var x = e.pageX - left - 5; // - 5 as we're using a margin of 5px on the div
       trackTimeCtrlKnob.setValueX(x);
@@ -44,12 +63,10 @@ function createTrackTimeControl(map, initial, track, trackIcons) {
    });
 
    google.maps.event.addDomListener(trackTimeDiv, "mouseover", function (e) {
-      //Display the history marker
       setClosestMarker(track, trackIcons);
    });
 
    google.maps.event.addDomListener(trackTimeDiv, "mouseout", function (e) {
-      //Display the history marker
       clearClosestMarker(track, trackIcons);
    });
 
@@ -74,12 +91,22 @@ function setClosestMarker(track, trackIcons) {
          fillOpacity: 0.6,
          rotation:    track[closest_index].true_heading
       });
+      
+      mapLabel.set('text', toHumanTime(track[closest_index].datetime));
+      mapLabel.set('map', map);
+      
+      //mapLabel.bindTo('map', trackIcons[closest_index]);
+      mapLabel.bindTo('position', trackIcons[closest_index]);
+
+      //trackIcons[closest_index].bindTo('map', mapLabel);
+      //trackIcons[closest_index].bindTo('position', mapLabel);
    }
 }
 
 function clearClosestMarker(track, trackIcons) {
    if (closest != null && closest_index != null) {
       trackIcons[closest_index].setIcon(tracklineIconsOptions);
+      mapLabel.setMap(null);
    }
 }
 
@@ -108,7 +135,12 @@ function setTrackTime(pixelX, track, trackIcons) {
          closest = parseInt(track[i].datetime);
          closest_index = i;
       }
+
+      //Clear previously drawn marker and label
       trackIcons[i].setIcon(tracklineIconsOptions);
+      if (mapLabel != null) {
+         mapLabel.setMap(null);
+      }
    }
 
    //console.log('Closest node time: ' + closest);
