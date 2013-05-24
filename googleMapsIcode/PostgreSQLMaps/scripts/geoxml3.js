@@ -287,7 +287,7 @@ geoXML3.parser = function (options) {
          }
       }
       
-      createOpacityControl(map, 50);
+      createKMLOpacityControl(map, 50);
    };
 
    //============================================================================
@@ -428,7 +428,7 @@ geoXML3.parser = function (options) {
   http://creativecommons.org/licenses/by/3.0/nz/
  ******************************************************************************/
    var OPACITY_MAX_PIXELS = 57;
-   function createOpacityControl(map, opacity) {
+   function createKMLOpacityControl(map, opacity) {
       var sliderImageUrl = "icons/opacity-slider3d7.png";
 
       // Create main div to hold the control.
@@ -446,7 +446,7 @@ geoXML3.parser = function (options) {
          container: opacityDiv
       });
 
-      google.maps.event.addListener(opacityCtrlKnob, "dragend", function () {
+      google.maps.event.addListener(opacityCtrlKnob, "drag", function () {
          setOpacity(opacityCtrlKnob.valueX());
       });
 
