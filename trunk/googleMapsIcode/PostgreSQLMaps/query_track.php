@@ -31,14 +31,14 @@ if (!$connection) {
 //Query statement
 if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track") {
    //$query = "SELECT mmsi, lon, lat, datetime FROM aistrack_20130425_backup A WHERE lon != -999 and mmsi = ";
-   $query = "SELECT mmsi, lon, lat, datetime FROM aistrack_20130425_backup2 A WHERE lon != -999 and mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading FROM aistrack_20130425_backup2 A WHERE lon != -999 and mmsi = ";
 }
 else if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "shore-radar") {
-   //$query = "SELECT mmsi, lon, lat, datetime FROM radar_20130521 A WHERE mmsi = ";
-   $query = "SELECT mmsi, lon, lat, datetime FROM simradar_20130521 A WHERE mmsi = ";
+   //$query = "SELECT mmsi, lon, lat, datetime, true_heading FROM radar_20130521 A WHERE mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading FROM radar_20130521 A WHERE mmsi = ";
 }
 else {
-   $query = "SELECT mmsi, lon, lat, datetime FROM ter_20130521 A WHERE lon != -999 and mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading FROM ter_20130521 A WHERE lon != -999 and mmsi = ";
 }
 
 //Count the number of arguments
@@ -104,7 +104,8 @@ while (odbc_fetch_row($result)){
    $vessel = array(mmsi=>odbc_result($result,"mmsi"),
                    lat=>addslashes(odbc_result($result,"lat")),
                    lon=>addslashes(odbc_result($result,"lon")),
-                   datetime=>odbc_result($result,"datetime")
+                   datetime=>odbc_result($result,"datetime"),
+                   true_heading=>odbc_result($result,"true_heading")
    );
    array_push($vesselarray, $vessel);
 }

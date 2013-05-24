@@ -94,7 +94,8 @@ function initialize() {
    //Set up map properties
    //var centerCoord = new google.maps.LatLng(0,0);
    //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
-   var centerCoord = new google.maps.LatLng(6.06,1.30);   //Lome, Togo
+   //var centerCoord = new google.maps.LatLng(6.06,1.30);   //Lome, Togo
+   var centerCoord = new google.maps.LatLng(5.9,1.30);   //Lome, Togo
 
    var mapOptions = {
       //zoom:              5,
@@ -177,7 +178,6 @@ function initialize() {
       Ports = true;
       showPorts();
    }
-
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -534,19 +534,25 @@ function getTrack(mmsi, vesseltypeint, streamid) {
          console.debug('GETTRACK(): ' + 'track size = ' + response.resultcount);
 
          var track = new Array();
-         var trackIcons = new Array(response.resultcount);
+         var trackPath = new Array();
+         var trackTime = new Array();
+         var trackIcons = new Array();
 
          $.each(response.vessels, function(key,vessel) {
+            track.push(vessel);
+
             var mmsi = vessel.mmsi;
             var lat = vessel.lat
             var lon = vessel.lon;
             var datetime = vessel.datetime;
+            var true_heading= vessel.true_heading;
 
-            track[key] = new google.maps.LatLng(lat, lon);
+            trackPath[key] = new google.maps.LatLng(lat, lon);
+            trackTime[key] = datetime;
             var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
-            tracklineIcon.setPosition(track[key]);
+            tracklineIcon.setPosition(trackPath[key]);
             tracklineIcon.setMap(map);
-            tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon);
+            tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading);
 
             google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
                clearTrack(trackline, trackIcons);
@@ -562,7 +568,7 @@ function getTrack(mmsi, vesseltypeint, streamid) {
          };
 
          trackline.setOptions(tracklineOptions);
-         trackline.setPath(track);
+         trackline.setPath(trackPath);
          trackline.setMap(map);
 
          google.maps.event.addListener(trackline, 'rightclick', function() {
@@ -571,6 +577,10 @@ function getTrack(mmsi, vesseltypeint, streamid) {
 
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
+
+         //Set up track time slider
+         createTrackTimeControl(map, 251, track, trackIcons);
+
       }) //end .done()
       .fail(function() { 
          console.debug('GETTRACK(): ' +  'No response from track query; error in php?'); 
