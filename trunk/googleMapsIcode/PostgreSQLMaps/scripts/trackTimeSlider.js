@@ -8,13 +8,15 @@
   Licences: Creative Commons Attribution 3.0 New Zealand License
   http://creativecommons.org/licenses/by/3.0/nz/
  ******************************************************************************/
+var closest = null;
+var closest_index = null;
 function createTrackTimeControl(map, initial, track, trackIcons) {
    var sliderImageUrl = "icons/trackTime-slider.png";
 
    // Create main div to hold the control.
    var trackTimeDiv = document.createElement('DIV');
    trackTimeDiv.setAttribute("style", "margin:5px;overflow-x:hidden;overflow-y:hidden;background:url(" + sliderImageUrl + ") no-repeat;width:265px;height:21px;cursor:pointer;");
-   trackTimeDiv.setAttribute("title","Change transparency of image overlay")
+   trackTimeDiv.setAttribute("title","view vessel history")
 
       // Create knob
       var trackTimeKnobDiv = document.createElement('DIV');
@@ -28,6 +30,8 @@ function createTrackTimeControl(map, initial, track, trackIcons) {
 
    google.maps.event.addListener(trackTimeCtrlKnob, "drag", function () {
       setTrackTime(trackTimeCtrlKnob.valueX(), track, trackIcons);
+      //Update the closest icon
+      setClosestMarker(track, trackIcons);
    });
 
    google.maps.event.addDomListener(trackTimeDiv, "click", function (e) {
@@ -35,14 +39,48 @@ function createTrackTimeControl(map, initial, track, trackIcons) {
       var x = e.pageX - left - 5; // - 5 as we're using a margin of 5px on the div
       trackTimeCtrlKnob.setValueX(x);
       setTrackTime(x, track, trackIcons);
+      //Update the closest icon
+      setClosestMarker(track, trackIcons);
    });
 
+   google.maps.event.addDomListener(trackTimeDiv, "mouseover", function (e) {
+      //Display the history marker
+      setClosestMarker(track, trackIcons);
+   });
+
+   google.maps.event.addDomListener(trackTimeDiv, "mouseout", function (e) {
+      //Display the history marker
+      clearClosestMarker(track, trackIcons);
+   });
+
+   //Check if previous track slider already exists
+   if (map.controls[google.maps.ControlPosition.BOTTOM_CENTER].length != 0) {
+      map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
+   }
    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(trackTimeDiv);
 
    // Set initial value
    var initialValue = initial;
    trackTimeCtrlKnob.setValueX(initialValue);
    setTrackTime(initialValue, track, trackIcons);
+}
+
+function setClosestMarker(track, trackIcons) {
+   if (closest != null && closest_index != null) {
+      trackIcons[closest_index].setIcon({
+         path:        'M 0,8 4,8 0,-8 -4,8 z',
+         strokeColor: '#505050',
+         fillColor:   '#505050',
+         fillOpacity: 0.6,
+         rotation:    track[closest_index].true_heading
+      });
+   }
+}
+
+function clearClosestMarker(track, trackIcons) {
+   if (closest != null && closest_index != null) {
+      trackIcons[closest_index].setIcon(tracklineIconsOptions);
+   }
 }
 
 function setTrackTime(pixelX, track, trackIcons) {
@@ -63,9 +101,7 @@ function setTrackTime(pixelX, track, trackIcons) {
    //console.log('Current slider value: ' + Math.round(minTime + pixelX*scale));
    //console.log(trackIcons.length);
 
-   var closest = null;
    var goal = Math.round(minTime + pixelX*scale);
-   var closest_index;
    for (var i=0; i < track.length; i++) {
       //console.log(i + ' : ' + track[i].datetime);
       if (closest == null || Math.abs(parseInt(track[i].datetime) - goal) < Math.abs(closest - goal)) {
@@ -77,15 +113,6 @@ function setTrackTime(pixelX, track, trackIcons) {
 
    //console.log('Closest node time: ' + closest);
    //console.log('Closest node index: ' + closest_index);
-
-   //Update the closest icon
-   trackIcons[closest_index].setIcon({
-                     path:        'M 0,8 4,8 0,-8 -4,8 z',
-                     strokeColor: '#505050',
-                     fillColor:   '#505050',
-                     fillOpacity: 0.6,
-                     rotation:    track[closest_index].true_heading
-                  });
 }
 
 function findPosLeft(obj) {
