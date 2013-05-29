@@ -18,16 +18,16 @@ function createTrackTimeControl(map, initial, track, trackIcons) {
    // Create main div to hold the control.
    var trackTimeDiv = document.createElement('DIV');
    trackTimeDiv.setAttribute("style", "margin:5px;overflow-x:hidden;overflow-y:hidden;background:url(" + sliderImageUrl + ") no-repeat;width:265px;height:21px;cursor:pointer;");
-   trackTimeDiv.setAttribute("title","view vessel history")
+   trackTimeDiv.setAttribute("title","view vessel history");
 
-      // Create knob
-      var trackTimeKnobDiv = document.createElement('DIV');
+   // Create knob
+   var trackTimeKnobDiv = document.createElement('DIV');
    trackTimeKnobDiv.setAttribute("style", "padding:0;margin:0;overflow-x:hidden;overflow-y:hidden;background:url(" + sliderImageUrl + ") no-repeat -265px 0;width:14px;height:21px;");
    trackTimeDiv.appendChild(trackTimeKnobDiv);
 
    var trackTimeCtrlKnob = new ExtDraggableObject(trackTimeKnobDiv, {
       restrictY: true,
-       container: trackTimeDiv
+      container: trackTimeDiv
    });
 
 
@@ -71,15 +71,19 @@ function createTrackTimeControl(map, initial, track, trackIcons) {
    });
 
    //Check if previous track slider already exists
-   if (map.controls[google.maps.ControlPosition.BOTTOM_CENTER].length != 0) {
-      map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
-   }
+   deleteTrackTimeControl();
    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(trackTimeDiv);
 
    // Set initial value
    var initialValue = initial;
    trackTimeCtrlKnob.setValueX(initialValue);
    setTrackTime(initialValue, track, trackIcons);
+}
+
+function deleteTrackTimeControl() {
+   if (map.controls[google.maps.ControlPosition.BOTTOM_CENTER].length != 0) {
+      map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
+   }
 }
 
 function setClosestMarker(track, trackIcons) {
