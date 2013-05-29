@@ -216,6 +216,7 @@ function clearTrack(trackline, trackIcons) {
          trackIcon = trackIcons.pop();
          trackIcon.setMap(null);
       }
+      deleteTrackTimeControl();
    }
 }
 
