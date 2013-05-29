@@ -573,7 +573,7 @@ function getTrack(mmsi, vesseltypeint, streamid) {
          trackline.setMap(map);
 
          //Set up track time slider
-         //createTrackTimeControl(map, 251, track, trackIcons);
+         createTrackTimeControl(map, 251, track, trackIcons);
 
          //Add listener to delete track if right click on track line 
          google.maps.event.addListener(trackline, 'rightclick', function() {
