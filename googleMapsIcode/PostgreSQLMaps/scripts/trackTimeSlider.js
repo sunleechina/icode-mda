@@ -129,17 +129,20 @@ function setTrackTime(pixelX, track, trackIcons) {
    //console.log(trackIcons.length);
 
    var goal = Math.round(minTime + pixelX*scale);
+
+   //Clear previously drawn marker and label
+   if (closest != null && closest_index != null) {
+      trackIcons[closest_index].setIcon(tracklineIconsOptions);
+      if (mapLabel != null) {
+         mapLabel.setMap(null);
+      }
+   }
+
    for (var i=0; i < track.length; i++) {
       //console.log(i + ' : ' + track[i].datetime);
       if (closest == null || Math.abs(parseInt(track[i].datetime) - goal) < Math.abs(closest - goal)) {
          closest = parseInt(track[i].datetime);
          closest_index = i;
-      }
-
-      //Clear previously drawn marker and label
-      trackIcons[i].setIcon(tracklineIconsOptions);
-      if (mapLabel != null) {
-         mapLabel.setMap(null);
       }
    }
 

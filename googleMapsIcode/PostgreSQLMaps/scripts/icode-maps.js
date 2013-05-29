@@ -31,7 +31,7 @@ var mcOptions = {
             };
 //Track line options
 var tracklineIconsOptions = {
-               path:          'M -1,0 0,-1 1,0 0,1 z',
+               path:          'M -2,0 0,-2 2,0 0,2 z',
                strokeColor:   '#FFFFFF',
                fillColor:     '#FFFFFF',
                //strokeColor:   '#F00',
@@ -94,12 +94,12 @@ function initialize() {
    //Set up map properties
    //var centerCoord = new google.maps.LatLng(0,0);
    //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
-   //var centerCoord = new google.maps.LatLng(6.06,1.30);   //Lome, Togo
-   var centerCoord = new google.maps.LatLng(5.9,1.30);   //Lome, Togo
+   var centerCoord = new google.maps.LatLng(6.0,1.30);   //Lome, Togo
+   //var centerCoord = new google.maps.LatLng(5.9,1.30);   //Lome, Togo
 
    var mapOptions = {
       //zoom:              5,
-      zoom:              12,
+      zoom:              11,
       center:            centerCoord,
       scaleControl:      true,
       streetViewControl: false,
@@ -210,12 +210,12 @@ function clearTrack(trackline, trackIcons) {
    if (trackline != null && trackIcons != null) {
       trackline.setMap(null);
       trackline = null;
-      for (var i=0; i < trackIcons.length; i++) {
-         var trackIcon = trackIcons.pop()
-            trackIcon.setMap(null);
-         trackIcon = null;
+      var trackIcon;
+      console.log('Deleting track and ' + trackIcons.length + ' track icons.');
+      while (trackIcons.length > 0) {
+         trackIcon = trackIcons.pop();
+         trackIcon.setMap(null);
       }
-      trackIcons = [];
    }
 }
 
@@ -513,8 +513,6 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
  * Function to get track from track query PHP script
  */
 function getTrack(mmsi, vesseltypeint, streamid) {
-//   clearTrack();
-
    document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
    document.getElementById('stats_nav').innerHTML = '';
    document.getElementById('busy_indicator').style.visibility = 'visible';
@@ -538,6 +536,7 @@ function getTrack(mmsi, vesseltypeint, streamid) {
          var trackTime = new Array();
          var trackIcons = new Array();
 
+         //Loop through each time point of the same vessel
          $.each(response.vessels, function(key,vessel) {
             track.push(vessel);
 
@@ -549,16 +548,18 @@ function getTrack(mmsi, vesseltypeint, streamid) {
 
             trackPath[key] = new google.maps.LatLng(lat, lon);
             trackTime[key] = datetime;
+
             var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
             tracklineIcon.setPosition(trackPath[key]);
             tracklineIcon.setMap(map);
             tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading);
 
+            trackIcons.push(tracklineIcon);
+
+            //Add listener to delete track if right click on icon
             google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
                clearTrack(trackline, trackIcons);
             });
-
-            trackIcons.push(tracklineIcon);
          });
 
          var tracklineOptions = {
@@ -571,16 +572,16 @@ function getTrack(mmsi, vesseltypeint, streamid) {
          trackline.setPath(trackPath);
          trackline.setMap(map);
 
+         //Set up track time slider
+         //createTrackTimeControl(map, 251, track, trackIcons);
+
+         //Add listener to delete track if right click on track line 
          google.maps.event.addListener(trackline, 'rightclick', function() {
             clearTrack(trackline, trackIcons);
          });
 
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
-
-         //Set up track time slider
-         createTrackTimeControl(map, 251, track, trackIcons);
-
       }) //end .done()
       .fail(function() { 
          console.debug('GETTRACK(): ' +  'No response from track query; error in php?'); 
@@ -1235,6 +1236,15 @@ function setMapCenterToCenterOfMass(map, tips) {
 
 /* -------------------------------------------------------------------------------- */
 function addDistanceTool() {
+   //Distance label
+   mapLabel = new MapLabel({
+            text: 'dummy',
+            //position: new google.maps.LatLng(5.9,1.30),
+            map: map,
+            fontSize: 14,
+            align: 'left'
+   });
+
    google.maps.event.addListener(map,'rightclick',function(event) {
       prevlatLng = latLng;
       latLng = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
@@ -1258,9 +1268,14 @@ function addDistanceTool() {
             path:          [prevlatLng, latLng],
             strokeColor:   "#04B4AE",
             strokeOpacity: 1.0,
-            strokeWeight:  2,
+            strokeWeight:  5,
          });
          console.debug('Distance between two clicks: ' + Math.round(dist*100)/100 + ' meters');
+
+         //Set distance label
+         mapLabel.set('text', Math.round((dist/1000)*1000)/1000 + ' km (' + Math.round((dist/1000)/1.852*1000)/1000 + ' nm)');
+         mapLabel.set('map', map);
+         mapLabel.bindTo('position', distIcon);
 
          google.maps.event.addListener(distPath,'click',function() {
             deleteDistTool();
@@ -1290,6 +1305,7 @@ function addDistanceTool() {
             prevdistIcon = null;
             prevlatLng = null;
             latLng = null;
+            mapLabel.set('map', null);
          }
       }
    });
