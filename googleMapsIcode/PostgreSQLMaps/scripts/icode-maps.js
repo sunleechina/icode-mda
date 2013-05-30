@@ -635,7 +635,7 @@ function typeSelectUpdated() {
    var entered_query = mainQuery;
 
    if ($.inArray(999, types) == -1) {
-      entered_query = entered_query + " AND vesseltypeint in (";
+      entered_query = entered_query + " AND vesseltypeint IN (";
    
       for (var i=0; i < types.length; i++) {
          entered_query = entered_query + types[i];
@@ -648,20 +648,6 @@ function typeSelectUpdated() {
    else {
       getCurrentAISFromDB(map.getBounds(), null, true);
    }
-
-   var navTypes = getNavTypesSelected();
-   if (navTypes.length != 0) {
-      if (navTypes[0] == 1) {
-         entered_query = entered_query + " AND navstatus = 1";
-      }
-      else {
-         entered_query = entered_query + " AND navstatus != 1";
-      }
-   }
-
-   getCurrentAISFromDB(map.getBounds(), entered_query, true);
-
-	//refreshLayers();
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -692,22 +678,6 @@ function setAllTypesChecked() {
 }
 
 /* -------------------------------------------------------------------------------- */
-function getNavTypesSelected() {
-	var navTypes = [];
-
-   if (document.getElementById("Underway").checked != document.getElementById("Anchored").checked) {
-      if (document.getElementById("Anchored").checked) {
-         navTypes.push(1);
-      }
-      else {
-         navTypes.push(-1);
-      }
-   }
-
-   return navTypes;
-}
-
-/* -------------------------------------------------------------------------------- */
 function getTypesSelected() {
 	var types = [];
 
@@ -716,10 +686,8 @@ function getTypesSelected() {
    for (var i=0; i < checkboxtype.length; i++) {
       //If there are any unchecked types, then uncheck the "All Ships" checkbox as well
       if (checkboxtype[i].checked == false) {
-         console.log('asdfasdf');
          document.getElementById("All Ships").checked = false;
          document.getElementById("All Ships").removeAttribute('checked');
-         console.log('unchecked it');
       }
    }
 
@@ -800,8 +768,6 @@ function getTypesSelected() {
       document.getElementById("All Ships").checked = true;
       setAllTypesChecked();
    }
-
-   console.log(types);
 
    return types;
 }
