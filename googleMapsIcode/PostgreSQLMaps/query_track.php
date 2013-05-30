@@ -30,15 +30,13 @@ if (!$connection) {
 
 //Query statement
 if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track") {
-   //$query = "SELECT mmsi, lon, lat, datetime FROM aistrack_20130425_backup A WHERE lon != -999 and mmsi = ";
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading FROM aistrack_20130425_backup2 A WHERE lon != -999 and mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM aistrack_20130425_backup2 A WHERE lon != -999 and mmsi = ";
 }
 else if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "shore-radar") {
-   //$query = "SELECT mmsi, lon, lat, datetime, true_heading FROM radar_20130521 A WHERE mmsi = ";
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading FROM radar_20130521 A WHERE mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM radar_20130521 A WHERE mmsi = ";
 }
 else {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading FROM ter_20130521 A WHERE lon != -999 and mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM ter_20130521 A WHERE lon != -999 and mmsi = ";
 }
 
 //Count the number of arguments
@@ -93,7 +91,7 @@ header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
 // The JSON standard MIME header.
 header('Content-type: application/json');
 
-//echo json_encode(array(query => $query));
+//echo json_encode(array(query => $query));s
 // Iterate through the rows, printing XML nodes for each
 $count_results = 0;
 $vesselarray = array();
@@ -105,6 +103,8 @@ while (odbc_fetch_row($result)){
                    lat=>addslashes(odbc_result($result,"lat")),
                    lon=>addslashes(odbc_result($result,"lon")),
                    datetime=>odbc_result($result,"datetime"),
+                   sog=>odbc_result($result,"sog"),
+                   cog=>odbc_result($result,"cog"),
                    true_heading=>odbc_result($result,"true_heading")
    );
    array_push($vesselarray, $vessel);

@@ -440,9 +440,9 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
       });
       */
 
-      google.maps.event.addListener(infoBubble, 'mouseover', function() {
-         alert("mouse over infobubble");
-         window.clearTimeout(trackMouseoverTimeout);
+      //Close the infoBubble if user clicks outside of infoBubble area
+      google.maps.event.addListenerOnce(map, "click", function() {
+         infoBubble.setMap(null);
       });
    });
 
@@ -528,6 +528,8 @@ function getTrack(mmsi, vesseltypeint, streamid) {
                      var lat = vessel.lat;
                      var lon = vessel.lon;
                      var datetime = vessel.datetime;
+                     var sog = vessel.sog;
+                     var cog = vessel.cog;
                      var true_heading= vessel.true_heading;
 
                      trackPath[key] = new google.maps.LatLng(lat, lon);
@@ -535,7 +537,7 @@ function getTrack(mmsi, vesseltypeint, streamid) {
                      var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
                      tracklineIcon.setPosition(trackPath[key]);
                      tracklineIcon.setMap(map);
-                     tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading);
+                     tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog);
 
                      trackIcons.push(tracklineIcon);
 
@@ -552,15 +554,12 @@ function getTrack(mmsi, vesseltypeint, streamid) {
                   var tracklineOptions = {
                      strokeColor:   getIconColor(vesseltypeint, streamid), 
                      strokeOpacity: 0.7,
-                     strokeWeight:  3,
+                     strokeWeight:  4,
                   };
 
                   trackline.setOptions(tracklineOptions);
                   trackline.setPath(trackPath);
                   trackline.setMap(map);
-
-                  //Set up track time slider
-                  createTrackTimeControl(map, 251, trackHistory, trackIcons);
 
                   //Keep track of which MMSI has tracks displayed
                   tracksDisplayedMMSI.push(mmsi);
@@ -571,6 +570,9 @@ function getTrack(mmsi, vesseltypeint, streamid) {
                      trackIcons: trackIcons,
                   };
                   tracksDisplayed.push(track);
+
+                  //Set up track time slider
+                  createTrackTimeControl(map, 251, tracksDisplayed);
 
                   //Add listener to delete track if right click on track line 
                   google.maps.event.addListener(trackline, 'rightclick', function() {
