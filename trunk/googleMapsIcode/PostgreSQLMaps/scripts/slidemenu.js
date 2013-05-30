@@ -11,6 +11,13 @@ $(document).ready(function(){
    $('.checkbox').click( function(e) {
       e.stopPropagation();
    });
+   $('.checkboxtype').click( function(e) {
+      e.stopPropagation();
+   });
+   $('.checkboxallships').click( function(e) {
+      e.stopPropagation();
+   });
+
 
    $leftpanel.click(function() {
       togglePanel();

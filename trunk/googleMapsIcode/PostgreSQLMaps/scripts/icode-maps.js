@@ -13,7 +13,10 @@ var map;
 var markerArray;
 //var trackline;
 var trackArray;
+var tracksDisplayedMMSI = [];    //keep track of which MMSI's track is already displayed
+var tracksDisplayed = [];
 //var trackIcons;
+var mainQuery;
 
 //Viewing bounds objects
 var queryBounds;
@@ -181,46 +184,6 @@ function initialize() {
 }
 
 /* -------------------------------------------------------------------------------- */
-function enteredQuery() {
-   if (event.which == 13) {
-      var entered_query = document.getElementById("query_input").value;
-
-      //Trim white space
-      $.trim(entered_query);
-
-      //Create "startsWith" function
-      if (typeof String.prototype.startsWith != 'function') {
-         String.prototype.startsWith = function (str){
-            return this.indexOf(str) == 0;
-         };
-      }
-
-      //Use startsWith function to find the "SELECT" statement
-      if (entered_query.startsWith('SELECT')) {
-         getCurrentAISFromDB(map.getBounds(), entered_query, null);
-      }
-      else {
-         getCurrentAISFromDB(map.getBounds(), entered_query, null);
-      }
-   }
-}
-
-/* -------------------------------------------------------------------------------- */
-function clearTrack(trackline, trackIcons) {
-   if (trackline != null && trackIcons != null) {
-      trackline.setMap(null);
-      trackline = null;
-      var trackIcon;
-      console.log('Deleting track and ' + trackIcons.length + ' track icons.');
-      while (trackIcons.length > 0) {
-         trackIcon = trackIcons.pop();
-         trackIcon.setMap(null);
-      }
-      deleteTrackTimeControl();
-   }
-}
-
-/* -------------------------------------------------------------------------------- */
 /** 
  * Get AIS data from XML, which is from database, with bounds 
  */
@@ -307,6 +270,10 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          console.debug('getCurrentAISFromDB(): ' + response.query);
          //Show the query and put it in the form
          document.getElementById("query_input").value = response.query;
+
+         if (!customQuery) {
+            mainQuery = response.query;
+         }
 
          //Delete previous markers
          //TODO: update to clear only markers that are now out of bounds
@@ -510,86 +477,122 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
 }
 
 /* -------------------------------------------------------------------------------- */
+function clearTrack(trackline, trackIcons) {
+   if (trackline != null && trackIcons != null) {
+      trackline.setMap(null);
+      trackline = null;
+      var trackIcon;
+      console.debug('Deleting track and ' + trackIcons.length + ' track icons.');
+      while (trackIcons.length > 0) {
+         trackIcon = trackIcons.pop();
+         trackIcon.setMap(null);
+      }
+      deleteTrackTimeControl();
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
 /**
  * Function to get track from track query PHP script
  */
 function getTrack(mmsi, vesseltypeint, streamid) {
-   document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
-   document.getElementById('stats_nav').innerHTML = '';
-   document.getElementById('busy_indicator').style.visibility = 'visible';
-   var phpWithArg = "query_track.php?streamid=" + streamid + "&mmsi=" + mmsi;
-   //Debug query output
-   console.debug('GETTRACK(): ' + phpWithArg);
+   //Check if track is already displayed or not
+   if ($.inArray(mmsi, tracksDisplayedMMSI) == -1) {
+      document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
+      document.getElementById('stats_nav').innerHTML = '';
+      document.getElementById('busy_indicator').style.visibility = 'visible';
+      var phpWithArg = "query_track.php?streamid=" + streamid + "&mmsi=" + mmsi;
+      //Debug query output
+      console.debug('GETTRACK(): ' + phpWithArg);
 
-   var trackline = new google.maps.Polyline();
+      var trackline = new google.maps.Polyline();
 
-   $.getJSON(
-         phpWithArg, // The server URL 
-         { }
-      ) //end .getJSON()
-      .done(function (response) {
-         document.getElementById("query_input").value = response.query;
-         console.debug('GETTRACK(): ' + response.query);
-         console.debug('GETTRACK(): ' + 'track size = ' + response.resultcount);
+      $.getJSON(
+            phpWithArg, // The server URL 
+            { }
+            ) //end .getJSON()
+               .done(function (response) {
+                  document.getElementById("query_input").value = response.query;
+                  console.debug('GETTRACK(): ' + response.query);
+                  console.debug('GETTRACK(): ' + 'track history size = ' + response.resultcount);
 
-         var track = new Array();
-         var trackPath = new Array();
-         var trackTime = new Array();
-         var trackIcons = new Array();
+                  var trackHistory = new Array();
+                  var trackPath = new Array();
+                  var trackIcons = new Array();
 
-         //Loop through each time point of the same vessel
-         $.each(response.vessels, function(key,vessel) {
-            track.push(vessel);
+                  //Loop through each time point of the same vessel
+                  $.each(response.vessels, function(key,vessel) {
+                     trackHistory.push(vessel);
 
-            var mmsi = vessel.mmsi;
-            var lat = vessel.lat
-            var lon = vessel.lon;
-            var datetime = vessel.datetime;
-            var true_heading= vessel.true_heading;
+                     var mmsi = vessel.mmsi;
+                     var lat = vessel.lat;
+                     var lon = vessel.lon;
+                     var datetime = vessel.datetime;
+                     var true_heading= vessel.true_heading;
 
-            trackPath[key] = new google.maps.LatLng(lat, lon);
-            trackTime[key] = datetime;
+                     trackPath[key] = new google.maps.LatLng(lat, lon);
 
-            var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
-            tracklineIcon.setPosition(trackPath[key]);
-            tracklineIcon.setMap(map);
-            tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading);
+                     var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
+                     tracklineIcon.setPosition(trackPath[key]);
+                     tracklineIcon.setMap(map);
+                     tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading);
 
-            trackIcons.push(tracklineIcon);
+                     trackIcons.push(tracklineIcon);
 
-            //Add listener to delete track if right click on icon
-            google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
-               clearTrack(trackline, trackIcons);
-            });
-         });
 
-         var tracklineOptions = {
-            strokeColor:   getIconColor(vesseltypeint, streamid), 
-            strokeOpacity: 0.7,
-            strokeWeight:  3,
-         };
+                     //Add listener to delete track if right click on icon
+                     google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
+                        clearTrack(trackline, trackIcons);
+                        var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
+                        tracksDisplayedMMSI.splice(deleteIndex, 1);
+                        tracksDisplayed.splice(deleteIndex, 1);
+                     });
+                  });
 
-         trackline.setOptions(tracklineOptions);
-         trackline.setPath(trackPath);
-         trackline.setMap(map);
+                  var tracklineOptions = {
+                     strokeColor:   getIconColor(vesseltypeint, streamid), 
+                     strokeOpacity: 0.7,
+                     strokeWeight:  3,
+                  };
 
-         //Set up track time slider
-         createTrackTimeControl(map, 251, track, trackIcons);
+                  trackline.setOptions(tracklineOptions);
+                  trackline.setPath(trackPath);
+                  trackline.setMap(map);
 
-         //Add listener to delete track if right click on track line 
-         google.maps.event.addListener(trackline, 'rightclick', function() {
-            clearTrack(trackline, trackIcons);
-         });
+                  //Set up track time slider
+                  createTrackTimeControl(map, 251, trackHistory, trackIcons);
 
-         document.getElementById('busy_indicator').style.visibility = 'hidden';
-         document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
-      }) //end .done()
-      .fail(function() { 
-         console.debug('GETTRACK(): ' +  'No response from track query; error in php?'); 
-         document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
-         document.getElementById('busy_indicator').style.visibility = 'hidden';
-         return; 
-      }); //end .fail()
+                  //Keep track of which MMSI has tracks displayed
+                  tracksDisplayedMMSI.push(mmsi);
+                  var track = {
+                     mmsi: mmsi,
+                     trackHistory: trackHistory,
+                     trackPath: trackPath,
+                     trackIcons: trackIcons,
+                  };
+                  tracksDisplayed.push(track);
+
+                  //Add listener to delete track if right click on track line 
+                  google.maps.event.addListener(trackline, 'rightclick', function() {
+                     clearTrack(trackline, trackIcons);
+                     var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
+                     tracksDisplayedMMSI.splice(deleteIndex, 1);
+                     tracksDisplayed.splice(deleteIndex, 1);
+                  });
+
+                  document.getElementById('busy_indicator').style.visibility = 'hidden';
+                  document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
+               }) //end .done()
+            .fail(function() { 
+               console.debug('GETTRACK(): ' +  'No response from track query; error in php?'); 
+               document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+               document.getElementById('busy_indicator').style.visibility = 'hidden';
+               return; 
+            }); //end .fail()
+   }
+   else {
+      console.debug('Track for ' + mmsi + ' is already displayed.');
+   }
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -600,12 +603,38 @@ function refreshLayers() {
 }
 
 /* -------------------------------------------------------------------------------- */
+function enteredQuery() {
+   if (event.which == 13) {
+      var entered_query = document.getElementById("query_input").value;
+
+      //Trim white space
+      $.trim(entered_query);
+
+      //Create "startsWith" function
+      if (typeof String.prototype.startsWith != 'function') {
+         String.prototype.startsWith = function (str){
+            return this.indexOf(str) == 0;
+         };
+      }
+
+      //Use startsWith function to find the "SELECT" statement
+      if (entered_query.startsWith('SELECT')) {
+         getCurrentAISFromDB(map.getBounds(), entered_query, null);
+      }
+      else {
+         getCurrentAISFromDB(map.getBounds(), entered_query, null);
+      }
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
 function typeSelectUpdated() {
    var types = getTypesSelected();
 
-   var entered_query = document.getElementById("query_input").value;
+   //var entered_query = document.getElementById("query_input").value;
+   var entered_query = mainQuery;
 
-   if (types[0] != 999) {
+   if ($.inArray(999, types) == -1) {
       entered_query = entered_query + " AND vesseltypeint in (";
    
       for (var i=0; i < types.length; i++) {
@@ -615,6 +644,9 @@ function typeSelectUpdated() {
          }
       }
       entered_query = entered_query + ")";
+   }
+   else {
+      getCurrentAISFromDB(map.getBounds(), null, true);
    }
 
    var navTypes = getNavTypesSelected();
@@ -633,6 +665,33 @@ function typeSelectUpdated() {
 }
 
 /* -------------------------------------------------------------------------------- */
+function typeSelectedAllShips() {
+   setAllTypesChecked();
+   typeSelectUpdated();
+}
+
+/* -------------------------------------------------------------------------------- */
+function setAllTypesChecked() {
+   if ( document.getElementById("All Ships").checked ) {
+      console.log('setting all check boxes true');
+      document.getElementById("0-Unspecified Ships").checked = true;
+      document.getElementById("30-Fishing").checked = true;
+      document.getElementById("31-Towing").checked = true;
+      document.getElementById("32-Big Tow").checked = true;
+      document.getElementById("33-Dredge").checked = true;
+      document.getElementById("35-Military").checked = true;
+      document.getElementById("37-Pleasure Craft").checked = true;
+      document.getElementById("50-Pilot").checked = true;
+      document.getElementById("51-Search and Rescue").checked = true;
+      document.getElementById("52-Tug").checked = true;
+      document.getElementById("55-Law Enforcement").checked = true;
+      document.getElementById("6x-Passenger Vessels").checked = true;
+      document.getElementById("7x-Cargo Vessels").checked = true;
+      document.getElementById("8x-Tankers").checked = true;
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
 function getNavTypesSelected() {
 	var navTypes = [];
 
@@ -648,91 +707,101 @@ function getNavTypesSelected() {
    return navTypes;
 }
 
-
 /* -------------------------------------------------------------------------------- */
 function getTypesSelected() {
 	var types = [];
 
-   if(document.getElementById("All Ships").checked) {
-      types.push(999);
-   }
-   else
-   {
-      if(document.getElementById("0-Unspecified Ships").checked) {
-         types.push(0);
-      }
-      if(document.getElementById("30-Fishing").checked) {
-         types.push(30);
-      }
-      if(document.getElementById("31-Towing").checked) {
-         types.push(31);
-      }
-      if(document.getElementById("32-Big Tow").checked) {
-         types.push(32);
-      }
-      if(document.getElementById("33-Dredge").checked) {
-         types.push(33);
-      }
-      if(document.getElementById("35-Military").checked) {
-         types.push(35);
-      }
-      if(document.getElementById("37-Pleasure Craft").checked) {
-         types.push(37);
-      }
-      if(document.getElementById("50-Pilot").checked) {
-         types.push(50);
-      }
-      if(document.getElementById("51-Search & Rescue").checked) {
-         types.push(51);
-      }
-      if(document.getElementById("52-Tug").checked) {
-         types.push(52);
-      }
-      if(document.getElementById("55-Law Enforcement").checked) {
-         types.push(55);
-      }
-      if(document.getElementById("6x-Passenger Vessels").checked) {
-         types.push(60);   //covers 60-69
-         types.push(61);
-         types.push(62);
-         types.push(63);
-         types.push(64);
-         types.push(65);
-         types.push(66);
-         types.push(67);
-         types.push(68);
-         types.push(69);
-      }
-      if(document.getElementById("7x-Cargo Vessels").checked) {
-         types.push(70);   //covers 70-79
-         types.push(71);
-         types.push(72);
-         types.push(73);
-         types.push(74);
-         types.push(75);
-         types.push(76);
-         types.push(77);
-         types.push(78);
-         types.push(79);
-      }
-      if(document.getElementById("8x-Tankers").checked) {
-         types.push(80);   //covers 80-89
-         types.push(81);
-         types.push(82);
-         types.push(83);
-         types.push(84);
-         types.push(85);
-         types.push(86);
-         types.push(87);
-         types.push(88);
-         types.push(89);
+   //Check if any of the specific types are unchecked
+   var checkboxtype = document.getElementsByClassName("checkboxtype");
+   for (var i=0; i < checkboxtype.length; i++) {
+      //If there are any unchecked types, then uncheck the "All Ships" checkbox as well
+      if (checkboxtype[i].checked == false) {
+         console.log('asdfasdf');
+         document.getElementById("All Ships").checked = false;
+         document.getElementById("All Ships").removeAttribute('checked');
+         console.log('unchecked it');
       }
    }
 
-   //Default to all ships if no types selected
-   if (types.length == 0) {
-      types.push(999);
+   //Now, check which boxes are still checked
+   if(document.getElementById("0-Unspecified Ships").checked) {
+      types.push(0);
    }
+   if(document.getElementById("30-Fishing").checked) {
+      types.push(30);
+   }
+   if(document.getElementById("31-Towing").checked) {
+      types.push(31);
+   }
+   if(document.getElementById("32-Big Tow").checked) {
+      types.push(32);
+   }
+   if(document.getElementById("33-Dredge").checked) {
+      types.push(33);
+   }
+   if(document.getElementById("35-Military").checked) {
+      types.push(35);
+   }
+   if(document.getElementById("37-Pleasure Craft").checked) {
+      types.push(37);
+   }
+   if(document.getElementById("50-Pilot").checked) {
+      types.push(50);
+   }
+   if(document.getElementById("51-Search and Rescue").checked) {
+      types.push(51);
+   }
+   if(document.getElementById("52-Tug").checked) {
+      types.push(52);
+   }
+   if(document.getElementById("55-Law Enforcement").checked) {
+      types.push(55);
+   }
+   if(document.getElementById("6x-Passenger Vessels").checked) {
+      types.push(60);   //covers 60-69
+      types.push(61);
+      types.push(62);
+      types.push(63);
+      types.push(64);
+      types.push(65);
+      types.push(66);
+      types.push(67);
+      types.push(68);
+      types.push(69);
+   }
+   if(document.getElementById("7x-Cargo Vessels").checked) {
+      types.push(70);   //covers 70-79
+      types.push(71);
+      types.push(72);
+      types.push(73);
+      types.push(74);
+      types.push(75);
+      types.push(76);
+      types.push(77);
+      types.push(78);
+      types.push(79);
+   }
+   if(document.getElementById("8x-Tankers").checked) {
+      types.push(80);   //covers 80-89
+      types.push(81);
+      types.push(82);
+      types.push(83);
+      types.push(84);
+      types.push(85);
+      types.push(86);
+      types.push(87);
+      types.push(88);
+      types.push(89);
+   }
+
+   //Default to all ships if no types selected
+   if (types.length == 0 || document.getElementById("All Ships").checked) {
+      types.push(999);
+      document.getElementById("All Ships").checked = true;
+      setAllTypesChecked();
+   }
+
+   console.log(types);
 
    return types;
 }
@@ -1039,7 +1108,7 @@ function showPorts() {
          document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
       }) //end .done()
       .fail(function() { 
-         console.debug('SHOWPORTS(): ' +  'No response from track query; error in php?'); 
+         console.debug('SHOWPORTS(): ' +  'No response from port query; error in php?'); 
          document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 

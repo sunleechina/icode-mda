@@ -84,7 +84,7 @@ ProjectedOverlay.prototype.draw = function(firstTime)
 
  // Now position our DIV based on the DIV coordinates of our bounds
 
- var scale = ((360-rotAngle) % 45)*(-0.00650873819) + 1 - .05;
+ var scale = ((360-rotAngle) % 45)*(-0.00650873819) + 1;
 
  this.div_.style.width = Math.abs(c2.x - c1.x)*scale + "px";
  this.div_.style.height = Math.abs(c2.y - c1.y)*scale + "px";
@@ -127,21 +127,23 @@ ProjectedOverlay.prototype.setOpacity=function(opacity)
  }
  var c = opacity/100 ;
 
- if (typeof(this.div_.style.filter) =='string')
- {
-  this.div_.style.filter = 'alpha(opacity:' + opacity + ')' ;
- }
- if (typeof(this.div_.style.KHTMLOpacity) == 'string' )
- {
-  this.div_.style.KHTMLOpacity = c ;
- }
- if (typeof(this.div_.style.MozOpacity) == 'string')
- {
-  this.div_.style.MozOpacity = c ;
- }
- if (typeof(this.div_.style.opacity) == 'string')
- {
-  this.div_.style.opacity = c ;
+ if (this.div_) {
+    if (typeof(this.div_.style.filter) =='string')
+    {
+     this.div_.style.filter = 'alpha(opacity:' + opacity + ')' ;
+    }
+    if (typeof(this.div_.style.KHTMLOpacity) == 'string' )
+    {
+     this.div_.style.KHTMLOpacity = c ;
+    }
+    if (typeof(this.div_.style.MozOpacity) == 'string')
+    {
+     this.div_.style.MozOpacity = c ;
+    }
+    if (typeof(this.div_.style.opacity) == 'string')
+    {
+     this.div_.style.opacity = c ;
+    }
  }
 }
 
