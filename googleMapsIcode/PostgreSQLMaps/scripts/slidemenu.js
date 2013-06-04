@@ -17,6 +17,12 @@ $(document).ready(function(){
    $('.checkboxallships').click( function(e) {
       e.stopPropagation();
    });
+   $('.link').click( function(e) {
+      e.stopPropagation();
+   });
+   $('.inputfilebutton').click( function(e) {
+      e.stopPropagation();
+   });
 
 
    $leftpanel.click(function() {
