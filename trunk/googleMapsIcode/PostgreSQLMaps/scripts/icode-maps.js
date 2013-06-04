@@ -11,11 +11,10 @@
  */
 var map;
 var markerArray;
-//var trackline;
+var markersDisplayed = [];
 var trackArray;
 var tracksDisplayedMMSI = [];    //keep track of which MMSI's track is already displayed
 var tracksDisplayed = [];
-//var trackIcons;
 var mainQuery;
 
 //Viewing bounds objects
@@ -181,6 +180,10 @@ function initialize() {
       Ports = true;
       showPorts();
    }
+
+   $('#kmlform').change(function() { 
+      showUploadedKML(); 
+   }); 
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -282,6 +285,8 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          //TODO: clear all tracks
          //clearAllTracks();
 
+         markersDisplayed = [];
+
          //Prepare to grab PHP results as JSON objects
          $.each(response.vessels, function(key,vessel) {
                var messagetype = vessel.messagetype;
@@ -377,6 +382,12 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                //markerInfoWindow(marker, infoWindow, html, mmsi, vesselname);
                markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid);
                markerArray.push(marker);
+
+               markersDisplayed.push({
+                  mmsi: mmsi, 
+                  vesseltypeint: vesseltypeint,
+                  streamid: streamid
+               });
          });
          //Display the appropriate layer according to the sidebar checkboxes
          if (CLUSTER) {
@@ -487,7 +498,28 @@ function clearTrack(trackline, trackIcons) {
          trackIcon = trackIcons.pop();
          trackIcon.setMap(null);
       }
-      deleteTrackTimeControl();
+      if (tracksDisplayed.length == 1) {
+         deleteTrackTimeControl();
+      }
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+function clearAllTracks() {
+   for (var i=0; i < tracksDisplayed.length; i++) {
+      tracksDisplayedMMSI[i] = null;
+      clearTrack(tracksDisplayed[i].trackline, tracksDisplayed[i].trackIcons);
+      tracksDisplayed[i] = null;
+   }
+   tracksDisplayedMMSI = [];
+   tracksDisplayed = [];
+}
+
+/* -------------------------------------------------------------------------------- */
+function queryAllTracks() {
+   for (var i=0; i < markersDisplayed.length; i++) {
+      if (markersDisplayed[i].streamid == 'shore-radar')
+         getTrack(markersDisplayed[i].mmsi, markersDisplayed[i].vesseltypeint, markersDisplayed[i].streamid, false);
    }
 }
 
@@ -516,71 +548,73 @@ function getTrack(mmsi, vesseltypeint, streamid) {
                   console.debug('GETTRACK(): ' + response.query);
                   console.debug('GETTRACK(): ' + 'track history size = ' + response.resultcount);
 
-                  var trackHistory = new Array();
-                  var trackPath = new Array();
-                  var trackIcons = new Array();
+                  if (response.resultcount > 0) {
+                     var trackHistory = new Array();
+                     var trackPath = new Array();
+                     var trackIcons = new Array();
 
-                  //Loop through each time point of the same vessel
-                  $.each(response.vessels, function(key,vessel) {
-                     trackHistory.push(vessel);
+                     //Loop through each time point of the same vessel
+                     $.each(response.vessels, function(key,vessel) {
+                        trackHistory.push(vessel);
 
-                     var mmsi = vessel.mmsi;
-                     var lat = vessel.lat;
-                     var lon = vessel.lon;
-                     var datetime = vessel.datetime;
-                     var sog = vessel.sog;
-                     var cog = vessel.cog;
-                     var true_heading= vessel.true_heading;
+                        var mmsi = vessel.mmsi;
+                        var lat = vessel.lat;
+                        var lon = vessel.lon;
+                        var datetime = vessel.datetime;
+                        var sog = vessel.sog;
+                        var cog = vessel.cog;
+                        var true_heading= vessel.true_heading;
 
-                     trackPath[key] = new google.maps.LatLng(lat, lon);
+                        trackPath[key] = new google.maps.LatLng(lat, lon);
 
-                     var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
-                     tracklineIcon.setPosition(trackPath[key]);
-                     tracklineIcon.setMap(map);
-                     tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog);
+                        var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
+                        tracklineIcon.setPosition(trackPath[key]);
+                        tracklineIcon.setMap(map);
+                        tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog);
 
-                     trackIcons.push(tracklineIcon);
+                        trackIcons.push(tracklineIcon);
 
 
-                     //Add listener to delete track if right click on icon
-                     google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
+                        //Add listener to delete track if right click on icon
+                        google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
+                           clearTrack(trackline, trackIcons);
+                           var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
+                           tracksDisplayedMMSI.splice(deleteIndex, 1);
+                           tracksDisplayed.splice(deleteIndex, 1);
+                        });
+                     });
+
+                     var tracklineOptions = {
+                        strokeColor:   getIconColor(vesseltypeint, streamid), 
+                        strokeOpacity: 0.7,
+                        strokeWeight:  4,
+                     };
+
+                     trackline.setOptions(tracklineOptions);
+                     trackline.setPath(trackPath);
+                     trackline.setMap(map);
+
+                     //Keep track of which MMSI has tracks displayed
+                     tracksDisplayedMMSI.push(mmsi);
+                     var track = {
+                        mmsi: mmsi,
+                        trackHistory: trackHistory,
+                        trackline: trackline,
+                        trackIcons: trackIcons,
+                     };
+                     tracksDisplayed.push(track);
+
+                     //Set up track time slider
+                     createTrackTimeControl(map, 251, tracksDisplayed);
+
+                     //Add listener to delete track if right click on track line 
+                     google.maps.event.addListener(trackline, 'rightclick', function() {
                         clearTrack(trackline, trackIcons);
                         var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
                         tracksDisplayedMMSI.splice(deleteIndex, 1);
                         tracksDisplayed.splice(deleteIndex, 1);
                      });
-                  });
-
-                  var tracklineOptions = {
-                     strokeColor:   getIconColor(vesseltypeint, streamid), 
-                     strokeOpacity: 0.7,
-                     strokeWeight:  4,
-                  };
-
-                  trackline.setOptions(tracklineOptions);
-                  trackline.setPath(trackPath);
-                  trackline.setMap(map);
-
-                  //Keep track of which MMSI has tracks displayed
-                  tracksDisplayedMMSI.push(mmsi);
-                  var track = {
-                     mmsi: mmsi,
-                     trackHistory: trackHistory,
-                     trackPath: trackPath,
-                     trackIcons: trackIcons,
-                  };
-                  tracksDisplayed.push(track);
-
-                  //Set up track time slider
-                  createTrackTimeControl(map, 251, tracksDisplayed);
-
-                  //Add listener to delete track if right click on track line 
-                  google.maps.event.addListener(trackline, 'rightclick', function() {
-                     clearTrack(trackline, trackIcons);
-                     var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
-                     tracksDisplayedMMSI.splice(deleteIndex, 1);
-                     tracksDisplayed.splice(deleteIndex, 1);
-                  });
+                  }
 
                   document.getElementById('busy_indicator').style.visibility = 'hidden';
                   document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
@@ -949,7 +983,7 @@ function toggleKMLLayer() {
          kmlparser.docs[0].markers = [];
          kmlparser.docs[0].overlays[0].setMap(null);
          kmlparser.docs[0].overlays[0] = null;
-         kmlparser.docs[0] = null;
+         kmlparser.docs[0] = null
       }
       //Delete the opacity slider control
       //TODO: make sure to pop the correct object
@@ -958,51 +992,27 @@ function toggleKMLLayer() {
 }
 
 /* -------------------------------------------------------------------------------- */
-function showKML() {
-   //TODO: Attempting to unzip KMZ files --------------------------
-//   zip.workerScriptsPath = "lib/";
-
+function showUploadedKML() {
    kmlparser = new geoXML3.parser({
       map:               map,
-      //createMarker:      addMyMarker, //custom create marker caller
+      singleInfoWindow:  true
+   });
+   kmlparser.parse('kml/doc.kml');
+}
+
+/* -------------------------------------------------------------------------------- */
+function showKML() {
+   kmlparser = new geoXML3.parser({
+      map:               map,
       singleInfoWindow:  true,
    });
-//    kmlparser.parse('kml/sandiego.kml');
-//    kmlparser.parse('kml/ghana.kmz');
-//    kmlparser.parse('kml/ghanasmall.kmz');
-//    kmlparser.parse('kml/tsxtestzip.kmz');
-//    kmlparser.parse('kml/ghanatestzip.kmz');
-//    kmlparser.parse('kml/usa-ca-sf.kmz');
 
-   if (tempKMLcount % 2)
+   if (tempKMLcount % 3 == 1)
       kmlparser.parse('kml/tsx.kml');
-   else
+   else if (tempKMLcount % 3 == 2)
       kmlparser.parse('kml/ghana.kml');
-
-/*
-   var extractCallback = function(id, sz) {
-      return function (entry, entryContent) {
-         var entryName = entry.name;
-         console.debug(entryName);
-         console.debug(typeof entryContent);
-      };
-   };
-
-   var doneReadingKMZ = function(zip) {
-      try {
-         var randomId = "id-"+ Math.floor((Math.random() * 1000000000));         
-         for (var i=0; i < zip.entries.length; i++) {
-            var entry = zip.entries[i];
-            //alert('Entry ' + i + ": " + entry.uncompressedSize + ' bytes.');
-            entry.extract(extractCallback(randomId, entry.uncompressedSize));
-         }
-      }
-      catch (exc1) {
-         $("#status").append("exception: " + exc1.message + "<br/>source: " + exc1.source + "<br/>");
-      }
-   }
-   var kmzFile = new ZipFile('ghana.kmz', doneReadingKMZ, 1);
-*/
+   else if (tempKMLcount % 3 == 0)
+      kmlparser.parse('kml/doc.kml');
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -1108,6 +1118,20 @@ function toggleClusterLayer() {
       CLUSTER = false;
       markerClusterer.removeMarkers(markerArray);
       showOverlays();   //Display the markers individually
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+// For Gabe's LAISIC testing purposes.
+function testLAISICLayer() {
+   var query;
+   if (document.getElementById("LAISICLayerTest").checked) {
+      query = "SELECT * FROM aistrack";
+      getCurrentAISFromDB(map.getBounds(), query, true);
+   }
+   else {
+      query = mainQuery;
+      getCurrentAISFromDB(map.getBounds(), query, true);
    }
 }
 

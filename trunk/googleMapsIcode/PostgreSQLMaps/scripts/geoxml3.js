@@ -137,9 +137,13 @@ geoXML3.parser = function (options) {
          for (i = 0; i < placemarkNodes.length; i++) {
             // Init the placemark object
             node = placemarkNodes[i];
+            var desc = "<font size=1px>";
+            desc = desc + geoXML3.nodeValue(node.getElementsByTagName('description')[0]);
+            desc = desc + "</font>";
+            desc = desc.replace("src=\"","src=\"kml\/");
             placemark = {
                name:  geoXML3.nodeValue(node.getElementsByTagName('name')[0]),
-               description: geoXML3.nodeValue(node.getElementsByTagName('description')[0]),
+               description: desc,
                styleUrl: geoXML3.nodeValue(node.getElementsByTagName('styleUrl')[0])
             };
             placemark.style = doc.styles[placemark.styleUrl] || {};
@@ -187,7 +191,8 @@ geoXML3.parser = function (options) {
             groundOverlay = {
                name:        geoXML3.nodeValue(node.getElementsByTagName('name')[0]),
                description: geoXML3.nodeValue(node.getElementsByTagName('description')[0]),
-               icon: {href: geoXML3.nodeValue(node.getElementsByTagName('href')[0])},
+               //Hard coding a "kml" directory for kml external references
+               icon: {href: 'kml/'+geoXML3.nodeValue(node.getElementsByTagName('href')[0])+'?'+(new Date().getTime())},
                latLonBox: {
                   north: Math.max(coor[1], coor[4], coor[7], coor[10]),
                   east:  Math.max(coor[0], coor[3], coor[6], coor[9]),
@@ -216,6 +221,7 @@ geoXML3.parser = function (options) {
             var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
             var rotation = Math.atan2(y, x).toDeg().toDeg();
             rotation = (rotation + 360)%360;
+
             /*
             console.debug(lat1);
             console.debug(lon1);
@@ -223,6 +229,25 @@ geoXML3.parser = function (options) {
             console.debug(lon2);
             console.debug(rotation);
             */
+
+            //Display polygon outline of satellite image
+            var overlayCoords = [
+               new google.maps.LatLng(coor[1],coor[0]),
+               new google.maps.LatLng(coor[4],coor[3]),
+               new google.maps.LatLng(coor[7],coor[6]),
+               new google.maps.LatLng(coor[10],coor[9])
+            ];
+
+            overlayPolygon = new google.maps.Polygon({
+               map: map,
+               paths: overlayCoords,
+               strokeColor: '#FF0000',
+               strokeOpacity: 0.8,
+               strokeWeight: 3,
+               fillColor: '#FF0000',
+               fillOpacity: 0.0
+            });
+
 
             /*
             //TODO: check if rotation tag exists

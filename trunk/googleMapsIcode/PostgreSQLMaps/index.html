@@ -58,6 +58,7 @@
            <div id="layer_types">
               <hr>
               <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" checked="checked" onclick="toggleRadarLayer();"> <img align="top" src="icons/pink0.png" style="padding-bottom: 4px; vertical-align: middle;"> RADAR Contacts<br>
+              <input class="checkbox" id="LAISICLayerTest" name="LAISICLayerTest" type="checkbox" onclick="testLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> LAISIC testing<br>
               <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> <font color="#C0C0C0">LAISIC Fused Tracks (soon)</font><br>
               <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" checked="checked" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> <font color="#C0C0C0">LAISIC AIS Tracks</font><br>
               <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" checked="checked" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> <font color="#C0C0C0">LAISIC RADAR Tracks</font><br>
@@ -106,6 +107,20 @@
               <img align="top" src="icons/lightgreen1_90.png"> 8x - Tankers<br>
 
               <hr>
+
+              <input class="checkbox" id="queryalltracks" name="queryalltracks" type="checkbox" onclick="queryAllTracks();"> Query Tracks for All Vessels<br>
+
+              <hr>
+
+Upload KMZ: <br />
+<form id="kmlform" action="kml/kmzextract.php" onSubmit="showUploadedKML()" method="post" enctype="multipart/form-data" target="hidden_upload">
+   <input class="inputfilebutton" type="file" name="file" size="50" />
+   <input class="inputfilebutton" type="submit" value="Upload" /> 
+</form>
+<iframe id="hidden_upload" name="hidden_upload" style="display:none" ></iframe>
+              
+              
+
            </div>
         </div>
         <!-- END LEFT PANEL -->  

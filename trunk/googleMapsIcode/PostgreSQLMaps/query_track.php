@@ -33,10 +33,10 @@ if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track"
    $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM aistrack_20130425_backup2 A WHERE lon != -999 and mmsi = ";
 }
 else if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "shore-radar") {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM radar_20130521 A WHERE mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM radar_20130528 A WHERE mmsi = ";
 }
 else {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM ter_20130521 A WHERE lon != -999 and mmsi = ";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM ter_20130528 A WHERE lon != -999 and mmsi = ";
 }
 
 //Count the number of arguments
