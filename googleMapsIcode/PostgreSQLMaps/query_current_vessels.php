@@ -41,7 +41,7 @@ if(count($_GET) > 0) {
           $fromSources = "(SELECT * FROM radar_vessels) LATESTPOSITIONS";
        }
        else if ($sources == 3) {
-          $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels) VESSELS";
+          $fromSources = "(SELECT * FROM radar_vessels_20130521 UNION SELECT * FROM current_vessels_20130521) VESSELS";
        }
        else {
           //Default case
