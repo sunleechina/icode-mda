@@ -281,11 +281,9 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          }
 
          //Delete previous markers
-         //TODO: update to clear only markers that are now out of bounds
-         //clearMarkerArray();
+         clearMarkerArray();
          clearOutBoundMarkers();
-         //TODO: clear all tracks
-         //clearAllTracks();
+         clearAllTracks();
 
          markersDisplayed = [];
 
