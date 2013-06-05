@@ -12,7 +12,7 @@
 var map;
 var markerArray;
 var markersDisplayed = [];
-var trackArray;
+//var trackArray;
 var tracksDisplayedMMSI = [];    //keep track of which MMSI's track is already displayed
 var tracksDisplayed = [];
 var mainQuery;
@@ -229,6 +229,10 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          console.debug('Moved to within query bounds, not requerying.');
          return;
       }
+      else if (customQuery != null && forceUpdate) {
+         console.debug('Moved to within query bounds, not requerying.');
+         return;
+      }
       else {
          queryBounds = new google.maps.LatLngBounds(
                new google.maps.LatLng(minLat, minLon), 
@@ -287,9 +291,11 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          }
 
          //Delete previous markers
-         clearMarkerArray();
-         clearOutBoundMarkers();
-         clearAllTracks();
+         if (boundStr != null) {
+            clearMarkerArray();
+            clearOutBoundMarkers();
+            clearAllTracks();
+         }
 
          markersDisplayed = [];
 
@@ -520,6 +526,7 @@ function clearAllTracks() {
    }
    tracksDisplayedMMSI = [];
    tracksDisplayed = [];
+   deleteTrackTimeControl();
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -1521,7 +1528,7 @@ function sleep(dur) {
 /* -------------------------------------------------------------------------------- */
 function toHumanTime(unixtime) {
    var date = new Date(unixtime * 1000);
-   var humanTime = date.toLocaleString();
+   var humanTime = date.toLocaleString("en-US",{timeZone: "UTC"});
    return humanTime;
 }
 
