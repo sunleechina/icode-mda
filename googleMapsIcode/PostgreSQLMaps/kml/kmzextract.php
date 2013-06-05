@@ -64,5 +64,3 @@ else
     die("No file specified!");
 }
 ?>
-
-

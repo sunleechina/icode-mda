@@ -113,12 +113,14 @@
               <hr>
 
 Upload KMZ: <br />
-<form id="kmlform" action="kml/kmzextract.php" onSubmit="showUploadedKML()" method="post" enctype="multipart/form-data" target="hidden_upload">
-   <input class="inputfilebutton" type="file" name="file" size="50" />
-   <input class="inputfilebutton" type="submit" value="Upload" /> 
+<form id="kmlform" action="kml/kmzextract.php" method="post" enctype="multipart/form-data" target="hidden_upload">
+   <input class="inputfilebutton" type="file" name="file" size="5" />
+   <input class="inputfilebutton" type="submit" name="submit" value="Upload">
 </form>
 <iframe id="hidden_upload" name="hidden_upload" style="display:none" ></iframe>
-              
+<form id="kmlformbutton" onSubmit="showUploadedKML()" method="post" enctype="multipart/form-data" target="hidden_upload">
+   <input class="inputfilebutton" type="submit" name="submit" value="Show KMZ">
+</form>       
               
 
            </div>

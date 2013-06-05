@@ -20,6 +20,8 @@
 
 */
 
+var INITIAL_OPACITY = 80;
+
 // Extend the global String with a method to remove leading and trailing whitespace
 if (!String.prototype.trim) {
    String.prototype.trim = function () {
@@ -192,7 +194,7 @@ geoXML3.parser = function (options) {
                name:        geoXML3.nodeValue(node.getElementsByTagName('name')[0]),
                description: geoXML3.nodeValue(node.getElementsByTagName('description')[0]),
                //Hard coding a "kml" directory for kml external references
-               icon: {href: 'kml/'+geoXML3.nodeValue(node.getElementsByTagName('href')[0])+'?'+(new Date().getTime())},
+               icon: {href: 'kml/'+geoXML3.nodeValue(node.getElementsByTagName('href')[0])},
                latLonBox: {
                   north: Math.max(coor[1], coor[4], coor[7], coor[10]),
                   east:  Math.max(coor[0], coor[3], coor[6], coor[9]),
@@ -211,6 +213,8 @@ geoXML3.parser = function (options) {
 
             //Calculate bearing from two points
             //Formula from http://www.movable-type.co.uk/scripts/latlong.html
+/*
+            //Great Circle Method:
             var lat1 = coor[1];
             var lon1 = coor[0];
             var lat2 = coor[10];
@@ -219,17 +223,40 @@ geoXML3.parser = function (options) {
             var dLon = (lon2-lon1).toRad();
             var y = Math.sin(dLon) * Math.cos(lat2);
             var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
-            var rotation = Math.atan2(y, x).toDeg().toDeg();
-            rotation = (rotation + 360)%360;
+            var rotation1 = Math.atan2(y, x).toDeg().toDeg();
+            rotation1 = (rotation1 + 360)%360;
+*/
+            //Rhumb Line Method:
+            var lat1 = coor[1];
+            var lon1 = coor[0];
+            var lat2 = coor[10];
+            var lon2 = coor[9];
+
+            var dLon = (lon2-lon1).toRad();
+            
+            lat1 = parseFloat(lat1).toRad();
+            lat2 = parseFloat(lat2).toRad();
+
+            var dPhi = Math.log(Math.tan(lat2/2+Math.PI/4)/Math.tan(lat1/2+Math.PI/4));
+            // if dLon over 180° take shorter rhumb across anti-meridian:
+            if (Math.abs(dLon) > Math.PI) 
+               dLon = dLon>0 ? -(2*Math.PI-dLon) : (2*Math.PI+dLon);
+            var rot = Math.atan2(dLon, dPhi).toDeg();
+            rot = (rot + 360)%360;
+
+            console.debug("Rotation: " + rot);
+
+            
+            //Test: don't use JS rotation, testing mogrify rotation
+            var rotation = 0;
+            
+            console.debug(coor[1]);
+            console.debug(coor[0]);
+            console.debug(coor[10]);
+            console.debug(coor[9]);
+            //console.debug(rotation);
 
             /*
-            console.debug(lat1);
-            console.debug(lon1);
-            console.debug(lat2);
-            console.debug(lon2);
-            console.debug(rotation);
-            */
-
             //Display polygon outline of satellite image
             var overlayCoords = [
                new google.maps.LatLng(coor[1],coor[0]),
@@ -247,6 +274,7 @@ geoXML3.parser = function (options) {
                fillColor: '#FF0000',
                fillOpacity: 0.0
             });
+            */
 
 
             /*
@@ -272,7 +300,7 @@ geoXML3.parser = function (options) {
                groundOverlay.opacity = Math.round((255 - transparency) / 2.55);
             }
             else {
-               groundOverlay.opacity = 80;//100;
+               groundOverlay.opacity = INITIAL_OPACITY;
             }
 
             // Call the appropriate function to create the overlay
@@ -280,7 +308,15 @@ geoXML3.parser = function (options) {
                parserOptions.createOverlay(groundOverlay, doc, rotation);
             }
             else {
-               createOverlay(groundOverlay, doc, rotation);
+               $.ajax({
+                  async: false,
+                  type: 'GET',
+                  url: 'kml/rotate.php?rotation='+rot,
+                  success: function(data) {
+                     //callback
+                     createOverlay(groundOverlay, doc, rotation);
+                  }
+               });
             }
          }
 
@@ -312,7 +348,7 @@ geoXML3.parser = function (options) {
          }
       }
       
-      createKMLOpacityControl(map, 50);
+      createKMLOpacityControl(map, INITIAL_OPACITY);
    };
 
    //============================================================================

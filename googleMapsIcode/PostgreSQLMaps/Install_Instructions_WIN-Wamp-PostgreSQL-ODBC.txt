@@ -21,7 +21,7 @@ Install Instructions for Windows - for PostgreSQL database through ODBC connecti
   - use 'PostgreSQL Unicode' as the odbc_driver if you installed the 32-bit version of the driver
   - use 'PostgreSQL Unicode(x64)' if you installed the 64-bit version of the driver
 
-- Edit icode_db_query.php 
+- Edit query_current_vessels.php, query_track.php, and query_port.php
   - update the database queries to match your database structure
   - this is the file you would be updating a lot to customize your queries for the map
 
