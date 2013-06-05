@@ -135,8 +135,14 @@ function initialize() {
       google.maps.event.trigger(map, 'resize'); 
       var idleTimeout = window.setTimeout(
          function() {
-            //Update vessels displayed
-            getCurrentAISFromDB(map.getBounds(), null, null);
+            var queryArgument = Request.QueryString("query").toString();
+            if (queryArgument != '') {
+               getCurrentAISFromDB(map.getBounds(), queryArgument, true);
+            }
+            else {
+               //Update vessels displayed
+               getCurrentAISFromDB(map.getBounds(), null, null);
+            }
             
             //Update ports displayed
             if (Ports) {
@@ -538,7 +544,6 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
 
       //Grab date from track head
-      console.log('datetime is: ' + toDate(datetime) );
       phpWithArg = phpWithArg + "&date=" + toDate(datetime);
 
       //Debug query output
