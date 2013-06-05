@@ -181,9 +181,11 @@ function initialize() {
       showPorts();
    }
 
+   /*
    $('#kmlform').change(function() { 
       showUploadedKML(); 
    }); 
+   */
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -518,7 +520,7 @@ function clearAllTracks() {
 /* -------------------------------------------------------------------------------- */
 function queryAllTracks() {
    for (var i=0; i < markersDisplayed.length; i++) {
-      if (markersDisplayed[i].streamid == 'shore-radar')
+      //if (markersDisplayed[i].streamid == 'shore-radar')
          getTrack(markersDisplayed[i].mmsi, markersDisplayed[i].vesseltypeint, markersDisplayed[i].streamid, false);
    }
 }
@@ -993,6 +995,7 @@ function toggleKMLLayer() {
 
 /* -------------------------------------------------------------------------------- */
 function showUploadedKML() {
+   console.log('Showing KML');
    kmlparser = new geoXML3.parser({
       map:               map,
       singleInfoWindow:  true
@@ -1300,7 +1303,7 @@ function setMapCenterToCenterOfMass(map, tips) {
 function addDistanceTool() {
    //Distance label
    mapLabel = new MapLabel({
-            text: 'dummy',
+            text: '',
             //position: new google.maps.LatLng(5.9,1.30),
             map: map,
             fontSize: 14,

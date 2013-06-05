@@ -84,15 +84,23 @@ ProjectedOverlay.prototype.draw = function(firstTime)
 
  // Now position our DIV based on the DIV coordinates of our bounds
 
+ //Testing: don't scale image
+ var scale = 1;
+ /*
  var scale = ((360-rotAngle) % 45)*(-0.00650873819) + 1;
 
  this.div_.style.width = Math.abs(c2.x - c1.x)*scale + "px";
  this.div_.style.height = Math.abs(c2.y - c1.y)*scale + "px";
 
- //this.div_.style.left = Math.min(c2.x, c1.x) + "px";
- //this.div_.style.top = Math.min(c2.y, c1.y) + "px";
  this.div_.style.left = Math.min(c2.x, c1.x)+(Math.abs(c2.x - c1.x)*scale*(1.0-scale)/1.41) + "px";
  this.div_.style.top = Math.min(c2.y, c1.y)+(Math.abs(c2.y - c1.y)*scale*(1.0-scale)/2) + "px";
+ */
+
+ this.div_.style.width = Math.abs(c2.x - c1.x) + "px";
+ this.div_.style.height = Math.abs(c2.y - c1.y) + "px";
+
+ this.div_.style.left = Math.min(c2.x, c1.x) + "px";
+ this.div_.style.top = Math.min(c2.y, c1.y) + "px";
 
  // Do the rest only if the zoom has changed...
  
