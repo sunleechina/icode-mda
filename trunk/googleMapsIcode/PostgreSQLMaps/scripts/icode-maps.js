@@ -382,13 +382,14 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                });
 
                //markerInfoWindow(marker, infoWindow, html, mmsi, vesselname);
-               markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid);
+               markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid, datetime);
                markerArray.push(marker);
 
                markersDisplayed.push({
                   mmsi: mmsi, 
                   vesseltypeint: vesseltypeint,
-                  streamid: streamid
+                  streamid: streamid,
+                  datetime: datetime
                });
          });
          //Display the appropriate layer according to the sidebar checkboxes
@@ -431,7 +432,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
  * Function to attach information associated with marker, or call track 
  * fetcher to get track line
  */
-function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid) {
+function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid, datetime) {
    //Listener for click on marker to display infoBubble
 	google.maps.event.addListener(marker, 'click', function () {
       infoBubble.setContent(html);
@@ -478,7 +479,7 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
       //Delay, then get and display track
       trackMouseoverTimeout = window.setTimeout(
          function displayTracks() {
-            getTrack(mmsi, vesseltypeint, streamid);
+            getTrack(mmsi, vesseltypeint, streamid, datetime);
          },
          1000);   //milliseconds
 
@@ -521,7 +522,7 @@ function clearAllTracks() {
 function queryAllTracks() {
    for (var i=0; i < markersDisplayed.length; i++) {
       //if (markersDisplayed[i].streamid == 'shore-radar')
-         getTrack(markersDisplayed[i].mmsi, markersDisplayed[i].vesseltypeint, markersDisplayed[i].streamid, false);
+         getTrack(markersDisplayed[i].mmsi, markersDisplayed[i].vesseltypeint, markersDisplayed[i].streamid, markersDisplayed[i].datetime, false);
    }
 }
 
@@ -529,13 +530,19 @@ function queryAllTracks() {
 /**
  * Function to get track from track query PHP script
  */
-function getTrack(mmsi, vesseltypeint, streamid) {
+function getTrack(mmsi, vesseltypeint, streamid, datetime) {
    //Check if track is already displayed or not
    if ($.inArray(mmsi, tracksDisplayedMMSI) == -1) {
       document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
       document.getElementById('stats_nav').innerHTML = '';
       document.getElementById('busy_indicator').style.visibility = 'visible';
       var phpWithArg = "query_track.php?streamid=" + streamid + "&mmsi=" + mmsi;
+
+
+      //Grab date from track head
+      console.log('datetime is: ' + toDate(datetime) );
+      phpWithArg = phpWithArg + "&date=" + toDate(datetime);
+
       //Debug query output
       console.debug('GETTRACK(): ' + phpWithArg);
 
@@ -1010,12 +1017,12 @@ function showKML() {
       singleInfoWindow:  true,
    });
 
-   if (tempKMLcount % 3 == 1)
+   if (tempKMLcount % 2 == 1)
       kmlparser.parse('kml/tsx.kml');
-   else if (tempKMLcount % 3 == 2)
+   else //if (tempKMLcount % 2 == 2)
       kmlparser.parse('kml/ghana.kml');
-   else if (tempKMLcount % 3 == 0)
-      kmlparser.parse('kml/doc.kml');
+   //else if (tempKMLcount % 3 == 0)
+   //   kmlparser.parse('kml/doc.kml');
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -1514,3 +1521,20 @@ function toHumanTime(unixtime) {
    var humanTime = date.toLocaleString();
    return humanTime;
 }
+
+/* -------------------------------------------------------------------------------- */
+function toDate(unixtime) {
+   var date = new Date(unixtime * 1000);
+   var dateonly = date.getUTCFullYear() + pad(date.getUTCMonth()+1,2) + pad(date.getUTCDate(),2);
+   return dateonly;
+}
+
+/* -------------------------------------------------------------------------------- */
+function pad(number, length) {
+    var str = '' + number;
+    while (str.length < length) {
+        str = '0' + str;
+    }
+    return str;
+}
+
