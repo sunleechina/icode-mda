@@ -21,6 +21,8 @@
 */
 
 var INITIAL_OPACITY = 80;
+var url;
+var datetime;
 
 // Extend the global String with a method to remove leading and trailing whitespace
 if (!String.prototype.trim) {
@@ -66,6 +68,8 @@ geoXML3.parser = function (options) {
             url: urls[i], 
             internals: internals
          };
+         url = urls[i];
+         datetime = url.substring(4,14);
          internals.docSet.push(thisDoc);
          geoXML3.fetchXML(thisDoc.url, function (responseXML) {render(responseXML, thisDoc);});
       }
@@ -142,7 +146,7 @@ geoXML3.parser = function (options) {
             var desc = "<font size=1px>";
             desc = desc + geoXML3.nodeValue(node.getElementsByTagName('description')[0]);
             desc = desc + "</font>";
-            desc = desc.replace("src=\"","src=\"kml\/");
+            desc = desc.replace("src=\"","src=\"kml/"+datetime+"\/");
             placemark = {
                name:  geoXML3.nodeValue(node.getElementsByTagName('name')[0]),
                description: desc,
@@ -194,7 +198,7 @@ geoXML3.parser = function (options) {
                name:        geoXML3.nodeValue(node.getElementsByTagName('name')[0]),
                description: geoXML3.nodeValue(node.getElementsByTagName('description')[0]),
                //Hard coding a "kml" directory for kml external references
-               icon: {href: 'kml/'+geoXML3.nodeValue(node.getElementsByTagName('href')[0])},
+               icon: {href: 'kml/'+datetime+'/'+geoXML3.nodeValue(node.getElementsByTagName('href')[0])},
                latLonBox: {
                   north: Math.max(coor[1], coor[4], coor[7], coor[10]),
                   east:  Math.max(coor[0], coor[3], coor[6], coor[9]),
@@ -244,17 +248,19 @@ geoXML3.parser = function (options) {
             var rot = Math.atan2(dLon, dPhi).toDeg();
             rot = (rot + 360)%360;
 
-            console.debug("Rotation: " + rot);
+            //console.debug("Rotation: " + rot);
 
             
             //Test: don't use JS rotation, testing mogrify rotation
             var rotation = 0;
             
+            /*
             console.debug(coor[1]);
             console.debug(coor[0]);
             console.debug(coor[10]);
             console.debug(coor[9]);
             //console.debug(rotation);
+            */
 
             /*
             //Display polygon outline of satellite image
@@ -275,16 +281,6 @@ geoXML3.parser = function (options) {
                fillOpacity: 0.0
             });
             */
-
-
-            /*
-            //TODO: check if rotation tag exists
-            var rotation = parseFloat(geoXML3.nodeValue(node.getElementsByTagName('rotation')[0]))
-            if (!rotation) {
-            rotation = 0;   //TODO: temp solution
-            }
-            */
-
 
             if (!!doc.bounds) {
                doc.bounds.union(new google.maps.LatLngBounds(
@@ -311,7 +307,7 @@ geoXML3.parser = function (options) {
                $.ajax({
                   async: false,
                   type: 'GET',
-                  url: 'kml/rotate.php?rotation='+rot,
+                  url: 'kml/rotate.php?dir=' + datetime +'&rotation=' + rot,
                   success: function(data) {
                      //callback
                      createOverlay(groundOverlay, doc, rotation);
@@ -395,6 +391,18 @@ geoXML3.parser = function (options) {
    var createMarker = function (placemark, doc) {
       // create a Marker to the map from a placemark KML object
 
+      // Grab style (color) of placemark
+      var strokeColorHTML;
+      if (placemark.styleUrl == "#msn_placemark_circle_low") {
+         strokeColorHTML = '#0000FF';
+      }
+      else if (placemark.styleUrl == "#msn_placemark_circle_med") {
+         strokeColorHTML = '#00FF00';
+      }
+      else { //assume #msn_placemark_circle_high
+         strokeColorHTML = '#FFFF00';
+      }
+
       // Load basic marker properties
       var markerOptions = geoXML3.combineOptions(parserOptions.markerOptions, {
           map:      parserOptions.map,
@@ -404,7 +412,7 @@ geoXML3.parser = function (options) {
           //icon:     "http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png",//placemark.style.icon,
           icon: {
              path:        google.maps.SymbolPath.CIRCLE,
-             strokeColor: '#FF0000',
+             strokeColor: strokeColorHTML,
              fillColor:   '#000000',
              fillOpacity: 1,
              scale:       4,
@@ -518,7 +526,12 @@ geoXML3.parser = function (options) {
          setOpacity(x);
       });
 
+      var deleteKMLDiv= document.createElement('DIV');
+   deleteKMLDiv.setAttribute("style", "padding:0;margin:0;overflow-x:hidden;overflow-y:hidden;vertical-align:top;width:115px;height:20px;");
+   deleteKMLDiv.innerHTML = '<a href="#" class="link" onclick="deleteKMLLayer(' + (kmlparsers.length-1) + ');">Delete KML Layer</a>';
+
       map.controls[google.maps.ControlPosition.RIGHT_TOP].push(opacityDiv);
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(deleteKMLDiv);
 
       // Set initial value
       var initialValue = OPACITY_MAX_PIXELS / (100 / opacity);

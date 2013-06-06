@@ -26,6 +26,10 @@
      <script type="text/javascript" src="scripts/trackTimeSlider.js"></script>
      <script type="text/javascript" src="scripts/maplabel-compiled.js"></script>
 
+     <script type="text/javascript" src="scripts/CSJSRequestObject.js"></script>
+
+     <script type="text/javascript" src="scripts/fileUpload.js"></script>
+
      <script>
         $(function() {
            $('#busy_indicator').activity({segments: 8, steps: 3, opacity: 0.3, width: 4, space: 0, length: 5, color: '#fff', speed: 2.0});
@@ -113,14 +117,11 @@
               <hr>
 
 Upload KMZ: <br />
-<form id="kmlform" action="kml/kmzextract.php" method="post" enctype="multipart/form-data" target="hidden_upload">
+<form id="kmlform" >
    <input class="inputfilebutton" type="file" name="file" size="5" />
-   <input class="inputfilebutton" type="submit" name="submit" value="Upload">
+   <input class="inputfilebutton" type="button" onClick="fileUpload(this.form,'kml/kmzextract.php','upload'); return false;" value="Upload">
 </form>
-<iframe id="hidden_upload" name="hidden_upload" style="display:none" ></iframe>
-<form id="kmlformbutton" onSubmit="showUploadedKML()" method="post" enctype="multipart/form-data" target="hidden_upload">
-   <input class="inputfilebutton" type="submit" name="submit" value="Show KMZ">
-</form>       
+<div id="upload"></div>
               
 
            </div>

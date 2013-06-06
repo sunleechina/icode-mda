@@ -4,27 +4,37 @@
 
 require('pclzip.lib.php');
 
-echo 'Filename: '.$_FILES['file']['name'].'<br>';
+$mtime = microtime(); 
+$mtime = explode(" ",$mtime); 
+$mtime = $mtime[1];
+
+//echo 'Filename: '.$_FILES['file']['name'].'<br>';
+//echo 'C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime.'/'.$_FILES["file"]["name"].'<br>';
    
 if( $_FILES['file']['name'] != "" )
 {
    //Move the uploaded file from temporary location to webserver location
-   if (move_uploaded_file($_FILES["file"]["tmp_name"], "C:/pgsql/UniServer/www/ICODEMDAMaps/kml/".$_FILES["file"]["name"] )) {
+   mkdir('C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime);
+   if (move_uploaded_file($_FILES["file"]["tmp_name"], 'C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime.'/'.$_FILES["file"]["name"] )) {
 
 //Try to unzip the file ----------------------------------------------------------------
-$unzip = $_FILES["file"]["name"];
-$basedir = "C:/pgsql/UniServer/www/ICODEMDAMaps/kml/";
+$unzip = $mtime."/".$_FILES["file"]["name"];
+$basedir = 'C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime;
 $basedir = str_replace('\\','/',$basedir);
+
+//echo $unzip.'<br>';
 
 if (is_file($unzip)) {
 	$zip = new PclZip($unzip);
 	if (($list = $zip->listContent()) == 0) {
-      echo 'Error unzipping file';
+      //echo 'Error unzipping file';
+      echo json_encode(array('result'=>'failed', 'datetime'=>$mtime));
 	}
 	
 	$fold = 0;
 	$fil = 0;
 
+   /*
    //Delete existing files
    $dfiles = glob($basedir.'/*'); // get all file names
    foreach($dfiles as $file){ // iterate files
@@ -39,28 +49,34 @@ if (is_file($unzip)) {
       //Delete usual 'files' directory
       if(is_dir($file) && strtolower(basename($file)) == 'files') {
          //echo 'Entering files<br>';
-         $dirfiles = glob($basedir.'\files\*');
+         $dirfiles = glob($basedir.'/files/*');
          foreach($dirfiles as $dirfile){
             //echo '  ' . $dirfile . '<br>';
             if(is_file($dirfile)) {
                unlink($dirfile);
+               print_r(error_get_last());
             }
          }
          rmdir($file);
       }
    }
+   */
 
    //Actually do the unzipping here!
-   $zip->extract('');
+   $zip->extract(PCLZIP_OPT_PATH,$mtime);
 }
 //Done unzipping ----------------------------------------------------------------
-unlink($unzip);
+//unlink($unzip);
 
-      echo json_encode(array('result'=>'success'));
+      echo json_encode(array('result'=>'success', 'datetime'=>$mtime));
+   }
+   else {
+      echo json_encode(array('result'=>'failed', 'datetime'=>$mtime));
    }
 }
 else
 {
     die("No file specified!");
+    echo json_encode(array('result'=>'failed', 'datetime'=>$mtime));
 }
 ?>
