@@ -69,6 +69,7 @@ var selectedShape;
 //KML objects
 var KML = false;
 var kmlparser;
+var kmlparsers = [];
 var tempKMLcount = 0;
 //Port objects
 var Ports = false;
@@ -1011,13 +1012,40 @@ function toggleKMLLayer() {
 }
 
 /* -------------------------------------------------------------------------------- */
-function showUploadedKML() {
+function showUploadedKML(datetime) {
    console.log('Showing KML');
    kmlparser = new geoXML3.parser({
       map:               map,
       singleInfoWindow:  true
    });
-   kmlparser.parse('kml/doc.kml');
+   kmlparser.parse('kml/' + datetime + '/doc.kml');
+   kmlparsers.push(kmlparser);
+}
+
+/* -------------------------------------------------------------------------------- */
+function deleteKMLLayer(index) {
+   console.log('deleting kml layer');
+   console.log(index);
+   //while(kmlparsers.length > 0) {
+      //tempkmlparser = kmlparsers.pop();
+      tempkmlparser = kmlparsers[index];
+
+      if (tempkmlparser.docs) {
+         for (var i in tempkmlparser.docs[0].markers) {
+            tempkmlparser.docs[0].markers[i].setMap(null);
+         }
+         tempkmlparser.docs[0].markers = [];
+         tempkmlparser.docs[0].overlays[0].setMap(null);
+         tempkmlparser.docs[0].overlays[0] = null;
+         tempkmlparser.docs[0] = null
+      }
+      //Delete the opacity slider control
+      //TODO: make sure to pop the correct object
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].pop();
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].pop();
+
+      tempkmlparser = kmlparsers.splice(index,1);
+   //}
 }
 
 /* -------------------------------------------------------------------------------- */

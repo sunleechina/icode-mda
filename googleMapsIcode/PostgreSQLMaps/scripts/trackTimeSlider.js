@@ -148,9 +148,10 @@ function deleteTrackTimeControl() {
 }
 
 function setClosestMarker(tracks) {
-   console.log('tracks length: ' + tracks.length);
    //Loop through each displayed track
    for (var i=0; i < tracks.length; i++) {
+      if (tracks[i] == null)
+         break;
       //Work on the latest track that was pushed to the tracks (aka tracksDisplayed) array
       var track = tracks[i].trackHistory;
       var trackIcons = tracks[i].trackIcons;
@@ -187,6 +188,8 @@ function setClosestMarker(tracks) {
 function clearClosestMarker(tracks) {
    //Loop through each displayed track
    for (var i=0; i < tracks.length; i++) {
+      if (tracks[i] == null)
+         break;
       //Work on the latest track that was pushed to the tracks (aka tracksDisplayed) array
       var track = tracks[i].trackHistory;
       var trackIcons = tracks[i].trackIcons;
@@ -201,6 +204,8 @@ function clearClosestMarker(tracks) {
 function setTrackTime(pixelX, tracks) {
    //Loop through each displayed track
    for (var i=0; i < tracks.length; i++) {
+      if (tracks[i] == null)
+         break;
       //Work on the latest track that was pushed to the tracks (aka tracksDisplayed) array
       var track = tracks[i].trackHistory;
       var trackIcons = tracks[i].trackIcons;
@@ -212,7 +217,6 @@ function setTrackTime(pixelX, tracks) {
       var minTime = parseInt(track[track.length-1].datetime);
       var maxTime = parseInt(track[0].datetime);
       */
-      console.log(track[0].datetime);
       //Round to nearest whole day
       var minTime = parseInt(Math.round(track[0].datetime/86400)*86400-86400);
       var maxTime = parseInt(Math.round(track[0].datetime/86400)*86400);
@@ -229,11 +233,6 @@ function setTrackTime(pixelX, tracks) {
       //console.log(trackIcons.length);
 
       var goal = Math.round(minTime + pixelX*scale);
-      console.log('goal: ' + goal + "   " + toHumanTime(goal));
-      console.log('minTime: ' + minTime);
-      console.log('maxTime: ' + maxTime);
-      console.log('goal date: ' + toDate(goal));
-      
 
       //Clear previously drawn marker and label
       if (closest[i] != null && closest_index[i] != null) {
