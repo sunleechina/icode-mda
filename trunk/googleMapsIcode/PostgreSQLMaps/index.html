@@ -42,7 +42,7 @@
 
      <div id="panel_top">
         <div id="logo">
-           <h2><a href="."><font color="#ffffff">ICODE-MDA</font></a></h2>
+           <h2><a href=".">ICODE-MDA</a></h2>
         </div>
         <div id="top_nav">
            <div>
@@ -62,10 +62,6 @@
            <div id="layer_types">
               <hr>
               <input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" checked="checked" onclick="toggleRadarLayer();"> <img align="top" src="icons/pink0.png" style="padding-bottom: 4px; vertical-align: middle;"> RADAR Contacts<br>
-              <input class="checkbox" id="LAISICLayerTest" name="LAISICLayerTest" type="checkbox" onclick="testLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> LAISIC testing<br>
-              <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> <font color="#C0C0C0">LAISIC Fused Tracks (soon)</font><br>
-              <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" checked="checked" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> <font color="#C0C0C0">LAISIC AIS Tracks</font><br>
-              <input class="checkbox" id="LAISICLayer" name="LAISICLayer" type="checkbox" checked="checked" onclick="toggleLAISICLayer();"> <img align="top" width="20px" src="icons/laisic.png" style="padding-bottom: 4px; vertical-align: middle;"> <font color="#C0C0C0">LAISIC RADAR Tracks</font><br>
               <input class="checkbox" id="ClusterLayer" name="ClusterLayer" type="checkbox" checked="checked" onclick="toggleClusterLayer();"> <img align="top" width="20px" src="icons/cluster.png" style="padding-bottom: 4px; vertical-align: middle;"> Cluster Layer<br>
               <input class="checkbox" id="HeatmapLayer" name="HeatmapLayer" type="checkbox" onclick="toggleHeatmapLayer();"> <img align="top" width="20px" src="icons/heatmap.png" style="padding-bottom: 4px; vertical-align: middle;"> Heatmap Layer<br>
               <input class="checkbox" id="WeatherLayer" name="WeatherLayer" type="checkbox" onclick="toggleWeatherLayer();"> <img align="top" width="20px" src="icons/weather_icon.png" style="padding-bottom: 4px; vertical-align: middle;"> Weather Layer<br>
@@ -144,6 +140,9 @@ Upload KMZ: <br />
      <div id="busy_indicator"><div style="width: 32px; height: 32px;"></div></div>
 
      <div id="shipdetails">
+     </div>
+
+     <div id="vessellist">
      </div>
 
      <div id="latlong">

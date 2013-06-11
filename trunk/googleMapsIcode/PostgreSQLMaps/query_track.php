@@ -35,13 +35,13 @@ if (!empty($_GET["date"])) {
 }
 
 if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track") {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM aistrack_". $date ." A WHERE lon != -999 and mmsi=";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM aistrack_". $date ." A WHERE lon != -999 and mmsi=";
 }
 else if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "shore-radar") {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM radar_". $date ." A WHERE lon != -999 and mmsi=";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM radar_". $date ." A WHERE lon != -999 and mmsi=";
 }
 else {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog FROM ter_". $date ." A WHERE lon != -999 and mmsi=";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM ter_". $date ." A WHERE lon != -999 and mmsi=";
 }
 
 
@@ -112,6 +112,7 @@ while (odbc_fetch_row($result)){
                    datetime=>odbc_result($result,"datetime"),
                    sog=>odbc_result($result,"sog"),
                    cog=>odbc_result($result,"cog"),
+                   streamid=>odbc_result($result,"streamid"),
                    true_heading=>odbc_result($result,"true_heading")
    );
    array_push($vesselarray, $vessel);

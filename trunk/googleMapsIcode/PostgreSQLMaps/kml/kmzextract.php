@@ -14,12 +14,12 @@ $mtime = $mtime[1];
 if( $_FILES['file']['name'] != "" )
 {
    //Move the uploaded file from temporary location to webserver location
-   mkdir('C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime);
-   if (move_uploaded_file($_FILES["file"]["tmp_name"], 'C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime.'/'.$_FILES["file"]["name"] )) {
+   mkdir($mtime);
+   if (move_uploaded_file($_FILES["file"]["tmp_name"], $mtime.'/'.$_FILES["file"]["name"] )) {
 
 //Try to unzip the file ----------------------------------------------------------------
 $unzip = $mtime."/".$_FILES["file"]["name"];
-$basedir = 'C:/pgsql/UniServer/www/ICODEMDAMaps/kml/'.$mtime;
+$basedir = $mtime;
 $basedir = str_replace('\\','/',$basedir);
 
 //echo $unzip.'<br>';
