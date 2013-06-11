@@ -8,8 +8,7 @@
            margin:       0px;
            padding:      0px;
            overflow:     hidden;
-           font:         12px/1.7 Verdana,'Lucida Grande', Arial, 
-                         "Trebuchet MS", Helvetica, sans-serif;
+           font:         12px/1.7 Verdana,'Lucida Grande', Arial, "Trebuchet MS", Helvetica, sans-serif;
         }
         #panel_top {
            background:   #333333;
@@ -143,6 +142,22 @@
            background:   rgba(255,255,255,0.7);
            visibility:   hidden;
         }
+        #vessellist {
+           float:        left;
+           position:     absolute;
+           border:       1px solid gray;
+           margin:       0px;
+           padding:      2px;
+           width:        300px;
+           max-height:   500px;
+           top:          100px;
+           right:        5px;;
+           z-index:      3;
+           font-size:    8px;
+           background:   rgba(255,255,255,1.0);
+           visibility:   visible;
+           overflow-y:     scroll;
+        }
         #status-msg {
            position:     absolute;
            top:          68px;
@@ -181,8 +196,14 @@
         #firstHeading {
            font-size:    14px;
         }
-        a:link {
+        a {
            text-decoration: none;
+           color:        #FFFFFF;           
         }
-        input, textarea, select{font-family:inherit;}
+        input, textarea, select {
+           font-family:  inherit;
+        }
+        input[type="text"]  {
+           height:       22px;
+        }
 </style>
