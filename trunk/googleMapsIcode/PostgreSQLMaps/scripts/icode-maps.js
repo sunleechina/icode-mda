@@ -139,10 +139,10 @@ function initialize() {
          function() {
             //Check if URL has query
             var queryArgument = Request.QueryString("query").toString();
-            console.log(queryArgument);
+            //console.log(queryArgument);
 
             if (queryArgument != '') {
-               getCurrentAISFromDB(map.getBounds(), queryArgument, true);
+               getCurrentAISFromDB(map.getBounds(), queryArgument, null);
             }
             else {
                //Update vessels displayed
@@ -228,16 +228,19 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
             new google.maps.LatLng(maxLat, maxLon));
    }
    else {
+      //Handle the case when no URL query, but moved within bounds
       if (customQuery == null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
          //TODO: update result count to match what is actually within current view
 
          console.debug('Moved to within query bounds, not requerying.');
          return;
       }
-      else if (customQuery != null && forceUpdate) {
+      //Handle the case when URL query exists, but moved within bounds
+      else if (customQuery != null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
          console.debug('Moved to within query bounds, not requerying.');
          return;
       }
+      //Handle the case when moved outside of bounds
       else {
          queryBounds = new google.maps.LatLngBounds(
                new google.maps.LatLng(minLat, minLon), 
@@ -267,7 +270,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       phpWithArg = "query_current_vessels.php?" + sources + boundStr;
    }
    else {
-      //TODO: need a more robust condition for keyword search
+      //TODO: need a more robust condition for keyword<F12> search
       if (customQuery.length < 20) {
          //customQuery is really a keyword search
          phpWithArg = "query_current_vessels.php?" + sources + boundStr + "&keyword=" + customQuery;
@@ -314,7 +317,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                var messagetype = vessel.messagetype;
                var mmsi = vessel.mmsi;
                var navstatus = vessel.navstatus;
-                  var rot = vessel.rot;
+               var rot = vessel.rot;
                var sog = vessel.sog;
                var lon = vessel.lon;
                var lat = vessel.lat;
@@ -416,7 +419,12 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                });
 
                //Display current vessel list to vessellist div window
-               document.getElementById('vessellist').innerHTML += mmsi + ' - ' + vesselname + '<hr>';
+               if (vesselname == '') {
+                  document.getElementById('vessellist').innerHTML += mmsi + ' - (no vessel name)<hr>';
+               }
+               else {
+                  document.getElementById('vessellist').innerHTML += mmsi + ' - ' + vesselname + '<hr>';
+               }
 
          });
          //Display the appropriate layer according to the sidebar checkboxes
@@ -1265,20 +1273,6 @@ function toggleClusterLayer() {
       CLUSTER = false;
       markerClusterer.removeMarkers(markerArray);
       showOverlays();   //Display the markers individually
-   }
-}
-
-/* -------------------------------------------------------------------------------- */
-// For Gabe's LAISIC testing purposes.
-function testLAISICLayer() {
-   var query;
-   if (document.getElementById("LAISICLayerTest").checked) {
-      query = "SELECT * FROM aistrack";
-      getCurrentAISFromDB(map.getBounds(), query, true);
-   }
-   else {
-      query = mainQuery;
-      getCurrentAISFromDB(map.getBounds(), query, true);
    }
 }
 
