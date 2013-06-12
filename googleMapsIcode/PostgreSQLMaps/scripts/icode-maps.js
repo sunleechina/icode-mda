@@ -36,8 +36,24 @@ var tracklineIconsOptions = {
                path:          'M -3,0 0,-3 3,0 0,3 z',
                strokeColor:   '#FFFFFF',
                fillColor:     '#FFFFFF',
-               //strokeColor:   '#F00',
-               //fillColor:     '#F00',
+               fillOpacity:   1
+            };
+var tracklineIconsOptionsQ = {
+               path:          'M -3,0 0,-3 3,0 0,3 z',
+               strokeColor:   '#FFFF00',
+               fillColor:     '#FFFF00',
+               fillOpacity:   1
+            };
+var tracklineIconsOptionsT = {
+               path:          'M -3,0 0,-3 3,0 0,3 z',
+               strokeColor:   '#00FF00',
+               fillColor:     '#00FF00',
+               fillOpacity:   1
+            };
+var tracklineIconsOptionsL = {
+               path:          'M -5,0 0,-5 5,0 0,5 z',
+               strokeColor:   '#FF0000',
+               fillColor:     '#FF0000',
                fillOpacity:   1
             };
 /*
@@ -89,6 +105,7 @@ var distIconsOptions = {
                fillColor:     '#04B4AE',
                fillOpacity:   1
             };
+var highlightCircle = null;
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -232,12 +249,12 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       if (customQuery == null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
          //TODO: update result count to match what is actually within current view
 
-         console.debug('Moved to within query bounds, not requerying.');
+         console.log('Moved to within query bounds, not requerying.');
          return;
       }
       //Handle the case when URL query exists, but moved within bounds
       else if (customQuery != null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
-         console.debug('Moved to within query bounds, not requerying.');
+         console.log('Moved to within query bounds, not requerying.');
          return;
       }
       //Handle the case when moved outside of bounds
@@ -248,7 +265,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       }
    }
 
-   console.debug("Refreshing target points...");
+   console.log("Refreshing target points...");
    document.getElementById("query_input").value = "QUERY RUNNING...";
    document.getElementById('stats_nav').innerHTML = '';
    document.getElementById('busy_indicator').style.visibility = 'visible';
@@ -282,7 +299,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
    }
 
    //Debug query output
-   console.debug('getCurrentAISFromDB(): ' + phpWithArg);
+   console.log('getCurrentAISFromDB(): ' + phpWithArg);
 
    //Call PHP and get results as markers
    $.getJSON(
@@ -290,7 +307,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          { }
       ) //end .getJSON()
       .done(function (response) {
-         console.debug('getCurrentAISFromDB(): ' + response.query);
+         console.log('getCurrentAISFromDB(): ' + response.query);
          //Show the query and put it in the form
          document.getElementById("query_input").value = response.query;
 
@@ -422,10 +439,10 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
 
                //Display current vessel list to vessellist div window
                if (vesselname == '') {
-                  document.getElementById('vessellist').innerHTML += mmsi + ' - (no vessel name)<hr>';
+                  document.getElementById('vessellist').innerHTML += '<a onmouseover="highlightMMSI(' + mmsi + ')" onmouseout="hideHighlightMMSI()" href="#">' + mmsi + ' - (no vessel name)</a ><hr>';
                }
                else {
-                  document.getElementById('vessellist').innerHTML += mmsi + ' - ' + vesselname + '<hr>';
+                  document.getElementById('vessellist').innerHTML += '<a onmouseover="highlightMMSI(' + mmsi + ')" onmouseout="hideHighlightMMSI()" href="#">' + mmsi + ' - ' + vesselname + '</a ><hr>';
                }
 
          });
@@ -437,8 +454,8 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
             else {
                markerClusterer.addMarkers(markerArray);
             }
-            console.debug('getCurrentAISFromDB(): ' + "Number of markers = " + markerClusterer.getTotalMarkers());
-            console.debug('getCurrentAISFromDB(): ' + "Number of clusters = " + markerClusterer.getTotalClusters());
+            console.log('getCurrentAISFromDB(): ' + "Number of markers = " + markerClusterer.getTotalMarkers());
+            console.log('getCurrentAISFromDB(): ' + "Number of clusters = " + markerClusterer.getTotalClusters());
          }
          else {
             if (document.getElementById("HeatmapLayer").checked) {
@@ -457,7 +474,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
          }
 
 
-         console.debug('getCurrentAISFromDB(): ' + "Total number of markers = " + markerArray.length);
+         console.log('getCurrentAISFromDB(): ' + "Total number of markers = " + markerArray.length);
 
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          document.getElementById('stats_nav').innerHTML = 
@@ -465,7 +482,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
             Math.round(response.exectime*1000)/1000 + " secs";         
       }) //end .done()
       .fail(function() { 
-         console.debug('getCurrentAISFromDB(): ' +  'No response from track query; error in php?'); 
+         console.log('getCurrentAISFromDB(): ' +  'No response from track query; error in php?'); 
          document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 
@@ -536,12 +553,17 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
 }
 
 /* -------------------------------------------------------------------------------- */
-function clearTrack(trackline, trackIcons) {
+function clearTrack(trackline, trackIcons, dashedLines) {
    if (trackline != null && trackIcons != null) {
       trackline.setMap(null);
       trackline = null;
       var trackIcon;
-      console.debug('Deleting track and ' + trackIcons.length + ' track icons.');
+      console.log('Deleting track and ' + trackIcons.length + ' track icons.');
+      var dashedLine;
+      while (dashedLines.length > 0) {
+         dashedLine = dashedLines.pop();
+         dashedLine.setMap(null);
+      }
       while (trackIcons.length > 0) {
          trackIcon = trackIcons.pop();
          trackIcon.setMap(null);
@@ -556,7 +578,7 @@ function clearTrack(trackline, trackIcons) {
 function clearAllTracks() {
    for (var i=0; i < tracksDisplayed.length; i++) {
       tracksDisplayedMMSI[i] = null;
-      clearTrack(tracksDisplayed[i].trackline, tracksDisplayed[i].trackIcons);
+      clearTrack(tracksDisplayed[i].trackline, tracksDisplayed[i].trackIcons, tracksDisplayed[i].dashedLines);
       tracksDisplayed[i] = null;
    }
    tracksDisplayedMMSI = [];
@@ -593,13 +615,18 @@ function queryAllTracks() {
             new google.maps.LatLng(viewMinLat, viewMinLon), 
             new google.maps.LatLng(viewMaxLat, viewMaxLon));
    
-   //console.log('Displaying ' + markersDisplayed.length + ' tracks');
    //for (var i=0; i < Math.min(30,markersDisplayed.length); i++) {
    for (var i=0; i < markersDisplayed.length; i++) {
-      var markerLatLng = new google.maps.LatLng(markersDisplayed[i].lat, markersDisplayed[i].lon);
+      var markerLatLng = new google.maps.LatLng(
+                                    markersDisplayed[i].lat, 
+                                    markersDisplayed[i].lon);
       
-      if (viewBounds.contains(markerLatLng)) {
-         getTrack(markersDisplayed[i].mmsi, markersDisplayed[i].vesseltypeint, markersDisplayed[i].streamid, markersDisplayed[i].datetime, false);
+      if (viewBounds.contains(markerLatLng) || Request.QueryString("queryTracks").toString() == 'all') {
+         getTrack(markersDisplayed[i].mmsi, 
+                  markersDisplayed[i].vesseltypeint, 
+                  markersDisplayed[i].streamid, 
+                  markersDisplayed[i].datetime, 
+                  false);
       }
    }
 }
@@ -621,7 +648,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
       phpWithArg = phpWithArg + "&date=" + toDate(datetime);
 
       //Debug query output
-      console.debug('GETTRACK(): ' + phpWithArg);
+      console.log('GETTRACK(): ' + phpWithArg);
 
       var trackline = new google.maps.Polyline();
 
@@ -631,13 +658,14 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
             ) //end .getJSON()
                .done(function (response) {
                   document.getElementById("query_input").value = response.query;
-                  console.debug('GETTRACK(): ' + response.query);
-                  console.debug('GETTRACK(): ' + 'track history size = ' + response.resultcount);
+                  console.log('GETTRACK(): ' + response.query);
+                  console.log('GETTRACK(): ' + 'track history size = ' + response.resultcount);
 
                   if (response.resultcount > 0) {
                      var trackHistory = new Array();
                      var trackPath = new Array();
                      var trackIcons = new Array();
+                     var dashedLines = new Array();
 
                      //Loop through each time point of the same vessel
                      $.each(response.vessels, function(key,vessel) {
@@ -652,19 +680,64 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         //var streamid = vessel.streamid;
                         var true_heading= vessel.true_heading;
 
+                        if (vessel.target_status != null) {
+                           var target_status = vessel.target_status;
+                        }
+
                         trackPath[key] = new google.maps.LatLng(lat, lon);
 
-                        var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
+                        //Display different colored icons for radar target statuses
+                        if (target_status == 'Q') {
+                           //Draw dashed line to indicate disconnected path
+                           var dashedPath = [];
+                           dashedPath.push(trackPath[key-1]);
+                           dashedPath.push(trackPath[key]);
+
+                           var lineSymbol = {
+                              path:         'M 0,-1 0,1',
+                              strokeColor:        '#FFFFFF',
+                              strokeOpacity: 1,
+                              scale:         4
+                           };                           
+
+                           var dashedLine = new google.maps.Polyline({
+                              path: dashedPath,
+                              strokeOpacity: 0,
+                              icons: [{
+                                  icon:   lineSymbol,
+                                  offset: '0',
+                                  repeat: '20px'
+                              }],
+                              map: map                               
+                           });
+                           dashedLines.push(dashedLine);
+
+                           var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptionsQ});
+                        }
+                        else if (target_status == 'T') {
+                           var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptionsT});
+                        }
+                        else if (target_status == 'L') {
+                           var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptionsL});
+                        }
+                        else { //Display normal track icon for non-radar tracks
+                           var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptions});
+                        }
                         tracklineIcon.setPosition(trackPath[key]);
                         tracklineIcon.setMap(map);
-                        tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\nStreamID: ' + streamid);
+                        if (target_status == false) {
+                           tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\nStreamID: ' + streamid);
+                        }
+                        else {
+                           tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\ntarget_status: ' + target_status + '\nStreamID: ' + streamid);
+                        }
 
                         trackIcons.push(tracklineIcon);
 
 
                         //Add listener to delete track if right click on icon
                         google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
-                           clearTrack(trackline, trackIcons);
+                           clearTrack(trackline, trackIcons, dashedLines);
                            var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
                            tracksDisplayedMMSI.splice(deleteIndex, 1);
                            tracksDisplayed.splice(deleteIndex, 1);
@@ -672,10 +745,10 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
                         //Add listener to project to predicted location if click on icon (dead reckoning)
                         google.maps.event.addListener(tracklineIcon, 'mousedown', function() {
-                           if (sog != -1 && (key-1) > 0) {
-                              var time = (trackHistory[key-1].datetime - trackHistory[key].datetime)/60/60; //Grab next chronological time and compare time difference
-                              if (time == 0 && (key-2) > 0) {
-                                 time = (trackHistory[key-2].datetime - trackHistory[key].datetime)/60/60;
+                           if (sog != -1 && (key+1) < trackHistory.length) {
+                              var time = (trackHistory[key+1].datetime - trackHistory[key].datetime)/60/60; //Grab next chronological time and compare time difference
+                              if (time == 0 && (key+2) < 0) {
+                                 time = (trackHistory[key+2].datetime - trackHistory[key].datetime)/60/60;
                               }
                               var d = (sog*1.852)*time; //convert knots/hr to km/hr
                               var R = 6371; //km
@@ -759,6 +832,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         mmsi: mmsi,
                         trackHistory: trackHistory,
                         trackline: trackline,
+                        dashedLines: dashedLines,
                         trackIcons: trackIcons,
                      };
                      tracksDisplayed.push(track);
@@ -768,7 +842,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
                      //Add listener to delete track if right click on track line 
                      google.maps.event.addListener(trackline, 'rightclick', function() {
-                        clearTrack(trackline, trackIcons);
+                        clearTrack(trackline, trackIcons, dashedLines);
                         var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
                         tracksDisplayedMMSI.splice(deleteIndex, 1);
                         tracksDisplayed.splice(deleteIndex, 1);
@@ -779,14 +853,14 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                   document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
                }) //end .done()
             .fail(function() { 
-               console.debug('GETTRACK(): ' +  'No response from track query; error in php?'); 
+               console.log('GETTRACK(): ' +  'No response from track query; error in php?'); 
                document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
                document.getElementById('busy_indicator').style.visibility = 'hidden';
                return; 
             }); //end .fail()
    }
    else {
-      console.debug('Track for ' + mmsi + ' is already displayed.');
+      console.log('Track for ' + mmsi + ' is already displayed.');
    }
 }
 
@@ -843,6 +917,29 @@ function typeSelectUpdated() {
    else {
       getCurrentAISFromDB(map.getBounds(), null, true);
    }
+}
+
+/* -------------------------------------------------------------------------------- */
+function highlightMMSI(mmsi) {
+   for (var i=0; i < markersDisplayed.length; i++) {
+      if (markersDisplayed[i].mmsi == mmsi) {
+         highlightCircle = new google.maps.Circle({
+            center:  new google.maps.LatLng(markersDisplayed[i].lat, markersDisplayed[i].lon),
+            radius: 2000,
+            strokeColor: "#FFFF00",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FFFF00",
+            fillOpacity: 0.2,
+            map: map
+         });
+      }
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+function hideHighlightMMSI() {
+   highlightCircle.setMap(null);
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -1231,7 +1328,7 @@ function showPorts() {
 
    var phpWithArg = "query_ports.php?" + boundStr;
    //Debug query output
-   console.debug('SHOWPORTS(): ' + phpWithArg);
+   console.log('SHOWPORTS(): ' + phpWithArg);
 
    $.getJSON(
          phpWithArg, // The server URL 
@@ -1239,8 +1336,8 @@ function showPorts() {
       ) //end .getJSON()
       .done(function (response) {
          document.getElementById("query_input").value = response.query;
-         console.debug('SHOWPORTS(): ' + response.query);
-         console.debug('SHOWPORTS(): ' + 'number of ports = ' + response.resultcount);
+         console.log('SHOWPORTS(): ' + response.query);
+         console.log('SHOWPORTS(): ' + 'number of ports = ' + response.resultcount);
 
          $.each(response.ports, function(key,port) {
             var port_name = port.port_name;
@@ -1273,7 +1370,7 @@ function showPorts() {
          document.getElementById('stats_nav').innerHTML = response.resultcount + " results<br>" + Math.round(response.exectime*1000)/1000 + " secs";
       }) //end .done()
       .fail(function() { 
-         console.debug('SHOWPORTS(): ' +  'No response from port query; error in php?'); 
+         console.log('SHOWPORTS(): ' +  'No response from port query; error in php?'); 
          document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 
@@ -1507,7 +1604,7 @@ function addDistanceTool() {
             strokeOpacity: 1.0,
             strokeWeight:  5,
          });
-         console.debug('Distance between two clicks: ' + Math.round(dist*100)/100 + ' meters');
+         console.log('Distance between two clicks: ' + Math.round(dist*100)/100 + ' meters');
 
          //Set distance label
          mapLabel.set('text', Math.round((dist/1000)*1000)/1000 + ' km (' + Math.round((dist/1000)/1.852*1000)/1000 + ' nm)');

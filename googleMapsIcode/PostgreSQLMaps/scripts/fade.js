@@ -55,7 +55,7 @@ function fade(eid)
   {
     element.FadeState = element.FadeState == 2 ? -1 : 1;
     element.FadeTimeLeft = TimeToFade;
-    setTimeout(animateFade(new Date().getTime(),eid), 33);
+    setTimeout(function(){animateFade(new Date().getTime(),eid)}, 33);
   }  
 }
 

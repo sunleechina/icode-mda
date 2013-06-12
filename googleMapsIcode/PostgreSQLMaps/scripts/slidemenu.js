@@ -23,6 +23,9 @@ $(document).ready(function(){
    $('.inputfilebutton').click( function(e) {
       e.stopPropagation();
    });
+   $('.vessellist').click( function(e) {
+      e.stopPropagation();
+   });
 
 
    $leftpanel.click(function() {

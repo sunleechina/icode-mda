@@ -142,6 +142,7 @@
            background:   rgba(255,255,255,0.7);
            visibility:   hidden;
         }
+        /*
         #vessellist {
            float:        left;
            position:     absolute;
@@ -157,6 +158,20 @@
            background:   rgba(255,255,255,1.0);
            visibility:   visible;
            overflow-y:     scroll;
+        }
+        */
+        #vessellist {
+           float:        left;
+           border:       1px solid gray;
+           margin:       0px;
+           padding:      2px;
+           font-size:    10px;
+           width:        244px;
+           max-height:   200px;
+           overflow-y:   scroll;
+        }
+        #vessellist a {
+           color:        #000000;           
         }
         #status-msg {
            position:     absolute;
