@@ -2,6 +2,7 @@
 <html>
   <head>
      <title>ICODE-MDA Maps</title>
+     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" >
      <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
      <link rel="stylesheet" type="text/css" href="scripts/style.css">
@@ -46,7 +47,7 @@
         </div>
         <div id="top_nav">
            <div>
-              <form name="query_form"><input id="query_input" type="text" name="query_input" style="width:100%" onkeypress="enteredQuery()" onClick="this.select();" value="QUERY RUNNING..."><input hidden="true"></form>
+              <form name="query_form"><input id="query_input" type="text" name="query_input" style="width:100%" onkeypress="enteredQuery()" onClick="this.select();" value="QUERY RUNNING..."><input hidden="true" type="hidden"></form>
            </div>
         </div>
         <div id="stats_nav">
@@ -118,7 +119,16 @@ Upload KMZ: <br />
    <input class="inputfilebutton" type="button" onClick="fileUpload(this.form,'kml/kmzextract.php','upload'); return false;" value="Upload">
 </form>
 <div id="upload"></div>
-              
+
+              <hr>
+              <form id="distancetoolform" >
+                 <input class="inputfilebutton" type="button" onClick="addDistanceTool();" value="Enable distance tool">
+              </form>
+
+              <hr>
+
+              <span id="vessellist" class="vessellist">
+              </span>
 
            </div>
         </div>
@@ -142,16 +152,15 @@ Upload KMZ: <br />
      <div id="shipdetails">
      </div>
 
-     <div id="vessellist">
-     </div>
-
      <div id="latlong">
      </div>
 
+     <!-- [if !IE] -->
      <div id="status-msg">
         <!-- NEW! Try keyword search, i.e. "Lome", "radar", "queen", etc -->
         Currently showing RADAR and raw full AIS for 2013-05-21
      </div>
+     <!-- [endif] -->
 
   </body>
 </html>
