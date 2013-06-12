@@ -415,7 +415,9 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                   mmsi: mmsi, 
                   vesseltypeint: vesseltypeint,
                   streamid: streamid,
-                  datetime: datetime
+                  datetime: datetime,
+                  lat: lat,
+                  lon: lon
                });
 
                //Display current vessel list to vessellist div window
@@ -563,12 +565,42 @@ function clearAllTracks() {
 }
 
 /* -------------------------------------------------------------------------------- */
+function toggleQueryAllTracks() {
+   if (document.getElementById("queryalltracks").checked) {
+      queryAllTracks();
+   }
+   else {
+      clearAllTracks();
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
+/**
+ * Function to query and show all tracks within view bounds
+ **/
 function queryAllTracks() {
-   console.log('Displaying ' + markersDisplayed.length + ' tracks');
+   var bounds = map.getBounds();
+
+   var ne = bounds.getNorthEast();
+   var sw = bounds.getSouthWest();
+
+   var viewMinLat = sw.lat();
+   var viewMaxLat = ne.lat();
+   var viewMinLon = sw.lng();
+   var viewMaxLon = ne.lng();
+
+   var viewBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(viewMinLat, viewMinLon), 
+            new google.maps.LatLng(viewMaxLat, viewMaxLon));
+   
+   //console.log('Displaying ' + markersDisplayed.length + ' tracks');
    //for (var i=0; i < Math.min(30,markersDisplayed.length); i++) {
    for (var i=0; i < markersDisplayed.length; i++) {
-      //if (markersDisplayed[i].streamid == 'shore-radar')
+      var markerLatLng = new google.maps.LatLng(markersDisplayed[i].lat, markersDisplayed[i].lon);
+      
+      if (viewBounds.contains(markerLatLng)) {
          getTrack(markersDisplayed[i].mmsi, markersDisplayed[i].vesseltypeint, markersDisplayed[i].streamid, markersDisplayed[i].datetime, false);
+      }
    }
 }
 
