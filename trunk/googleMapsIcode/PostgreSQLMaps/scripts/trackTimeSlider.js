@@ -13,6 +13,8 @@ var closest_index = [];
 var timediff = [];
 var mapLabelArray = [];
 
+var mapCurrTimeLabel;
+
 function createTrackTimeControl(map, initial, tracks) {
    var sliderImageUrl = "icons/trackTime-slider.png";
 
@@ -194,8 +196,20 @@ function clearClosestMarker(tracks) {
       var track = tracks[i].trackHistory;
       var trackIcons = tracks[i].trackIcons;
 
+      //Return the track icon back to its original style
       if (closest[i] != null && closest_index[i] != null) {
-         trackIcons[closest_index[i]].setIcon(tracklineIconsOptions);
+         if (tracks[i].trackTargetStatus[closest_index[i]] == 'T') {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptionsT);
+         }
+         else if (tracks[i].trackTargetStatus[closest_index[i]] == 'Q') {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptionsQ);
+         }
+         else if (tracks[i].trackTargetStatus[closest_index[i]] == 'L') {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptionsL);
+         }
+         else {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptions);
+         }
          mapLabelArray[i].setMap(null);
       }
    }
@@ -218,8 +232,8 @@ function setTrackTime(pixelX, tracks) {
       var maxTime = parseInt(track[0].datetime);
       */
       //Round to nearest whole day
-      var minTime = parseInt(Math.round(track[0].datetime/86400)*86400-86400);
-      var maxTime = parseInt(Math.round(track[0].datetime/86400)*86400);
+      var minTime = parseInt(Math.round(track[track.length-1].datetime/86400)*86400-86400);
+      var maxTime = parseInt(Math.round(track[track.length-1].datetime/86400)*86400);
 
       var timeDiff = maxTime - minTime;
 
@@ -234,9 +248,34 @@ function setTrackTime(pixelX, tracks) {
 
       var goal = Math.round(minTime + pixelX*scale);
 
+      /*
+      var mapCurrTimeLabel = new MapLabel({
+          text: '',
+          position: new google.maps.LatLng(5.88, 1.26),
+          map: map,
+          fontSize: 14,
+          align: 'left'
+      });
+            mapCurrTimeLabel.set('text', toHumanTime(goal));
+            mapCurrTimeLabel.set('map', map);
+            //console.log('pushing mapCurrTimeLabel');
+            //map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mapCurrTimeLabel);
+            */
+
       //Clear previously drawn marker and label
       if (closest[i] != null && closest_index[i] != null) {
-         trackIcons[closest_index[i]].setIcon(tracklineIconsOptions);
+         if (tracks[i].trackTargetStatus[closest_index[i]] == 'T') {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptionsT);
+         }
+         else if (tracks[i].trackTargetStatus[closest_index[i]] == 'Q') {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptionsQ);
+         }
+         else if (tracks[i].trackTargetStatus[closest_index[i]] == 'L') {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptionsL);
+         }
+         else {
+            trackIcons[closest_index[i]].setIcon(tracklineIconsOptions);
+         }
          if (mapLabelArray[i] != null) {
             mapLabelArray[i].setMap(null);
          }
