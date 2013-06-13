@@ -36,6 +36,12 @@ function createTrackTimeControl(map, initial, tracks) {
    titleDiv.setAttribute("style", "padding:0;margin:0;overflow-x:hidden;overflow-y:hidden;vertical-align:top;width:100px;height:26px;");
    titleDiv.innerHTML = '<b>Track Timeline</b>';
 
+   var timeDiv = document.createElement('DIV');
+   timeDiv.setAttribute("style", "padding:0;margin:0;overflow-x:hidden;overflow-y:hidden;vertical-align:top;text-align:right;width:150px;height:26px;");
+   timeDiv.setAttribute("id", "currentTime");
+   //timeDiv.innerHTML = '<b>Track Timeline</b>';
+
+
    var trackTimeCtrlKnob = new ExtDraggableObject(trackTimeKnobDiv, {
       restrictY: true,
       container: trackTimeDiv
@@ -134,6 +140,7 @@ function createTrackTimeControl(map, initial, tracks) {
    //Check if previous track slider already exists
    deleteTrackTimeControl();
    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(titleDiv);
+   map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(timeDiv);
    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(trackTimeDiv);
    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(clearTrackDiv);
 
@@ -261,6 +268,8 @@ function setTrackTime(pixelX, tracks) {
             //console.log('pushing mapCurrTimeLabel');
             //map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mapCurrTimeLabel);
             */
+
+      $("#currentTime").html(toHumanTime(goal));
 
       //Clear previously drawn marker and label
       if (closest[i] != null && closest_index[i] != null) {
