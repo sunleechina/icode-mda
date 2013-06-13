@@ -198,11 +198,13 @@ function initialize() {
    	markerClusterer = new MarkerClusterer(map, [], mcOptions);
    }
 
+   /*
    //KML overlay layer
    if (document.getElementById("KMLLayer").checked) {
       KML = true;
       showKML();
    }
+   */
 
    if (document.getElementById("PortLayer").checked) {
       Ports = true;
@@ -666,6 +668,8 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                      var trackPath = new Array();
                      var trackIcons = new Array();
                      var dashedLines = new Array();
+                     var prev_target_status = null;
+                     var target_status;
 
                      //Loop through each time point of the same vessel
                      $.each(response.vessels, function(key,vessel) {
@@ -681,10 +685,38 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         var true_heading= vessel.true_heading;
 
                         if (vessel.target_status != null) {
-                           var target_status = vessel.target_status;
+                           prev_target_status = target_status;
+                           target_status = vessel.target_status;
                         }
 
                         trackPath[key] = new google.maps.LatLng(lat, lon);
+
+                        if (prev_target_status == 'L' && key > 0) {
+                           console.log('drawing dash for lost');
+                           //Draw dashed line to indicate disconnected path
+                           var dashedPath = [];
+                           dashedPath.push(trackPath[key-1]);
+                           dashedPath.push(trackPath[key]);
+
+                           var lineSymbol = {
+                              path:         'M 0,-1 0,1',
+                              strokeColor:        '#FFFFFF',
+                              strokeOpacity: 1,
+                              scale:         4
+                           };                           
+
+                           var dashedLine = new google.maps.Polyline({
+                              path: dashedPath,
+                               strokeOpacity: 0,
+                               icons: [{
+                                  icon:   lineSymbol,
+                               offset: '0',
+                               repeat: '20px'
+                               }],
+                               map: map                               
+                           });
+                           dashedLines.push(dashedLine);
+                        }
 
                         //Display different colored icons for radar target statuses
                         if (target_status == 'Q') {
@@ -898,6 +930,7 @@ function enteredQuery() {
 
 /* -------------------------------------------------------------------------------- */
 function typeSelectUpdated() {
+   console.log('Types select updated');
    var types = getTypesSelected();
 
    //var entered_query = document.getElementById("query_input").value;
@@ -913,6 +946,7 @@ function typeSelectUpdated() {
          }
       }
       entered_query = entered_query + ")";
+      getCurrentAISFromDB(map.getBounds(), entered_query, true);
    }
    else {
       getCurrentAISFromDB(map.getBounds(), null, true);
