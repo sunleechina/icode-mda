@@ -159,6 +159,7 @@ function initialize() {
             //console.log(queryArgument);
 
             if (queryArgument != '') {
+               //mainQuery = queryArgument;
                getCurrentAISFromDB(map.getBounds(), queryArgument, null);
             }
             else {
@@ -670,6 +671,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                      var dashedLines = new Array();
                      var prev_target_status = null;
                      var target_status;
+                     var trackTargetStatus = new Array();
 
                      //Loop through each time point of the same vessel
                      $.each(response.vessels, function(key,vessel) {
@@ -687,6 +689,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         if (vessel.target_status != null) {
                            prev_target_status = target_status;
                            target_status = vessel.target_status;
+                           trackTargetStatus.push(target_status);
                         }
 
                         trackPath[key] = new google.maps.LatLng(lat, lon);
@@ -758,10 +761,10 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         tracklineIcon.setPosition(trackPath[key]);
                         tracklineIcon.setMap(map);
                         if (target_status == false) {
-                           tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\nStreamID: ' + streamid);
+                           tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nDatatime (unixtime): ' + datetime + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\nStreamID: ' + streamid);
                         }
                         else {
-                           tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\ntarget_status: ' + target_status + '\nStreamID: ' + streamid);
+                           tracklineIcon.setTitle('MMSI: ' + mmsi + '\nDatetime: ' + toHumanTime(datetime) + '\nDatatime (unixtime): ' + datetime + '\nLat: ' + lat + '\nLon: ' + lon + '\nHeading: ' + true_heading + '\nSOG: ' + sog + '\nCOG: ' + cog + '\ntarget_status: ' + target_status + '\nStreamID: ' + streamid);
                         }
 
                         trackIcons.push(tracklineIcon);
@@ -866,6 +869,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         trackline: trackline,
                         dashedLines: dashedLines,
                         trackIcons: trackIcons,
+                        trackTargetStatus: trackTargetStatus
                      };
                      tracksDisplayed.push(track);
 
