@@ -111,13 +111,20 @@ var highlightCircle = null;
 /** Initialize, called on main page load
 */
 function initialize() {
+   //Detect iPhone or Android devices and set map to 100%
+   //detectBrowser();
+
+   // Enable the visual refresh
+   //google.maps.visualRefresh = true;
+   
+
    //Set up map properties
    //var centerCoord = new google.maps.LatLng(0,0);
    //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
    var centerCoord = new google.maps.LatLng(6.0,1.30);   //Lome, Togo
    //var centerCoord = new google.maps.LatLng(5.9,1.30);   //Lome, Togo
 
-   var mapOptions = {
+      var mapOptions = {
       //zoom:              5,
       zoom:              11,
       center:            centerCoord,
@@ -159,7 +166,7 @@ function initialize() {
             //console.log(queryArgument);
 
             if (queryArgument != '') {
-               //mainQuery = queryArgument;
+               mainQuery = queryArgument;
                getCurrentAISFromDB(map.getBounds(), queryArgument, null);
             }
             else {
@@ -220,6 +227,21 @@ function initialize() {
 }
 
 /* -------------------------------------------------------------------------------- */
+function detectBrowser() {
+   var useragent = navigator.userAgent;
+   var mapdiv = document.getElementById("map_canvas");
+
+   if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1 ) {
+      mapdiv.style.width = '100%';
+      mapdiv.style.height = '100%';
+   } 
+   else {
+      mapdiv.style.width = 'calc(100% - 250px - 4px - 0px);';
+      mapdiv.style.height = 'calc(100% - 0px)';
+   }
+}
+
+/* -------------------------------------------------------------------------------- */
 /** 
  * Get AIS data from XML, which is from database, with bounds 
  */
@@ -257,6 +279,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       }
       //Handle the case when URL query exists, but moved within bounds
       else if (customQuery != null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
+         console.log(!forceUpdate);
          console.log('Moved to within query bounds, not requerying.');
          return;
       }
@@ -269,7 +292,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
    }
 
    console.log("Refreshing target points...");
-   document.getElementById("query_input").value = "QUERY RUNNING...";
+   document.getElementById("query").value = "QUERY RUNNING...";
    document.getElementById('stats_nav').innerHTML = '';
    document.getElementById('busy_indicator').style.visibility = 'visible';
 
@@ -312,7 +335,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       .done(function (response) {
          console.log('getCurrentAISFromDB(): ' + response.query);
          //Show the query and put it in the form
-         document.getElementById("query_input").value = response.query;
+         document.getElementById("query").value = response.query;
 
          //Vessel list window
          document.getElementById('vessellist').innerHTML = 
@@ -486,7 +509,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       }) //end .done()
       .fail(function() { 
          console.log('getCurrentAISFromDB(): ' +  'No response from track query; error in php?'); 
-         document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+         document.getElementById("query").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 
       }); //end .fail()
@@ -641,7 +664,7 @@ function queryAllTracks() {
 function getTrack(mmsi, vesseltypeint, streamid, datetime) {
    //Check if track is already displayed or not
    if ($.inArray(mmsi, tracksDisplayedMMSI) == -1) {
-      document.getElementById("query_input").value = "QUERY RUNNING FOR TRACK...";
+      document.getElementById("query").value = "QUERY RUNNING FOR TRACK...";
       document.getElementById('stats_nav').innerHTML = '';
       document.getElementById('busy_indicator').style.visibility = 'visible';
       var phpWithArg = "query_track.php?streamid=" + streamid + "&mmsi=" + mmsi;
@@ -660,7 +683,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
             { }
             ) //end .getJSON()
                .done(function (response) {
-                  document.getElementById("query_input").value = response.query;
+                  document.getElementById("query").value = response.query;
                   console.log('GETTRACK(): ' + response.query);
                   console.log('GETTRACK(): ' + 'track history size = ' + response.resultcount);
 
@@ -890,7 +913,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                }) //end .done()
             .fail(function() { 
                console.log('GETTRACK(): ' +  'No response from track query; error in php?'); 
-               document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+               document.getElementById("query").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
                document.getElementById('busy_indicator').style.visibility = 'hidden';
                return; 
             }); //end .fail()
@@ -909,26 +932,25 @@ function refreshLayers() {
 
 /* -------------------------------------------------------------------------------- */
 function enteredQuery() {
-   if (event.which == 13) {
-      var entered_query = document.getElementById("query_input").value;
+   var entered_query = document.getElementById("query").value;
+   console.log(entered_query);
 
-      //Trim white space
-      $.trim(entered_query);
+   //Trim white space
+   $.trim(entered_query);
 
-      //Create "startsWith" function
-      if (typeof String.prototype.startsWith != 'function') {
-         String.prototype.startsWith = function (str){
-            return this.indexOf(str) == 0;
-         };
-      }
+   //Create "startsWith" function
+   if (typeof String.prototype.startsWith != 'function') {
+      String.prototype.startsWith = function (str){
+         return this.indexOf(str) == 0;
+      };
+   }
 
-      //Use startsWith function to find the "SELECT" statement
-      if (entered_query.startsWith('SELECT')) {
-         getCurrentAISFromDB(map.getBounds(), entered_query, null);
-      }
-      else {
-         getCurrentAISFromDB(map.getBounds(), entered_query, null);
-      }
+   //Use startsWith function to find the "SELECT" statement
+   if (entered_query.startsWith('SELECT')) {
+      getCurrentAISFromDB(map.getBounds(), entered_query, true);
+   }
+   else {
+      getCurrentAISFromDB(map.getBounds(), entered_query, true);
    }
 }
 
@@ -937,7 +959,7 @@ function typeSelectUpdated() {
    console.log('Types select updated');
    var types = getTypesSelected();
 
-   //var entered_query = document.getElementById("query_input").value;
+   //var entered_query = document.getElementById("query").value;
    var entered_query = mainQuery;
 
    if ($.inArray(999, types) == -1) {
@@ -1351,7 +1373,7 @@ function togglePortLayer() {
 
 /* -------------------------------------------------------------------------------- */
 function showPorts() {
-   document.getElementById("query_input").value = "QUERY RUNNING FOR PORTS...";
+   document.getElementById("query").value = "QUERY RUNNING FOR PORTS...";
    document.getElementById('stats_nav').innerHTML = '';
    document.getElementById('busy_indicator').style.visibility = 'visible';
 
@@ -1373,7 +1395,7 @@ function showPorts() {
          { }
       ) //end .getJSON()
       .done(function (response) {
-         document.getElementById("query_input").value = response.query;
+         document.getElementById("query").value = response.query;
          console.log('SHOWPORTS(): ' + response.query);
          console.log('SHOWPORTS(): ' + 'number of ports = ' + response.resultcount);
 
@@ -1409,7 +1431,7 @@ function showPorts() {
       }) //end .done()
       .fail(function() { 
          console.log('SHOWPORTS(): ' +  'No response from port query; error in php?'); 
-         document.getElementById("query_input").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
+         document.getElementById("query").value = "ERROR IN QUERY.  PLEASE TRY AGAIN.";
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          return; 
       }); //end .fail()
