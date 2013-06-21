@@ -279,7 +279,6 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
       }
       //Handle the case when URL query exists, but moved within bounds
       else if (customQuery != null && !forceUpdate && queryBounds.contains(ne) && queryBounds.contains(sw)) {
-         console.log(!forceUpdate);
          console.log('Moved to within query bounds, not requerying.');
          return;
       }
@@ -597,14 +596,17 @@ function clearTrack(trackline, trackIcons, dashedLines) {
       if (tracksDisplayed.length == 1) {
          deleteTrackTimeControl();
       }
+      
+      document.getElementById("queryalltracks").checked = false;
+      document.getElementById("queryalltracks").removeAttribute("checked");
    }
 }
 
 /* -------------------------------------------------------------------------------- */
 function clearAllTracks() {
    for (var i=0; i < tracksDisplayed.length; i++) {
-      tracksDisplayedMMSI[i] = null;
       clearTrack(tracksDisplayed[i].trackline, tracksDisplayed[i].trackIcons, tracksDisplayed[i].dashedLines);
+      tracksDisplayedMMSI[i] = null;
       tracksDisplayed[i] = null;
    }
    tracksDisplayedMMSI = [];
@@ -627,6 +629,9 @@ function toggleQueryAllTracks() {
  * Function to query and show all tracks within view bounds
  **/
 function queryAllTracks() {
+   console.log(tracksDisplayedMMSI.length);
+   console.log(tracksDisplayed.length);
+
    var bounds = map.getBounds();
 
    var ne = bounds.getNorthEast();
@@ -640,7 +645,7 @@ function queryAllTracks() {
    var viewBounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(viewMinLat, viewMinLon), 
             new google.maps.LatLng(viewMaxLat, viewMaxLon));
-   
+
    //for (var i=0; i < Math.min(30,markersDisplayed.length); i++) {
    for (var i=0; i < markersDisplayed.length; i++) {
       var markerLatLng = new google.maps.LatLng(
@@ -651,8 +656,7 @@ function queryAllTracks() {
          getTrack(markersDisplayed[i].mmsi, 
                   markersDisplayed[i].vesseltypeint, 
                   markersDisplayed[i].streamid, 
-                  markersDisplayed[i].datetime, 
-                  false);
+                  markersDisplayed[i].datetime);
       }
    }
 }
@@ -717,8 +721,8 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
                         trackPath[key] = new google.maps.LatLng(lat, lon);
 
+                        //Check if previous target was 'lost' radar tracking
                         if (prev_target_status == 'L' && key > 0) {
-                           console.log('drawing dash for lost');
                            //Draw dashed line to indicate disconnected path
                            var dashedPath = [];
                            dashedPath.push(trackPath[key-1]);
@@ -753,7 +757,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
                            var lineSymbol = {
                               path:         'M 0,-1 0,1',
-                              strokeColor:        '#FFFFFF',
+                              strokeColor:  '#FFFFFF',
                               strokeOpacity: 1,
                               scale:         4
                            };                           
@@ -762,9 +766,9 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                               path: dashedPath,
                               strokeOpacity: 0,
                               icons: [{
-                                  icon:   lineSymbol,
-                                  offset: '0',
-                                  repeat: '20px'
+                                  icon:      lineSymbol,
+                                  offset:    '0',
+                                  repeat:    '20px'
                               }],
                               map: map                               
                            });
@@ -797,8 +801,11 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
                            clearTrack(trackline, trackIcons, dashedLines);
                            var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
+                        console.log('deleting: ' + deleteIndex);
+                        console.log(tracksDisplayed.length);
                            tracksDisplayedMMSI.splice(deleteIndex, 1);
                            tracksDisplayed.splice(deleteIndex, 1);
+                     console.log(tracksDisplayed.length);
                         });
 
                         //Add listener to project to predicted location if click on icon (dead reckoning)
@@ -903,8 +910,11 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                      google.maps.event.addListener(trackline, 'rightclick', function() {
                         clearTrack(trackline, trackIcons, dashedLines);
                         var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
+                     console.log('deleting: ' + deleteIndex);
+                     console.log(tracksDisplayed.length);
                         tracksDisplayedMMSI.splice(deleteIndex, 1);
                         tracksDisplayed.splice(deleteIndex, 1);
+                     console.log(tracksDisplayed.length);
                      });
                   }
 
@@ -1859,4 +1869,28 @@ function pad(number, length) {
     }
     return str;
 }
+
+/* -------------------------------------------------------------------------------- */
+// Avoid `console` errors in browsers that lack a console, such as IE in non-developer mode
+(function() {
+    var method;
+    var noop = function () {};
+    var methods = [
+        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+        'timeStamp', 'trace', 'warn'
+    ];
+    var length = methods.length;
+    var console = (window.console = window.console || {});
+
+    while (length--) {
+        method = methods[length];
+
+        // Only stub undefined methods.
+        if (!console[method]) {
+            console[method] = noop;
+        }
+    }
+}());
 

@@ -255,19 +255,6 @@ function setTrackTime(pixelX, tracks) {
 
       var goal = Math.round(minTime + pixelX*scale);
 
-      /*
-      var mapCurrTimeLabel = new MapLabel({
-          text: '',
-          position: new google.maps.LatLng(5.88, 1.26),
-          map: map,
-          fontSize: 14,
-          align: 'left'
-      });
-            mapCurrTimeLabel.set('text', toHumanTime(goal));
-            mapCurrTimeLabel.set('map', map);
-            //console.log('pushing mapCurrTimeLabel');
-            //map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(mapCurrTimeLabel);
-            */
 
       $("#currentTime").html(toHumanTime(goal));
 
