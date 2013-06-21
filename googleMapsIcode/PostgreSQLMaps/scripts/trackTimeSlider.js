@@ -8,14 +8,14 @@
   Licences: Creative Commons Attribution 3.0 New Zealand License
   http://creativecommons.org/licenses/by/3.0/nz/
  ******************************************************************************/
-var closest = [];
-var closest_index = [];
-var timediff = [];
 var mapLabelArray = [];
-
 var mapCurrTimeLabel;
 
 function createTrackTimeControl(map, initial, tracks) {
+   var closest = [];
+   var closest_index = [];
+   var timediff = [];
+
    var sliderImageUrl = "icons/trackTime-slider.png";
 
    // Create main div to hold the control.
@@ -46,19 +46,7 @@ function createTrackTimeControl(map, initial, tracks) {
       restrictY: true,
       container: trackTimeDiv
    });
-  
-  /* 
-   var trackTimeCtrlKnobLabel = new MapLabel({
-         text: '',
-         //position: new google.maps.LatLng(5.9,1.30),
-         map: map,
-         fontSize: 14,
-         align: 'left'
-      });
-   trackTimeCtrlKnobLabel.set('text', toHumanTime(track[closest_index[i]].datetime));
-   trackTimeCtrlKnobLabel.set('map', map);
-   //trackTimeCtrlKnobLabel.bindTo('position', trackIcons[closest_index[i]]);
-*/
+
 
    for (var i=0; i < tracks.length; i++) {
       //Create the text label once for this track
@@ -84,8 +72,8 @@ function createTrackTimeControl(map, initial, tracks) {
             //console.log(m);
             if (m < 250) {
                trackTimeCtrlKnob.setValueX(m);
-               setTrackTime(trackTimeCtrlKnob.valueX(), tracks);
-               setClosestMarker(tracks);
+               setTrackTime(trackTimeCtrlKnob.valueX(), tracks, closest, closest_index, timediff);
+               setClosestMarker(tracks, closest, closest_index, timediff);
                myLoop();
             }
          }
@@ -101,22 +89,22 @@ function createTrackTimeControl(map, initial, tracks) {
             var x = e.pageX - left - 5; // - 5 as we're using a margin of 5px on the div
             m = x;
             trackTimeCtrlKnob.setValueX(x);
-            setTrackTime(x, tracks);
+            setTrackTime(x, tracks, closest, closest_index, timediff);
             //Update the closest icon
-            setClosestMarker(tracks);
+            setClosestMarker(tracks, closest, closest_index, timediff);
          });
       }
    });
 
    //Add listeners
    google.maps.event.addListener(trackTimeCtrlKnob, "drag", function () {
-      setTrackTime(trackTimeCtrlKnob.valueX(), tracks);
+      setTrackTime(trackTimeCtrlKnob.valueX(), tracks, closest, closest_index, timediff);
       //Update the closest icon
-      setClosestMarker(tracks);
+      setClosestMarker(tracks, closest, closest_index, timediff);
 
       //Handle the case where user clicks then drags mouse off slider
       google.maps.event.addListener(map, "mouseup", function (e) {
-         clearClosestMarker(tracks);
+         clearClosestMarker(tracks, closest, closest_index, timediff);
       });
    });
 
@@ -124,17 +112,17 @@ function createTrackTimeControl(map, initial, tracks) {
       var left = findPosLeft(this);
       var x = e.pageX - left - 5; // - 5 as we're using a margin of 5px on the div
       trackTimeCtrlKnob.setValueX(x);
-      setTrackTime(x, tracks);
+      setTrackTime(x, tracks, closest, closest_index, timediff);
       //Update the closest icon
-      setClosestMarker(tracks);
+      setClosestMarker(tracks, closest, closest_index, timediff);
    });
 
    google.maps.event.addDomListener(trackTimeDiv, "mouseover", function (e) {
-      setClosestMarker(tracks);
+      setClosestMarker(tracks, closest, closest_index, timediff);
    });
 
    google.maps.event.addDomListener(trackTimeDiv, "mouseout", function (e) {
-      clearClosestMarker(tracks);
+      clearClosestMarker(tracks, closest, closest_index, timediff);
    });
 
    //Check if previous track slider already exists
@@ -147,7 +135,7 @@ function createTrackTimeControl(map, initial, tracks) {
    // Set initial value
    var initialValue = initial;
    trackTimeCtrlKnob.setValueX(initialValue);
-   setTrackTime(initialValue, tracks);
+   setTrackTime(initialValue, tracks, closest, closest_index, timediff);
 }
 
 function deleteTrackTimeControl() {
@@ -156,7 +144,7 @@ function deleteTrackTimeControl() {
    }
 }
 
-function setClosestMarker(tracks) {
+function setClosestMarker(tracks, closest, closest_index, timediff) {
    //Loop through each displayed track
    for (var i=0; i < tracks.length; i++) {
       if (tracks[i] == null)
@@ -194,7 +182,7 @@ function setClosestMarker(tracks) {
    }
 }
 
-function clearClosestMarker(tracks) {
+function clearClosestMarker(tracks, closest, closest_index, timediff) {
    //Loop through each displayed track
    for (var i=0; i < tracks.length; i++) {
       if (tracks[i] == null)
@@ -222,7 +210,7 @@ function clearClosestMarker(tracks) {
    }
 }
 
-function setTrackTime(pixelX, tracks) {
+function setTrackTime(pixelX, tracks, closest, closest_index, timediff) {
    //Loop through each displayed track
    for (var i=0; i < tracks.length; i++) {
       if (tracks[i] == null)
@@ -276,6 +264,8 @@ function setTrackTime(pixelX, tracks) {
             mapLabelArray[i].setMap(null);
          }
          timediff[i] = 99999999;
+         closest_index[i] = null;
+         closest[i] = null;
       }
 
       for (var j=0; j < track.length; j++) {

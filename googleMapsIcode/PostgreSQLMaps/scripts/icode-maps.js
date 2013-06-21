@@ -801,11 +801,8 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         google.maps.event.addListener(tracklineIcon, 'rightclick', function() {
                            clearTrack(trackline, trackIcons, dashedLines);
                            var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
-                        console.log('deleting: ' + deleteIndex);
-                        console.log(tracksDisplayed.length);
                            tracksDisplayedMMSI.splice(deleteIndex, 1);
                            tracksDisplayed.splice(deleteIndex, 1);
-                     console.log(tracksDisplayed.length);
                         });
 
                         //Add listener to project to predicted location if click on icon (dead reckoning)
@@ -891,6 +888,8 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                      trackline.setPath(trackPath);
                      trackline.setMap(map);
 
+                     console.log("trackicons: " + trackIcons.length);
+
                      //Keep track of which MMSI has tracks displayed
                      tracksDisplayedMMSI.push(mmsi);
                      var track = {
@@ -901,6 +900,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                         trackIcons: trackIcons,
                         trackTargetStatus: trackTargetStatus
                      };
+
                      tracksDisplayed.push(track);
 
                      //Set up track time slider
@@ -910,11 +910,8 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
                      google.maps.event.addListener(trackline, 'rightclick', function() {
                         clearTrack(trackline, trackIcons, dashedLines);
                         var deleteIndex = $.inArray(mmsi, tracksDisplayedMMSI);
-                     console.log('deleting: ' + deleteIndex);
-                     console.log(tracksDisplayed.length);
                         tracksDisplayedMMSI.splice(deleteIndex, 1);
                         tracksDisplayed.splice(deleteIndex, 1);
-                     console.log(tracksDisplayed.length);
                      });
                   }
 
