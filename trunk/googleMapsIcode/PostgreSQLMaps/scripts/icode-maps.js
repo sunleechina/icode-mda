@@ -120,22 +120,29 @@ var highlightCircle = new google.maps.Circle({
 /** Initialize, called on main page load
 */
 function initialize() {
-   //Detect iPhone or Android devices and set map to 100%
-   //detectBrowser();
-
    // Enable the visual refresh
    //google.maps.visualRefresh = true;
    
-
    //Set up map properties
    //var centerCoord = new google.maps.LatLng(0,0);
    //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
    var centerCoord = new google.maps.LatLng(6.0,1.30);   //Lome, Togo
    //var centerCoord = new google.maps.LatLng(5.9,1.30);   //Lome, Togo
 
-      var mapOptions = {
-      //zoom:              5,
-      zoom:              11,
+   //Detect iPhone or Android devices and set map to 100%
+   var controlStyle;
+   var defaultZoom;
+   if (detectMobileBrowser()) {
+      controlStyle = google.maps.MapTypeControlStyle.DROPDOWN_MENU;
+      defaultZoom = 8;
+   }
+   else {
+      controlStyle = google.maps.MapTypeControlStyle.HORIZONTAL_BAR;
+      defaultZoom = 11;
+   }
+      
+   var mapOptions = {
+      zoom:              defaultZoom,
       center:            centerCoord,
       scaleControl:      true,
       streetViewControl: false,
@@ -149,7 +156,7 @@ function initialize() {
                          google.maps.MapTypeId.TERRAIN,
                          'OpenLayers'
                          ],
-				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, //or drop-down menu
+				style: controlStyle
 			}
 	};
 
@@ -236,18 +243,10 @@ function initialize() {
 }
 
 /* -------------------------------------------------------------------------------- */
-function detectBrowser() {
-   var useragent = navigator.userAgent;
-   var mapdiv = document.getElementById("map_canvas");
+function detectMobileBrowser() {
+   var iOSAndroid = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
 
-   if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1 ) {
-      mapdiv.style.width = '100%';
-      mapdiv.style.height = '100%';
-   } 
-   else {
-      mapdiv.style.width = 'calc(100% - 250px - 4px - 0px);';
-      mapdiv.style.height = 'calc(100% - 0px)';
-   }
+   return iOSAndroid;
 }
 
 /* -------------------------------------------------------------------------------- */
