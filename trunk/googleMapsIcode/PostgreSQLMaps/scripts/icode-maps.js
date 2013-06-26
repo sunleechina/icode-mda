@@ -105,7 +105,16 @@ var distIconsOptions = {
                fillColor:     '#04B4AE',
                fillOpacity:   1
             };
-var highlightCircle = null;
+var highlightCircle = new google.maps.Circle({
+            center:  new google.maps.LatLng(0,0),
+            radius: 2000,
+            strokeColor: "#FFFF00",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FFFF00",
+            fillOpacity: 0.2,
+            map: null
+         });
 
 /* -------------------------------------------------------------------------------- */
 /** Initialize, called on main page load
@@ -667,7 +676,8 @@ function queryAllTracks() {
  */
 function getTrack(mmsi, vesseltypeint, streamid, datetime) {
    //Check if track is already displayed or not
-   if ($.inArray(mmsi, tracksDisplayedMMSI) == -1) {
+   // and that it is not a LAISIC track (vesseltypeint 999)
+   if ($.inArray(mmsi, tracksDisplayedMMSI) == -1 && vesseltypeint != 999) {
       document.getElementById("query").value = "QUERY RUNNING FOR TRACK...";
       document.getElementById('stats_nav').innerHTML = '';
       document.getElementById('busy_indicator').style.visibility = 'visible';
@@ -990,16 +1000,8 @@ function typeSelectUpdated() {
 function highlightMMSI(mmsi) {
    for (var i=0; i < markersDisplayed.length; i++) {
       if (markersDisplayed[i].mmsi == mmsi) {
-         highlightCircle = new google.maps.Circle({
-            center:  new google.maps.LatLng(markersDisplayed[i].lat, markersDisplayed[i].lon),
-            radius: 2000,
-            strokeColor: "#FFFF00",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#FFFF00",
-            fillOpacity: 0.2,
-            map: map
-         });
+         highlightCircle.setCenter(new google.maps.LatLng(markersDisplayed[i].lat, markersDisplayed[i].lon));
+         highlightCircle.setMap(map);
       }
    }
 }
@@ -1200,7 +1202,8 @@ function getIconColor(vesseltypeint, streamid) {
 		//return "shipicons/red1_90.png";
    }
    else if (vesseltypeint == 999) {
-      color = '#A4A4A4'; 
+      color = '#A901DB'; 
+      //color = '#A4A4A4'; 
 		//return "shipicons/lightgray1_90.png";
    }
    else {

@@ -1,12 +1,14 @@
 var slideDuration = 500;
 
 $(document).ready(function(){   
-   var $leftpanel = $('#panel_left');
+   var $hidepanelbutton= $('#hidepanel');
+   var $leftpanel= $('#panel_left');
    var $leftwidth = $leftpanel.width();
    var $mapcanvas = $('#map_canvas');
    var $mapwidth = $mapcanvas.width();
    var $showpanelbutton = $('#showpanel');
 
+   /*
    //Prevent clicks in checkboxes from triggering DIV slide menu event
    $('.checkbox').click( function(e) {
       e.stopPropagation();
@@ -26,9 +28,12 @@ $(document).ready(function(){
    $('.vessellist').click( function(e) {
       e.stopPropagation();
    });
+   $('.accordion').click( function(e) {
+      e.stopPropagation();
+   });
+   */
 
-
-   $leftpanel.click(function() {
+   $hidepanelbutton.click(function() {
       togglePanel();
    });
    $showpanelbutton.click(function() {

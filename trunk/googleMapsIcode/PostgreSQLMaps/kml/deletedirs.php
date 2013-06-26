@@ -1,4 +1,5 @@
 <?php
+   echo 'Deleting old KML extracts';
    $dfiles = glob($basedir.'*'); // get all file names
    foreach($dfiles as $file) { // iterate files
    
@@ -7,7 +8,7 @@
       $datefolders = glob(strtolower(basename($file)).'/*');
       foreach($datefolders as $datefolder) {
          //if(is_dir($datefolder)) {
-         if (substr($datefolder,0,5) == '13705') {
+         if (substr($datefolder,0,2) == '13') {
             if(is_file($datefolder) ) {//&& strtolower(basename($datefolder)) == 'doc.kml') {
                echo 'Deleting file: '.strtolower($datefolder) .'<br>';
                unlink($datefolder); // delete file

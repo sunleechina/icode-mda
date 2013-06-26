@@ -68,15 +68,15 @@ if (is_file($unzip)) {
 //Done unzipping ----------------------------------------------------------------
 //unlink($unzip);
 
-      echo json_encode(array('result'=>'success', 'datetime'=>$mtime));
+      echo json_encode(array('type'=>'kmz', 'result'=>'success', 'datetime'=>$mtime, 'filename'=>$_FILES["file"]["name"]));
    }
    else {
-      echo json_encode(array('result'=>'failed', 'datetime'=>$mtime));
+      echo json_encode(array('type'=>'kmz', 'result'=>'failed', 'datetime'=>$mtime, 'filename'=>'null'));
    }
 }
 else
 {
     die("No file specified!");
-    echo json_encode(array('result'=>'failed', 'datetime'=>$mtime));
+    echo json_encode(array('type'=>'kmz', 'result'=>'failed', 'datetime'=>$mtime, 'filename'=>'null'));
 }
 ?>
