@@ -38,7 +38,7 @@ if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track"
    $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM aistrack_". $date ." A WHERE lon != -999 and mmsi=";
 }
 else if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "shore-radar") {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM radar_". $date ." A WHERE lon != -999 and mmsi=";
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid, target_status FROM radar_". $date ." A WHERE lon != -999 and mmsi=";
 }
 else {
    $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM ter_". $date ." A WHERE lon != -999 and mmsi=";
@@ -64,7 +64,8 @@ if(count($_GET) > 0) {
      */
 
     //Order track by descending time
-    $query = $query . " ORDER BY datetime DESC";
+    //$query = $query . " ORDER BY datetime DESC";
+    $query = $query . " ORDER BY datetime";
 
     //Add a limit if chosen
     if (!empty($_GET["limit"])) {
@@ -75,7 +76,7 @@ if(count($_GET) > 0) {
 else {   //This case should not happen for track fetching (user must supply MMSI for query)
     $limit = 10;
     $query = $query . " 1193046";
-    $query = $query . " ORDER BY datetime DESC";
+    $query = $query . " ORDER BY datetime";
     $query = $query . " LIMIT " . $limit;
 }
 
@@ -113,7 +114,8 @@ while (odbc_fetch_row($result)){
                    sog=>odbc_result($result,"sog"),
                    cog=>odbc_result($result,"cog"),
                    streamid=>odbc_result($result,"streamid"),
-                   true_heading=>odbc_result($result,"true_heading")
+                   true_heading=>odbc_result($result,"true_heading"),
+                   target_status=>odbc_result($result,"target_status")
    );
    array_push($vesselarray, $vessel);
 }

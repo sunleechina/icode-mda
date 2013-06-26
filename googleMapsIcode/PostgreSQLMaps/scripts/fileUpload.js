@@ -25,10 +25,42 @@ function fileUpload(form, action_url, div_id) {
        if (iframeId.contentDocument) {
           //console.log('contentDocument');
           content = iframeId.contentDocument.body.innerHTML;
-          //console.log(content);
+          if (content == 'No file specified!') {
+             alert('Please choose a file');
+             return;
+          }
+          //console.debug(content);
+
           var result = jQuery.parseJSON(content);
           //console.log(result.datetime);
-          showUploadedKML(result.datetime);
+          //console.log(result.filename);
+          //console.log(JSON.stringify(result.type));
+
+          //Make sure this is KML file
+          if (JSON.stringify(result.result) == '"success"') {
+             if (JSON.stringify(result.type)  == '"kmz"') {
+                if (result.filename.slice(-3).toLowerCase() == 'kmz') {
+                   showUploadedKML(result.datetime);
+                }
+                else {
+                   alert('Please upload a *.kmz file');
+                }
+             }
+             else if (JSON.stringify(result.type)  == '"laisic"') {
+                if (result.filename.slice(-3).toLowerCase() == 'bin') {
+                   alert('Uploaded bin file');
+                }
+                else {
+                   alert('Please upload a *.bin file');
+                }
+             }
+             else {
+                console.log('Uploaded type not supported yet');
+             }
+          }
+          else {
+             console.log('Upload failed');
+          }
        } 
        else if (iframeId.contentWindow) {
           console.log('contentWindow');
@@ -39,7 +71,33 @@ function fileUpload(form, action_url, div_id) {
           //console.log(content);
           var result = jQuery.parseJSON(content);
           //console.log(result.datetime);
-          showUploadedKML(result.datetime);
+          //console.log(result.filename);
+
+          //Make sure this is KML file
+          if (JSON.stringify(result.result) == '"success"') {
+             if (JSON.stringify(result.type)  == '"kmz"') {
+                if (result.filename.slice(-3).toLowerCase() == 'kmz') {
+                   showUploadedKML(result.datetime);
+                }
+                else {
+                   window.alert('Please upload a *.kmz file');
+                }
+             }
+             else if (JSON.stringify(result.type)  == '"laisic"') {
+                if (result.filename.slice(-3).toLowerCase() == 'bin') {
+                   window.alert('Uploaded bin file');
+                }
+                else {
+                   window.alert('Please upload a *.bin file');
+                }
+             }
+             else {
+                console.log('Uploaded type not supported yet');
+             }
+          }
+          else {
+             console.log('Upload failed');
+          }
        }
 
 
