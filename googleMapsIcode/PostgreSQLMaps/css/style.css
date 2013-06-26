@@ -80,22 +80,22 @@
            position:     relative;
            border:       0px solid red;
            margin:       0;
-           padding:      2px;
+           padding:      7px 1px;
            width:        250px;
            min-width:    250px;
            height:       100%;
-           top:          0;
-           left:         0;
+           top:          0px;
+           left:         0px;
            z-index:      1;
            box-shadow:   4px 0px 5px #888888;
         }
         #map_canvas { 
            border:       0px solid transparent; 
            position:     relative;
-           height:       calc(100% - 0px);
-           width:        calc(100% - 250px - 4px - 0px); /*10px*/
-           top:          0px; /*5px;*/
-           left:         0;
+           height:       100%;
+           width:        calc(100% - 250px - 4px);
+           top:          0px;
+           left:         0px;
            overflow:     hidden;
            background-color: rgb(229, 227, 223); 
            }
@@ -142,24 +142,6 @@
            background:   rgba(255,255,255,0.7);
            visibility:   hidden;
         }
-        /*
-        #vessellist {
-           float:        left;
-           position:     absolute;
-           border:       1px solid gray;
-           margin:       0px;
-           padding:      2px;
-           width:        300px;
-           max-height:   500px;
-           top:          100px;
-           right:        5px;;
-           z-index:      3;
-           font-size:    8px;
-           background:   rgba(255,255,255,1.0);
-           visibility:   visible;
-           overflow-y:     scroll;
-        }
-        */
         #vessellist {
            float:        left;
            border:       1px solid gray;
@@ -167,7 +149,8 @@
            padding:      2px;
            font-size:    10px;
            width:        244px;
-           max-height:   200px;
+           min-height:   100px;
+           max-height:   400px;
            overflow-y:   scroll;
         }
         #vessellist a {
