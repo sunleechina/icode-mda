@@ -70,6 +70,13 @@
      <div id="container">
         <!-- BEGIN LEFT PANEL -->  
         <div id="panel_left">
+
+           <div id="hidepanel" style="display: inline-block;">
+              <input type="button" id="hidepanel" value="<< Hide Panel">
+           </div>
+           
+           <hr>
+
            <div id="accordion" class="accordion">
               <h3>Vessel Types</h3>
               <div id="vessel_types">
@@ -139,17 +146,17 @@
               </div>
               <h3>Current Vessel List</h3>
               <span id="vessellist" class="vessellist"></span>
+              <h3>Other Options</h3>
+              <div>
+                 <form id="distancetoolform" >
+                    <input class="inputfilebutton" type="button" onClick="addDistanceTool();" value="Enable distance tool">
+                 </form>
+
+                 <input class="checkbox" id="queryalltracks" name="queryalltracks" type="checkbox" onclick="toggleQueryAllTracks();"> Query tracks for vessels in view<br>
+              </div>
            </div>
            <!-- END ACCORDION -->
-           <hr>
-           <form id="distancetoolform" >
-              <input class="inputfilebutton" type="button" onClick="addDistanceTool();" value="Enable distance tool">
-           </form>
-               <input class="checkbox" id="queryalltracks" name="queryalltracks" type="checkbox" onclick="toggleQueryAllTracks();"> Query tracks for vessels in view<br>
-           <hr>
-           <div id="hidepanel" style="display: inline-block;">
-              <input type="button" id="hidepanel" value="<< Hide Panel">
-           </div>
+
         </div>
         <!-- END LEFT PANEL -->  
 
