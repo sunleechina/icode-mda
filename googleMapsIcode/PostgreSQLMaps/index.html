@@ -113,6 +113,7 @@
                  <input class="checkboxtype" id="8x-Tankers" name="8x-Tankers" checked="checked"  type="checkbox" onclick="typeSelectUpdated();"> 
                  <img align="top" src="icons/lightgreen1_90.png"> 8x - Tankers<br>
               </div>
+
               <h3>Layer Types</h3>
               <div id="layer_types">
                  <!-- input class="checkbox" id="RadarLayer" name="RadarLayer" type="checkbox" checked="checked" onclick="toggleRadarLayer();"> <img align="top" src="icons/pink0.png" style="padding-bottom: 4px; vertical-align: middle;"> RADAR Contacts<br> -->
@@ -122,7 +123,9 @@
                  <!-- input class="checkbox" id="KMLLayer" name="KMLLayer" type="checkbox" onclick="toggleKMLLayer();"> <img align="top" width="20px" src="icons/kml.png" style="padding-bottom: 4px; vertical-align: middle;"> KML Layer<br> -->
                  <input class="checkbox" id="PortLayer" name="PortLayer" type="checkbox" onclick="togglePortLayer();"> <img align="top" height="20px" src="icons/anchor_port.png" style="padding-bottom: 4px; vertical-align: middle;"> Port Layer<br>
                  </p>
-              </div>              <h3>Upload LAISIC bin</h3>
+              </div>
+              
+              <h3>Upload LAISIC bin</h3>
               <div>
                  Upload LAISIC bin file: <br />
                  <form id="laisicform" >
@@ -131,6 +134,7 @@
                  </form>
                  <div id="uploadlaisic"></div>
               </div>
+
               <h3>Upload KMZ</h3>
               <div>
                  Upload KMZ: <br />
@@ -140,12 +144,15 @@
                  </form>
                  <div id="upload"></div>
               </div>
+
               <h3>Query Builder</h3>
               <div>
                  Coming soon.
               </div>
+
               <h3>Current Vessel List</h3>
-              <span id="vessellist" class="vessellist"></span>
+              <div id="vessellist" class="vessellist"></div>
+
               <h3>Other Options</h3>
               <div>
                  <form id="distancetoolform" >
