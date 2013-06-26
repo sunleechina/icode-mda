@@ -8,6 +8,10 @@ $(document).ready(function(){
    var $mapwidth = $mapcanvas.width();
    var $showpanelbutton = $('#showpanel');
 
+   if (detectMobileBrowser()) {
+      togglePanel();
+   }
+
    /*
    //Prevent clicks in checkboxes from triggering DIV slide menu event
    $('.checkbox').click( function(e) {
