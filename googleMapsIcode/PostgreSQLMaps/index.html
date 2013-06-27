@@ -38,8 +38,12 @@
         $(function() {
            $( "#accordion" ).accordion({
               collapsible: true,
-              heightStyle: "content"
+              //heightStyle: "content",
+              heightStyle: "fill"
            });
+$(window).resize(function(){
+    $("#accordion").accordion("refresh");
+});           
         });
      </script>
 
@@ -70,12 +74,6 @@
      <div id="container">
         <!-- BEGIN LEFT PANEL -->  
         <div id="panel_left">
-
-           <div id="hidepanel" style="display: inline-block;">
-              <input type="button" id="hidepanel" value="<< Hide Panel">
-           </div>
-           
-           <hr>
 
            <div id="accordion" class="accordion">
               <h3>Vessel Types</h3>
@@ -130,7 +128,7 @@
                  Upload LAISIC bin file: <br />
                  <form id="laisicform" >
                     <input class="inputfilebutton" type="file" name="file" size="5" />
-                    <input class="inputfilebutton" type="button" onClick="fileUpload(this.form,'laisic/laisicbinupload.php','upload'); return false;" value="Upload">
+                    <input class="inputfilebutton" type="button" onClick="var form=this.form;$.getJSON('emptyuploadtable.php',{}).done(function (response){fileUpload(form,'laisic/laisicbinupload.php','upload');}); return false;" value="Upload">
                  </form>
                  <div id="uploadlaisic"></div>
               </div>
@@ -163,6 +161,10 @@
               </div>
            </div>
            <!-- END ACCORDION -->
+
+           <div id="hidepanel" style="display: inline-block;">
+              <input type="button" id="hidepanel" value="<< Hide Panel">
+           </div>
 
         </div>
         <!-- END LEFT PANEL -->  

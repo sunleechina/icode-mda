@@ -80,7 +80,7 @@
            position:     relative;
            border:       0px solid red;
            margin:       0;
-           padding:      7px 1px;
+           padding:      0px 1px;
            width:        250px;
            min-width:    250px;
            height:       100%;
@@ -103,7 +103,7 @@
            position:     absolute;
            top:          0px;
            left:         0px;
-           height:       calc(100%);
+           height:       100%;
            width:        14px;
            padding:      0px;
            border:       0px solid white;
@@ -152,9 +152,9 @@
            font-size:    10px;
            /*
            width:        244px;
-           */
            min-height:   100px;
            max-height:   400px;
+           */
            overflow-y:   scroll;
         }
         #vessellist a {
