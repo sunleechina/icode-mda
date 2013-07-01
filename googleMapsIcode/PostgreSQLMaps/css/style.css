@@ -38,7 +38,8 @@
         #top_nav {
            position:     absolute;
            height:       60px;
-           width:        calc(100% - 400px);
+           width:        -webkit-calc(100% - (400px));
+           width:        calc(100% - (400px));
            line-height:  58px;
            top:          4px;
            left:         253px;
@@ -72,37 +73,38 @@
            padding:      0px;
            border:       0px solid gray;
            width:        100%;
-           height:       calc(100% - 60px);
+           height:       -webkit-calc(100% - (60px));
+           height:       calc(100% - (60px));
            margin:       0 0 0 0;
         }
-        #panel_left {
-           float:        left;
-           position:     relative;
+        #panel {
+           position:     absolute;
            border:       0px solid red;
            margin:       0;
-           padding:      0px 1px;
-           width:        250px;
-           min-width:    250px;
-           height:       100%;
-           top:          0px;
-           left:         0px;
+           padding:      0px 0px;
+           width:        290px;
+           height:       80%;
+           top:          50px;
+           right:        14px;
            z-index:      1;
            box-shadow:   4px 0px 5px #888888;
+           background-color: rgb(255, 255, 255);
         }
         #map_canvas { 
            border:       0px solid transparent; 
            position:     relative;
            height:       100%;
-           width:        calc(100% - 250px - 4px);
+           width:        -webkit-calc(100% - (14px));
+           width:        calc(100% - (14px));
            top:          0px;
            left:         0px;
            overflow:     hidden;
            background-color: rgb(229, 227, 223); 
-           }
+       }
         #showpanel {
            position:     absolute;
            top:          0px;
-           left:         0px;
+           right:        0px;
            height:       100%;
            width:        14px;
            padding:      0px;
@@ -110,7 +112,7 @@
            background:   #333333;
            color:        white;
            font-weight:  bold;
-           visibility:   hidden;
+           visibility:   visible;
            z-index:      3;
            box-shadow:   4px 0px 5px #888888;
         }
@@ -163,6 +165,7 @@
         #status-msg {
            position:     absolute;
            top:          68px;
+           left:         -webkit-calc(100%/3);
            left:         calc(100%/3);
            width:        700px;
            height:       20px;
@@ -178,11 +181,12 @@
            color:        #000000;
            font-weight:  bold;
            box-shadow:   4px 4px 5px #888888;
+           visibility:   hidden;
         }
         #latlong {
            position:     absolute;
            bottom:       20px;
-           right:        5px;
+           right:        19px;
            line-height:  12px;
            vertical-align:middle;
            display:      block;
