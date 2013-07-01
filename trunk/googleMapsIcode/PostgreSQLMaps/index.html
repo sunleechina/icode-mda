@@ -15,7 +15,6 @@
      <script type="text/javascript" language="Javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
      <script>window.jQuery || document.write('<script src="scripts/jquery.min.js"><\/script>')</script>
      <script type="text/javascript" src='scripts/fade.js' ></script>
-     <script type="text/javascript" src='scripts/slidemenu.js'></script>
 
      <script type="text/javascript" src="scripts/geoxml3.js"></script>
      <script type="text/javascript" src="scripts/ProjectedOverlay.js"></script>
@@ -41,15 +40,59 @@
               //heightStyle: "content",
               heightStyle: "fill"
            });
-$(window).resize(function(){
-    $("#accordion").accordion("refresh");
-});           
+           $(window).resize(function(){
+              $("#accordion").accordion("refresh");
+           });           
         });
      </script>
 
      <script>
         $(function() {
            $('#busy_indicator').activity({segments: 8, steps: 3, opacity: 0.3, width: 4, space: 0, length: 5, color: '#fff', speed: 2.0});
+        });
+     </script>
+
+     <script>
+        var panelhidden = false;
+        $(function() {
+           // run the currently selected effect
+           function runEffect() {
+              // get effect type from
+              var selectedEffect = "slide";
+
+              // most effect types need no options passed by default
+              var options = {};
+
+              // run the effect
+              //$( "#panel" ).effect( selectedEffect, options, 500, callback );
+           };
+
+           // callback function to bring a hidden box back
+           function callback() {
+              setTimeout(function() {
+                 // $( "#panel" ).removeAttr( "style" ).hide().fadeIn();
+              }, 1000 );
+           };
+
+           // set effect from select menu value
+           /*
+           $( "#hidepanel" ).click(function() {
+              $( "#panel" ).toggle("slide", { direction: 'right' });
+              $( "#showpanel" ).html("><br>><br>>");
+              return false;
+           });
+           */
+           $( "#showpanel" ).click(function() {
+              $( "#panel" ).toggle("slide", { direction: 'right' });
+              if (!panelhidden) {
+                 $( "#showpanel" ).html("<<br><<br><");
+              }
+              else {
+                 $( "#showpanel" ).html("><br>><br>>");
+              }
+              panelhidden = !panelhidden;
+              return false;
+           });
         });
      </script>
 
@@ -73,7 +116,7 @@ $(window).resize(function(){
      </div>
      <div id="container">
         <!-- BEGIN LEFT PANEL -->  
-        <div id="panel_left">
+        <div id="panel">
 
            <div id="accordion" class="accordion">
               <h3>Vessel Types</h3>
@@ -162,18 +205,11 @@ $(window).resize(function(){
            </div>
            <!-- END ACCORDION -->
 
-           <div id="hidepanel" style="display: inline-block;">
-              <input type="button" id="hidepanel" value="<< Hide Panel">
-           </div>
-
         </div>
         <!-- END LEFT PANEL -->  
 
         <!-- BEGIN MAP AREA -->
         <div id="map_canvas">
-           <!--[if IE]>
-           <h1><center>PLEASE USE A MODERN BROWSER, NOT INTERNET EXPLORER.</center></h1>
-           <![endif]-->           
         </div> 
         <!-- END MAP AREA -->
 
@@ -190,12 +226,10 @@ $(window).resize(function(){
      <div id="latlong">
      </div>
 
-     <!-- [if !IE] -->
      <div id="status-msg">
         <!-- NEW! Try keyword search, i.e. "Lome", "radar", "queen", etc -->
         Currently showing RADAR and raw full AIS for 2013-05-21
      </div>
-     <!-- [endif] -->
 
   </body>
 </html>
