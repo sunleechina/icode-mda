@@ -37,7 +37,6 @@
         $(function() {
            $( "#accordion" ).accordion({
               collapsible: true,
-              //heightStyle: "content",
               heightStyle: "fill"
            });
            $(window).resize(function(){
@@ -55,41 +54,9 @@
      <script>
         var panelhidden = false;
         $(function() {
-           // run the currently selected effect
-           function runEffect() {
-              // get effect type from
-              var selectedEffect = "slide";
-
-              // most effect types need no options passed by default
-              var options = {};
-
-              // run the effect
-              //$( "#panel" ).effect( selectedEffect, options, 500, callback );
-           };
-
-           // callback function to bring a hidden box back
-           function callback() {
-              setTimeout(function() {
-                 // $( "#panel" ).removeAttr( "style" ).hide().fadeIn();
-              }, 1000 );
-           };
-
-           // set effect from select menu value
-           /*
-           $( "#hidepanel" ).click(function() {
-              $( "#panel" ).toggle("slide", { direction: 'right' });
-              $( "#showpanel" ).html("><br>><br>>");
-              return false;
-           });
-           */
            $( "#showpanel" ).click(function() {
-              $( "#panel" ).toggle("slide", { direction: 'right' });
-              if (!panelhidden) {
-                 $( "#showpanel" ).html("<<br><<br><");
-              }
-              else {
-                 $( "#showpanel" ).html("><br>><br>>");
-              }
+              $( "#panel" ).toggle("slide", { direction: 'right' }, 180);
+              !panelhidden ? $( "#showpanel" ).html("<<br><<br><") : $( "#showpanel" ).html("><br>><br>>");
               panelhidden = !panelhidden;
               return false;
            });
@@ -111,9 +78,9 @@
         </div>
         <div id="stats_nav">
            <!-- result count and query time to be shown here -->
-
         </div>
      </div>
+
      <div id="container">
         <!-- BEGIN LEFT PANEL -->  
         <div id="panel">
