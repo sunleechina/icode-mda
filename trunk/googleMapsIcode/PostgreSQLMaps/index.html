@@ -56,6 +56,7 @@
         $(function() {
            $( "#showpanel" ).click(function() {
               $( "#panel" ).toggle("slide", { direction: 'right' }, 180);
+              //$( "#panel" ).effect('fade').dequeue().toggle("slide", { direction: 'right' }, 180);
               !panelhidden ? $( "#showpanel" ).html("<<br><<br><") : $( "#showpanel" ).html("><br>><br>>");
               panelhidden = !panelhidden;
               return false;
@@ -180,7 +181,7 @@
         </div> 
         <!-- END MAP AREA -->
 
-        <div id="showpanel">
+        <div id="showpanel" onmouseover="" style="cursor: pointer;">
            ><br>><br>>
         </div>
      </div>
