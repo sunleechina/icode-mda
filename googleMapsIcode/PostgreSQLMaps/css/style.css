@@ -84,10 +84,10 @@
            padding:      0px 0px;
            width:        290px;
            height:       80%;
-           top:          50px;
+           top:          60px;
            right:        14px;
            z-index:      1;
-           box-shadow:   4px 0px 5px #888888;
+           box-shadow:   -5px 5px 5px #888888;
            background-color: rgb(255, 255, 255);
         }
         #map_canvas { 
