@@ -14,6 +14,9 @@
 
      <script type="text/javascript" language="Javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
      <script>window.jQuery || document.write('<script src="scripts/jquery.min.js"><\/script>')</script>
+
+     <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
+
      <script type="text/javascript" src='scripts/fade.js' ></script>
 
      <script type="text/javascript" src="scripts/geoxml3.js"></script>
@@ -64,9 +67,75 @@
         });
      </script>
 
+     <script>
+        $(function() {
+           $( "#dialog" ).dialog({
+              autoOpen: true,
+              modal: true,
+              hide: "fade",
+           });
+           setTimeout(function(){ $( "#dialog" ).dialog("close")}, 3000);
+        });
+     </script>
+
+     <script>
+        $(function() {
+           /*
+           //Populate radar table list
+           var radartablelist = $("#radartablelist");
+           var getTableList = "query_radar_vessels_tablelist.php";
+
+           $.getJSON(
+           getTableList, // The server URL 
+           { }
+           ) //end .getJSON()
+           .done(function (response) {
+              $.each(response.tables, function(key,table) {
+                 radartablelist.append($("<option />").text(table));
+              });
+           });
+
+           //Populate AIS table list
+           var currenttablelist = $("#currenttablelist");
+           var getTableList = "query_current_vessels_tablelist.php";
+
+           $.getJSON(
+           getTableList, // The server URL 
+           { }
+           ) //end .getJSON()
+           .done(function (response) {
+              $.each(response.tables, function(key,table) {
+                 currenttablelist.append($("<option />").text(table));
+              });
+           });
+           */
+
+           //Populate common date table list
+           var commontablelist = $("#commondatelist");
+           var getTableList = "query_common_vessels_tablelist.php";
+
+           $.getJSON(
+           getTableList, // The server URL 
+           { }
+           ) //end .getJSON()
+           .done(function (response) {
+              $.each(response.tables, function(key,table) {
+                 commontablelist.append($("<option />").text(table));
+              });
+           });
+
+           appendLaisicView();
+        });
+     </script>
+
   </head>
 
   <body onload="initialize()">
+
+     <div id="dialog" title="Welcome to ICODE-MDA Maps">
+        <p>Use the query bar for SQL searches and the side menu for options. <br>
+        Message will disappear in 3 seconds...</p>
+     </div>
 
      <div id="panel_top">
         <div id="logo">
@@ -142,6 +211,27 @@
                     <input class="inputfilebutton" type="button" onClick="var form=this.form;$.getJSON('emptyuploadtable.php',{}).done(function (response){fileUpload(form,'laisic/laisicbinupload.php','upload');}); return false;" value="Upload">
                  </form>
                  <div id="uploadlaisic"></div>
+
+                 <!--
+                 <br><br>
+                 Select a radar table to append to view:
+                 <br>
+                 <select class="appendtable" id="radartablelist">
+                    <option>Select table</option>
+                 </select>
+                 <br><br>
+                 Select an AIS table to append to view:
+                 <br>
+                 <select class="appendtable" id="currenttablelist">
+                    <option>Select table</option>
+                 </select>
+                 -->
+                 <br><br>
+                 Select a date to append radar and AIS:
+                 <br>
+                 <select class="appendtable" id="commondatelist">
+                    <option>Select table</option>
+                 </select>
               </div>
 
               <h3>Upload KMZ</h3>
@@ -156,7 +246,7 @@
 
               <h3>Query Builder</h3>
               <div>
-                 Coming soon.
+                 Coming Soon...
               </div>
 
               <h3>Current Vessel List</h3>

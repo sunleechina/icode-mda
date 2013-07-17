@@ -29,7 +29,7 @@ function fileUpload(form, action_url, div_id) {
              alert('Please choose a file');
              return;
           }
-          //console.debug(content);
+          console.debug(content);
 
           var result = jQuery.parseJSON(content);
           //console.log(result.datetime);
@@ -48,7 +48,8 @@ function fileUpload(form, action_url, div_id) {
              }
              else if (JSON.stringify(result.type)  == '"laisic"') {
                 if (result.filename.slice(-3).toLowerCase() == 'bin') {
-                   alert('Uploaded bin file');
+                   //Query the table
+                   getCurrentAISFromDB(map.getBounds(), "SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table", true);
                 }
                 else {
                    alert('Please upload a *.bin file');
@@ -67,37 +68,8 @@ function fileUpload(form, action_url, div_id) {
           content = iframeId.contentWindow.document.body.innerHTML;
        }
        else if (iframeId.document) {
+          console.log('iframeId.document');
           content = iframeId.document.body.innerHTML;
-          //console.log(content);
-          var result = jQuery.parseJSON(content);
-          //console.log(result.datetime);
-          //console.log(result.filename);
-
-          //Make sure this is KML file
-          if (JSON.stringify(result.result) == '"success"') {
-             if (JSON.stringify(result.type)  == '"kmz"') {
-                if (result.filename.slice(-3).toLowerCase() == 'kmz') {
-                   showUploadedKML(result.datetime);
-                }
-                else {
-                   window.alert('Please upload a *.kmz file');
-                }
-             }
-             else if (JSON.stringify(result.type)  == '"laisic"') {
-                if (result.filename.slice(-3).toLowerCase() == 'bin') {
-                   window.alert('Uploaded bin file');
-                }
-                else {
-                   window.alert('Please upload a *.bin file');
-                }
-             }
-             else {
-                console.log('Uploaded type not supported yet');
-             }
-          }
-          else {
-             console.log('Upload failed');
-          }
        }
 
 
