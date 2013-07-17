@@ -943,6 +943,64 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 }
 
 /* -------------------------------------------------------------------------------- */
+function appendLaisicView() {
+   var radartablelist = $('#radartablelist');
+   radartablelist.change( function() {
+      var bounds = map.getBounds();
+      var ne = bounds.getNorthEast();
+      var sw = bounds.getSouthWest();
+
+      var minLat = sw.lat();
+      var maxLat = ne.lat();
+      var minLon = sw.lng();
+      var maxLon = ne.lng();
+
+      var boundStr = " WHERE lat BETWEEN " + Math.round(minLat*1000)/1000 + " AND " + Math.round(maxLat*1000)/1000 + " AND lon BETWEEN " + Math.round(minLon*1000)/1000 + " AND " + Math.round(maxLon*1000)/1000;
+
+      //alert('changed to ' + $(this).val());
+      //Query the table
+      getCurrentAISFromDB(map.getBounds(), "SELECT * FROM (SELECT * FROM " + $(this).val() + " UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS" + boundStr, true);
+   });
+
+   var currenttablelist = $('#currenttablelist');
+   currenttablelist.change( function() {
+      var bounds = map.getBounds();
+      var ne = bounds.getNorthEast();
+      var sw = bounds.getSouthWest();
+
+      var minLat = sw.lat();
+      var maxLat = ne.lat();
+      var minLon = sw.lng();
+      var maxLon = ne.lng();
+
+      var boundStr = " WHERE lat BETWEEN " + Math.round(minLat*1000)/1000 + " AND " + Math.round(maxLat*1000)/1000 + " AND lon BETWEEN " + Math.round(minLon*1000)/1000 + " AND " + Math.round(maxLon*1000)/1000;
+
+      //alert('changed to ' + $(this).val());
+      //Query the table
+      getCurrentAISFromDB(map.getBounds(), "SELECT * FROM (SELECT * FROM " + $(this).val() + " UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS" + boundStr, true);
+   });
+
+
+   //Listen for common date dropdown change
+   var currenttablelist = $('#commondatelist');
+   currenttablelist.change( function() {
+      var bounds = map.getBounds();
+      var ne = bounds.getNorthEast();
+      var sw = bounds.getSouthWest();
+
+      var minLat = sw.lat();
+      var maxLat = ne.lat();
+      var minLon = sw.lng();
+      var maxLon = ne.lng();
+
+      var boundStr = " WHERE lat BETWEEN " + Math.round(minLat*1000)/1000 + " AND " + Math.round(maxLat*1000)/1000 + " AND lon BETWEEN " + Math.round(minLon*1000)/1000 + " AND " + Math.round(maxLon*1000)/1000;
+
+      //alert('changed to ' + $(this).val());
+      //Query the table
+      getCurrentAISFromDB(map.getBounds(), "SELECT * FROM (SELECT * FROM radar_vessels_" + $(this).val() + " UNION SELECT * FROM current_vessels_" + $(this).val() + " UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS" + boundStr, true);
+   });}
+
+/* -------------------------------------------------------------------------------- */
 function refreshLayers() {
 	clearOverlays();
 	clearMarkerArray();
@@ -1138,12 +1196,8 @@ function getTypesSelected() {
 /* -------------------------------------------------------------------------------- */
 function getIconColor(vesseltypeint, streamid) {
    var color;
-   if (streamid == 'shore-radar') {
+   if (streamid == 'r166710001' && vesseltypeint != 999) {
       color = '#FE2E2E';
-      return color;
-   }
-   else if (streamid == 'Laisic_AIS_Track') {
-      color = '0000FF';
       return color;
    }
          
