@@ -25,7 +25,7 @@
                     </style>
                     
                     <!--Load the Google Maps API-->
-                    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+                    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
                     
                     <!--Javascript functions-->
                     <script type="text/javascript">
