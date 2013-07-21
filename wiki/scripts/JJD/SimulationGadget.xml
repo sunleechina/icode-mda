@@ -58,7 +58,7 @@
                             //Ensure google maps is available
                             if(typeof google === 'object' && typeof google.maps === 'object')
                             {
-                                //Draw the google map
+                                //Draw the google map 
                                 var mapOptions = 
                                 {
                                     center: new google.maps.LatLng(12.2, 47.6),
@@ -102,6 +102,7 @@
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
                                 */
+                                /*
                                 shipIconTransport = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
@@ -130,7 +131,45 @@
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                  
+                                */
+                                
+                                shipIconTransport = image {
+                                    //URL of image
+                                    url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
+                                    // This marker is 32 pixels wide by 37 pixels tall.
+                                    size: new google.maps.Size(32,37),
+                                    // The origin for this image is 0,0.
+                                    origin: new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center bottom.
+                                    anchor: new google.maps.Point(16, 37));
+                                    }
+                                shipIconFishing = image {
+                                    url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/sailing.png',
+                                    // This marker is 32 pixels wide by 37 pixels tall.
+                                    size: new google.maps.Size(32,37),
+                                    // The origin for this image is 0,0.
+                                    origin: new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center bottom.
+                                    anchor: new google.maps.Point(16, 37));
+                                    }
+                                shipIconPirate = image {
+                                    url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/pirates.png',
+                                    // This marker is 32 pixels wide by 37 pixels tall.
+                                    size: new google.maps.Size(32,37),
+                                    // The origin for this image is 0,0.
+                                    origin: new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center bottom.
+                                    anchor: new google.maps.Point(16, 37));
+                                    }
+                                shipIconHijacked = image {
+                                    url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boatHJ.png',
+                                    // This marker is 32 pixels wide by 37 pixels tall.
+                                    size: new google.maps.Size(32,37),
+                                    // The origin for this image is 0,0.
+                                    origin: new google.maps.Point(0,0),
+                                    // The anchor for this image is at the center bottom.
+                                    anchor: new google.maps.Point(16, 37));
+                                    }
                                 /*
                                 //Event listener for clicking on map
                                 google.maps.event.addListener(map, 'click', function(e)
