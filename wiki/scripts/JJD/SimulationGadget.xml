@@ -130,7 +130,7 @@
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                */
+                                */ 
                                 var shipIconTransport = {
                                     //URL of image
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
