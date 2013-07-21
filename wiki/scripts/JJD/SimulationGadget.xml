@@ -27,7 +27,7 @@
                     <!--Load the Google Maps API-->
                     <script type="text/javascript"
                         <!-- src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBAGxCmMq_J7xPw--W40pxooVyAnpPxMJ8&sensor=true">-->
-                         src="http://maps.google.com/maps/api/js?sensor=true"
+                         src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true"
                     </script>
                     
                     <!--Javascript functions-->
@@ -102,7 +102,7 @@
                                     // The anchor for this image is at the center.
                                     new google.maps.Point(25, 25));
                                 */
-                                /*
+                                
                                 shipIconTransport = new google.maps.MarkerImage('https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     new google.maps.Size(32,37),
@@ -131,8 +131,8 @@
                                     new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
-                                */
                                 
+                                /*
                                 shipIconTransport = image {
                                     //URL of image
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
@@ -170,6 +170,7 @@
                                     // The anchor for this image is at the center bottom.
                                     anchor: new google.maps.Point(16, 37));
                                     }
+                                    */
                                 /*
                                 //Event listener for clicking on map
                                 google.maps.event.addListener(map, 'click', function(e)
