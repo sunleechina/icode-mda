@@ -55,7 +55,7 @@
                         function googleMapsInit()
                         {
                             //Ensure google maps is available
-                            //if(typeof google === 'object' && typeof google.maps === 'object')
+                            if(typeof google === 'object' && typeof google.maps === 'object')
                             {
                                 //Draw the google map 
                                 var mapOptions = 
@@ -339,11 +339,11 @@
                                 alert("No data file loaded. Please load a file.");
                             }
                         }
-
+                    google.maps.event.addDomListener(window, ‘load’, initialize);
                     </script>
                 </head>
                 <!--On load, call the initialize Javascript function-->
-                <body onload="initialize()">
+                <!--body onload="initialize()"-->
                 <!--Left panel-->
                 <div id="holder_left">
                     <h2>ICODE MDA</h2>
