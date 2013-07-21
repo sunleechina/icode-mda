@@ -25,54 +25,23 @@
                     </style>
                     
                     <!--Load the Google Maps API-->
-                    <script type="text/javascript"
-                         src="http://maps.googleapis.com/maps/api/js?sensor=false"
-                    </script>
+                    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
                     
                     <!--Javascript functions-->
                     <script type="text/javascript">
-                        //Global variables
-                        var map;
-                        var shipIconTransport;
-                        var shipIconFishing;
-                        var shipIconPirate;
-                        var shipIconHijacked
-                        var data = null;
-                        var timestepData;
-                        var numVessels;
-                        var simTimeStep;
-                        var numTimeSteps;
-                        var currentTimeStep;
-                        var markersArray;
-                        
-                        //Initialization function called when the form is loaded
-                        function initialize() 
-                        {
-                            googleMapsInit();
-                        }
                         
                         //Initialize the google maps
-                        function googleMapsInit()
+                        function initialize()
                         {
-                            //Ensure google maps is available
-                            if(typeof google === 'object' && typeof google.maps === 'object')
+                            //Draw the google map 
+                            var mapOptions = 
                             {
-                                //Draw the google map 
-                                var mapOptions = 
-                                {
-                                    center: new google.maps.LatLng(12.2, 47.6),
-                                    zoom: 6,
-                                    mapTypeId: google.maps.MapTypeId.SATELLITE
-                                };
-                                map = new google.maps.Map(document.getElementById("map_canvas"),
-                                mapOptions);
-
-                            }
-                            else
-                            {
-                                //Write the error message in the map canvas
-                                document.getElementById("map_canvas").innerHTML = "Google maps API is not available.";
-                            }
+                                center: new google.maps.LatLng(12.2, 47.6),
+                                zoom: 6,
+                                mapTypeId: google.maps.MapTypeId.SATELLITE
+                            };
+                            map = new google.maps.Map(document.getElementById("map_canvas"),
+                            mapOptions);
                         }
                       
                     google.maps.event.addDomListener(window, ‘load’, initialize);
