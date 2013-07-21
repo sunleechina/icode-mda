@@ -6,27 +6,78 @@
             <!--Declare application as HTML5-->
             <!DOCTYPE html>
             <html>
-              <head>
-                <style>
-                  #map_canvas {
-                    width: 500px;
-                    height: 400px;
-                  }
-                </style>
-                <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-                <script>
-                  function initialize() {
-                    var map_canvas = document.getElementById('map_canvas');
-                    var map_options = {
-                      center: new google.maps.LatLng(44.5403, -78.5463),
-                      zoom: 8,
-                      mapTypeId: google.maps.MapTypeId.ROADMAP
-                    }
-                    var map = new google.maps.Map(map_canvas, map_options)
-                  }
-                  google.maps.event.addDomListener(window, ‘load’, initialize);
-                </script>
-              </head>
+                <head>
+                    
+                    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+                    <!--Setup the CSS style-->
+                    <style type="text/css">
+                        html { height: 100% }
+                        body { height: 100%; margin: 0; padding: 0 }
+                        #map_canvas { height: 100% }
+                        #holder_left
+                        {
+                            float: left;
+                            margin-left: 5px;
+                            margin-top: 5px;
+                            width: 200px;
+                            min-width: 200px;
+                        }
+                    </style>
+                    
+                    <!--Load the Google Maps API-->
+                    <script type="text/javascript"
+                         src="http://maps.googleapis.com/maps/api/js?sensor=false"
+                    </script>
+                    
+                    <!--Javascript functions-->
+                    <script type="text/javascript">
+                        //Global variables
+                        var map;
+                        var shipIconTransport;
+                        var shipIconFishing;
+                        var shipIconPirate;
+                        var shipIconHijacked
+                        var data = null;
+                        var timestepData;
+                        var numVessels;
+                        var simTimeStep;
+                        var numTimeSteps;
+                        var currentTimeStep;
+                        var markersArray;
+                        
+                        //Initialization function called when the form is loaded
+                        function initialize() 
+                        {
+                            googleMapsInit();
+                        }
+                        
+                        //Initialize the google maps
+                        function googleMapsInit()
+                        {
+                            //Ensure google maps is available
+                            if(typeof google === 'object' && typeof google.maps === 'object')
+                            {
+                                //Draw the google map 
+                                var mapOptions = 
+                                {
+                                    center: new google.maps.LatLng(12.2, 47.6),
+                                    zoom: 6,
+                                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                                };
+                                map = new google.maps.Map(document.getElementById("map_canvas"),
+                                mapOptions);
+
+                            }
+                            else
+                            {
+                                //Write the error message in the map canvas
+                                document.getElementById("map_canvas").innerHTML = "Google maps API is not available.";
+                            }
+                        }
+                      
+                    google.maps.event.addDomListener(window, ‘load’, initialize);
+                    </script>
+                </head>
                 <!--On load, call the initialize Javascript function-->
                 <!--body onload="initialize()"-->
                 <!--Left panel-->
