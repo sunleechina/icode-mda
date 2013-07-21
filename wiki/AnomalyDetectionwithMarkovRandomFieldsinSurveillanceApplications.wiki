@@ -39,7 +39,7 @@ https://icode-mda.googlecode.com/svn/wiki/images/ADMRF_simulation.jpg.jpg
 
 The following google gadget provides an example of a simulation where a pirate vessel hijacks a transport vessel. The simulation data is generated using the MATLAB implementation and the results are plotted using google earth as a platform. Click the 'Start Simulation' button to run the simulation. Note that standard google earth functions and operations are available in the gadget.
 
-<wiki:gadget url="https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/test.xml" width="900" height="600" />
+<wiki:gadget url="https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/SimulationGadget.xml" width="900" height="600" />
 
 
 =References=
