@@ -139,8 +139,8 @@
                                     // The origin for this image is 0,0.
                                     origin: new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
-                                    anchor: new google.maps.Point(16, 37));
-                                    }
+                                    anchor: new google.maps.Point(16, 37)
+                                    };
                                 var shipIconFishing {
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/sailing.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
@@ -148,8 +148,8 @@
                                     // The origin for this image is 0,0.
                                     origin: new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
-                                    anchor: new google.maps.Point(16, 37));
-                                    }
+                                    anchor: new google.maps.Point(16, 37)
+                                    };
                                 var shipIconPirate {
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/pirates.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
@@ -157,8 +157,8 @@
                                     // The origin for this image is 0,0.
                                     origin: new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
-                                    anchor: new google.maps.Point(16, 37));
-                                    }
+                                    anchor: new google.maps.Point(16, 37)
+                                    };
                                 var shipIconHijacked {
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boatHJ.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
@@ -166,8 +166,8 @@
                                     // The origin for this image is 0,0.
                                     origin: new google.maps.Point(0,0),
                                     // The anchor for this image is at the center bottom.
-                                    anchor: new google.maps.Point(16, 37));
-                                    }
+                                    anchor: new google.maps.Point(16, 37)
+                                    };
                                 /*
                                 //Event listener for clicking on map
                                 google.maps.event.addListener(map, 'click', function(e)
