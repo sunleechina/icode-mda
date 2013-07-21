@@ -131,7 +131,7 @@
                                     // The anchor for this image is at the center bottom.
                                     new google.maps.Point(16, 37));
                                 */ 
-                                var shipIconTransport = {
+                                shipIconTransport = {
                                     //URL of image
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boat.png', 
                                     // This marker is 32 pixels wide by 37 pixels tall.
@@ -141,7 +141,7 @@
                                     // The anchor for this image is at the center bottom.
                                     anchor: new google.maps.Point(16, 37)
                                     };
-                                var shipIconFishing = {
+                                shipIconFishing = {
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/sailing.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     size: new google.maps.Size(32,37),
@@ -150,7 +150,7 @@
                                     // The anchor for this image is at the center bottom.
                                     anchor: new google.maps.Point(16, 37)
                                     };
-                                var shipIconPirate = {
+                                shipIconPirate = {
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/pirates.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     size: new google.maps.Size(32,37),
@@ -159,7 +159,7 @@
                                     // The anchor for this image is at the center bottom.
                                     anchor: new google.maps.Point(16, 37)
                                     };
-                                var shipIconHijacked = {
+                                shipIconHijacked = {
                                     url: 'https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/boatHJ.png',
                                     // This marker is 32 pixels wide by 37 pixels tall.
                                     size: new google.maps.Size(32,37),
