@@ -23,17 +23,22 @@ Applications for the tool include:
 
 = Simulation Environment =
 
-The tool shall be developed using an agent based simulation environment. The simulation environment is developed using a novel dynamic Bayesian network. The simulation environment may be configured over a particular region with a set of vessels that operate within the region. The dynamic Bayesian network is applied to model vessel behaviour. A preprint of a manuscript submitted to Elsevier's Information Fusion journal of this work may be downloaded at the following location:
+The tool shall be developed using an agent based simulation environment. The simulation environment is developed using a novel dynamic Bayesian network (DBN{. The simulation environment may be configured over a particular region with a set of vessels that operate within the region. The DBN is applied to model vessel behaviour. A preprint of a manuscript submitted to Elsevier's Information Fusion journal of this work may be downloaded at the following location:
 
-https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/Maritime Piracy Situation Modelling with Dynamic Bayesian Networks.pdf
+https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/MaritimePiracySituationModellingWithDynamicBayesianNetworks.pdf
 
 = Maritime Vessel Classification =
 
-The environment shall be modelled using a probabilistic graphical model. In particular the Markov Random Field is of interest. The model will provide a means for a classification based anomaly detection algorithm to be implemented. This algorithm will have the purpose of detecting illegal activities.
+A method of classifying vessels in a maritime pirate situation is proposed. The method uses a novel DBN that models vessel behaviour. The DBN provides a means to include contextual information that may influence behaviour.
 
 = Current Status = 
 
-Currently the simulation environment is being developed in MATLAB. Path planning, vessel motion and basic finite state machines have been implemented.
+The simulation environment has been developed in MATLAB. A manuscript has been submitted to Elsevier's Information Fusion Journal on the work. 
+
+The maritime vessel classification application has been developed in MATLAB. A manuscript has been submitted to Elsevier's Information Fusion Journal on the work. This paper will be made available as soon as possible.
+
+
+= Simulation Environment Example =
 
 <wiki:comment>
 The following image is a time slice of a simulation in progress for pirate activity. The cargo vessels (yellow) are simulated to follow paths between specified harbour points. The pirate agents (red) attempt to ambush and attack cargo vessels. Once a cargo vessel has been hijacked, the pirate returns to a home base (1).
@@ -48,4 +53,4 @@ The following google gadget provides an example of a simulation where a pirate v
 
 =References=
 
- # Michal Jakob, Ondrej Vanek, Stepan Urban, Petr Benda, and Michal Pechoucek, "_Adversarial Modeling and Reasoning in the Maritime Domain Year 1 Report_," Technical Report
+ # J. J. Dabrowski, J. P. de Villiers, Maritime piracy situation modelling with dynamic bayesian networks, preprint submitted to Information Fusion, July 2013 (July 2013).
