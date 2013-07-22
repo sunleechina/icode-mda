@@ -25,7 +25,7 @@ Applications for the tool include:
 
 The tool shall be developed using an agent based simulation environment. The simulation environment is developed using a novel dynamic Bayesian network (DBN). The simulation environment may be configured over a particular region with a set of vessels that operate within the region. The DBN is applied to model vessel behaviour. A preprint of a manuscript submitted to Elsevier's Information Fusion journal of this work may be downloaded at the following location:
 
-J. J. Dabrowski, J. P. de Villiers, Maritime piracy situation modelling with dynamic bayesian networks, preprint submitted to Information Fusion, July 2013 (July 2013) [https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/MaritimePiracySituationModellingWithDynamicBayesianNetworks.pdf (link to pdf)]
+J. J. Dabrowski, J. P. de Villiers, Maritime piracy situation modelling with dynamic bayesian networks, preprint submitted to Information Fusion, July 2013 (July 2013). [https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/MaritimePiracySituationModellingWithDynamicBayesianNetworks.pdf (link to pdf)]
 
 = Maritime Vessel Classification =
 
@@ -53,4 +53,4 @@ The following google gadget provides an example of a simulation where a pirate v
 
 =References=
 
- # J. J. Dabrowski, J. P. de Villiers, Maritime piracy situation modelling with dynamic bayesian networks, preprint submitted to Information Fusion, July 2013 (July 2013).
+ # J. J. Dabrowski, J. P. de Villiers, Maritime piracy situation modelling with dynamic bayesian networks, preprint submitted to Information Fusion, July 2013 (July 2013). [https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/MaritimePiracySituationModellingWithDynamicBayesianNetworks.pdf (link to pdf)]
