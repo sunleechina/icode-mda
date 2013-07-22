@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This page describes current development of the Anomaly Detection for Maritime Security tool for ICODE-MDA, including who is developing the tool, it's status, and technical details with examples.
+This page describes current development of the maritime pirate situation assessment tool. This page includes information on who is developing the tool, it's status, and technical details with examples.
 
 = Tool Developer =
 
@@ -10,7 +10,9 @@ Joel Dabrowski
 
 = Background and Application =
 
-In the efforts of maintaining maritime security, maritime surveillance is essential. Electronic surveillance is a tool that can be utilized to  survey  the  maritime  domain.  With  the  vast  spatial  range  of  the  oceans  and  shorelines,  electronic surveillance provides a large set of data. This set of data is too large for a human analyst or operator to efﬁciently observe for the purpose of maritime vessel control and monitoring. Automatic maritime domain awareness systems provide a means for machines to analyse and interpret electronic surveillance data. The purpose of this tool is to provide such a system; one that is able to analyse and detect illegal activity.
+In the efforts of maintaining maritime security, maritime surveillance is essential. Electronic surveillance is a tool that can be utilized to  survey  the  maritime  domain.  With  the  vast  spatial  range  of  the  oceans  and  shorelines,  electronic surveillance provides a high volume of data. Human analysts or operators are not able to analyse large volumes of data efficiently. Automatic maritime domain awareness systems provide a means for machines to analyse and interpret electronic surveillance data. The purpose of this tool is to provide such a system.
+
+A simulation environment is developed. The simulation results may be used in evaluating maritime situation awareness systems. A tool for classifying maritime vessels in a pirate situation is developed.
 
 = Applications =
 
@@ -19,11 +21,13 @@ Applications for the tool include:
  * Smuggling
  * Illegal immigration.
 
-= Simulation =
+= Simulation Environment =
 
-The tool shall be tested using an agent based simulation environment. The simulation environment may be configured over a particular region with a set of vessels that operate within the region. Each of the vessel's behaviour is simulated using a finite state machine.
+The tool shall be developed using an agent based simulation environment. The simulation environment is developed using a novel dynamic Bayesian network. The simulation environment may be configured over a particular region with a set of vessels that operate within the region. The dynamic Bayesian network is applied to model vessel behaviour. A preprint of a manuscript submitted to Elsevier's Information Fusion journal of this work may be downloaded at the following location:
 
-= Anomaly Detection=
+https://icode-mda.googlecode.com/svn/wiki/scripts/JJD/Maritime Piracy Situation Modelling with Dynamic Bayesian Networks.pdf
+
+= Maritime Vessel Classification =
 
 The environment shall be modelled using a probabilistic graphical model. In particular the Markov Random Field is of interest. The model will provide a means for a classification based anomaly detection algorithm to be implemented. This algorithm will have the purpose of detecting illegal activities.
 
