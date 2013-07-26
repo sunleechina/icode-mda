@@ -1,4 +1,4 @@
-#summary Anomaly Detection with Markov Random Fields in Surveillance Applications Page.
+#summary Behaviour modelling and classification of vessels in a maritime pirate situation.
 
 = Introduction =
 
