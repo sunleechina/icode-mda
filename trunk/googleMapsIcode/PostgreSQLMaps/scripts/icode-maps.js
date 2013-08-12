@@ -425,7 +425,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                   '</a><br>' + 
                   '</div>';
                var htmlInfo = 
-                  '<div id="content-right">' +
+                  '<div id="content-right" border=1>' +
                   '<b>MMSI</b>: ' + mmsi + '<br>' +
                   '<b>IMO</b>: ' + imo + '<br>' +
                   //'<b>Report Date</b>: ' + datetime + '<br>' +
@@ -1196,7 +1196,7 @@ function getTypesSelected() {
 /* -------------------------------------------------------------------------------- */
 function getIconColor(vesseltypeint, streamid) {
    var color;
-   if (streamid == 'r166710001' && vesseltypeint != 999) {
+   if (streamid == 'shore-radar' || (streamid == 'r166710001' && vesseltypeint != 999)) {
       color = '#FE2E2E';
       return color;
    }
