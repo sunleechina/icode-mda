@@ -8,9 +8,11 @@ if( $_FILES['file']['name'] != "" )
    if (move_uploaded_file($_FILES["file"]["tmp_name"], $_FILES["file"]["name"] )) {
       //Process bin file and upload data to PostgreSQL temporary table by calling
       // Lynne's Java PVOL parser
-      shell_exec('set path="C:\Program Files\Java\jdkcopied"; java -jar dist/PVOLtoDb.jar '.$_FILES["file"]["name"].' upload_table');
+      //$command = 'C:\Program Files\Java\jdk1.7.0_25\bin\java.exe -jar dist\PVOLtoDb.jar ' . $_FILES["file"]["name"] . ' upload_table';
+      $command = 'java -jar dist\PVOLtoDb.jar ' . $_FILES["file"]["name"] . ' upload_table';
+      exec($command, $output, $return);
 
-      echo json_encode(array('type'=>'laisic', 'result'=>'success', 'filename'=>$_FILES["file"]["name"]));
+      echo json_encode(array('type'=>'laisic', 'result'=>'success', 'filename'=>$_FILES["file"]["name"], 'command'=>$command, 'output'=>$output, 'return'=>$return));
    }
    else {
       echo json_encode(array('type'=>'laisic', 'result'=>'failed', 'filename'=>'null'));

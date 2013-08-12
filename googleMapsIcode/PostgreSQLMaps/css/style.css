@@ -121,6 +121,9 @@
            min-width:    350px;
            padding:      0;
         }
+        #content b {
+           color:        #205c6f;
+        }
         #content-left {
            float:        left;
            display: inline-block;
@@ -128,6 +131,8 @@
         #content-right {
            float:        right;
            width:        160px;
+           border:       1px solid #cccccc;
+           padding:      2px;
         }
         #shipdetails {
            float:        left;
