@@ -74,7 +74,7 @@
               modal: true,
               hide: "fade",
            });
-           setTimeout(function(){ $( "#dialog" ).dialog("close")}, 3000);
+           setTimeout(function(){ $( "#dialog" ).dialog("close")}, 2000);
         });
      </script>
 
@@ -132,10 +132,12 @@
 
   <body onload="initialize()">
 
+     <!--
      <div id="dialog" title="Welcome to ICODE-MDA Maps">
         <p>Use the query bar for SQL searches and the side menu for options. <br>
-        Message will disappear in 3 seconds...</p>
+        Message will disappear in 2 seconds...</p>
      </div>
+     -->
 
      <div id="panel_top">
         <div id="logo">
@@ -205,6 +207,7 @@
               
               <h3>Upload LAISIC bin</h3>
               <div>
+                 <img align="top" src="icons/laisic-contact.png"> LAISIC contact<br /><hr />
                  Upload LAISIC bin file: <br />
                  <form id="laisicform" >
                     <input class="inputfilebutton" type="file" name="file" size="5" />
@@ -226,12 +229,20 @@
                     <option>Select table</option>
                  </select>
                  -->
-                 <br><br>
+                 <hr />
                  Select a date to append radar and AIS:
                  <br>
                  <select class="appendtable" id="commondatelist">
                     <option>Select table</option>
                  </select>
+                 <hr />
+                 <form id="overlayform" >
+                    Input an AIS MMSI:
+                    <input class="overlay" type="text" id="mmsi" /><br /><br />
+                    Input a RADAR Track ID #:
+                    <input class="overlay" type="text" id="trackid" /><br />
+                    <input class="overlay" type="button" onClick="getCurrentAISFromDB(map.getBounds(), 'SELECT * FROM (SELECT * FROM current_vessels_20130801 UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS WHERE mmsi=' + $('#mmsi').val() + ' UNION SELECT * FROM radar_vessels_20130801 where imo=' + $('#trackid').val(), true, function(){queryAllTracks();}); return false;" value="Display Contacts and Tracks">
+                 </form>
               </div>
 
               <h3>Upload KMZ</h3>
