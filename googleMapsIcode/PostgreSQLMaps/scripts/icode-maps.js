@@ -254,9 +254,11 @@ function detectMobileBrowser() {
 
 /* -------------------------------------------------------------------------------- */
 /** 
- * Get AIS data from XML, which is from database, with bounds 
+ * Get AIS data from XML, which is from database, with bounds.
+ *
+ * Optional callback argument (4th argument)
  */
-function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
+function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
    //Set buffer around map bounds to expand queried area slightly outside viewable area
    var latLonBuffer = expandFactor * map.getZoom();
 
@@ -358,6 +360,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
 
          //Delete previous markers
          if (boundStr != null) {
+            console.log('Clearing previous markers and tracks');
             clearMarkerArray();
             clearOutBoundMarkers();
             clearAllTracks();
@@ -423,23 +426,29 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                   '<a href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '"  target="_blank"> '+
                   '<img width=180px src="' + imgURL + '">' + 
                   '</a><br>' + 
+                     '<div id="content-sub" border=1>' +
+                     '<b>MMSI</b>: ' + mmsi + '<br>' +
+                     '<b>IMO</b>: ' + imo + '<br>' +
+                     '<b>Vessel Type</b>: ' + vesseltypeint + '<br>' +
+                     '<b>Last Message Type</b>: ' + messagetype + '<br>' +
+                     '</div>' +
                   '</div>';
                var htmlInfo = 
-                  '<div id="content-right" border=1>' +
-                  '<b>MMSI</b>: ' + mmsi + '<br>' +
-                  '<b>IMO</b>: ' + imo + '<br>' +
-                  //'<b>Report Date</b>: ' + datetime + '<br>' +
-                  '<b>Report Date</b>: <br>' + toHumanTime(datetime) + '<br>' +
-                  '<b>Message Type</b>: ' + messagetype + '<br>' +
-                  '<b>Lat</b>: ' + lat + '<br>' +
-                  '<b>Lon</b>: ' + lon + '<br>' +
-                  '<b>Vessel Type</b>: ' + vesseltypeint + '<br>' +
-                  '<b>Navigation Status</b>: ' + navstatus + '<br>' +
-                  '<b>Length x Width</b>: ' + length + ' x ' + shipwidth + '<br>'+
-                  '<b>Draught</b>: ' + draught  + '<br>'+
-                  '<b>Destination</b>: ' + destination + '<br>'+
-                  '<b>ETA</b>: ' + eta + '<br>'+
-                  '<b>Source</b>: ' + streamid + '<br>'+
+                  '<div id="content-right">' +
+                     '<div id="content-sub" border=1>' +
+                        //'<b>Report Date</b>: ' + datetime + '<br>' +
+                        '<b>Report Date</b>: <br>' + toHumanTime(datetime) + '<br>' +
+                        '<b>Lat</b>: ' + lat + '<br>' +
+                        '<b>Lon</b>: ' + lon + '<br>' +
+                        '<b>Navigation Status</b>: ' + navstatus + '<br>' +
+                        '<b>Speed Over Ground</b>: ' + sog + '<br>' + 
+                        '<b>Course Over Ground</b>: ' + cog + '<br>' + 
+                        '<b>Length x Width</b>: ' + length + ' x ' + shipwidth + '<br>'+
+                        '<b>Draught</b>: ' + draught  + '<br>'+
+                        '<b>Destination</b>: ' + destination + '<br>'+
+                        '<b>ETA</b>: ' + eta + '<br>'+
+                        '<b>Source</b>: ' + streamid + '<br>'+
+                     '</div>' +
                   '</div>'+
 
                   '</div>'+
@@ -459,6 +468,21 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
                      rotation:    true_heading
                   }
                });
+
+               //Try new marker shape for LAISIC (type 999) contacts
+               if (vesseltypeint == 999) {
+                  marker = new google.maps.Marker({
+                     position: point,
+                     icon: {
+                        path:         'm -6 0 6 -6 6 6 -6 6 z m 12 0 l 8 0',
+                        strokeColor:  iconColor,
+                        strokeWeight: 2,
+                        fillColor:    iconColor,
+                        fillOpacity:  0.6,
+                        rotation:     true_heading-90 //-90 degrees to account for SVG drawing rotation
+                     }
+                  });
+               }
 
                //markerInfoWindow(marker, infoWindow, html, mmsi, vesselname);
                markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltypeint, streamid, datetime);
@@ -511,6 +535,12 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate) {
 
 
          console.log('getCurrentAISFromDB(): ' + "Total number of markers = " + markerArray.length);
+
+
+         //Intended for optional callback argument (to call queryAllTracks() after displaying markers)
+         if (callback && typeof(callback) === "function") {
+            callback();
+         }
 
          document.getElementById('busy_indicator').style.visibility = 'hidden';
          document.getElementById('stats_nav').innerHTML = 
@@ -944,6 +974,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
 /* -------------------------------------------------------------------------------- */
 function appendLaisicView() {
+   /*
    var radartablelist = $('#radartablelist');
    radartablelist.change( function() {
       var bounds = map.getBounds();
@@ -980,6 +1011,7 @@ function appendLaisicView() {
       getCurrentAISFromDB(map.getBounds(), "SELECT * FROM (SELECT * FROM " + $(this).val() + " UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS" + boundStr, true);
    });
 
+   */
 
    //Listen for common date dropdown change
    var currenttablelist = $('#commondatelist');
@@ -1257,7 +1289,7 @@ function getIconColor(vesseltypeint, streamid) {
       color = '#FF0000'; 
 		//return "shipicons/red1_90.png";
    }
-   else if (vesseltypeint == 999) {
+   else if (vesseltypeint == 999) { //currently used for LAISIC outputs
       color = '#A901DB'; 
       //color = '#A4A4A4'; 
 		//return "shipicons/lightgray1_90.png";
