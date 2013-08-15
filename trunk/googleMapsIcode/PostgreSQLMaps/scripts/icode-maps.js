@@ -12,6 +12,7 @@
 var map;
 var markerArray;
 var markersDisplayed = [];
+var markersQueried = [];
 //var trackArray;
 var tracksDisplayedMMSI = [];    //keep track of which MMSI's track is already displayed
 var tracksDisplayed = [];
@@ -92,7 +93,8 @@ var Ports = false;
 var portIcons = [];
 var portCircles = [];
 //Sources objects
-var sourcesInt=3;
+//var sourcesInt=3;
+var sourcesDate="_20130801";
 //Distance measurement
 var latLng;
 var prevlatLng;
@@ -317,7 +319,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
    });
 
    var phpWithArg;
-   var sources = "sources=" + sourcesInt; //0-all, 1-aisonly, 2-radaronly, etc
+   var sources = "sources=" + sourcesDate;//sourcesInt; //0-all, 1-aisonly, 2-radaronly, etc
    var boundStr = "&minlat=" + Math.round(minLat*1000)/1000 + "&maxlat=" + Math.round(maxLat*1000)/1000 + "&minlon=" + Math.round(minLon*1000)/1000 + "&maxlon=" + Math.round(maxLon*1000)/1000;
 
    if (!customQuery) {
@@ -367,6 +369,9 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
          }
 
          markersDisplayed = [];
+         markersQueried = [];
+
+         document.getElementById('selectable').innerHTML = "";
 
          //Prepare to grab PHP results as JSON objects
          $.each(response.vessels, function(key,vessel) {
@@ -497,6 +502,15 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                   lon: lon
                });
 
+               markersQueried.push({
+                  mmsi: mmsi, 
+                  vesseltypeint: vesseltypeint,
+                  streamid: streamid,
+                  datetime: datetime,
+                  lat: lat,
+                  lon: lon
+               });
+
                //Display current vessel list to vessellist div window
                if (vesselname == '') {
                   document.getElementById('vessellist').innerHTML += '<a onmouseover="highlightMMSI(' + mmsi + ')" onmouseout="hideHighlightMMSI()" href="#">' + mmsi + ' - (no vessel name)</a ><hr>';
@@ -505,7 +519,40 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                   document.getElementById('vessellist').innerHTML += '<a onmouseover="highlightMMSI(' + mmsi + ')" onmouseout="hideHighlightMMSI()" href="#">' + mmsi + ' - ' + vesselname + '</a ><hr>';
                }
 
+               //Display current vessel to selectable results list
+               document.getElementById('selectable').innerHTML += '<li class="ui-widget-content">' + mmsi + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + imo + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + vesselname + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + vesseltypeint + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + datetime + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + lat + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + lon + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + sog + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cog + '</li>';
+               //document.getElementById('selectable').innerHTML += '<li class="ui-widget-content"><table><col class="width20" /><col class="width20" /><col class="width40" /><col class="width20" /><td>' + mmsi + '</td><td>' + imo + '</td><td>' + vesselname + '</td><td>' + vesseltypeint + '</td></table></li>';
+               /*
+               var messagetype = vessel.messagetype;
+               var navstatus = vessel.navstatus;
+               var rot = vessel.rot;
+               var sog = vessel.sog;
+               var lon = vessel.lon;
+               var lat = vessel.lat;
+               var point = new google.maps.LatLng(
+                     parseFloat(vessel.lat),
+                     parseFloat(vessel.lon));
+               var cog = vessel.cog;
+               var true_heading = vessel.true_heading;
+               var datetime = vessel.datetime;
+               var vesselname = vessel.vesselname;
+               var vesseltypeint = vessel.vesseltypeint;
+               var length = vessel.length;
+               var shipwidth = vessel.shipwidth;
+               var bow = vessel.bow;
+               var stern = vessel.stern;
+               var port = vessel.port;
+               var starboard = vessel.starboard;
+               var draught = vessel.draught;
+               var destination = vessel.destination;
+               var callsign = vessel.callsign;
+               var posaccuracy = vessel.posaccuracy;
+               var eta = vessel.eta;
+               var posfixtype = vessel.posfixtype;
+               var streamid = vessel.streamid;
+               */
          });
+
          //Display the appropriate layer according to the sidebar checkboxes
          if (CLUSTER) {
             if (document.getElementById("HeatmapLayer").checked) {
@@ -670,8 +717,8 @@ function toggleQueryAllTracks() {
  * Function to query and show all tracks within view bounds
  **/
 function queryAllTracks() {
-   console.log(tracksDisplayedMMSI.length);
-   console.log(tracksDisplayed.length);
+   //console.log(tracksDisplayedMMSI.length);
+   //console.log(tracksDisplayed.length);
 
    var bounds = map.getBounds();
 
@@ -692,6 +739,7 @@ function queryAllTracks() {
       var markerLatLng = new google.maps.LatLng(
                                     markersDisplayed[i].lat, 
                                     markersDisplayed[i].lon);
+      console.log(markersDisplayed[i].lat + ' ' + markersDisplayed[i].lon);
       
       if (viewBounds.contains(markerLatLng) || Request.QueryString("queryTracks").toString() == 'all') {
          getTrack(markersDisplayed[i].mmsi, 
@@ -1026,6 +1074,9 @@ function appendLaisicView() {
       var maxLon = ne.lng();
 
       var boundStr = " WHERE lat BETWEEN " + Math.round(minLat*1000)/1000 + " AND " + Math.round(maxLat*1000)/1000 + " AND lon BETWEEN " + Math.round(minLon*1000)/1000 + " AND " + Math.round(maxLon*1000)/1000;
+
+
+      sourcesDate = "_" + $(this).val();
 
       //alert('changed to ' + $(this).val());
       //Query the table
@@ -1369,6 +1420,8 @@ function clearOutBoundMarkers() {
 
 /* -------------------------------------------------------------------------------- */
 function toggleRadarLayer() {
+   //Disabled until sources usage is fixed
+   /*
    if (document.getElementById("RadarLayer").checked) {
       sourcesInt = 3;
       getCurrentAISFromDB(map.getBounds(), null, true);
@@ -1377,6 +1430,7 @@ function toggleRadarLayer() {
       sourcesInt = 1;
       getCurrentAISFromDB(map.getBounds(), null, true);
    }
+   */
 }
 
 /* -------------------------------------------------------------------------------- */

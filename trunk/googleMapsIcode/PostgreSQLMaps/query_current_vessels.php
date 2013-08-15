@@ -30,6 +30,7 @@ if (!$connection) {
 
 if(count($_GET) > 0) { 
 //    if (!empty($_GET["sources"])) {
+       /*
        $sources = (int)$_GET["sources"];
        if ($sources == 0) {
           $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
@@ -47,6 +48,11 @@ if(count($_GET) > 0) {
           //Default case
           $fromSources = "(SELECT * FROM radar_vessels UNION SELECT * FROM current_vessels WHERE vesseltypeint != -1) LATESTPOSITIONS";
        }
+       */
+
+
+       $sources = $_GET["sources"];
+       $fromSources = "(SELECT * FROM radar_vessels" . $sources . " UNION SELECT * FROM current_vessels" . $sources . ") VESSELS";
 //    }
 }
 
@@ -84,6 +90,8 @@ if(count($_GET) > 0) {
        //TODO: add security checks, e.g. against "DROP TABLE *" commands
        $query = $_GET["query"];
     }
+
+    $query = $query . " order by mmsi";
 }
 else {
     $limit = 10;
