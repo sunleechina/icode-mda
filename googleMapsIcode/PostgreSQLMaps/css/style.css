@@ -10,6 +10,18 @@
            overflow:     hidden;
            font:         12px/1.7 Verdana,'Lucida Grande', Arial, "Trebuchet MS", Helvetica, sans-serif;
         }
+        table {
+           margin:       0;
+           padding:      0;
+           border:       0px solid black;
+           width:        100%;
+        }
+        .width10 {
+           width:        10%;
+        }
+        .width20 {
+           width:        20%;
+        }
         #panel_top {
            background:   #333333;
            height:       60px;
@@ -90,6 +102,22 @@
            box-shadow:   -5px 5px 5px #888888;
            background-color: rgb(255, 255, 255);
         }
+        #results_list {
+           position:     absolute;
+           border:       0px solid red;
+           margin:       0px;
+           padding:      0px 0px;
+           width:        100%;
+           /*height:       300px;*/
+           max-height:   400px;
+           bottom:       0px;
+           left:         0px;
+           z-index:      1;
+           overflow-y:   scroll;
+           line-height:  10px;
+           vertical-align:middle;
+           background-color: rgb(255, 255, 255);
+        }
         #map_canvas { 
            border:       0px solid transparent; 
            position:     relative;
@@ -100,7 +128,7 @@
            left:         0px;
            overflow:     hidden;
            background-color: rgb(229, 227, 223); 
-       }
+        }
         #showpanel {
            position:     absolute;
            top:          0px;
@@ -131,6 +159,10 @@
         #content-right {
            float:        right;
            width:        160px;
+           border:       0px solid #cccccc;
+           padding:      2px;
+        }
+        #content-sub {
            border:       1px solid #cccccc;
            padding:      2px;
         }
@@ -139,14 +171,14 @@
            position:     absolute;
            border:       1px solid gray;
            margin:       0px;
-           padding:      2px;
-           width:        370px;
-           height:       300px;
+           padding:      5px;
+           /*width:        370px;*/
+           /*height:       300px;*/
            bottom:       38px;
-           right:        5px;;
+           left:         5px;;
            z-index:      3;
            font-size:    10px;
-           background:   rgba(255,255,255,0.7);
+           background:   rgba(255,255,255,1);
            visibility:   hidden;
         }
         #vessellist {

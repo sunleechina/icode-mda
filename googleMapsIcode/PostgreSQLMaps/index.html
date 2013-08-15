@@ -57,9 +57,13 @@
      <script>
         var panelhidden = false;
         $(function() {
+        $( "#results_list" ).hide();
            $( "#showpanel" ).click(function() {
               $( "#panel" ).toggle("slide", { direction: 'right' }, 180);
               //$( "#panel" ).effect('fade').dequeue().toggle("slide", { direction: 'right' }, 180);
+
+              $( "#results_list" ).toggle("slide", { direction: 'down' }, 180);
+
               !panelhidden ? $( "#showpanel" ).html("<<br><<br><") : $( "#showpanel" ).html("><br>><br>>");
               panelhidden = !panelhidden;
               return false;
@@ -125,6 +129,42 @@
            });
 
            appendLaisicView();
+        });
+     </script>
+
+
+     <style>
+        #feedback { font-size: 1em; }
+        #selectable .ui-selecting { background: #FECA40; }
+        #selectable .ui-selected { background: #F39814; color: white; }
+        #selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+        #selectable li { margin: 0px; padding: 0.5em; font-size: 1em; height: 10px; }
+     </style>
+     <script>
+        $(function() {
+           $( "#selectable" ).selectable({
+              stop: function() { 
+                 var result = [];
+                 $( ".ui-selected", this ).each(function() {
+                    var index = $( "#selectable li" ).index( this );
+                    result.push( index + 1 );
+                 });                 
+
+                 clearOverlays();
+                 clearAllTracks();
+                 markersDisplayed = [];
+
+                 if (markerArray) {
+                    for (var i=0; i < markerArray.length; i++) {
+                       if ($.inArray(i+1,result) != -1) {
+                          markerArray[i].setMap(map);
+                          var marker = markersQueried[i];
+                          markersDisplayed.push(marker);
+                       }
+                    }
+                 }
+              }
+           });           
         });
      </script>
 
@@ -207,10 +247,17 @@
               
               <h3>Upload LAISIC bin</h3>
               <div>
+                 Select a date to view data:<br />
+                 <small>(Please note LAISIC data might not match; <br />it will be whatever was uploaded)</small>
+                 <br>
+                 <select class="appendtable" id="commondatelist">
+                    <option>Select table</option>
+                 </select>
+                 <hr />
                  <img align="top" src="icons/laisic-contact.png"> LAISIC contact<br /><hr />
                  Upload LAISIC bin file: <br />
                  <form id="laisicform" >
-                    <input class="inputfilebutton" type="file" name="file" size="5" />
+                    <input class="ivnputfilebutton" type="file" name="file" size="5" />
                     <input class="inputfilebutton" type="button" onClick="var form=this.form;$.getJSON('emptyuploadtable.php',{}).done(function (response){fileUpload(form,'laisic/laisicbinupload.php','upload');}); return false;" value="Upload">
                  </form>
                  <div id="uploadlaisic"></div>
@@ -230,18 +277,13 @@
                  </select>
                  -->
                  <hr />
-                 Select a date to append radar and AIS:
-                 <br>
-                 <select class="appendtable" id="commondatelist">
-                    <option>Select table</option>
-                 </select>
-                 <hr />
                  <form id="overlayform" >
                     Input an AIS MMSI:
                     <input class="overlay" type="text" id="mmsi" /><br /><br />
                     Input a RADAR Track ID #:
                     <input class="overlay" type="text" id="trackid" /><br />
-                    <input class="overlay" type="button" onClick="getCurrentAISFromDB(map.getBounds(), 'SELECT * FROM (SELECT * FROM current_vessels_20130801 UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS WHERE mmsi=' + $('#mmsi').val() + ' UNION SELECT * FROM radar_vessels_20130801 where imo=' + $('#trackid').val(), true, function(){queryAllTracks();}); return false;" value="Display Contacts and Tracks">
+                    <!-- <input class="overlay" type="button" onClick="getCurrentAISFromDB(map.getBounds(), 'SELECT * FROM (SELECT * FROM current_vessels' + sourcesDate + ' UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS WHERE mmsi=' + $('#mmsi').val() + ' UNION SELECT * FROM radar_vessels' + sourcesDate + ' where imo=' + $('#trackid').val(), true, function(){queryAllTracks();}); return false;" value="Display Contacts and Tracks"> -->
+                    <input class="overlay" type="button" onClick="getCurrentAISFromDB(map.getBounds(), 'SELECT * FROM (SELECT * FROM current_vessels' + sourcesDate + ' UNION SELECT * FROM upload_table_view) VESSELS WHERE mmsi=' + $('#mmsi').val() + ' UNION SELECT * FROM radar_vessels' + sourcesDate + ' where imo=' + $('#trackid').val(), true, function(){queryAllTracks();}); return false;" value="Display Contacts and Tracks">
                  </form>
               </div>
 
@@ -286,6 +328,28 @@
            ><br>><br>>
         </div>
      </div>
+
+
+     <div id="results_list">
+        <b>
+           <table border=0>
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <col class="width10" />
+              <td>MMSI</td><td>IMO</td><td>Vessel Name</td><td>Vessel Type</td><td>Datetime</td><td>Lat</td><td>Lon</td><td>SOG</td><td>COG</td>
+           </table>
+        </b><br />
+        <ol id="selectable">
+           <!-- <b><li class="ui-widget-content">MMSI</li></b> -->
+        </ol>        
+     </div>
+     
 
      <div id="busy_indicator"><div style="width: 32px; height: 32px;"></div></div>
 

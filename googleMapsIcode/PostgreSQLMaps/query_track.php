@@ -34,8 +34,9 @@ if (!empty($_GET["date"])) {
    $date = (string)$_GET["date"];
 }
 
-if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track") {
-   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM aistrack_". $date ." A WHERE lon != -999 and mmsi=";
+//if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "Laisic_AIS_Track") {
+if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "shore-radar") {
+   $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid FROM radar_". $date ." A WHERE lon != -999 and mmsi=";
 }
 else if(!empty($_GET["streamid"]) and (string)$_GET["streamid"] == "r166710001") {
    $query = "SELECT mmsi, lon, lat, datetime, true_heading, sog, cog, streamid, target_status FROM radar_". $date ." A WHERE lon != -999 and mmsi=";
