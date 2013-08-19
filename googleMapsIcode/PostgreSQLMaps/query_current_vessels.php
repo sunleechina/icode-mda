@@ -42,7 +42,7 @@ if(count($_GET) > 0) {
           $fromSources = "(SELECT * FROM radar_vessels) LATESTPOSITIONS";
        }
        else if ($sources == 3) {
-          $fromSources = "(SELECT * FROM radar_vessels_20130801 UNION SELECT * FROM current_vessels_20130801) VESSELS";
+          $fromSources = "(SELECT * FROM radar_vessels_20130806 UNION SELECT * FROM current_vessels_20130806) VESSELS";
        }
        else {
           //Default case
@@ -62,15 +62,22 @@ $query = "SELECT * FROM " . $fromSources;
 
 //Count the number of arguments
 if(count($_GET) > 0) {
-   $query = $query . " WHERE";
+    //custom query, erase everything else and use this query
+    if (!empty($_GET["query"])) {
+       //TODO: add security checks, e.g. against "DROP TABLE *" commands
+       $query = $_GET["query"];
+    }
+
+    $basequery = $query;
+
+    $query = $query . " WHERE";
 
     if (!empty($_GET["minlat"]) && !empty($_GET["minlon"]) &&
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
-          //$query = $query . " AND lat > " . round($_GET["minlat"],3) . " and lon > " . round($_GET["minlon"],3) . 
-          //         " and lat < " .  round($_GET["maxlat"],3) . " and lon < " . round($_GET["maxlon"],3);
           $query = $query . " lat BETWEEN " . round($_GET["minlat"],3) . " AND " . round($_GET["maxlat"],3) . 
                    " AND lon BETWEEN " .  round($_GET["minlon"],3) . " AND " . round($_GET["maxlon"],3);
     }
+
     if (!empty($_GET["keyword"])) {
        $keyword = $_GET["keyword"];
        $query = $query . " AND (mmsi::varchar like ('%" . $keyword . "%') OR " . 
@@ -80,15 +87,10 @@ if(count($_GET) > 0) {
                          "callsign::varchar ilike ('%" . $keyword . "%') OR " . 
                          "streamid::varchar ilike ('%" . $keyword . "%'))";
     }
+
     if (!empty($_GET["limit"])) {
        $limit = $_GET["limit"];
        $query = $query . " limit " . $limit;
-    }
-
-    //custom query, erase everything else and use this query
-    if (!empty($_GET["query"])) {
-       //TODO: add security checks, e.g. against "DROP TABLE *" commands
-       $query = $_GET["query"];
     }
 
     $query = $query . " order by mmsi";
@@ -155,7 +157,7 @@ while (odbc_fetch_row($result)){
    array_push($vesselarray, $vessel);
 }
 
-$data = array(query => $query, resultcount => $count_results, exectime => $totaltime, vessels => $vesselarray);
+$data = array(basequery => $basequery, query => $query, resultcount => $count_results, exectime => $totaltime, vessels => $vesselarray);
 echo json_encode($data);
 ?>
 
