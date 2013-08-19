@@ -183,7 +183,7 @@ function initialize() {
             var queryArgument = Request.QueryString("query").toString();
             //console.log(queryArgument);
 
-            if (queryArgument != '') {
+            if (queryArgument != null || queryArgument != '') {
                mainQuery = queryArgument;
                getCurrentAISFromDB(map.getBounds(), queryArgument, null);
             }
@@ -323,18 +323,30 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
    var boundStr = "&minlat=" + Math.round(minLat*1000)/1000 + "&maxlat=" + Math.round(maxLat*1000)/1000 + "&minlon=" + Math.round(minLon*1000)/1000 + "&maxlon=" + Math.round(maxLon*1000)/1000;
 
    if (!customQuery) {
-      //No custom query, do default query
-      phpWithArg = "query_current_vessels.php?" + sources + boundStr;
+      //Check if a query has been previously made, and use it to preserve previous query but just change the bounds to current view now
+      if (mainQuery != null) {
+         phpWithArg = "query_current_vessels.php?query=" + mainQuery + boundStr;
+      }
+      else {
+         //No custom query, do default query
+         phpWithArg = "query_current_vessels.php?" + sources + boundStr;
+      }
    }
    else {
-      //TODO: need a more robust condition for keyword<F12> search
+      //TODO: need a more robust condition for keyword search
       if (customQuery.length < 20) {
          //customQuery is really a keyword search
          phpWithArg = "query_current_vessels.php?" + sources + boundStr + "&keyword=" + customQuery;
       }
+      //TODO for handling case when trying to display specific vessels or LAISIC outputs
+      /*
+      else if (customQuery) {
+      }
+      */
       else {
          //Custom SQL query statement
-         phpWithArg = "query_current_vessels.php?query=" + customQuery;
+         //phpWithArg = "query_current_vessels.php?query=" + customQuery;
+         phpWithArg = "query_current_vessels.php?query=" + customQuery + boundStr;
       }
    }
 
@@ -356,9 +368,10 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                                  '<h3>Current Vessels List:</h3><br>' + 
                                  '<b>MMSI - Vesselname</b><br><hr>';
 
-         if (!customQuery) {
-            mainQuery = response.query;
-         }
+         //if (!customQuery) {
+            mainQuery = response.basequery;
+         //}
+         console.debug(mainQuery);
 
          //Delete previous markers
          if (boundStr != null) {
@@ -574,6 +587,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
          }
 
          //Check if user wants to display all tracks (from URL request)
+         // Need to be careful if user has "queryTracks=all" in the URL request, then starts clicking around on LAISIC outputs, etc.  All tracks will be queried unintentionally.
          var trackDisplayArgument = Request.QueryString("queryTracks").toString();
          if (trackDisplayArgument == 'all') {
             queryAllTracks();
@@ -1064,6 +1078,7 @@ function appendLaisicView() {
    //Listen for common date dropdown change
    var currenttablelist = $('#commondatelist');
    currenttablelist.change( function() {
+      /*
       var bounds = map.getBounds();
       var ne = bounds.getNorthEast();
       var sw = bounds.getSouthWest();
@@ -1074,13 +1089,14 @@ function appendLaisicView() {
       var maxLon = ne.lng();
 
       var boundStr = " WHERE lat BETWEEN " + Math.round(minLat*1000)/1000 + " AND " + Math.round(maxLat*1000)/1000 + " AND lon BETWEEN " + Math.round(minLon*1000)/1000 + " AND " + Math.round(maxLon*1000)/1000;
+      */
 
 
       sourcesDate = "_" + $(this).val();
 
       //alert('changed to ' + $(this).val());
       //Query the table
-      getCurrentAISFromDB(map.getBounds(), "SELECT * FROM (SELECT * FROM radar_vessels_" + $(this).val() + " UNION SELECT * FROM current_vessels_" + $(this).val() + " UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS" + boundStr, true);
+      getCurrentAISFromDB(map.getBounds(), "SELECT * FROM (SELECT * FROM radar_vessels_" + $(this).val() + " UNION SELECT * FROM current_vessels_" + $(this).val() + " UNION SELECT messagetype, mmsi, navstatus, rot, sog, lon, lat, cog, true_heading, datetime, imo, vesselname, vesseltypeint, length, shipwidth, bow, stern, port, starboard, draught, destination, callsign, posaccuracy, eta, posfixtype, streamid FROM upload_table) VESSELS", true);
    });}
 
 /* -------------------------------------------------------------------------------- */
