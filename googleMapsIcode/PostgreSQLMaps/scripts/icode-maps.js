@@ -183,7 +183,7 @@ function initialize() {
             var queryArgument = Request.QueryString("query").toString();
             //console.log(queryArgument);
 
-            if (queryArgument != null || queryArgument != '') {
+            if (queryArgument != null) {
                mainQuery = queryArgument;
                getCurrentAISFromDB(map.getBounds(), queryArgument, null);
             }
@@ -340,7 +340,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
       }
       //TODO for handling case when trying to display specific vessels or LAISIC outputs
       /*
-      else if (customQuery) {
+      else if ( ... ) {
       }
       */
       else {
