@@ -21,6 +21,7 @@ var mainQuery;
 //Viewing bounds objects
 var queryBounds;
 var expandFactor = 0.05;
+var boundRectangle = null;
 //Marker timing objects
 var markerMouseoutTimeout;
 var trackMouseoverTimeout;
@@ -283,6 +284,19 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
       queryBounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(minLat, minLon), 
             new google.maps.LatLng(maxLat, maxLon));
+      //Draw bounds rectangle to let user know they are zooming outside of the bounds
+      if (boundRectangle != null) {
+         boundRectangle.setMap(null);
+      }
+      boundRectangle = new google.maps.Rectangle({
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.8,
+          strokeWeight: 1,
+          fillColor: '#FF0000',
+          fillOpacity: 0,
+          map: map,
+          bounds: queryBounds
+      });
    }
    else {
       //Handle the case when no URL query, but moved within bounds
@@ -302,6 +316,19 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
          queryBounds = new google.maps.LatLngBounds(
                new google.maps.LatLng(minLat, minLon), 
                new google.maps.LatLng(maxLat, maxLon));
+               //Draw bounds rectangle to let user know they are zooming outside of the bounds
+         if (boundRectangle != null) {
+            boundRectangle.setMap(null);
+         }
+         boundRectangle = new google.maps.Rectangle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: '#FF0000',
+            fillOpacity: 0,
+            map: map,
+            bounds: queryBounds
+         });
       }
    }
 
