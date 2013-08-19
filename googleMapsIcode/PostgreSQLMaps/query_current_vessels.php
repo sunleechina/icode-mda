@@ -70,7 +70,12 @@ if(count($_GET) > 0) {
 
     $basequery = $query;
 
-    $query = $query . " WHERE";
+    if (strpos($query, "WHERE") !== FALSE || strpos($query, "where") !== FALSE) {
+       $query = $query . " AND";
+    }
+    else {
+       $query = $query . " WHERE";
+    }
 
     if (!empty($_GET["minlat"]) && !empty($_GET["minlon"]) &&
        !empty($_GET["maxlat"]) && !empty($_GET["maxlon"])) {
@@ -100,7 +105,7 @@ else {
     $query = $query . " limit " . $limit;
 }
 
-$result = @odbc_exec($connection, $query) or die('Query error: '.htmlspecialchars(odbc_errormsg()));;
+$result = @odbc_exec($connection, $query) or die('Query error: '.htmlspecialchars(odbc_errormsg()).' // '.$query);;
 //-----------------------------------------------------------------------------
 
 
