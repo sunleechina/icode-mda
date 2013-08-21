@@ -123,9 +123,6 @@ var highlightCircle = new google.maps.Circle({
 /** Initialize, called on main page load
 */
 function initialize() {
-   // Enable the visual refresh
-   //google.maps.visualRefresh = true;
-   
    //Set up map properties
    //var centerCoord = new google.maps.LatLng(0,0);
    //var centerCoord = new google.maps.LatLng(32.72,-117.2319);   //Point Loma
@@ -295,7 +292,8 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
           fillColor: '#FF0000',
           fillOpacity: 0,
           map: map,
-          bounds: queryBounds
+          bounds: queryBounds,
+          clickable: false,
       });
    }
    else {
@@ -316,7 +314,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
          queryBounds = new google.maps.LatLngBounds(
                new google.maps.LatLng(minLat, minLon), 
                new google.maps.LatLng(maxLat, maxLon));
-               //Draw bounds rectangle to let user know they are zooming outside of the bounds
+         //Draw bounds rectangle to let user know they are zooming outside of the bounds
          if (boundRectangle != null) {
             boundRectangle.setMap(null);
          }
@@ -327,7 +325,8 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
             fillColor: '#FF0000',
             fillOpacity: 0,
             map: map,
-            bounds: queryBounds
+            bounds: queryBounds,
+          clickable: false,
          });
       }
    }
@@ -339,10 +338,11 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
 
    //var infoWindow = new google.maps.InfoWindow();
    var infoBubble = new InfoBubble({
-      disableAnimation: true,
-      disableAutoPan: true,
-      arrowStyle:     2,
-      padding:        10
+       disableAnimation: true,
+       disableAutoPan: true,
+       arrowStyle:     2,
+       padding:        15,
+       borderRadius:   1,
    });
 
    var phpWithArg;
@@ -411,7 +411,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
          markersDisplayed = [];
          markersQueried = [];
 
-         document.getElementById('selectable').innerHTML = "";
+//         document.getElementById('selectable').innerHTML = "";
 
          //Prepare to grab PHP results as JSON objects
          $.each(response.vessels, function(key,vessel) {
@@ -466,7 +466,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                   '</div>'+
                   '<h2 id="firstHeading" class="firstHeading">' + title + '</h1>' +
                   '<div id="bodyContent" style="overflow: hidden">';
-               var htmlImage = 
+               var htmlLeft = 
                   '<div id="content-left">' +
                   '<a href="https://marinetraffic.com/ais/shipdetails.aspx?MMSI=' + mmsi + '"  target="_blank"> '+
                   '<img width=180px src="' + imgURL + '">' + 
@@ -477,8 +477,11 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                      '<b>Vessel Type</b>: ' + vesseltypeint + '<br>' +
                      '<b>Last Message Type</b>: ' + messagetype + '<br>' +
                      '</div>' +
+                     '<div>' + 
+                     '<a link="" href="javascript:void(0);" onClick="getTrack(\'' + mmsi + '\', \'' + vesseltypeint + '\', \'' + streamid + '\', \'' + datetime + '\');">Show vessel track history</a>' +
+                     '</div>' +
                   '</div>';
-               var htmlInfo = 
+               var htmlRight = 
                   '<div id="content-right">' +
                      '<div id="content-sub" border=1>' +
                         //'<b>Report Date</b>: ' + datetime + '<br>' +
@@ -499,7 +502,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                   '</div>'+
                   '</div>';
 
-               var html = htmlTitle + htmlImage + htmlInfo;
+               var html = htmlTitle + htmlLeft + htmlRight;
 
                var iconColor = getIconColor(vesseltypeint, streamid);
 
@@ -560,7 +563,7 @@ function getCurrentAISFromDB(bounds, customQuery, forceUpdate, callback) {
                }
 
                //Display current vessel to selectable results list
-               document.getElementById('selectable').innerHTML += '<li class="ui-widget-content">' + mmsi + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + imo + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + vesselname + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + vesseltypeint + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + datetime + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + lat + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + lon + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + sog + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cog + '</li>';
+//               document.getElementById('selectable').innerHTML += '<li class="ui-widget-content">' + mmsi + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + imo + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + vesselname + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + vesseltypeint + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + datetime + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + lat + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + lon + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + sog + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + cog + '</li>';
                //document.getElementById('selectable').innerHTML += '<li class="ui-widget-content"><table><col class="width20" /><col class="width20" /><col class="width40" /><col class="width20" /><td>' + mmsi + '</td><td>' + imo + '</td><td>' + vesselname + '</td><td>' + vesseltypeint + '</td></table></li>';
                /*
                var messagetype = vessel.messagetype;
@@ -671,8 +674,9 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
       */
 
       //Close the infoBubble if user clicks outside of infoBubble area
-      google.maps.event.addListenerOnce(map, "click", function() {
+      google.maps.event.addListenerOnce(map, 'click', function() {
          infoBubble.setMap(null);
+         infoBubble.close(); 
       });
    });
 
@@ -692,12 +696,14 @@ function markerInfoBubble(marker, infoBubble, html, mmsi, vesselname, vesseltype
       document.getElementById('shipdetails').innerHTML = html;
       document.getElementById('shipdetails').style.visibility = 'visible';
 
+      /* MOVED GET TRACK BEHAVIOR TO A HYPERLINK INSTEAD OF HOVER TRIGGER
       //Delay, then get and display track
       trackMouseoverTimeout = window.setTimeout(
          function displayTracks() {
             getTrack(mmsi, vesseltypeint, streamid, datetime);
          },
          1000);   //milliseconds
+      */
 
       google.maps.event.addListenerOnce(marker, 'mouseout', function() {
          window.clearTimeout(trackMouseoverTimeout);
@@ -833,6 +839,7 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
                      //Loop through each time point of the same vessel
                      $.each(response.vessels, function(key,vessel) {
+                        prev_target_status = null;
                         trackHistory.push(vessel);
 
                         var mmsi = vessel.mmsi;
@@ -881,29 +888,31 @@ function getTrack(mmsi, vesseltypeint, streamid, datetime) {
 
                         //Display different colored icons for radar target statuses
                         if (target_status == 'Q') {
-                           //Draw dashed line to indicate disconnected path
-                           var dashedPath = [];
-                           dashedPath.push(trackPath[key-1]);
-                           dashedPath.push(trackPath[key]);
+                           if (prev_target_status != null) {
+                              //Draw dashed line to indicate disconnected path
+                              var dashedPath = [];
+                              dashedPath.push(trackPath[key-1]);
+                              dashedPath.push(trackPath[key]);
 
-                           var lineSymbol = {
-                              path:         'M 0,-1 0,1',
-                              strokeColor:  '#FFFFFF',
-                              strokeOpacity: 1,
-                              scale:         4
-                           };                           
+                              var lineSymbol = {
+                                 path:         'M 0,-1 0,1',
+                                 strokeColor:  '#FFFFFF',
+                                 strokeOpacity: 1,
+                                 scale:         4
+                              };                           
 
-                           var dashedLine = new google.maps.Polyline({
-                              path: dashedPath,
-                              strokeOpacity: 0,
-                              icons: [{
-                                  icon:      lineSymbol,
+                              var dashedLine = new google.maps.Polyline({
+                                 path: dashedPath,
+                                  strokeOpacity: 0,
+                                  icons: [{
+                                     icon:      lineSymbol,
                                   offset:    '0',
                                   repeat:    '20px'
-                              }],
-                              map: map                               
-                           });
-                           dashedLines.push(dashedLine);
+                                  }],
+                                  map: map                               
+                              });
+                              dashedLines.push(dashedLine);
+                           }
 
                            var tracklineIcon = new google.maps.Marker({icon: tracklineIconsOptionsQ});
                         }
